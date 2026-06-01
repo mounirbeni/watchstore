@@ -56,7 +56,7 @@ function getCartItemCount() {
 }
 
 function updateCartCount() {
-    const countEls = document.querySelectorAll('#cartCount');
+    const countEls = document.querySelectorAll('#cartCount, #bottomCartCount');
     const count = getCartItemCount();
     countEls.forEach(el => el.textContent = count);
 }

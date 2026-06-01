@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#ffffff">
 </head>
 <body>
     <div class="top-bar"><div class="container"><div class="top-bar-left"><span><i class="fas fa-phone"></i> +212 6 00 00 00 00</span><span><i class="fas fa-envelope"></i> contact@luxwatch.ma</span></div><div class="top-bar-right"><span><i class="fas fa-truck"></i> Livraison gratuite à partir de 500 MAD</span><div class="lang-switch"><a href="#" class="active">FR</a><a href="#">AR</a></div></div></div></div>
@@ -47,5 +50,12 @@
     <script src="js/products.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/app.js"></script>
+    <!-- iOS Bottom Navigation -->
+    <div class="ios-bottom-nav">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Accueil</span></a>
+        <a href="shop.html" class="nav-item"><i class="fas fa-search"></i><span>Boutique</span></a>
+        <a href="cart.html" class="nav-item"><i class="fas fa-shopping-bag"></i><span class="badge" id="bottomCartCount">0</span><span>Panier</span></a>
+        <a href="account.html" class="nav-item"><i class="fas fa-user"></i><span>Compte</span></a>
+    </div>
 </body>
 </html>
