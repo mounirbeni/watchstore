@@ -3490,6 +3490,87 @@ input[type="radio"] { accent-color: var(--gold); }
   .watch-gallery-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
+/* ─── 40B. TARGETED VISUAL BUG FIXES ─────────────────────────────
+   1. Social links — remove dark rounded box backgrounds
+   2. Category grid — enforce row heights to prevent image overflow
+   3. Dark panels (newsletter, promo) — remove shadow hairline artifact
+   ──────────────────────────────────────────────────────────────── */
+
+/* Social links: icon-only, no background box */
+.social-link {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: rgba(255,255,255,0.45) !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: var(--r-sm) !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  transition: color var(--t-fast);
+  padding: 0 !important;
+}
+
+.social-link:hover {
+  background: transparent !important;
+  color: var(--gold) !important;
+  border: none !important;
+}
+
+/* Category grid — fix image overflow bleed between cards */
+.categories-grid {
+  grid-auto-rows: 340px;
+}
+
+.category-card {
+  overflow: hidden !important;
+  height: 340px;
+}
+
+.category-card.category-wide {
+  height: 340px;
+}
+
+.category-card img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+@media (max-width: 768px) {
+  .categories-grid { grid-auto-rows: 190px; }
+  .category-card { height: 190px; }
+  .category-card.category-wide { height: 190px; }
+}
+
+@media (max-width: 430px) {
+  .categories-grid { grid-auto-rows: 160px; }
+  .category-card { height: 160px; }
+  .category-card.category-wide { height: 160px; }
+}
+
+/* Dark panels — remove the 1px shadow that produces the hairline artifact */
+.newsletter,
+.promo-banner {
+  box-shadow: none !important;
+}
+
+/* Newsletter — clean border, no rendering artifact */
+.newsletter {
+  border: none !important;
+}
+
+/* Promo banner — same */
+.promo-banner {
+  border: none !important;
+}
+
 /* ─── 40. TAB BAR — final override (must come last) ──────────────
    Neutralises any !important rules from earlier stylesheets
    (ux-fixes.css hardening block) so the native-style bar wins.
