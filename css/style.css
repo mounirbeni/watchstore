@@ -728,7 +728,7 @@ img {
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 25px;
 }
 
@@ -748,7 +748,8 @@ img {
 
 .product-image {
     position: relative;
-    height: 280px;
+    width: 100%;
+    aspect-ratio: 1/1;
     overflow: hidden;
     background: var(--bg-light);
 }

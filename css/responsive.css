@@ -155,20 +155,15 @@
     }
 
     .menu-toggle {
-        display: none !important;
+        display: flex !important;
     }
 
     .header-actions {
-        display: none !important; /* Hide old actions to use bottom nav */
-    }
-
-    .ios-bottom-nav {
-        display: flex;
-        justify-content: space-around;
+        display: flex !important;
     }
 
     body {
-        padding-bottom: 80px; /* Space for bottom nav */
+        padding-bottom: 0;
     }
 
     .hero {
@@ -197,21 +192,9 @@
     }
 
     .products-grid {
-        display: flex;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        padding-bottom: 15px;
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    .products-grid::-webkit-scrollbar {
-        display: none;
-    }
-
-    .product-card {
-        flex: 0 0 85%;
-        scroll-snap-align: center;
-        margin-right: 15px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
     }
 
     .product-image {

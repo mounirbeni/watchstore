@@ -234,6 +234,14 @@ const PRODUCTS = [
         description: "Montre sportive féminine avec chronographe et lunette en céramique rose. Design athlétique et élégant pour la femme active.",
         specs: { mouvement: "Quartz", boitier: "36mm", materiau: "Acier et céramique", etancheite: "100m", bracelet: "Caoutchouc rose" }
     },
+    {
+        id: 62, name: "Arabesque Marrakech", category: "femme", price: 2399, oldPrice: 2899,
+        image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500&q=80",
+        images: ["https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500&q=80","https://images.unsplash.com/photo-1548171915-e79a380a2a4b?w=500&q=80"],
+        rating: 4.7, reviews: 63, badge: "sale", isNew: false, isSale: true, brand: "Arabesque",
+        description: "Montre inspirée de l'artisanat marocain avec motifs arabesque gravés sur le cadran. Bracelet en cuir tanné à Marrakech. Pièce unique et culturelle.",
+        specs: { mouvement: "Quartz Suisse", boitier: "34mm", materiau: "Acier plaqué or", etancheite: "30m", bracelet: "Cuir artisanal" }
+    },
 
     // ==================== SPORT (13 products) ====================
     {
@@ -315,6 +323,30 @@ const PRODUCTS = [
         rating: 4.7, reviews: 178, badge: "hot", isNew: false, isSale: true, brand: "Endurance",
         description: "Montre GPS running avec cardio au poignet et suivi de pace en temps réel. Mémoire 100 tours et alertes vibration. Batterie 20h en mode GPS.",
         specs: { mouvement: "Quartz GPS", boitier: "46mm", materiau: "Polymère", etancheite: "50m", bracelet: "Silicone aéré" }
+    },
+    {
+        id: 63, name: "Boxe Ring Timer", category: "sport", price: 1599, oldPrice: 1899,
+        image: "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=500&q=80",
+        images: ["https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=500&q=80","https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=500&q=80"],
+        rating: 4.4, reviews: 187, badge: "sale", isNew: false, isSale: true, brand: "Ring",
+        description: "Montre sport avec timer de round intégré, compteur de calories brûlées et alarme vibration. Résistante aux chocs et à la transpiration.",
+        specs: { mouvement: "Quartz Digital", boitier: "45mm", materiau: "Résine ABS", etancheite: "100m", bracelet: "Silicone renforcé" }
+    },
+    {
+        id: 64, name: "Cycliste Tour Pro", category: "sport", price: 2299, oldPrice: null,
+        image: "https://images.unsplash.com/photo-1533139502658-0198f920d8e8?w=500&q=80",
+        images: ["https://images.unsplash.com/photo-1533139502658-0198f920d8e8?w=500&q=80","https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=500&q=80"],
+        rating: 4.6, reviews: 98, badge: "new", isNew: true, isSale: false, brand: "Tour",
+        description: "Montre cycliste avec compteur de vitesse, cadence et distance. Mode entraînement par intervalles et alertes de zone cardiaque. GPS intégré.",
+        specs: { mouvement: "Quartz GPS", boitier: "44mm", materiau: "Polymère carbone", etancheite: "50m", bracelet: "Silicone aéré" }
+    },
+    {
+        id: 65, name: "Fitness CrossFit X", category: "sport", price: 1099, oldPrice: 1399,
+        image: "https://images.unsplash.com/photo-1546868871-af0de0ae72be?w=500&q=80",
+        images: ["https://images.unsplash.com/photo-1546868871-af0de0ae72be?w=500&q=80","https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500&q=80"],
+        rating: 4.5, reviews: 256, badge: "sale", isNew: false, isSale: true, brand: "CrossFit",
+        description: "Montre fitness avec compteur de répétitions, timer AMRAP/EMOM et suivi de charge d'entraînement. Ultra-résistante pour les WODs les plus intenses.",
+        specs: { mouvement: "Quartz Digital", boitier: "43mm", materiau: "Résine renforcée", etancheite: "100m", bracelet: "Nylon balistique" }
     },
 
     // ==================== CLASSIQUE (12 products) ====================
@@ -532,7 +564,7 @@ function createProductCard(product) {
     return `
         <div class="product-card" data-category="${product.category}" data-id="${product.id}">
             <div class="product-image">
-                <a href="product.html?id=${product.id}">
+                <a href="product.html#id=${product.id}">
                     <img src="${product.image}" alt="${product.name}" loading="lazy">
                 </a>
                 <div class="product-badges">${badgesHTML}</div>
@@ -548,7 +580,7 @@ function createProductCard(product) {
             <div class="product-info">
                 <span class="product-category">${product.brand}</span>
                 <h3 class="product-name">
-                    <a href="product.html?id=${product.id}">${product.name}</a>
+                    <a href="product.html#id=${product.id}">${product.name}</a>
                 </h3>
                 <div class="product-rating">
                     ${getStarsHTML(product.rating)}

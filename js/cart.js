@@ -140,7 +140,7 @@ function quickView(productId) {
                 <button class="btn btn-primary" onclick="addToCart(${product.id}, parseInt(document.getElementById('qvQty').value)); document.getElementById('quickViewModal').classList.remove('active');">
                     <i class="fas fa-shopping-bag"></i> Ajouter au panier
                 </button>
-                <a href="product.html?id=${product.id}" class="btn btn-dark">Voir les détails</a>
+                <a href="product.html#id=${product.id}" class="btn btn-dark">Voir les détails</a>
             </div>
         </div>
     `;
