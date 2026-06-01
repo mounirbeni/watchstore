@@ -557,19 +557,24 @@ function createProductCard(product) {
     const inWishlist = wishlist.includes(product.id);
 
     let badgesHTML = '';
-    if (product.isNew) badgesHTML += '<span class="product-badge badge-new">Nouveau</span>';
-    if (product.isSale) badgesHTML += '<span class="product-badge badge-sale">Promo</span>';
+    if (product.isNew)          badgesHTML += '<span class="product-badge badge-new">Nouveau</span>';
+    if (product.isSale)         badgesHTML += '<span class="product-badge badge-sale">Promo</span>';
     if (product.badge === 'hot') badgesHTML += '<span class="product-badge badge-hot">Populaire</span>';
+
+    const discount = product.oldPrice
+        ? `<span class="discount-pct">-${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>`
+        : '';
 
     return `
         <div class="product-card" data-category="${product.category}" data-id="${product.id}">
             <div class="product-image">
-                <a href="product.html#id=${product.id}">
+                <a href="product.html#id=${product.id}" aria-label="${product.name}">
                     <img src="${product.image}" alt="${product.name}" loading="lazy">
                 </a>
                 <div class="product-badges">${badgesHTML}</div>
                 <div class="product-actions">
-                    <button class="product-action-btn ${inWishlist ? 'in-wishlist' : ''}" onclick="toggleWishlist(${product.id})" title="Ajouter aux favoris">
+                    <button class="product-action-btn ${inWishlist ? 'in-wishlist' : ''}"
+                        onclick="toggleWishlist(${product.id})" title="${inWishlist ? 'Retirer des favoris' : 'Ajouter aux favoris'}">
                         <i class="fas fa-heart"></i>
                     </button>
                     <button class="product-action-btn" onclick="quickView(${product.id})" title="Aperçu rapide">
@@ -578,7 +583,7 @@ function createProductCard(product) {
                 </div>
             </div>
             <div class="product-info">
-                <span class="product-category">${product.brand}</span>
+                <span class="product-brand">${product.brand}</span>
                 <h3 class="product-name">
                     <a href="product.html#id=${product.id}">${product.name}</a>
                 </h3>
@@ -589,6 +594,7 @@ function createProductCard(product) {
                 <div class="product-price">
                     <span class="current-price">${formatPrice(product.price)}</span>
                     ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
+                    ${discount}
                 </div>
             </div>
             <div class="product-footer">

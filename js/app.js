@@ -1,5 +1,5 @@
 /* ============================================
-   Main Application JS
+   LuxWatch Maroc – App Logic
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -17,231 +17,190 @@ document.addEventListener('DOMContentLoaded', () => {
     initProductTabs();
 });
 
-// Header scroll effect
+/* ── Header scroll ─────────────────────────── */
 function initHeader() {
     const header = document.getElementById('header');
     if (!header) return;
-    window.addEventListener('scroll', () => {
-        header.classList.toggle('scrolled', window.scrollY > 50);
-    });
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
 }
 
-// Hero Slider
+/* ── Hero Slider ───────────────────────────── */
 function initHeroSlider() {
     const slides = document.querySelectorAll('.hero-slide');
-    const dots = document.querySelectorAll('.dot');
-    const prevBtn = document.querySelector('.hero-prev');
-    const nextBtn = document.querySelector('.hero-next');
+    const dots   = document.querySelectorAll('.dot');
     if (!slides.length) return;
 
     let current = 0;
-    let interval;
+    let timer;
 
-    function goTo(index) {
+    function goTo(idx) {
         slides[current].classList.remove('active');
-        dots[current].classList.remove('active');
-        current = (index + slides.length) % slides.length;
+        if (dots[current]) dots[current].classList.remove('active');
+        current = (idx + slides.length) % slides.length;
         slides[current].classList.add('active');
-        dots[current].classList.add('active');
+        if (dots[current]) dots[current].classList.add('active');
     }
 
-    function startAuto() {
-        interval = setInterval(() => goTo(current + 1), 5000);
-    }
+    const start = () => { timer = setInterval(() => goTo(current + 1), 5500); };
+    const stop  = () => clearInterval(timer);
 
-    function stopAuto() {
-        clearInterval(interval);
-    }
+    document.querySelector('.hero-prev')?.addEventListener('click', () => { stop(); goTo(current - 1); start(); });
+    document.querySelector('.hero-next')?.addEventListener('click', () => { stop(); goTo(current + 1); start(); });
+    dots.forEach(d => d.addEventListener('click', () => { stop(); goTo(+d.dataset.slide); start(); }));
 
-    if (prevBtn) prevBtn.addEventListener('click', () => { stopAuto(); goTo(current - 1); startAuto(); });
-    if (nextBtn) nextBtn.addEventListener('click', () => { stopAuto(); goTo(current + 1); startAuto(); });
-    dots.forEach(dot => {
-        dot.addEventListener('click', () => {
-            stopAuto();
-            goTo(parseInt(dot.dataset.slide));
-            startAuto();
-        });
-    });
-
-    startAuto();
+    start();
 }
 
-// Featured Products
+/* ── Featured Products ─────────────────────── */
 function initFeaturedProducts() {
     const container = document.getElementById('featuredProducts');
     if (!container) return;
 
-    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabs = document.querySelectorAll('.tab-btn');
 
-    function renderProducts(category = 'all') {
-        const filtered = category === 'all'
+    function render(cat = 'all') {
+        const list = cat === 'all'
             ? PRODUCTS.slice(0, 8)
-            : PRODUCTS.filter(p => p.category === category).slice(0, 8);
-
-        container.innerHTML = filtered.map(p => createProductCard(p)).join('');
+            : PRODUCTS.filter(p => p.category === cat).slice(0, 8);
+        container.innerHTML = list.length
+            ? list.map(p => createProductCard(p)).join('')
+            : '<div class="empty-state"><i class="fas fa-clock"></i><p>Aucun produit dans cette catégorie.</p></div>';
     }
 
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            tabBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderProducts(btn.dataset.tab);
-        });
-    });
+    tabs.forEach(btn => btn.addEventListener('click', () => {
+        tabs.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        render(btn.dataset.tab);
+    }));
 
-    renderProducts();
+    render();
 }
 
-// New Arrivals
+/* ── New Arrivals ──────────────────────────── */
 function initNewArrivals() {
     const container = document.getElementById('newArrivals');
     if (!container) return;
-
-    const newProducts = PRODUCTS.filter(p => p.isNew).slice(0, 4);
-    container.innerHTML = newProducts.map(p => createProductCard(p)).join('');
+    const newOnes = PRODUCTS.filter(p => p.isNew).slice(0, 4);
+    container.innerHTML = newOnes.map(p => createProductCard(p)).join('');
 }
 
-// Countdown Timer
+/* ── Countdown ─────────────────────────────── */
 function initCountdown() {
-    const daysEl = document.getElementById('days');
-    const hoursEl = document.getElementById('hours');
+    const banner = document.getElementById('promoBanner');
+    const daysEl    = document.getElementById('days');
+    const hoursEl   = document.getElementById('hours');
     const minutesEl = document.getElementById('minutes');
     const secondsEl = document.getElementById('seconds');
     if (!daysEl) return;
 
-    const endDate = new Date('2026-06-30T23:59:59');
+    // Offer valid until Dec 31 2026
+    const endDate = new Date('2026-12-31T23:59:59');
 
-    function update() {
-        const now = new Date();
-        const diff = endDate - now;
+    function tick() {
+        const diff = endDate - Date.now();
 
         if (diff <= 0) {
-            daysEl.textContent = '00';
-            hoursEl.textContent = '00';
-            minutesEl.textContent = '00';
-            secondsEl.textContent = '00';
+            // Hide countdown, show expired message instead
+            const cd = document.getElementById('countdown');
+            if (cd) {
+                cd.innerHTML = '<p class="promo-expired">Cette offre est terminée. Consultez nos promotions actuelles.</p>';
+            }
             return;
         }
 
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        const d = Math.floor(diff / 864e5);
+        const h = Math.floor((diff % 864e5) / 36e5);
+        const m = Math.floor((diff % 36e5) / 6e4);
+        const s = Math.floor((diff % 6e4) / 1e3);
 
-        daysEl.textContent = String(days).padStart(2, '0');
-        hoursEl.textContent = String(hours).padStart(2, '0');
-        minutesEl.textContent = String(minutes).padStart(2, '0');
-        secondsEl.textContent = String(seconds).padStart(2, '0');
+        daysEl.textContent    = String(d).padStart(2, '0');
+        hoursEl.textContent   = String(h).padStart(2, '0');
+        minutesEl.textContent = String(m).padStart(2, '0');
+        secondsEl.textContent = String(s).padStart(2, '0');
     }
 
-    update();
-    setInterval(update, 1000);
+    tick();
+    setInterval(tick, 1000);
 }
 
-// Search
+/* ── Search ────────────────────────────────── */
 function initSearch() {
-    const searchBtn = document.getElementById('searchBtn');
-    const searchOverlay = document.getElementById('searchOverlay');
-    const searchClose = document.getElementById('searchClose');
-    const searchInput = document.getElementById('searchInput');
+    const overlay = document.getElementById('searchOverlay');
+    const input   = document.getElementById('searchInput');
+    if (!overlay) return;
 
-    if (!searchBtn || !searchOverlay) return;
-
-    searchBtn.addEventListener('click', () => {
-        searchOverlay.classList.add('active');
-        setTimeout(() => searchInput && searchInput.focus(), 300);
+    document.getElementById('searchBtn')?.addEventListener('click', () => {
+        overlay.classList.add('active');
+        setTimeout(() => input?.focus(), 200);
     });
 
-    if (searchClose) {
-        searchClose.addEventListener('click', () => searchOverlay.classList.remove('active'));
-    }
+    document.getElementById('searchClose')?.addEventListener('click', closeSearch);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeSearch(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
 
-    searchOverlay.addEventListener('click', (e) => {
-        if (e.target === searchOverlay) searchOverlay.classList.remove('active');
+    input?.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+            const q = input.value.trim();
+            if (q) window.location.href = `shop.html#search=${encodeURIComponent(q)}`;
+        }
     });
 
-    if (searchInput) {
-        searchInput.addEventListener('keyup', (e) => {
-            if (e.key === 'Enter') {
-                const query = searchInput.value.trim();
-                if (query) {
-                    window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
-                }
-            }
-        });
-    }
+    function closeSearch() { overlay.classList.remove('active'); }
 }
 
-// Modal
+/* ── Modal / Quick View ────────────────────── */
 function initModal() {
     const modal = document.getElementById('quickViewModal');
-    const closeBtn = document.getElementById('modalClose');
     if (!modal) return;
-
-    if (closeBtn) closeBtn.addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.remove('active');
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') modal.classList.remove('active');
-    });
+    document.getElementById('modalClose')?.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('active'); });
 }
 
-// Back to Top
+/* ── Back to Top ───────────────────────────── */
 function initBackToTop() {
     const btn = document.getElementById('backToTop');
     if (!btn) return;
-
-    window.addEventListener('scroll', () => {
-        btn.classList.toggle('visible', window.scrollY > 400);
-    });
-
-    btn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    window.addEventListener('scroll', () => btn.classList.toggle('visible', window.scrollY > 400), { passive: true });
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 }
 
-// Newsletter
+/* ── Newsletter ────────────────────────────── */
 function initNewsletter() {
-    const form = document.getElementById('newsletterForm');
-    if (!form) return;
-
-    form.addEventListener('submit', (e) => {
+    document.getElementById('newsletterForm')?.addEventListener('submit', e => {
         e.preventDefault();
         showToast('Merci pour votre inscription !');
-        form.reset();
+        e.target.reset();
     });
 }
 
-// Mobile Navigation
+/* ── Mobile Nav ────────────────────────────── */
 function initMobileNav() {
-    const toggle = document.getElementById('menuToggle');
-    const nav = document.getElementById('nav');
+    const toggle  = document.getElementById('menuToggle');
+    const nav     = document.getElementById('nav');
+    const overlay = document.getElementById('navOverlay');
     if (!toggle || !nav) return;
 
-    let overlay = document.querySelector('.nav-overlay');
-    if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.className = 'nav-overlay';
-        document.body.appendChild(overlay);
+    function open() {
+        nav.classList.add('active');
+        toggle.classList.add('open');
+        if (overlay) overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function close() {
+        nav.classList.remove('active');
+        toggle.classList.remove('open');
+        if (overlay) overlay.classList.remove('active');
+        document.body.style.overflow = '';
     }
 
-    toggle.addEventListener('click', () => {
-        nav.classList.toggle('active');
-        overlay.classList.toggle('active');
-        document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
-    });
-
-    overlay.addEventListener('click', () => {
-        nav.classList.remove('active');
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
-    });
+    toggle.addEventListener('click', () => nav.classList.contains('active') ? close() : open());
+    overlay?.addEventListener('click', close);
 
     // Mobile dropdowns
     document.querySelectorAll('.nav-dropdown > a').forEach(link => {
-        link.addEventListener('click', (e) => {
+        link.addEventListener('click', e => {
             if (window.innerWidth <= 768) {
                 e.preventDefault();
                 link.parentElement.classList.toggle('open');
@@ -250,19 +209,19 @@ function initMobileNav() {
     });
 }
 
-// FAQ
+/* ── FAQ ───────────────────────────────────── */
 function initFAQ() {
-    document.querySelectorAll('.faq-question').forEach(question => {
-        question.addEventListener('click', () => {
-            const item = question.parentElement;
-            const wasActive = item.classList.contains('active');
-            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-            if (!wasActive) item.classList.add('active');
+    document.querySelectorAll('.faq-question').forEach(q => {
+        q.addEventListener('click', () => {
+            const item = q.closest('.faq-item');
+            const wasOpen = item.classList.contains('active');
+            document.querySelectorAll('.faq-item.active').forEach(i => i.classList.remove('active'));
+            if (!wasOpen) item.classList.add('active');
         });
     });
 }
 
-// Product Tabs (detail page)
+/* ── Product Page Tabs ─────────────────────── */
 function initProductTabs() {
     document.querySelectorAll('.product-tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -270,8 +229,7 @@ function initProductTabs() {
             document.querySelectorAll('.product-tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.product-tab-content').forEach(c => c.classList.remove('active'));
             btn.classList.add('active');
-            const content = document.getElementById(tab);
-            if (content) content.classList.add('active');
+            document.getElementById(tab)?.classList.add('active');
         });
     });
 }
