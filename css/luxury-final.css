@@ -1961,17 +1961,24 @@ input[type="radio"] { accent-color: var(--gold); }
   font-size: 13px;
 }
 
-/* Shop toolbar */
+/* Shop toolbar — sticky on all viewports */
 .shop-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 20px;
-  padding: 14px 18px;
-  background: var(--white);
+  margin-bottom: 16px;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.94);
   border: 1px solid var(--hairline);
   border-radius: var(--r-lg);
+  /* Stick just below the header */
+  position: sticky;
+  top: calc(var(--nav-h) + 8px);
+  z-index: 20;
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  box-shadow: 0 1px 0 var(--hairline);
 }
 
 .shop-toolbar p {
