@@ -553,13 +553,22 @@ function getStarsHTML(rating) {
 }
 
 function createProductCard(product) {
+    const tr = window.LW_T || (key => ({
+        newBadge: 'Nouveau',
+        saleBadge: 'Promo',
+        hotBadge: 'Populaire',
+        removeWishlist: 'Retirer des favoris',
+        addWishlist: 'Ajouter aux favoris',
+        quickView: 'Apercu rapide',
+        reserve: 'Reserver'
+    }[key] || key));
     const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     const inWishlist = wishlist.includes(product.id);
 
     let badgesHTML = '';
-    if (product.isNew)          badgesHTML += '<span class="product-badge badge-new">Nouveau</span>';
-    if (product.isSale)         badgesHTML += '<span class="product-badge badge-sale">Promo</span>';
-    if (product.badge === 'hot') badgesHTML += '<span class="product-badge badge-hot">Populaire</span>';
+    if (product.isNew)          badgesHTML += `<span class="product-badge badge-new">${tr('newBadge')}</span>`;
+    if (product.isSale)         badgesHTML += `<span class="product-badge badge-sale">${tr('saleBadge')}</span>`;
+    if (product.badge === 'hot') badgesHTML += `<span class="product-badge badge-hot">${tr('hotBadge')}</span>`;
 
     const discount = product.oldPrice
         ? `<span class="discount-pct">-${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>`
@@ -574,10 +583,10 @@ function createProductCard(product) {
                 <div class="product-badges">${badgesHTML}</div>
                 <div class="product-actions">
                     <button class="product-action-btn ${inWishlist ? 'in-wishlist' : ''}"
-                        onclick="toggleWishlist(${product.id})" title="${inWishlist ? 'Retirer des favoris' : 'Ajouter aux favoris'}">
+                        onclick="toggleWishlist(${product.id})" title="${inWishlist ? tr('removeWishlist') : tr('addWishlist')}">
                         <i class="fas fa-heart"></i>
                     </button>
-                    <button class="product-action-btn" onclick="quickView(${product.id})" title="Aperçu rapide">
+                    <button class="product-action-btn" onclick="quickView(${product.id})" title="${tr('quickView')}">
                         <i class="fas fa-eye"></i>
                     </button>
                 </div>
@@ -599,7 +608,7 @@ function createProductCard(product) {
             </div>
             <div class="product-footer">
                 <button class="add-to-cart-btn" onclick="addToCart(${product.id});window.location.href='checkout.html'">
-                    <i class="fas fa-gem"></i> Réserver
+                    <i class="fas fa-gem"></i> ${tr('reserve')}
                 </button>
             </div>
         </div>

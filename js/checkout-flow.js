@@ -1,9 +1,12 @@
-/* LuxWatch — Multi-step checkout / reservation */
+/* LuxWatch - multi-step checkout / reservation */
 const CHECKOUT_STEPS = [
-    { id: 'review', label: 'Réservation' },
-    { id: 'info', label: 'Coordonnées' },
-    { id: 'payment', label: 'Paiement' },
-    { id: 'confirm', label: 'Confirmation' }
+    { id: 'discover', label: 'Discover', completed: true },
+    { id: 'details', label: 'Details', completed: true },
+    { id: 'review', label: 'Reservation' },
+    { id: 'info', label: 'Information' },
+    { id: 'payment', label: 'Payment' },
+    { id: 'confirm', label: 'Confirmation' },
+    { id: 'tracking', label: 'Tracking', upcoming: true }
 ];
 
 let checkoutStep = 0;
@@ -12,9 +15,10 @@ let orderRef = '';
 function renderCheckoutProgress() {
     const el = document.getElementById('checkoutProgress');
     if (!el) return;
+    const journeyIndex = checkoutStep + 2;
     el.innerHTML = CHECKOUT_STEPS.map((step, i) => `
-        <div class="checkout-progress__step ${i < checkoutStep ? 'is-done' : ''} ${i === checkoutStep ? 'is-active' : ''}" data-step="${i}">
-            <span class="checkout-progress__dot">${i < checkoutStep ? '<i class="fas fa-check"></i>' : i + 1}</span>
+        <div class="checkout-progress__step ${i < journeyIndex || step.completed ? 'is-done' : ''} ${i === journeyIndex ? 'is-active' : ''} ${step.upcoming ? 'is-upcoming' : ''}" data-step="${i}">
+            <span class="checkout-progress__dot">${i < journeyIndex || step.completed ? '<i class="fas fa-check"></i>' : i + 1}</span>
             <span class="checkout-progress__label">${step.label}</span>
         </div>`).join('');
 }
@@ -29,7 +33,7 @@ function showStep(index) {
     const nextBtn = document.getElementById('checkoutNext');
     if (backBtn) backBtn.style.visibility = index === 0 ? 'hidden' : 'visible';
     if (nextBtn) {
-        nextBtn.innerHTML = index === CHECKOUT_STEPS.length - 2
+        nextBtn.innerHTML = index === 2
             ? '<i class="fas fa-lock"></i> Confirmer'
             : 'Continuer <i class="fas fa-arrow-right"></i>';
     }
@@ -63,6 +67,11 @@ function validateStep(index) {
             wrap?.classList.toggle('is-error', empty);
             if (empty) valid = false;
         });
+        const city = form.querySelector('[name="city"]');
+        if (city && !city.value) {
+            city.closest('.lux-field')?.classList.add('is-error');
+            valid = false;
+        }
     }
 
     return valid;
@@ -78,8 +87,17 @@ function hideCheckoutNavOnSuccess(index) {
 function renderOrderSummary() {
     const items = getCart();
     if (!items.length) {
-        window.location.href = 'cart.html';
-        return;
+        const formWrap = document.getElementById('checkoutFormWrap');
+        if (formWrap) {
+            formWrap.innerHTML = `
+                <div class="lux-state lux-card" style="grid-column:1/-1">
+                    <div class="lux-state__icon"><i class="fas fa-shopping-bag"></i></div>
+                    <h3>Aucune montre reservee</h3>
+                    <p>Explorez la collection et choisissez une piece avant de demarrer la reservation.</p>
+                    <a href="shop.html" class="btn btn-primary">Decouvrir les montres</a>
+                </div>`;
+        }
+        return false;
     }
 
     let subtotal = 0;
@@ -92,7 +110,7 @@ function renderOrderSummary() {
         rows += `
             <div class="order-item">
                 <img src="${p.image}" alt="${p.name}">
-                <div class="order-item-info"><h4>${p.name}</h4><span>Qté ${item.qty}</span></div>
+                <div class="order-item-info"><h4>${p.name}</h4><span>Qte ${item.qty}</span></div>
                 <span class="order-item-price">${formatPrice(line)}</span>
             </div>`;
     });
@@ -108,11 +126,13 @@ function renderOrderSummary() {
         totalsEl.innerHTML = `
             <div class="summary-row" style="margin-top:16px;"><span>Sous-total</span><span>${formatPrice(subtotal)}</span></div>
             <div class="summary-row"><span>Livraison</span><span>${freeLabel}</span></div>
-            <div class="summary-row total"><span>Total</span><span>${formatPrice(total)}</span></div>`;
+            <div class="summary-row total"><span>Total</span><span>${formatPrice(total)}</span></div>
+            <div class="summary-assurance"><i class="fas fa-shield-alt"></i> Paiement protege. Confirmation par conseiller avant expedition.</div>`;
     }
 
     const reviewEl = document.getElementById('stepReviewItems');
     if (reviewEl) reviewEl.innerHTML = rows;
+    return true;
 }
 
 function submitOrder() {
@@ -144,10 +164,11 @@ function selectPayment(el) {
 
 function initCheckoutFlow() {
     const form = document.getElementById('checkoutForm');
+    renderCheckoutProgress();
     if (!form) return;
 
-    renderOrderSummary();
-    renderCheckoutProgress();
+    const hasItems = renderOrderSummary();
+    if (!hasItems) return;
     showStep(0);
 
     const sel = document.getElementById('citySelect');
@@ -165,10 +186,10 @@ function initCheckoutFlow() {
 
     document.getElementById('checkoutNext')?.addEventListener('click', () => {
         if (!validateStep(checkoutStep)) {
-            showToast('Veuillez compléter les champs requis.');
+            showToast('Veuillez completer les champs requis.');
             return;
         }
-        if (checkoutStep === CHECKOUT_STEPS.length - 2) {
+        if (checkoutStep === 2) {
             submitOrder();
             return;
         }
@@ -177,6 +198,9 @@ function initCheckoutFlow() {
 
     form.querySelectorAll('input, select').forEach(field => {
         field.addEventListener('input', () => {
+            field.closest('.lux-field')?.classList.remove('is-error');
+        });
+        field.addEventListener('change', () => {
             field.closest('.lux-field')?.classList.remove('is-error');
         });
     });

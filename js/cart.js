@@ -20,7 +20,7 @@ function addToCart(productId, qty = 1) {
         cart.push({ id: productId, qty: qty });
     }
     saveCart(cart);
-    showToast('Produit ajouté au panier !');
+    showToast('Montre ajoutee a votre reservation.');
 }
 
 function removeFromCart(productId) {
@@ -64,7 +64,6 @@ function updateCartCount() {
     });
 }
 
-// Wishlist
 function getWishlist() {
     return JSON.parse(localStorage.getItem('wishlist') || '[]');
 }
@@ -79,10 +78,10 @@ function toggleWishlist(productId) {
     const idx = list.indexOf(productId);
     if (idx > -1) {
         list.splice(idx, 1);
-        showToast('Retiré des favoris');
+        showToast('Retire des favoris');
     } else {
         list.push(productId);
-        showToast('Ajouté aux favoris !');
+        showToast('Ajoute aux favoris');
     }
     saveWishlist(list);
 
@@ -101,7 +100,6 @@ function updateWishlistCount() {
     });
 }
 
-// Toast
 function showToast(message) {
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toastMessage');
@@ -111,7 +109,6 @@ function showToast(message) {
     setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-// Quick View
 function quickView(productId) {
     const product = PRODUCTS.find(p => p.id === productId);
     if (!product) return;
@@ -137,16 +134,16 @@ function quickView(productId) {
             </div>
             <p>${product.description}</p>
             <div class="quantity-selector-detail">
-                <span class="qty-label">Quantité</span>
-                <button type="button" class="cart-qty-btn" aria-label="Moins" onclick="var i=document.getElementById('qvQty');i.value=Math.max(1,parseInt(i.value,10)-1)">−</button>
-                <input type="number" class="qty-input" value="1" min="1" id="qvQty" aria-label="Quantité">
+                <span class="qty-label">Quantite</span>
+                <button type="button" class="cart-qty-btn" aria-label="Moins" onclick="var i=document.getElementById('qvQty');i.value=Math.max(1,parseInt(i.value,10)-1)">-</button>
+                <input type="number" class="qty-input" value="1" min="1" id="qvQty" aria-label="Quantite">
                 <button type="button" class="cart-qty-btn" aria-label="Plus" onclick="var i=document.getElementById('qvQty');i.value=parseInt(i.value,10)+1">+</button>
             </div>
             <div class="quick-view-buttons">
                 <button type="button" class="btn btn-reserve" onclick="addToCart(${product.id}, parseInt(document.getElementById('qvQty').value,10)); document.getElementById('quickViewModal').classList.remove('active'); window.location.href='checkout.html';">
-                    <i class="fas fa-gem"></i> Réserver
+                    <i class="fas fa-gem"></i> Reserver
                 </button>
-                <a href="product.html#id=${product.id}" class="btn btn-ghost">Voir la fiche complète</a>
+                <a href="product.html#id=${product.id}" class="btn btn-ghost">Voir la fiche complete</a>
             </div>
         </div>
     `;
@@ -155,7 +152,6 @@ function quickView(productId) {
     if (typeof updatePageScrollLock === 'function') updatePageScrollLock();
 }
 
-// Init counts
 document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
     updateWishlistCount();
