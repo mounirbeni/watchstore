@@ -31,7 +31,6 @@ body {
     background: var(--ios-bg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -93,18 +92,45 @@ input, select, textarea { font-family: var(--font-ui); }
     height: 100%;
 }
 
-/* Logo */
-.logo {
+/* Logo — typographic wordmark (no icon) */
+.logo,
+.footer-logo {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 20px;
-    font-weight: 700;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    text-decoration: none;
     color: var(--ios-label);
-    letter-spacing: -0.5px;
 }
-.logo i { color: var(--gold); font-size: 18px; }
-.logo strong { color: var(--ios-label); }
+.logo-wordmark {
+    display: flex;
+    align-items: baseline;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+.logo-wordmark__lux {
+    color: var(--dark);
+    letter-spacing: 0.24em;
+}
+.logo-wordmark__watch {
+    color: var(--gold-dark);
+    letter-spacing: 0.12em;
+    margin-left: 0.12em;
+}
+.logo-wordmark__mark {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ios-label-3);
+    padding-left: 2px;
+}
+.logo-wordmark--footer .logo-wordmark__lux { color: #fff; }
+.logo-wordmark--footer .logo-wordmark__watch { color: var(--gold); }
+.footer-logo .logo-wordmark__mark { color: rgba(255, 255, 255, 0.45); }
 
 /* Desktop nav */
 .nav {
@@ -420,12 +446,7 @@ input, select, textarea { font-family: var(--font-ui); }
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        130deg,
-        rgba(0,0,0,0.65) 0%,
-        rgba(0,0,0,0.3) 55%,
-        transparent 100%
-    );
+    background: rgba(26, 26, 26, 0.45);
 }
 .hero-slide.active { opacity: 1; }
 .hero-content {
@@ -443,7 +464,7 @@ input, select, textarea { font-family: var(--font-ui); }
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(200,164,86,0.85);
+    background: var(--gold);
     backdrop-filter: blur(10px);
     color: #fff;
     padding: 5px 14px;
@@ -491,7 +512,7 @@ input, select, textarea { font-family: var(--font-ui); }
     cursor: pointer;
     transition: all var(--t-fast);
 }
-.dot.active { width: 20px; border-radius: 4px; background: #fff; }
+.dot.active { width: 20px; border-radius: var(--r-pill); background: var(--white); }
 .hero-arrow {
     position: absolute;
     top: 50%;
@@ -548,9 +569,10 @@ input, select, textarea { font-family: var(--font-ui); }
 .section { padding: 32px 0 24px; }
 .section-header {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin-bottom: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 24px;
     padding: 0 4px;
 }
 .section-header h2 {
@@ -774,7 +796,7 @@ input, select, textarea { font-family: var(--font-ui); }
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.05) 60%);
+    background: rgba(26, 26, 26, 0.5);
 }
 .category-overlay {
     position: absolute;
@@ -1016,7 +1038,7 @@ input, select, textarea { font-family: var(--font-ui); }
     right: -40px;
     width: 240px;
     height: 240px;
-    background: radial-gradient(circle, rgba(200,164,86,0.18) 0%, transparent 70%);
+    background: rgba(255, 255, 255, 0.04);
     pointer-events: none;
 }
 .promo-tag {
@@ -1286,17 +1308,8 @@ input, select, textarea { font-family: var(--font-ui); }
     border-bottom: 0.5px solid rgba(255,255,255,0.1);
 }
 .footer-logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 20px;
-    font-weight: 700;
-    color: #fff;
     margin-bottom: 12px;
-    letter-spacing: -0.4px;
 }
-.footer-logo i { color: var(--gold); }
-.footer-logo strong { color: #fff; }
 .footer-brand p { font-size: 13px; line-height: 1.7; margin-bottom: 18px; }
 /* ── Social media ──────────────────────────────────────────── */
 .social-block { margin-top: 4px; }

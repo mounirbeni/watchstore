@@ -553,32 +553,46 @@ function getStarsHTML(rating) {
 }
 
 function createProductCard(product) {
+    const tr = window.LW_T || (key => ({
+        newBadge: 'Nouveau',
+        saleBadge: 'Promo',
+        hotBadge: 'Populaire',
+        removeWishlist: 'Retirer des favoris',
+        addWishlist: 'Ajouter aux favoris',
+        quickView: 'Apercu rapide',
+        reserve: 'Reserver'
+    }[key] || key));
     const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     const inWishlist = wishlist.includes(product.id);
 
-    let badgesHTML = '';
-    if (product.isNew)          badgesHTML += '<span class="product-badge badge-new">Nouveau</span>';
-    if (product.isSale)         badgesHTML += '<span class="product-badge badge-sale">Promo</span>';
-    if (product.badge === 'hot') badgesHTML += '<span class="product-badge badge-hot">Populaire</span>';
+    const discountPct = product.oldPrice
+        ? Math.round((1 - product.price / product.oldPrice) * 100)
+        : null;
 
-    const discount = product.oldPrice
-        ? `<span class="discount-pct">-${Math.round((1 - product.price / product.oldPrice) * 100)}%</span>`
-        : '';
+    const badges = [];
+    if (product.isNew)           badges.push(`<span class="product-badge badge-new">${tr('newBadge')}</span>`);
+    if (product.isSale)          badges.push(`<span class="product-badge badge-sale">${tr('saleBadge')}</span>`);
+    if (product.badge === 'hot') badges.push(`<span class="product-badge badge-hot">${tr('hotBadge')}</span>`);
 
     return `
-        <div class="product-card" data-category="${product.category}" data-id="${product.id}">
+        <article class="product-card" data-category="${product.category}" data-id="${product.id}">
             <div class="product-image">
-                <a href="product.html#id=${product.id}" aria-label="${product.name}">
+                <a href="product.html#id=${product.id}" class="product-image__link" aria-label="${product.name}">
                     <img src="${product.image}" alt="${product.name}" loading="lazy">
                 </a>
-                <div class="product-badges">${badgesHTML}</div>
+                ${badges.length ? `<div class="product-badges">${badges.join('')}</div>` : ''}
                 <div class="product-actions">
                     <button class="product-action-btn ${inWishlist ? 'in-wishlist' : ''}"
-                        onclick="toggleWishlist(${product.id})" title="${inWishlist ? 'Retirer des favoris' : 'Ajouter aux favoris'}">
-                        <i class="fas fa-heart"></i>
+                        onclick="toggleWishlist(${product.id})"
+                        aria-label="${inWishlist ? tr('removeWishlist') : tr('addWishlist')}"
+                        title="${inWishlist ? tr('removeWishlist') : tr('addWishlist')}">
+                        <i class="fas fa-heart" aria-hidden="true"></i>
                     </button>
-                    <button class="product-action-btn" onclick="quickView(${product.id})" title="Aperçu rapide">
-                        <i class="fas fa-eye"></i>
+                    <button class="product-action-btn"
+                        onclick="quickView(${product.id})"
+                        aria-label="${tr('quickView')}"
+                        title="${tr('quickView')}">
+                        <i class="fas fa-eye" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -587,21 +601,21 @@ function createProductCard(product) {
                 <h3 class="product-name">
                     <a href="product.html#id=${product.id}">${product.name}</a>
                 </h3>
-                <div class="product-rating">
+                <div class="product-rating" aria-label="Note: ${product.rating}/5">
                     ${getStarsHTML(product.rating)}
-                    <span>(${product.reviews})</span>
+                    <span class="rating-count">(${product.reviews})</span>
                 </div>
                 <div class="product-price">
                     <span class="current-price">${formatPrice(product.price)}</span>
                     ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
-                    ${discount}
+                    ${discountPct ? `<span class="discount-pct">-${discountPct}%</span>` : ''}
                 </div>
             </div>
             <div class="product-footer">
                 <button class="add-to-cart-btn" onclick="addToCart(${product.id});window.location.href='checkout.html'">
-                    <i class="fas fa-gem"></i> Réserver
+                    <i class="fas fa-gem" aria-hidden="true"></i> ${tr('reserve')}
                 </button>
             </div>
-        </div>
+        </article>
     `;
 }

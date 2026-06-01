@@ -1,4 +1,4 @@
-/* LuxWatch — Luxury product page */
+/* LuxWatch - luxury product page */
 function renderLuxuryProduct(product) {
     const inWishlist = getWishlist().includes(product.id);
     const discount = product.oldPrice
@@ -11,8 +11,15 @@ function renderLuxuryProduct(product) {
             <span>${v}</span>
         </div>`).join('');
 
+    const specsGridHtml = Object.entries(product.specs).map(([k, v]) => `
+        <div class="spec-tile">
+            <span>${k.charAt(0).toUpperCase() + k.slice(1)}</span>
+            <strong>${v}</strong>
+        </div>`).join('');
+
     document.getElementById('productDetail').innerHTML = `
         <div class="product-hero-gallery product-gallery-sticky">
+            <div class="gallery-kicker">Piece certifiee</div>
             <div class="main-image">
                 <img src="${product.images[0]}" alt="${product.name}" id="mainImg">
             </div>
@@ -27,26 +34,46 @@ function renderLuxuryProduct(product) {
             <h1 class="product-luxury-title">${product.name}</h1>
             <div class="product-rating">
                 ${getStarsHTML(product.rating)}
-                <span class="text-muted">(${product.reviews} avis vérifiés)</span>
+                <span class="text-muted">(${product.reviews} avis verifies)</span>
             </div>
             <div class="product-luxury-price-block">
-                <span class="product-luxury-price">${formatPrice(product.price)}</span>
-                ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
-                ${discount ? `<span class="discount-pct">−${discount}%</span>` : ''}
+                <div>
+                    <span class="product-luxury-price">${formatPrice(product.price)}</span>
+                    <span class="price-note">Reservation securisee, sans pression d'achat</span>
+                </div>
+                <div class="price-support">
+                    ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
+                    ${discount ? `<span class="discount-pct">-${discount}%</span>` : ''}
+                </div>
             </div>
             <p class="product-luxury-story">${product.description}</p>
-            <p class="product-luxury-story text-muted">Pièce sélectionnée par nos maîtres horlogers. Livrée dans un écrin signature, certificat d'authenticité et garantie internationale de 2 ans.</p>
+            <p class="product-luxury-story text-muted">Piece selectionnee par nos maitres horlogers. Livree dans un ecrin signature, avec certificat d'authenticite et garantie internationale de 2 ans.</p>
+            <div class="product-signature-grid" aria-label="Services inclus">
+                <div><i class="fas fa-certificate"></i><strong>Authenticite</strong><span>Controle avant expedition</span></div>
+                <div><i class="fas fa-handshake"></i><strong>Concierge</strong><span>Conseil personnalise</span></div>
+                <div><i class="fas fa-box-open"></i><strong>Ecrin</strong><span>Presentation premium</span></div>
+            </div>
+            <div class="product-craft lux-card">
+                <span class="lw-eyebrow">Savoir-faire</span>
+                <p>Chaque detail, du boitier au bracelet, est controle pour offrir une experience digne des plus grandes maisons horlogeres. Reservation securisee, accompagnement personnalise, livraison premium au Maroc.</p>
+            </div>
+            <div class="spec-tile-grid" aria-label="Specifications principales">${specsGridHtml}</div>
             <div class="product-luxury-specs product-meta-list">${specsHtml}</div>
-            <div class="stock-badge"><i class="fas fa-circle" style="font-size:6px"></i> Disponible — Livraison 24–48h au Maroc</div>
+            <div class="reserve-path" aria-label="Processus de reservation">
+                <div><span>01</span><strong>Reservation</strong><small>Votre montre est mise de cote.</small></div>
+                <div><span>02</span><strong>Validation</strong><small>Un conseiller confirme les details.</small></div>
+                <div><span>03</span><strong>Livraison</strong><small>Expedition premium 24-48h.</small></div>
+            </div>
+            <div class="stock-badge"><i class="fas fa-circle stock-badge__dot"></i> Disponible - Livraison 24-48h au Maroc</div>
             <div class="quantity-selector-detail">
-                <span class="qty-label">Quantité</span>
-                <button type="button" class="cart-qty-btn" id="qtyMinus" aria-label="Moins">−</button>
-                <input type="number" class="qty-input" value="1" min="1" id="detailQty" aria-label="Quantité">
+                <span class="qty-label">Quantite</span>
+                <button type="button" class="cart-qty-btn" id="qtyMinus" aria-label="Moins">-</button>
+                <input type="number" class="qty-input" value="1" min="1" id="detailQty" aria-label="Quantite">
                 <button type="button" class="cart-qty-btn" id="qtyPlus" aria-label="Plus">+</button>
             </div>
             <div class="product-luxury-actions detail-actions">
                 <button type="button" class="btn btn-reserve btn-lg" id="reserveBtn">
-                    <i class="fas fa-gem"></i> Réserver cette montre
+                    <i class="fas fa-gem"></i> Reserver cette montre
                 </button>
                 <button type="button" class="btn btn-outline-gold btn-lg" id="wishlistBtn">
                     <i class="fas fa-heart"></i> ${inWishlist ? 'Retirer des favoris' : 'Ajouter aux favoris'}
@@ -59,7 +86,7 @@ function renderLuxuryProduct(product) {
                 <div class="trust-item"><i class="fas fa-truck"></i> Livraison premium</div>
                 <div class="trust-item"><i class="fas fa-shield-alt"></i> Garantie 2 ans</div>
                 <div class="trust-item"><i class="fas fa-undo"></i> Retour 14 jours</div>
-                <div class="trust-item"><i class="fas fa-certificate"></i> Authenticité garantie</div>
+                <div class="trust-item"><i class="fas fa-certificate"></i> Authenticite garantie</div>
             </div>
         </div>`;
 
@@ -68,7 +95,7 @@ function renderLuxuryProduct(product) {
         bar.innerHTML = `
             <span class="product-sticky-bar__price">${formatPrice(product.price)}</span>
             <button type="button" class="btn btn-reserve" id="reserveBtnSticky">
-                Réserver
+                Reserver
             </button>`;
     }
 
@@ -77,6 +104,12 @@ function renderLuxuryProduct(product) {
             document.getElementById('mainImg').src = thumb.dataset.full;
             document.querySelectorAll('.thumb-images img').forEach(t => t.classList.remove('active'));
             thumb.classList.add('active');
+        });
+        thumb.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                thumb.click();
+            }
         });
     });
 
@@ -107,7 +140,12 @@ function renderLuxuryProduct(product) {
 
     document.getElementById('tabDescription').innerHTML = `
         <p>${product.description}</p>
-        <p class="text-muted">Chaque montre LuxWatch est contrôlée, certifiée et préparée avec le plus grand soin avant expédition.</p>`;
+        <p class="text-muted">Chaque montre LuxWatch est controlee, certifiee et preparee avec soin avant expedition.</p>
+        <div class="reserve-path reserve-path--inline">
+            <div><span>01</span><strong>Selection</strong><small>Piece inspectee.</small></div>
+            <div><span>02</span><strong>Reservation</strong><small>Conseiller dedie.</small></div>
+            <div><span>03</span><strong>Remise</strong><small>Livraison soignee.</small></div>
+        </div>`;
 
     document.getElementById('tabSpecs').innerHTML = `
         <table class="specs-table">
@@ -119,7 +157,7 @@ function renderLuxuryProduct(product) {
     const related = PRODUCTS.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
     document.getElementById('relatedProducts').innerHTML = related.length
         ? related.map(p => createProductCard(p)).join('')
-        : '<p class="text-muted">Découvrez d\'autres pièces dans notre boutique.</p>';
+        : '<p class="text-muted">Decouvrez d\'autres pieces dans notre boutique.</p>';
 }
 
 function initProductPage() {
@@ -136,13 +174,13 @@ function initProductPage() {
             <div class="lux-state" style="grid-column:1/-1">
                 <div class="lux-state__icon"><i class="fas fa-clock"></i></div>
                 <h3>Produit introuvable</h3>
-                <p>Cette référence n'est plus disponible dans notre catalogue.</p>
+                <p>Cette reference n'est plus disponible dans notre catalogue.</p>
                 <a href="shop.html" class="btn btn-primary">Explorer la boutique</a>
             </div>`;
         return;
     }
 
-    document.title = product.name + ' — LuxWatch Maroc';
+    document.title = product.name + ' - LuxWatch Maroc';
     const titleEl = document.getElementById('productTitle');
     if (titleEl) titleEl.textContent = product.name;
     const crumb = document.getElementById('breadcrumbName');
