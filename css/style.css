@@ -36,11 +36,15 @@
     --gold-light:        #E8C878;
     --gold-fill:         rgba(200,164,86,0.12);
 
-    /* Semantic */
-    --ios-green:         #34C759;
-    --ios-red:           #FF3B30;
-    --ios-blue:          #007AFF;
-    --ios-orange:        #FF9500;
+    /* Semantic (monochrome — no system rainbow) */
+    --accent:            var(--gold);
+    --accent-muted:      var(--gold-fill);
+    --ios-green:         #3C3C43;
+    --ios-red:           var(--gold-dark);
+    --ios-blue:          #3C3C43;
+    --ios-orange:        var(--gold);
+    --surface-dark:      #1C1C1E;
+    --surface-dark-2:    #2C2C2E;
 
     /* Shadows */
     --shadow-card:   0 2px 8px rgba(0,0,0,0.06), 0 0 1px rgba(0,0,0,0.04);
@@ -117,11 +121,11 @@ input, select, textarea { font-family: var(--font-ui); }
 
 /* ── iOS Navigation Bar ────────────────────────────────────── */
 .top-bar {
-    background: var(--gold);
+    background: var(--surface-dark);
     padding: 8px 0;
     font-size: 12px;
     font-weight: 600;
-    color: #fff;
+    color: rgba(255,255,255,0.92);
     text-align: center;
     letter-spacing: 0.3px;
 }
@@ -168,7 +172,7 @@ input, select, textarea { font-family: var(--font-ui); }
     letter-spacing: -0.5px;
 }
 .logo i { color: var(--gold); font-size: 18px; }
-.logo strong { color: var(--gold); }
+.logo strong { color: var(--ios-label); }
 
 /* Desktop nav */
 .nav {
@@ -238,7 +242,7 @@ input, select, textarea { font-family: var(--font-ui); }
     border-radius: var(--r-sm);
     transition: background var(--t-fast);
 }
-.dropdown-menu a i { color: var(--gold); width: 16px; font-size: 13px; }
+.dropdown-menu a i { color: var(--ios-label-2); width: 16px; font-size: 13px; }
 .dropdown-menu a:hover { background: var(--ios-gray-6); }
 .dropdown-menu a:not(:last-child)::after {
     content: '';
@@ -276,7 +280,7 @@ input, select, textarea { font-family: var(--font-ui); }
     min-width: 16px;
     height: 16px;
     padding: 0 4px;
-    background: var(--ios-red);
+    background: var(--surface-dark);
     color: #fff;
     font-size: 10px;
     font-weight: 700;
@@ -372,7 +376,7 @@ input, select, textarea { font-family: var(--font-ui); }
     min-width: 16px;
     height: 16px;
     padding: 0 4px;
-    background: var(--ios-red);
+    background: var(--surface-dark);
     color: #fff;
     font-size: 10px;
     font-weight: 700;
@@ -633,9 +637,9 @@ input, select, textarea { font-family: var(--font-ui); }
 }
 .section-tag {
     display: inline-block;
-    color: var(--gold);
+    color: var(--ios-gray);
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
@@ -643,10 +647,10 @@ input, select, textarea { font-family: var(--font-ui); }
 .see-all {
     font-size: 15px;
     font-weight: 500;
-    color: var(--gold);
-    transition: opacity var(--t-fast);
+    color: var(--ios-label-2);
+    transition: color var(--t-fast);
 }
-.see-all:hover { opacity: 0.7; }
+.see-all:hover { color: var(--gold); }
 .section-footer { text-align: center; margin-top: 24px; }
 
 /* ── Features Strip ────────────────────────────────────────── */
@@ -669,7 +673,7 @@ input, select, textarea { font-family: var(--font-ui); }
     border-right: 0.5px solid var(--ios-separator-opaque);
 }
 .feature-item:last-child { border-right: none; }
-.feature-item i { font-size: 22px; color: var(--gold); flex-shrink: 0; }
+.feature-item i { font-size: 22px; color: var(--ios-label); flex-shrink: 0; }
 .feature-item h4 { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
 .feature-item p { font-size: 11px; color: var(--ios-gray); }
 
@@ -811,9 +815,13 @@ input, select, textarea { font-family: var(--font-ui); }
     letter-spacing: 0.3px;
     backdrop-filter: blur(4px);
 }
-.badge-new  { background: rgba(52,199,89,0.9);  color: #fff; }
-.badge-sale { background: rgba(255,59,48,0.9);   color: #fff; }
-.badge-hot  { background: rgba(255,149,0,0.9);   color: #fff; }
+.badge-new,
+.badge-sale,
+.badge-hot {
+    background: rgba(28,28,30,0.9);
+    color: #fff;
+}
+.badge-sale { background: var(--gold-dark); }
 
 /* Quick actions */
 .product-actions {
@@ -846,7 +854,7 @@ input, select, textarea { font-family: var(--font-ui); }
     transition: all var(--t-fast);
 }
 .product-action-btn:hover { background: #fff; transform: scale(1.1); }
-.product-action-btn.in-wishlist { color: var(--ios-red); }
+.product-action-btn.in-wishlist { color: var(--gold); }
 
 /* Info section */
 .product-info {
@@ -858,8 +866,8 @@ input, select, textarea { font-family: var(--font-ui); }
 }
 .product-brand {
     font-size: 11px;
-    font-weight: 700;
-    color: var(--gold);
+    font-weight: 600;
+    color: var(--ios-label-2);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -877,7 +885,7 @@ input, select, textarea { font-family: var(--font-ui); }
     align-items: center;
     gap: 3px;
 }
-.product-rating i { color: #FF9500; font-size: 10px; }
+.product-rating i { color: var(--gold); font-size: 10px; }
 .product-rating span { font-size: 11px; color: var(--ios-gray); }
 
 .product-price {
@@ -897,8 +905,8 @@ input, select, textarea { font-family: var(--font-ui); }
 .discount-pct {
     font-size: 11px;
     font-weight: 700;
-    color: var(--ios-red);
-    background: rgba(255,59,48,0.1);
+    color: var(--gold-dark);
+    background: var(--gold-fill);
     padding: 2px 6px;
     border-radius: 50px;
 }
@@ -1055,7 +1063,7 @@ input, select, textarea { font-family: var(--font-ui); }
     box-shadow: var(--shadow-card);
 }
 .stars { margin-bottom: 12px; }
-.stars i { color: #FF9500; font-size: 13px; }
+.stars i { color: var(--gold); font-size: 13px; }
 .testimonial-card > p {
     font-size: 14px;
     color: var(--ios-label);
@@ -1067,7 +1075,7 @@ input, select, textarea { font-family: var(--font-ui); }
 .author-avatar {
     width: 40px;
     height: 40px;
-    background: var(--gold);
+    background: var(--surface-dark);
     color: #fff;
     border-radius: 50%;
     display: flex;
@@ -1092,7 +1100,7 @@ input, select, textarea { font-family: var(--font-ui); }
 .gallery-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(200,164,86,0.7);
+    background: rgba(28,28,30,0.55);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1104,7 +1112,7 @@ input, select, textarea { font-family: var(--font-ui); }
 
 /* ── Newsletter ────────────────────────────────────────────── */
 .newsletter {
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+    background: linear-gradient(135deg, var(--surface-dark) 0%, var(--surface-dark-2) 100%);
     border-radius: var(--r-2xl);
     margin: 0 20px;
     padding: 40px 32px;
@@ -1132,7 +1140,7 @@ input, select, textarea { font-family: var(--font-ui); }
     outline: none;
 }
 .newsletter-form input::placeholder { color: rgba(255,255,255,0.7); }
-.newsletter-form .btn { background: #fff; color: var(--gold); flex-shrink: 0; }
+.newsletter-form .btn { background: #fff; color: var(--surface-dark); flex-shrink: 0; }
 .newsletter-form .btn:hover { background: rgba(255,255,255,0.92); }
 
 /* ── Footer ────────────────────────────────────────────────── */
@@ -1160,7 +1168,7 @@ input, select, textarea { font-family: var(--font-ui); }
     letter-spacing: -0.4px;
 }
 .footer-logo i { color: var(--gold); }
-.footer-logo strong { color: var(--gold); }
+.footer-logo strong { color: #fff; }
 .footer-brand p { font-size: 13px; line-height: 1.7; margin-bottom: 18px; }
 .social-links { display: flex; gap: 8px; }
 .social-links a {
@@ -1235,7 +1243,7 @@ a.footer-contact-link:hover { color: var(--gold); }
     right: 20px;
     width: 52px;
     height: 52px;
-    background: #25D366;
+    background: var(--surface-dark);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1243,15 +1251,10 @@ a.footer-contact-link:hover { color: var(--gold); }
     color: #fff;
     font-size: 26px;
     z-index: 800;
-    box-shadow: 0 4px 16px rgba(37,211,102,0.4);
+    box-shadow: var(--shadow-raised);
     transition: transform var(--t-spring);
 }
 .whatsapp-float:hover { transform: scale(1.1); }
-@keyframes wa-pulse {
-    0%,100% { box-shadow: 0 4px 16px rgba(37,211,102,0.4); }
-    50% { box-shadow: 0 4px 24px rgba(37,211,102,0.6); }
-}
-.whatsapp-float { animation: wa-pulse 2.5s infinite; }
 
 /* ── Back to Top ───────────────────────────────────────────── */
 .back-to-top {
@@ -1399,7 +1402,7 @@ a.footer-contact-link:hover { color: var(--gold); }
     white-space: nowrap;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
-.toast i { color: var(--ios-green); font-size: 16px; }
+.toast i { color: var(--gold); font-size: 16px; }
 
 /* ── Page Header ───────────────────────────────────────────── */
 .page-header {
@@ -1421,7 +1424,8 @@ a.footer-contact-link:hover { color: var(--gold); }
     font-size: 13px;
     color: var(--ios-gray);
 }
-.breadcrumb a { color: var(--gold); }
+.breadcrumb a { color: var(--ios-label-2); }
+.breadcrumb a:hover { color: var(--gold); }
 .breadcrumb span { color: var(--ios-gray-3); }
 
 /* ── Shop Layout ───────────────────────────────────────────── */
@@ -1561,7 +1565,7 @@ a.footer-contact-link:hover { color: var(--gold); }
     gap: 5px;
     font-size: 13px;
     font-weight: 600;
-    color: var(--ios-green);
+    color: var(--ios-label-2);
     margin-bottom: 18px;
 }
 .stock-badge i { font-size: 8px; }
@@ -1712,7 +1716,7 @@ a.footer-contact-link:hover { color: var(--gold); }
     align-items: center;
     justify-content: center;
 }
-.cart-remove:hover { color: var(--ios-red); background: rgba(255,59,48,0.1); }
+.cart-remove:hover { color: var(--ios-label); background: var(--ios-gray-5); }
 
 .cart-summary {
     background: #fff;
@@ -1837,7 +1841,7 @@ a.footer-contact-link:hover { color: var(--gold); }
 .order-item-info span { font-size: 12px; color: var(--ios-gray); }
 .order-item-price { font-size: 15px; font-weight: 700; }
 .success-content { text-align: center; padding: 40px 28px; }
-.success-icon { font-size: 56px; color: var(--ios-green); margin-bottom: 16px; }
+.success-icon { font-size: 56px; color: var(--gold); margin-bottom: 16px; }
 .success-content h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
 .success-content p { font-size: 15px; color: var(--ios-gray); margin-bottom: 8px; }
 .order-ref {
@@ -1874,7 +1878,7 @@ a.footer-contact-link:hover { color: var(--gold); }
     transition: transform var(--t-mid), box-shadow var(--t-mid);
 }
 .value-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-raised); }
-.value-card i { font-size: 26px; color: var(--gold); margin-bottom: 14px; }
+.value-card i { font-size: 26px; color: var(--ios-label); margin-bottom: 14px; }
 .value-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
 .value-card p { font-size: 13px; color: var(--ios-gray); line-height: 1.6; }
 
@@ -1890,7 +1894,7 @@ a.footer-contact-link:hover { color: var(--gold); }
     transition: box-shadow var(--t-fast);
 }
 .contact-card:hover { box-shadow: var(--shadow-raised); }
-.contact-card i { font-size: 24px; color: var(--gold); margin-bottom: 10px; }
+.contact-card i { font-size: 24px; color: var(--ios-label); margin-bottom: 10px; }
 .contact-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
 .contact-card p { font-size: 12px; color: var(--ios-gray); }
 .contact-map { width: 100%; height: 220px; border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--shadow-card); }
@@ -1946,7 +1950,7 @@ a.footer-contact-link:hover { color: var(--gold); }
     transition: background var(--t-fast);
 }
 .faq-question:hover { background: var(--ios-gray-6); }
-.faq-question i { transition: transform var(--t-mid); flex-shrink: 0; color: var(--gold); font-size: 12px; }
+.faq-question i { transition: transform var(--t-mid); flex-shrink: 0; color: var(--ios-gray); font-size: 12px; }
 .faq-item.active .faq-question i { transform: rotate(180deg); }
 .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
 .faq-answer p { padding: 0 18px 16px; font-size: 14px; color: var(--ios-label-2); line-height: 1.7; }
@@ -1981,7 +1985,7 @@ a.footer-contact-link:hover { color: var(--gold); }
 }
 .ios-list-item:last-child { border-bottom: none; }
 .ios-list-item:hover { background: var(--ios-gray-6); }
-.ios-list-item i:first-child { color: var(--gold); width: 20px; }
+.ios-list-item i:first-child { color: var(--ios-label-2); width: 20px; }
 
 /* ── Tab bar search trigger (button inside nav) ─────────────── */
 .tab-search-trigger {

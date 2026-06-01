@@ -320,7 +320,7 @@
         gap: 12px;
     }
     .feature-item:last-child { border-bottom: none !important; }
-    .feature-item i { font-size: 18px; color: var(--gold); }
+    .feature-item i { font-size: 18px; color: var(--ios-label); }
 
     /* ── Category cards ── */
     .categories-grid {
@@ -520,7 +520,7 @@
         gap: 12px;
     }
     .feature-item:last-child { border-bottom: none !important; }
-    .feature-item i { font-size: 18px; color: var(--gold); }
+    .feature-item i { font-size: 18px; color: var(--ios-label); }
 
     /* ── Category cards ── */
     .categories-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
