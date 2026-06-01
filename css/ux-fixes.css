@@ -249,10 +249,7 @@
     margin-top: var(--space-2);
 }
 
-/* Overflow guards */
-html, body {
-    overflow-x: hidden;
-}
+/* Prevent grid/flex children from forcing horizontal overflow */
 .products-grid,
 .categories-grid,
 .brands-grid {

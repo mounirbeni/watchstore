@@ -152,6 +152,7 @@ function quickView(productId) {
     `;
 
     modal.classList.add('active');
+    if (typeof updatePageScrollLock === 'function') updatePageScrollLock();
 }
 
 // Init counts

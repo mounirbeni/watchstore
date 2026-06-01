@@ -206,6 +206,37 @@ textarea,
     }
 }
 
+/*
+ * Single document scrollport
+ * Do NOT set overflow-x: hidden on both html and body — that forces overflow-y: auto
+ * on each and produces two vertical scrollbars (CSS overflow spec).
+ */
+html {
+    overflow-x: clip;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+}
+
+body {
+    overflow-x: clip;
+    min-height: 100%;
+}
+
+html.is-scroll-locked {
+    overflow: hidden;
+}
+
+@supports not (overflow: clip) {
+    html {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    body {
+        overflow-x: visible;
+        overflow-y: visible;
+    }
+}
+
 /* App shell */
 html.lw-app {
     scroll-behavior: smooth;
@@ -232,8 +263,8 @@ body.app-shell.is-transitioning {
 }
 
 @keyframes pageEnter {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 .text-gold { color: var(--gold); }

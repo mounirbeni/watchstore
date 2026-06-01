@@ -2,6 +2,16 @@
    LuxWatch Maroc – App Logic
    ============================================ */
 
+/** Lock document scroll when overlays are open (single scrollport on html). */
+function updatePageScrollLock() {
+    const locked =
+        document.getElementById('nav')?.classList.contains('active') ||
+        document.getElementById('searchOverlay')?.classList.contains('active') ||
+        document.getElementById('quickViewModal')?.classList.contains('active');
+    document.documentElement.classList.toggle('is-scroll-locked', locked);
+}
+window.updatePageScrollLock = updatePageScrollLock;
+
 document.addEventListener('DOMContentLoaded', () => {
     initHeader();
     initHeroSlider();
@@ -147,6 +157,7 @@ function initSearch() {
 
     document.getElementById('searchBtn')?.addEventListener('click', () => {
         overlay.classList.add('active');
+        updatePageScrollLock();
         setTimeout(() => input?.focus(), 200);
     });
 
@@ -161,16 +172,23 @@ function initSearch() {
         }
     });
 
-    function closeSearch() { overlay.classList.remove('active'); }
+    function closeSearch() {
+        overlay.classList.remove('active');
+        updatePageScrollLock();
+    }
 }
 
 /* ── Modal / Quick View ────────────────────── */
 function initModal() {
     const modal = document.getElementById('quickViewModal');
     if (!modal) return;
-    document.getElementById('modalClose')?.addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active'); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('active'); });
+    const closeModal = () => {
+        modal.classList.remove('active');
+        updatePageScrollLock();
+    };
+    document.getElementById('modalClose')?.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 }
 
 /* ── Back to Top ───────────────────────────── */
@@ -201,13 +219,13 @@ function initMobileNav() {
         nav.classList.add('active');
         toggle.classList.add('open');
         if (overlay) overlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
+        updatePageScrollLock();
     }
     function close() {
         nav.classList.remove('active');
         toggle.classList.remove('open');
         if (overlay) overlay.classList.remove('active');
-        document.body.style.overflow = '';
+        updatePageScrollLock();
     }
 
     toggle.addEventListener('click', () => nav.classList.contains('active') ? close() : open());

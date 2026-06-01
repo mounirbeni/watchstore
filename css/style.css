@@ -31,7 +31,6 @@ body {
     background: var(--ios-bg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
 }
 
