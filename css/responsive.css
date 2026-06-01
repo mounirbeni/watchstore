@@ -329,37 +329,17 @@
     }
     .category-card { border-radius: var(--r-lg); }
 
-    /* ── Products tabs: iOS segmented control style ── */
+    .section-featured { padding: 36px 0 40px; }
+    .featured-head { margin-bottom: 22px; }
+    .featured-head h2 { font-size: 1.5rem; }
+    .products-toolbar { margin-bottom: 20px; justify-content: flex-start; }
     .products-tabs {
-        display: flex;
-        background: var(--ios-gray-5);
-        border-radius: 10px;
-        padding: 2px;
-        gap: 0;
-        margin-bottom: 16px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+        width: 100%;
+        justify-content: flex-start;
+        border-radius: 12px;
     }
-    .products-tabs::-webkit-scrollbar { display: none; }
-    .tab-btn {
-        flex: 1;
-        min-width: max-content;
-        background: transparent;
-        border: none;
-        padding: 7px 12px;
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--ios-label-2);
-        border-radius: 8px;
-        transition: all 0.2s ease;
-    }
-    .tab-btn.active {
-        background: #fff;
-        color: var(--ios-label);
-        font-weight: 600;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.12);
-    }
+    .tab-btn { padding: 9px 14px; font-size: 13px; }
+    .tab-btn i { display: none; }
 
     /* ── Section spacing ── */
     .section { padding: 32px 0 20px; }
@@ -526,37 +506,9 @@
     .categories-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .category-card { border-radius: var(--r-lg); }
 
-    /* ── Products tabs: iOS segmented control style ── */
-    .products-tabs {
-        display: flex;
-        background: var(--ios-gray-5);
-        border-radius: 10px;
-        padding: 2px;
-        gap: 0;
-        margin-bottom: 16px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-    .products-tabs::-webkit-scrollbar { display: none; }
-    .tab-btn {
-        flex: 1;
-        min-width: max-content;
-        background: transparent;
-        border: none;
-        padding: 7px 12px;
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--ios-label-2);
-        border-radius: 8px;
-        transition: all 0.2s ease;
-    }
-    .tab-btn.active {
-        background: #fff;
-        color: var(--ios-label);
-        font-weight: 600;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.12);
-    }
+    .section-featured { padding: 32px 0 36px; }
+    .featured-head { margin-bottom: 18px; }
+    .products-toolbar { margin-bottom: 16px; }
 
     /* ── Section spacing ── */
     .section { padding: 32px 0 20px; }

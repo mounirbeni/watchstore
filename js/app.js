@@ -58,7 +58,15 @@ function initFeaturedProducts() {
     const container = document.getElementById('featuredProducts');
     if (!container) return;
 
-    const tabs = document.querySelectorAll('.tab-btn');
+    const tabs = document.querySelectorAll('.section-featured .tab-btn');
+
+    function setActiveTab(activeBtn) {
+        tabs.forEach(b => {
+            const on = b === activeBtn;
+            b.classList.toggle('active', on);
+            b.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+    }
 
     function render(cat = 'all') {
         const list = cat === 'all'
@@ -69,11 +77,17 @@ function initFeaturedProducts() {
             : '<div class="empty-state"><i class="fas fa-clock"></i><p>Aucun produit dans cette catégorie.</p></div>';
     }
 
-    tabs.forEach(btn => btn.addEventListener('click', () => {
-        tabs.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        render(btn.dataset.tab);
-    }));
+    function switchTab(btn) {
+        if (btn.classList.contains('active')) return;
+        setActiveTab(btn);
+        container.classList.add('is-updating');
+        window.setTimeout(() => {
+            render(btn.dataset.tab);
+            container.classList.remove('is-updating');
+        }, 160);
+    }
+
+    tabs.forEach(btn => btn.addEventListener('click', () => switchTab(btn)));
 
     render();
 }

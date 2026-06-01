@@ -116,21 +116,33 @@
 </section>
 
 <!-- Featured Products -->
-<section class="section" style="background:var(--bg-soft);">
+<section class="section section-featured" id="selection">
     <div class="container">
-        <div class="section-header">
+        <header class="featured-head">
             <span class="section-tag">Sélection</span>
             <h2>Produits Populaires</h2>
-            <p>Les montres les plus appréciées par nos clients au Maroc</p>
+            <p class="featured-head__desc">Les montres les plus appréciées par nos clients au Maroc</p>
+        </header>
+        <div class="products-toolbar">
+            <div class="products-tabs" role="tablist" aria-label="Filtrer les produits populaires">
+                <button type="button" class="tab-btn active" role="tab" aria-selected="true" data-tab="all">
+                    <i class="fas fa-border-all" aria-hidden="true"></i> Tous
+                </button>
+                <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="homme">
+                    <i class="fas fa-male" aria-hidden="true"></i> Homme
+                </button>
+                <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="femme">
+                    <i class="fas fa-female" aria-hidden="true"></i> Femme
+                </button>
+                <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="sport">
+                    <i class="fas fa-running" aria-hidden="true"></i> Sport
+                </button>
+                <button type="button" class="tab-btn" role="tab" aria-selected="false" data-tab="smart">
+                    <i class="fas fa-mobile-alt" aria-hidden="true"></i> Smart
+                </button>
+            </div>
         </div>
-        <div class="products-tabs">
-            <button class="tab-btn active" data-tab="all">Tous</button>
-            <button class="tab-btn" data-tab="homme">Homme</button>
-            <button class="tab-btn" data-tab="femme">Femme</button>
-            <button class="tab-btn" data-tab="sport">Sport</button>
-            <button class="tab-btn" data-tab="smart">Smart</button>
-        </div>
-        <div class="products-grid" id="featuredProducts"></div>
+        <div class="products-grid" id="featuredProducts" role="tabpanel"></div>
         <div class="section-footer">
             <a href="shop.html" class="btn btn-primary"><i class="fas fa-store"></i> Voir toute la boutique</a>
         </div>
