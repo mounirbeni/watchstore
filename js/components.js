@@ -178,7 +178,33 @@
         <i class="fas fa-check-circle"></i>
         <span id="toastMessage"></span>
     </div>
-    <div class="nav-overlay" id="navOverlay"></div>`;
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <nav class="tab-bar" id="tabBar" aria-label="Navigation principale">
+        <div class="tab-bar-inner">
+            <a href="index.html" class="tab-item ${isActive('index.html')}" aria-label="Accueil">
+                <i class="fas fa-home"></i>
+                <span>Accueil</span>
+            </a>
+            <a href="shop.html" class="tab-item ${isActive('shop.html')}" aria-label="Boutique">
+                <i class="fas fa-store"></i>
+                <span>Boutique</span>
+            </a>
+            <button class="tab-item tab-search-trigger" id="tabSearchBtn" aria-label="Rechercher">
+                <i class="fas fa-search"></i>
+                <span>Rechercher</span>
+            </button>
+            <a href="cart.html" class="tab-item ${isActive('cart.html')}" aria-label="Panier">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="tab-badge" id="tabCartBadge" style="display:none">0</span>
+                <span>Panier</span>
+            </a>
+            <a href="account.html" class="tab-item ${isActive('account.html')}" aria-label="Compte">
+                <i class="fas fa-user"></i>
+                <span>Compte</span>
+            </a>
+        </div>
+    </nav>`;
 
     // ── inject ───────────────────────────────────────────────────────────
     const headerEl = document.getElementById('site-header');

@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileNav();
     initFAQ();
     initProductTabs();
+    initTabBar();
 });
 
 /* ── Header scroll ─────────────────────────── */
@@ -231,5 +232,29 @@ function initProductTabs() {
             btn.classList.add('active');
             document.getElementById(tab)?.classList.add('active');
         });
+    });
+}
+
+/* ── iOS Tab Bar ───────────────────────────── */
+function initTabBar() {
+    // Sync cart badge to tab bar badge
+    function syncTabBadge() {
+        const tabBadge = document.getElementById('tabCartBadge');
+        if (!tabBadge) return;
+        const count = parseInt(document.getElementById('cartCount')?.textContent || '0', 10);
+        tabBadge.textContent = count;
+        tabBadge.style.display = count > 0 ? 'flex' : 'none';
+    }
+
+    // Observe cart count changes
+    const cartCount = document.getElementById('cartCount');
+    if (cartCount) {
+        new MutationObserver(syncTabBadge).observe(cartCount, { childList: true, subtree: true, characterData: true });
+    }
+    syncTabBadge();
+
+    // Tab bar search button — open the same search overlay
+    document.getElementById('tabSearchBtn')?.addEventListener('click', () => {
+        document.getElementById('searchBtn')?.click();
     });
 }
