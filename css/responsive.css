@@ -345,9 +345,16 @@
     .section { padding: 32px 0 20px; }
     .container { padding: 0 14px; }
 
-    /* ── Brands strip ── */
-    .brands-strip { gap: 16px; }
-    .brand-item { font-size: 13px; padding: 8px 14px; }
+    .section-brands { padding: 36px 0 40px; }
+    .brands-head { margin-bottom: 22px; }
+    .brands-grid { grid-template-columns: repeat(2, 1fr); }
+    .brand-card { min-height: 84px; padding: 18px 12px; }
+    .brand-card:nth-child(4n) { border-right: 0.5px solid var(--ios-separator-opaque); }
+    .brand-card:nth-child(2n) { border-right: none; }
+    .brand-card:nth-last-child(-n+4) { border-bottom: 0.5px solid var(--ios-separator-opaque); }
+    .brand-card:nth-last-child(-n+2) { border-bottom: none; }
+    .brand-card__hint { opacity: 1; transform: none; }
+    .brand-card__name { font-size: 13px; letter-spacing: 0.1em; }
 
     /* ── Testimonials: horizontal scroll on mobile ── */
     .testimonials-grid {
