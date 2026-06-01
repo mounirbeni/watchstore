@@ -56,9 +56,12 @@ function getCartItemCount() {
 }
 
 function updateCartCount() {
-    const countEls = document.querySelectorAll('#cartCount, #bottomCartCount');
     const count = getCartItemCount();
-    countEls.forEach(el => el.textContent = count);
+    document.querySelectorAll('#cartCount, #tabCartBadge').forEach(el => {
+        if (!el) return;
+        el.textContent = count;
+        el.style.display = count > 0 ? 'flex' : 'none';
+    });
 }
 
 // Wishlist
@@ -91,9 +94,11 @@ function toggleWishlist(productId) {
 }
 
 function updateWishlistCount() {
-    const countEls = document.querySelectorAll('#wishlistCount');
     const count = getWishlist().length;
-    countEls.forEach(el => el.textContent = count);
+    document.querySelectorAll('#wishlistCount').forEach(el => {
+        el.textContent = count;
+        el.style.display = count > 0 ? 'flex' : 'none';
+    });
 }
 
 // Toast
@@ -120,27 +125,28 @@ function quickView(productId) {
             <img src="${product.image}" alt="${product.name}">
         </div>
         <div class="quick-view-info">
-            <span class="product-category">${product.brand}</span>
+            <span class="product-brand">${product.brand}</span>
             <h3>${product.name}</h3>
             <div class="product-rating">
                 ${getStarsHTML(product.rating)}
-                <span>(${product.reviews} avis)</span>
+                <span class="text-muted">(${product.reviews} avis)</span>
             </div>
             <div class="product-price">
                 <span class="current-price">${formatPrice(product.price)}</span>
                 ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
             </div>
             <p>${product.description}</p>
-            <div class="quantity-selector">
-                <button class="qty-btn" onclick="this.nextElementSibling.value = Math.max(1, parseInt(this.nextElementSibling.value) - 1)">-</button>
-                <input type="number" class="qty-input" value="1" min="1" id="qvQty">
-                <button class="qty-btn" onclick="this.previousElementSibling.value = parseInt(this.previousElementSibling.value) + 1">+</button>
+            <div class="quantity-selector-detail">
+                <span class="qty-label">Quantité</span>
+                <button type="button" class="cart-qty-btn" aria-label="Moins" onclick="var i=document.getElementById('qvQty');i.value=Math.max(1,parseInt(i.value,10)-1)">−</button>
+                <input type="number" class="qty-input" value="1" min="1" id="qvQty" aria-label="Quantité">
+                <button type="button" class="cart-qty-btn" aria-label="Plus" onclick="var i=document.getElementById('qvQty');i.value=parseInt(i.value,10)+1">+</button>
             </div>
             <div class="quick-view-buttons">
-                <button class="btn btn-primary" onclick="addToCart(${product.id}, parseInt(document.getElementById('qvQty').value)); document.getElementById('quickViewModal').classList.remove('active');">
-                    <i class="fas fa-shopping-bag"></i> Ajouter au panier
+                <button type="button" class="btn btn-reserve" onclick="addToCart(${product.id}, parseInt(document.getElementById('qvQty').value,10)); document.getElementById('quickViewModal').classList.remove('active'); window.location.href='checkout.html';">
+                    <i class="fas fa-gem"></i> Réserver
                 </button>
-                <a href="product.html#id=${product.id}" class="btn btn-dark">Voir les détails</a>
+                <a href="product.html#id=${product.id}" class="btn btn-ghost">Voir la fiche complète</a>
             </div>
         </div>
     `;

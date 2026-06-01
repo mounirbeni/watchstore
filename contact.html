@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/premium.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></head>
+    <link rel="stylesheet" href="css/ux-fixes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
 <body>
 
 <div id="site-header"></div>
@@ -28,13 +30,13 @@
                 <div class="contact-card">
                     <i class="fab fa-whatsapp"></i>
                     <h4>WhatsApp</h4>
-                    <p><a href="https://wa.me/212600000000" target="_blank" rel="noopener" style="color:var(--gold);">Écrire sur WhatsApp</a></p>
-                    <p style="font-size:0.75rem;">Réponse en moins d'1h</p>
+                    <p><a href="https://wa.me/212600000000" target="_blank" rel="noopener">Écrire sur WhatsApp</a></p>
+                    <p class="contact-card__hint">Réponse en moins d'1h</p>
                 </div>
                 <div class="contact-card">
                     <i class="fas fa-envelope"></i>
                     <h4>Email</h4>
-                    <p><a href="mailto:contact@luxwatchmaroc.ma" style="color:var(--gold);">contact@luxwatchmaroc.ma</a></p>
+                    <p><a href="mailto:contact@luxwatchmaroc.ma">contact@luxwatchmaroc.ma</a></p>
                 </div>
                 <div class="contact-card">
                     <i class="fas fa-clock"></i>
@@ -79,8 +81,8 @@
                         <option>Autre</option>
                     </select>
                 </div>
-                <div class="form-group"><label>Message *</label><textarea required placeholder="Votre message…" style="height:120px;"></textarea></div>
-                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+                <div class="form-group"><label>Message *</label><textarea required placeholder="Votre message…"></textarea></div>
+                <button type="submit" class="btn btn-primary btn-block">
                     <i class="fas fa-paper-plane"></i> Envoyer le Message
                 </button>
             </form>
@@ -89,11 +91,11 @@
 </div>
 
 <!-- FAQ CTA -->
-<section class="newsletter" style="margin-top:0;">
+<section class="newsletter newsletter--flush">
     <div class="container">
         <h2>Vous avez des questions ?</h2>
         <p>Consultez notre FAQ pour trouver rapidement des réponses</p>
-        <div style="margin-top:20px;">
+        <div class="section-cta">
             <a href="faq.html" class="btn btn-dark"><i class="fas fa-question-circle"></i> Voir la FAQ</a>
         </div>
     </div>

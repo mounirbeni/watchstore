@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/premium.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></head>
+    <link rel="stylesheet" href="css/ux-fixes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
 <body>
 
 <div id="site-header"></div>
@@ -81,6 +83,8 @@
     </div>
 </div>
 
+<div class="filter-backdrop" id="filterBackdrop" aria-hidden="true"></div>
+
 <div id="site-footer"></div>
 <div id="site-ui"></div>
 
@@ -99,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const priceMax    = document.getElementById('priceMax');
     const filterToggle = document.getElementById('filterToggle');
     const sidebar     = document.getElementById('shopSidebar');
+    const backdrop    = document.getElementById('filterBackdrop');
 
     // Read URL params (both ? and # based)
     function getParam(key) {
@@ -156,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const list = getFiltered();
         container.innerHTML = list.length
             ? list.map(p => createProductCard(p)).join('')
-            : `<div class="empty-state" style="grid-column:1/-1">
+            : `<div class="empty-state empty-state--full">
                  <i class="fas fa-search"></i>
                  <h3>Aucun produit trouvé</h3>
                  <p>Essayez de modifier vos filtres.</p>
@@ -171,10 +176,21 @@ document.addEventListener('DOMContentLoaded', () => {
     priceMin.addEventListener('change', render);
     priceMax.addEventListener('change', () => { priceSlider.value = priceMax.value; render(); });
 
+    function closeFilters() {
+        sidebar.classList.add('hidden-mobile');
+        sidebar.classList.remove('show-mobile');
+        backdrop?.classList.remove('is-visible');
+        backdrop?.setAttribute('aria-hidden', 'true');
+    }
+
     filterToggle?.addEventListener('click', () => {
         sidebar.classList.toggle('hidden-mobile');
         sidebar.classList.toggle('show-mobile');
+        const open = sidebar.classList.contains('show-mobile');
+        backdrop?.classList.toggle('is-visible', open);
+        backdrop?.setAttribute('aria-hidden', open ? 'false' : 'true');
     });
+    backdrop?.addEventListener('click', closeFilters);
 
     render();
 });

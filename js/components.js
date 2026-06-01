@@ -73,6 +73,9 @@
                     <button class="header-icon-btn search-btn" id="searchBtn" aria-label="Rechercher">
                         <i class="fas fa-search"></i>
                     </button>
+                    <a href="account.html" class="header-icon-btn header-icon-btn--account" aria-label="Mon compte">
+                        <i class="fas fa-user"></i>
+                    </a>
                     <a href="wishlist.html" class="header-icon-btn" aria-label="Favoris">
                         <i class="fas fa-heart"></i>
                         <span class="badge" id="wishlistCount">0</span>
