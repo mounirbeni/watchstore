@@ -420,12 +420,7 @@ input, select, textarea { font-family: var(--font-ui); }
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        130deg,
-        rgba(0,0,0,0.65) 0%,
-        rgba(0,0,0,0.3) 55%,
-        transparent 100%
-    );
+    background: rgba(26, 26, 26, 0.45);
 }
 .hero-slide.active { opacity: 1; }
 .hero-content {
@@ -443,7 +438,7 @@ input, select, textarea { font-family: var(--font-ui); }
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(200,164,86,0.85);
+    background: var(--gold);
     backdrop-filter: blur(10px);
     color: #fff;
     padding: 5px 14px;
@@ -491,7 +486,7 @@ input, select, textarea { font-family: var(--font-ui); }
     cursor: pointer;
     transition: all var(--t-fast);
 }
-.dot.active { width: 20px; border-radius: 4px; background: #fff; }
+.dot.active { width: 20px; border-radius: var(--r-pill); background: var(--white); }
 .hero-arrow {
     position: absolute;
     top: 50%;
@@ -774,7 +769,7 @@ input, select, textarea { font-family: var(--font-ui); }
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.05) 60%);
+    background: rgba(26, 26, 26, 0.5);
 }
 .category-overlay {
     position: absolute;
@@ -1016,7 +1011,7 @@ input, select, textarea { font-family: var(--font-ui); }
     right: -40px;
     width: 240px;
     height: 240px;
-    background: radial-gradient(circle, rgba(200,164,86,0.18) 0%, transparent 70%);
+    background: rgba(255, 255, 255, 0.04);
     pointer-events: none;
 }
 .promo-tag {

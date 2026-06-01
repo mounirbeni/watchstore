@@ -3,53 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Page Introuvable - LuxWatch Maroc</title>
+    <meta name="theme-color" content="#F8F8F6">
+    <title>Page introuvable — LuxWatch Maroc</title>
     <link rel="stylesheet" href="css/design-system.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/premium.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+
+<div id="site-header"></div>
+
+<main class="lux-state error-page">
+    <p class="lw-eyebrow">Erreur 404</p>
+    <h1 class="lw-display" style="margin-bottom:var(--space-4);">Page introuvable</h1>
+    <p>Cette page n'existe plus ou l'adresse est incorrecte. Explorez notre sélection de montres d'exception.</p>
+    <div class="error-page__actions">
+        <a href="index.html" class="btn btn-primary btn-lg"><i class="fas fa-home"></i> Accueil</a>
+        <a href="shop.html" class="btn btn-ghost btn-lg"><i class="fas fa-store"></i> Boutique</a>
     </div>
+</main>
 
-    <header class="header" id="header"><div class="container"><div class="header-inner">
-        <a href="index.html" class="logo"><i class="fas fa-clock"></i><span>Lux<strong>Watch</strong></span></a>
-        <nav class="nav" id="nav"><a href="index.html">Accueil</a><a href="shop.html">Boutique</a><div class="nav-dropdown"><a href="#">Collections <i class="fas fa-chevron-down"></i></a><div class="dropdown-menu"><a href="shop.html?cat=homme">Homme</a><a href="shop.html?cat=femme">Femme</a><a href="shop.html?cat=sport">Sport</a><a href="shop.html?cat=classique">Classique</a><a href="shop.html?cat=smart">Smart Watch</a></div></div><a href="about.html">À Propos</a><a href="contact.html">Contact</a></nav>
-        <div class="header-actions">
-            <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i></button>
-            <a href="login.html" class="user-btn"><i class="fas fa-user"></i></a>
-            <a href="wishlist.html" class="wishlist-btn"><i class="fas fa-heart"></i><span class="badge" id="wishlistCount">0</span></a>
-            <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-bag"></i><span class="badge" id="cartCount">0</span></a>
-            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-        </div>
-    </div></div></header>
+<div id="site-footer"></div>
+<div id="site-ui"></div>
 
-    <div class="search-overlay" id="searchOverlay"><div class="search-overlay-content"><button class="search-close" id="searchClose"><i class="fas fa-times"></i></button><h3>Rechercher</h3><div class="search-input-wrap"><input type="text" placeholder="Rechercher une montre..." id="searchInput"><button><i class="fas fa-search"></i></button></div></div></div>
-
-    <div class="container" style="text-align: center; padding: 100px 20px;">
-        <h1 style="font-size: 8rem; color: var(--primary); font-family: 'Playfair Display', serif; line-height: 1; margin-bottom: 20px;">404</h1>
-        <h2 style="font-size: 2rem; margin-bottom: 20px;">Oups ! Page Introuvable</h2>
-        <p style="color: #777; margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto; font-size: 1.1rem;">
-            Il semble que la page que vous recherchez n'existe pas ou a été déplacée. 
-            Découvrez nos dernières collections à la place.
-        </p>
-        <div style="display: flex; gap: 20px; justify-content: center;">
-            <a href="index.html" class="btn btn-primary">Retour à l'accueil</a>
-            <a href="shop.html" class="btn btn-outline">Explorer la Boutique</a>
-        </div>
-    </div>
-
-    <footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-col"><a href="index.html" class="footer-logo"><i class="fas fa-clock"></i><span>Lux<strong>Watch</strong></span></a><p>Votre destination pour les montres de luxe au Maroc.</p></div><div class="footer-col"><h4>Liens</h4><a href="index.html">Accueil</a><a href="shop.html">Boutique</a><a href="about.html">À Propos</a><a href="contact.html">Contact</a></div><div class="footer-col"><h4>Collections</h4><a href="shop.html?cat=homme">Homme</a><a href="shop.html?cat=femme">Femme</a><a href="shop.html?cat=sport">Sport</a></div><div class="footer-col"><h4>Contact</h4><div class="footer-contact"><p><i class="fas fa-map-marker-alt"></i> Casablanca, Maroc</p></div></div></div><div class="footer-bottom"><div class="footer-bottom-inner"><p>&copy; 2026 LuxWatch Maroc.</p></div></div></div></footer>
-
-    <a href="https://wa.me/212600000000" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
-    <button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
-
-    <script src="js/products.js"></script>
-    <script src="js/cart.js"></script>
-    <script src="js/app.js"></script>
-    
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js"></script>
+<script src="js/luxury-ui.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>

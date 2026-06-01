@@ -3,271 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Mon Compte - LuxWatch Maroc</title>
+    <meta name="theme-color" content="#F8F8F6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Mon Compte — LuxWatch Maroc</title>
     <link rel="stylesheet" href="css/design-system.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/premium.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">    <style>
-        .account-layout {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 40px;
-            margin-top: 40px;
-            margin-bottom: 80px;
-        }
-        @media (max-width: 768px) {
-            .account-layout { grid-template-columns: 1fr; }
-        }
-        .account-sidebar {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        .account-nav {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .account-nav li {
-            margin-bottom: 10px;
-        }
-        .account-nav a {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 15px;
-            color: var(--text);
-            border-radius: 4px;
-            transition: 0.3s;
-            font-weight: 500;
-        }
-        .account-nav a:hover, .account-nav a.active {
-            background: var(--primary);
-            color: #fff;
-        }
-        .account-section {
-            display: none;
-        }
-        .account-section.active {
-            display: block;
-        }
-        .order-card {
-            border: 1px solid #e8e8e8;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .status-delivered { background: #e8f5e9; color: #2e7d32; }
-        .status-processing { background: #fff3e0; color: #f57c00; }
-    </style>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    </div>
 
-    <header class="header" id="header"><div class="container"><div class="header-inner">
-        <a href="index.html" class="logo"><i class="fas fa-clock"></i><span>Lux<strong>Watch</strong></span></a>
-        <nav class="nav" id="nav"><a href="index.html">Accueil</a><a href="shop.html">Boutique</a><div class="nav-dropdown"><a href="#">Collections <i class="fas fa-chevron-down"></i></a><div class="dropdown-menu"><a href="shop.html?cat=homme">Homme</a><a href="shop.html?cat=femme">Femme</a><a href="shop.html?cat=sport">Sport</a><a href="shop.html?cat=classique">Classique</a><a href="shop.html?cat=smart">Smart Watch</a></div></div><a href="about.html">À Propos</a><a href="contact.html">Contact</a></nav>
-        <div class="header-actions">
-            <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i></button>
-            <a href="account.html" class="user-btn"><i class="fas fa-user"></i></a>
-            <a href="wishlist.html" class="wishlist-btn"><i class="fas fa-heart"></i><span class="badge" id="wishlistCount">0</span></a>
-            <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-bag"></i><span class="badge" id="cartCount">0</span></a>
-            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-        </div>
-    </div></div></header>
+<div id="site-header"></div>
 
-    <div class="search-overlay" id="searchOverlay"><div class="search-overlay-content"><button class="search-close" id="searchClose"><i class="fas fa-times"></i></button><h3>Rechercher</h3><div class="search-input-wrap"><input type="text" placeholder="Rechercher une montre..." id="searchInput"><button><i class="fas fa-search"></i></button></div></div></div>
-
-    <div class="page-header">
-        <div class="container">
-            <h1>Mon Compte</h1>
-            <div class="breadcrumb"><a href="index.html">Accueil</a> <span>/</span> <span>Mon Compte</span></div>
-        </div>
-    </div>
-
+<div class="page-header">
     <div class="container">
-        <div class="account-layout">
-            <div class="account-sidebar">
-                <div style="text-align:center; padding: 20px 0; border-bottom: 1px solid #ddd; margin-bottom: 20px;">
-                    <div style="width: 80px; height: 80px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 10px;">
-                        YB
-                    </div>
-                    <h4>Youssef Benali</h4>
-                    <span style="color: #777; font-size: 0.9rem;">youssef@example.com</span>
-                </div>
-                <ul class="account-nav">
-                    <li><a href="#" class="active" onclick="showTab('dashboard')"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
-                    <li><a href="#" onclick="showTab('orders')"><i class="fas fa-box"></i> Mes Commandes</a></li>
-                    <li><a href="#" onclick="showTab('addresses')"><i class="fas fa-map-marker-alt"></i> Mes Adresses</a></li>
-                    <li><a href="#" onclick="showTab('settings')"><i class="fas fa-cog"></i> Paramètres</a></li>
-                    <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-                </ul>
-            </div>
-
-            <div class="account-content">
-                <!-- Dashboard -->
-                <div id="dashboard" class="account-section active">
-                    <h2>Bienvenue, Youssef !</h2>
-                    <p style="color:#777; margin-bottom: 30px;">Depuis votre tableau de bord, vous pouvez voir vos commandes récentes, gérer vos adresses de livraison et modifier votre mot de passe.</p>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                        <div class="contact-card" style="text-align: center; cursor: pointer;" onclick="showTab('orders')">
-                            <i class="fas fa-box" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 15px;"></i>
-                            <h4>Commandes</h4>
-                            <p>3 commandes totales</p>
-                        </div>
-                        <div class="contact-card" style="text-align: center; cursor: pointer;" onclick="showTab('addresses')">
-                            <i class="fas fa-map-marker-alt" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 15px;"></i>
-                            <h4>Adresses</h4>
-                            <p>2 adresses enregistrées</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Orders -->
-                <div id="orders" class="account-section">
-                    <h2>Historique des Commandes</h2>
-                    <div class="order-card">
-                        <div class="order-header">
-                            <div>
-                                <span style="font-weight: 600;">Commande #LW-982341</span><br>
-                                <span style="font-size: 0.85rem; color: #777;">Passée le 28 Mai 2026</span>
-                            </div>
-                            <div style="text-align: right;">
-                                <span class="status-badge status-processing">En cours de traitement</span><br>
-                                <strong style="color: var(--primary); margin-top: 5px; display: inline-block;">3,499 MAD</strong>
-                            </div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=100&q=80" alt="Montre" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
-                            <div>
-                                <strong>Royal Chronograph Gold</strong><br>
-                                <span style="font-size: 0.9rem; color: #777;">Quantité: 1</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="order-card">
-                        <div class="order-header">
-                            <div>
-                                <span style="font-weight: 600;">Commande #LW-772189</span><br>
-                                <span style="font-size: 0.85rem; color: #777;">Passée le 15 Avril 2026</span>
-                            </div>
-                            <div style="text-align: right;">
-                                <span class="status-badge status-delivered">Livrée</span><br>
-                                <strong style="color: var(--primary); margin-top: 5px; display: inline-block;">1,899 MAD</strong>
-                            </div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <img src="https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?w=100&q=80" alt="Montre" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
-                            <div>
-                                <strong>Elegance Silver Moon</strong><br>
-                                <span style="font-size: 0.9rem; color: #777;">Quantité: 1</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Addresses -->
-                <div id="addresses" class="account-section">
-                    <h2>Mes Adresses</h2>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                        <div class="order-card">
-                            <h4>Domicile (Par défaut)</h4>
-                            <p style="color: #777; line-height: 1.6; margin: 10px 0;">
-                                Youssef Benali<br>
-                                Résidence Les Roses, Appt 12, Maarif<br>
-                                20000 Casablanca<br>
-                                Maroc<br>
-                                +212 6 12 34 56 78
-                            </p>
-                            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                                <button class="btn btn-outline" style="padding: 5px 15px; font-size: 0.9rem;">Modifier</button>
-                            </div>
-                        </div>
-                        <div class="order-card" style="border-style: dashed; display: flex; align-items: center; justify-content: center; flex-direction: column; cursor: pointer; color: #777;">
-                            <i class="fas fa-plus-circle" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                            <span>Ajouter une adresse</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Settings -->
-                <div id="settings" class="account-section">
-                    <h2>Paramètres du Compte</h2>
-                    <form style="max-width: 500px; margin-top: 20px;">
-                        <div class="form-row">
-                            <div class="form-group"><label>Prénom</label><input type="text" value="Youssef"></div>
-                            <div class="form-group"><label>Nom</label><input type="text" value="Benali"></div>
-                        </div>
-                        <div class="form-group"><label>Email</label><input type="email" value="youssef@example.com"></div>
-                        <div class="form-group"><label>Téléphone</label><input type="tel" value="+212 6 12 34 56 78"></div>
-                        <button type="button" class="btn btn-primary" onclick="showToast('Modifications enregistrées !')">Enregistrer les modifications</button>
-                    </form>
-                    
-                    <h3 style="margin-top: 40px; margin-bottom: 20px;">Modifier le mot de passe</h3>
-                    <form style="max-width: 500px;">
-                        <div class="form-group"><label>Mot de passe actuel</label><input type="password"></div>
-                        <div class="form-group"><label>Nouveau mot de passe</label><input type="password"></div>
-                        <button type="button" class="btn btn-dark" onclick="showToast('Mot de passe mis à jour !')">Mettre à jour le mot de passe</button>
-                    </form>
-                </div>
-            </div>
+        <h1>Mon compte</h1>
+        <div class="breadcrumb">
+            <a href="index.html">Accueil</a><span>/</span><span>Compte</span>
         </div>
     </div>
+</div>
 
-    <footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-col"><a href="index.html" class="footer-logo"><i class="fas fa-clock"></i><span>Lux<strong>Watch</strong></span></a><p>Votre destination pour les montres de luxe au Maroc.</p></div><div class="footer-col"><h4>Liens</h4><a href="index.html">Accueil</a><a href="shop.html">Boutique</a><a href="about.html">À Propos</a><a href="contact.html">Contact</a></div><div class="footer-col"><h4>Collections</h4><a href="shop.html?cat=homme">Homme</a><a href="shop.html?cat=femme">Femme</a><a href="shop.html?cat=sport">Sport</a></div><div class="footer-col"><h4>Contact</h4><div class="footer-contact"><p><i class="fas fa-map-marker-alt"></i> Casablanca, Maroc</p></div></div></div><div class="footer-bottom"><div class="footer-bottom-inner"><p>&copy; 2026 LuxWatch Maroc.</p></div></div></div></footer>
+<div class="container account-page">
+    <div class="account-layout">
+        <aside class="lux-card account-sidebar">
+            <div class="account-profile">
+                <div class="account-profile__avatar">YB</div>
+                <h2 class="account-profile__name">Youssef Benali</h2>
+                <p class="account-profile__email">youssef@example.com</p>
+            </div>
+            <nav class="account-nav" aria-label="Menu compte">
+                <button type="button" class="account-nav__item is-active" data-tab="dashboard"><i class="fas fa-gem"></i> Tableau de bord</button>
+                <button type="button" class="account-nav__item" data-tab="orders"><i class="fas fa-box"></i> Commandes</button>
+                <button type="button" class="account-nav__item" data-tab="addresses"><i class="fas fa-map-marker-alt"></i> Adresses</button>
+                <button type="button" class="account-nav__item" data-tab="settings"><i class="fas fa-cog"></i> Paramètres</button>
+                <button type="button" class="account-nav__item account-nav__item--logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+            </nav>
+        </aside>
 
-    <a href="https://wa.me/212600000000" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
-    <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMessage"></span></div>
+        <div class="account-main">
+            <section id="dashboard" class="account-panel is-active">
+                <header class="account-panel__head">
+                    <h2 class="lw-title">Bienvenue, Youssef</h2>
+                    <p class="text-muted">Gérez vos réservations et pièces favorites.</p>
+                </header>
+                <div class="account-stats">
+                    <a href="#" class="lux-card account-stat" data-tab-link="orders">
+                        <i class="fas fa-box"></i>
+                        <strong>3</strong>
+                        <span>Commandes</span>
+                    </a>
+                    <a href="wishlist.html" class="lux-card account-stat">
+                        <i class="fas fa-heart"></i>
+                        <strong id="accountWishCount">0</strong>
+                        <span>Favoris</span>
+                    </a>
+                    <a href="order-tracking.html" class="lux-card account-stat">
+                        <i class="fas fa-truck"></i>
+                        <strong>1</strong>
+                        <span>En cours</span>
+                    </a>
+                </div>
+            </section>
 
-    <script src="js/products.js"></script>
-    <script src="js/cart.js"></script>
-    <script src="js/app.js"></script>
-    <script>
-        // Tab switching logic
-        function showTab(tabId) {
-            document.querySelectorAll('.account-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.querySelectorAll('.account-nav a').forEach(nav => {
-                nav.classList.remove('active');
-            });
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
+            <section id="orders" class="account-panel">
+                <header class="account-panel__head">
+                    <h2 class="lw-title">Historique</h2>
+                </header>
+                <article class="lux-card account-order">
+                    <div class="account-order__head">
+                        <div>
+                            <strong>#LW-982341</strong>
+                            <span class="text-muted">28 mai 2026</span>
+                        </div>
+                        <span class="lw-status lw-status--active">En préparation</span>
+                    </div>
+                    <div class="account-order__body">
+                        <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=120&q=80" alt="">
+                        <div>
+                            <strong>Royal Chronograph Gold</strong>
+                            <span class="text-muted">Qté 1</span>
+                        </div>
+                        <span class="account-order__price">3 499 MAD</span>
+                    </div>
+                    <a href="order-tracking.html?ref=LW-982341" class="btn btn-ghost btn-sm">Suivre la livraison</a>
+                </article>
+                <article class="lux-card account-order">
+                    <div class="account-order__head">
+                        <div>
+                            <strong>#LW-772189</strong>
+                            <span class="text-muted">15 avril 2026</span>
+                        </div>
+                        <span class="lw-status lw-status--done">Livrée</span>
+                    </div>
+                    <div class="account-order__body">
+                        <img src="https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?w=120&q=80" alt="">
+                        <div>
+                            <strong>Elegance Silver Moon</strong>
+                            <span class="text-muted">Qté 1</span>
+                        </div>
+                        <span class="account-order__price">1 899 MAD</span>
+                    </div>
+                </article>
+            </section>
 
-        // Simulate logout
-        function logout() {
-            localStorage.removeItem('userLoggedIn');
-            window.location.href = 'login.html';
-        }
+            <section id="addresses" class="account-panel">
+                <header class="account-panel__head">
+                    <h2 class="lw-title">Adresses</h2>
+                </header>
+                <div class="account-address-grid">
+                    <div class="lux-card account-address">
+                        <span class="lw-eyebrow">Par défaut</span>
+                        <p>Youssef Benali<br>Résidence Les Roses, Appt 12<br>20000 Casablanca<br>+212 6 12 34 56 78</p>
+                        <button type="button" class="btn btn-ghost btn-sm">Modifier</button>
+                    </div>
+                    <button type="button" class="lux-card account-address account-address--add">
+                        <i class="fas fa-plus"></i>
+                        <span>Ajouter une adresse</span>
+                    </button>
+                </div>
+            </section>
 
-        // Redirect to login if not authenticated (simulate)
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!localStorage.getItem('userLoggedIn')) {
-                window.location.href = 'login.html';
-            }
+            <section id="settings" class="account-panel">
+                <header class="account-panel__head">
+                    <h2 class="lw-title">Paramètres</h2>
+                </header>
+                <div class="lux-card" style="padding:var(--space-5);">
+                    <form class="auth-form" onsubmit="event.preventDefault(); showToast('Modifications enregistrées');">
+                        <div class="form-row auth-form__row">
+                            <div class="lux-field"><label>Prénom</label><input type="text" value="Youssef"></div>
+                            <div class="lux-field"><label>Nom</label><input type="text" value="Benali"></div>
+                        </div>
+                        <div class="lux-field"><label>Email</label><input type="email" value="youssef@example.com"></div>
+                        <div class="lux-field"><label>Téléphone</label><input type="tel" value="+212 6 12 34 56 78"></div>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div id="site-footer"></div>
+<div id="site-ui"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js"></script>
+<script src="js/luxury-ui.js"></script>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    if (!localStorage.getItem('userLoggedIn')) {
+        window.location.href = 'login.html';
+        return;
+    }
+    const wc = document.getElementById('accountWishCount');
+    if (wc) wc.textContent = getWishlist().length;
+
+    document.querySelectorAll('.account-nav__item[data-tab]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tab = btn.dataset.tab;
+            document.querySelectorAll('.account-nav__item').forEach(b => b.classList.remove('is-active'));
+            btn.classList.add('is-active');
+            document.querySelectorAll('.account-panel').forEach(p => p.classList.remove('is-active'));
+            document.getElementById(tab)?.classList.add('is-active');
         });
-    </script>
-    
+    });
+
+    document.querySelectorAll('[data-tab-link]').forEach(el => {
+        el.addEventListener('click', e => {
+            e.preventDefault();
+            const tab = el.dataset.tabLink;
+            document.querySelector(`.account-nav__item[data-tab="${tab}"]`)?.click();
+        });
+    });
+
+    document.getElementById('logoutBtn')?.addEventListener('click', () => {
+        localStorage.removeItem('userLoggedIn');
+        window.location.href = 'login.html';
+    });
+});
+</script>
 </body>
 </html>

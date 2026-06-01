@@ -79,6 +79,40 @@
     --nav-bar-h: 56px;
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+    /* Legacy aliases */
+    --primary: var(--gold);
+    --text: var(--dark);
+    --text-muted: var(--ios-label-2);
+    --border: var(--ios-separator-opaque);
+}
+
+/* Typography scale */
+.lw-display {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    color: var(--dark);
+}
+.lw-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--dark);
+}
+.lw-body-lg {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ios-label-2);
+}
+.lw-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
 }
 
 /* Global shape language — no sharp corners */
@@ -121,7 +155,19 @@ textarea,
 .order-summary-card,
 .checkout-step-panel,
 .lux-card,
-.sheet-panel {
+.sheet-panel,
+.header,
+.top-bar,
+.dropdown-menu,
+.search-overlay-content,
+.tab-bar,
+.dot,
+.hero-arrow,
+.menu-toggle,
+.badge,
+.author-avatar,
+.order-item img,
+.cart-product img {
     border-radius: var(--r-md);
 }
 
@@ -209,4 +255,21 @@ body.app-shell.is-transitioning {
 :focus-visible {
     outline: 2px solid var(--gold);
     outline-offset: 2px;
+}
+
+.is-pressed,
+[data-pressable].is-pressed {
+    transform: scale(0.97);
+    opacity: 0.92;
+    transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--dark);
+    border: 1px solid var(--ios-separator-opaque);
+}
+.btn-outline:hover {
+    background: var(--ios-gray-5);
+    border-color: var(--dark);
 }

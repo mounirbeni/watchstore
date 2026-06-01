@@ -36,6 +36,10 @@ function renderLuxuryProduct(product) {
             </div>
             <p class="product-luxury-story">${product.description}</p>
             <p class="product-luxury-story text-muted">Pièce sélectionnée par nos maîtres horlogers. Livrée dans un écrin signature, certificat d'authenticité et garantie internationale de 2 ans.</p>
+            <div class="product-craft lux-card" style="padding:var(--space-5);margin-bottom:var(--space-6);">
+                <span class="lw-eyebrow">Savoir-faire</span>
+                <p style="font-size:14px;line-height:1.7;color:var(--ios-label-2);margin-top:var(--space-2);">Chaque détail — du boîtier au bracelet — est contrôlé pour offrir une expérience digne des plus grandes maisons horlogères. Réservation sécurisée, accompagnement personnalisé, livraison premium au Maroc.</p>
+            </div>
             <div class="product-luxury-specs product-meta-list">${specsHtml}</div>
             <div class="stock-badge"><i class="fas fa-circle" style="font-size:6px"></i> Disponible — Livraison 24–48h au Maroc</div>
             <div class="quantity-selector-detail">
