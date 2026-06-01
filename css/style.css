@@ -1367,20 +1367,85 @@ input, select, textarea { font-family: var(--font-ui); }
 .footer-logo i { color: var(--gold); }
 .footer-logo strong { color: #fff; }
 .footer-brand p { font-size: 13px; line-height: 1.7; margin-bottom: 18px; }
-.social-links { display: flex; gap: 8px; }
-.social-links a {
-    width: 36px;
-    height: 36px;
+/* ── Social media ──────────────────────────────────────────── */
+.social-block { margin-top: 4px; }
+.social-block__label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+.social-block--dark .social-block__label { color: rgba(255,255,255,0.45); }
+.social-block--light .social-block__label { color: var(--ios-gray); }
+
+.social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+.social-link {
+    width: 46px;
+    height: 46px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.08);
-    border-radius: 50%;
-    color: rgba(255,255,255,0.7);
-    font-size: 14px;
+    border-radius: 14px;
+    font-size: 19px;
+    text-decoration: none;
+    transition: transform var(--t-fast), background var(--t-fast), color var(--t-fast), border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.social-block--dark .social-link {
+    background: rgba(255,255,255,0.06);
+    border: 0.5px solid rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.88);
+}
+.social-block--light .social-link {
+    background: #fff;
+    border: 0.5px solid var(--ios-separator-opaque);
+    color: var(--ios-label);
+    box-shadow: var(--shadow-card);
+}
+.social-link:hover,
+.social-link:focus-visible {
+    transform: translateY(-3px);
+    color: #fff;
+    outline: none;
+}
+.social-block--dark .social-link:hover,
+.social-block--dark .social-link:focus-visible {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 6px 20px rgba(200,164,86,0.35);
+}
+.social-block--light .social-link:hover,
+.social-block--light .social-link:focus-visible {
+    background: var(--surface-dark);
+    border-color: var(--surface-dark);
+    box-shadow: var(--shadow-raised);
+}
+.social-link:active { transform: translateY(-1px) scale(0.96); }
+
+.contact-social-wrap {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 0.5px solid var(--ios-separator-opaque);
+}
+
+/* Legacy footer/contact selectors */
+.social-links a {
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    font-size: 19px;
     transition: all var(--t-fast);
 }
-.social-links a:hover { background: var(--gold); color: #fff; transform: translateY(-2px); }
+.social-links a:hover { transform: translateY(-3px); }
 .footer-col h4 {
     font-size: 11px;
     font-weight: 700;
@@ -1438,10 +1503,11 @@ a.footer-contact-link:hover { color: var(--gold); }
     position: fixed;
     bottom: 24px;
     right: 20px;
-    width: 52px;
-    height: 52px;
+    width: 54px;
+    height: 54px;
     background: var(--surface-dark);
-    border-radius: 50%;
+    border: 0.5px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1449,9 +1515,13 @@ a.footer-contact-link:hover { color: var(--gold); }
     font-size: 26px;
     z-index: 800;
     box-shadow: var(--shadow-raised);
-    transition: transform var(--t-spring);
+    transition: transform var(--t-spring), background var(--t-fast), box-shadow var(--t-fast);
 }
-.whatsapp-float:hover { transform: scale(1.1); }
+.whatsapp-float:hover {
+    transform: scale(1.06) translateY(-2px);
+    background: var(--gold-dark);
+    box-shadow: 0 8px 24px rgba(200,164,86,0.4);
+}
 
 /* ── Back to Top ───────────────────────────────────────────── */
 .back-to-top {

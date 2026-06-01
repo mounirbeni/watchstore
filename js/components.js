@@ -13,6 +13,25 @@
         return '';
     }
 
+    const socialLinksHTML = (theme = 'dark') => `
+    <div class="social-block social-block--${theme}">
+        <span class="social-block__label">Suivez-nous</span>
+        <div class="social-links" role="list">
+            <a href="https://www.instagram.com/luxwatchmaroc" class="social-link social-link--instagram" target="_blank" rel="noopener noreferrer" role="listitem" aria-label="Instagram — @luxwatchmaroc">
+                <i class="fab fa-instagram" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.facebook.com/luxwatchmaroc" class="social-link social-link--facebook" target="_blank" rel="noopener noreferrer" role="listitem" aria-label="Facebook — LuxWatch Maroc">
+                <i class="fab fa-facebook-f" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.tiktok.com/@luxwatchmaroc" class="social-link social-link--tiktok" target="_blank" rel="noopener noreferrer" role="listitem" aria-label="TikTok — @luxwatchmaroc">
+                <i class="fab fa-tiktok" aria-hidden="true"></i>
+            </a>
+            <a href="https://wa.me/212600000000" class="social-link social-link--whatsapp" target="_blank" rel="noopener noreferrer" role="listitem" aria-label="WhatsApp — +212 600 000 000">
+                <i class="fab fa-whatsapp" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>`;
+
     // ── header HTML ─────────────────────────────────────────────────────
     const headerHTML = `
     <div class="top-bar">
@@ -92,12 +111,7 @@
                         <span>Lux<strong>Watch</strong></span>
                     </a>
                     <p>Votre destination montres de luxe au Maroc. Qualité, élégance et service irréprochable depuis 2018.</p>
-                    <div class="social-links">
-                        <a href="https://www.instagram.com/luxwatchmaroc" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.facebook.com/luxwatchmaroc" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.tiktok.com/@luxwatchmaroc" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                        <a href="https://wa.me/212600000000" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                    </div>
+                    ${socialLinksHTML('dark')}
                 </div>
 
                 <div class="footer-col">
@@ -214,4 +228,7 @@
     if (headerEl) headerEl.innerHTML = headerHTML;
     if (footerEl) footerEl.innerHTML = footerHTML;
     if (uiEl) uiEl.innerHTML = sharedUI;
+
+    const contactSocial = document.getElementById('contact-social');
+    if (contactSocial) contactSocial.innerHTML = socialLinksHTML('light');
 })();
