@@ -202,8 +202,8 @@
     .products-grid { gap: 8px; }
     .current-price { font-size: 0.9rem; }
 
-    .logo { font-size: 1.3rem; }
-    .logo i { font-size: 1.1rem; }
+    .logo-wordmark { font-size: 1rem; }
+    .logo-wordmark__mark { font-size: 8px; }
 
     .section-header h2 { font-size: 1.5rem; }
 
@@ -241,7 +241,7 @@
         -webkit-backdrop-filter: saturate(180%) blur(20px);
     }
     .header-inner { height: 52px; }
-    .logo { font-size: 18px; letter-spacing: -0.5px; }
+    .logo-wordmark { font-size: 1.0625rem; }
 
     /* ── Hide the full desktop footer; show only a slim legal line ── */
     .footer .footer-grid,
@@ -435,7 +435,7 @@
         -webkit-backdrop-filter: saturate(180%) blur(20px);
     }
     .header-inner { height: 52px; }
-    .logo { font-size: 18px; letter-spacing: -0.5px; }
+    .logo-wordmark { font-size: 1.0625rem; }
 
     /* ── Hide the full desktop footer; show only a slim legal line ── */
     .footer .footer-grid,

@@ -93,18 +93,45 @@ input, select, textarea { font-family: var(--font-ui); }
     height: 100%;
 }
 
-/* Logo */
-.logo {
+/* Logo — typographic wordmark (no icon) */
+.logo,
+.footer-logo {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 20px;
-    font-weight: 700;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    text-decoration: none;
     color: var(--ios-label);
-    letter-spacing: -0.5px;
 }
-.logo i { color: var(--gold); font-size: 18px; }
-.logo strong { color: var(--ios-label); }
+.logo-wordmark {
+    display: flex;
+    align-items: baseline;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+.logo-wordmark__lux {
+    color: var(--dark);
+    letter-spacing: 0.24em;
+}
+.logo-wordmark__watch {
+    color: var(--gold-dark);
+    letter-spacing: 0.12em;
+    margin-left: 0.12em;
+}
+.logo-wordmark__mark {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ios-label-3);
+    padding-left: 2px;
+}
+.logo-wordmark--footer .logo-wordmark__lux { color: #fff; }
+.logo-wordmark--footer .logo-wordmark__watch { color: var(--gold); }
+.footer-logo .logo-wordmark__mark { color: rgba(255, 255, 255, 0.45); }
 
 /* Desktop nav */
 .nav {
@@ -1282,17 +1309,8 @@ input, select, textarea { font-family: var(--font-ui); }
     border-bottom: 0.5px solid rgba(255,255,255,0.1);
 }
 .footer-logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 20px;
-    font-weight: 700;
-    color: #fff;
     margin-bottom: 12px;
-    letter-spacing: -0.4px;
 }
-.footer-logo i { color: var(--gold); }
-.footer-logo strong { color: #fff; }
 .footer-brand p { font-size: 13px; line-height: 1.7; margin-bottom: 18px; }
 /* ── Social media ──────────────────────────────────────────── */
 .social-block { margin-top: 4px; }

@@ -47,9 +47,11 @@
     <header class="header" id="header">
         <div class="container">
             <div class="header-inner">
-                <a href="index.html" class="logo">
-                    <i class="fas fa-clock"></i>
-                    <span>Lux<strong>Watch</strong></span>
+                <a href="index.html" class="logo" aria-label="LuxWatch Maroc — Accueil">
+                    <span class="logo-wordmark">
+                        <span class="logo-wordmark__lux">LUX</span><span class="logo-wordmark__watch">WATCH</span>
+                    </span>
+                    <span class="logo-wordmark__mark" aria-hidden="true">MAROC</span>
                 </a>
 
                 <nav class="nav" id="nav">
@@ -109,9 +111,11 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col footer-brand">
-                    <a href="index.html" class="footer-logo">
-                        <i class="fas fa-clock"></i>
-                        <span>Lux<strong>Watch</strong></span>
+                    <a href="index.html" class="footer-logo" aria-label="LuxWatch Maroc — Accueil">
+                        <span class="logo-wordmark logo-wordmark--footer">
+                            <span class="logo-wordmark__lux">LUX</span><span class="logo-wordmark__watch">WATCH</span>
+                        </span>
+                        <span class="logo-wordmark__mark" aria-hidden="true">MAROC</span>
                     </a>
                     <p>Votre destination montres de luxe au Maroc. Qualité, élégance et service irréprochable depuis 2018.</p>
                     ${socialLinksHTML('dark')}
