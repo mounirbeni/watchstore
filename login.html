@@ -51,6 +51,10 @@
                 Pas encore de compte ?
                 <a href="register.html">Créer un compte</a>
             </p>
+            <p class="auth-switch auth-switch--admin">
+                Acces operationnel :
+                <a href="#" id="adminDemoLogin">ouvrir le dashboard admin</a>
+            </p>
         </div>
     </div>
 </main>
@@ -67,6 +71,7 @@
 function handleLogin(e) {
     e.preventDefault();
     const form = e.target;
+    const email = document.getElementById('loginEmail')?.value.trim().toLowerCase() || '';
     let valid = true;
     form.querySelectorAll('input[required]').forEach(input => {
         const wrap = input.closest('.lux-field');
@@ -76,9 +81,25 @@ function handleLogin(e) {
     });
     if (!valid) return false;
     localStorage.setItem('userLoggedIn', 'true');
+    if (email.includes('admin')) {
+        localStorage.setItem('adminLoggedIn', 'true');
+        localStorage.setItem('lwRole', 'admin');
+        window.location.href = 'admin.html';
+        return false;
+    }
+    localStorage.removeItem('adminLoggedIn');
+    localStorage.setItem('lwRole', 'client');
     window.location.href = 'account.html';
     return false;
 }
+
+document.getElementById('adminDemoLogin')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    localStorage.setItem('userLoggedIn', 'true');
+    localStorage.setItem('adminLoggedIn', 'true');
+    localStorage.setItem('lwRole', 'admin');
+    window.location.href = 'admin.html';
+});
 </script>
 </body>
 </html>

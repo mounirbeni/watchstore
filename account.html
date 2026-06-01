@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#F8F8F6">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>Mon Compte — LuxWatch Maroc</title>
+    <title>Espace Client - LuxWatch Maroc</title>
     <link rel="stylesheet" href="css/design-system.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/premium.css">
@@ -13,142 +13,303 @@
     <link rel="stylesheet" href="css/ux-fixes.css">
     <link rel="stylesheet" href="css/luxury-final.css">
     <link rel="stylesheet" href="css/mobile-app.css">
+    <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body>
+<body data-dashboard="client" data-required-role="client">
 
 <div id="site-header"></div>
 
-<div class="page-header">
-    <div class="container">
-        <h1>Mon compte</h1>
-        <div class="breadcrumb">
-            <a href="index.html">Accueil</a><span>/</span><span>Compte</span>
-        </div>
-    </div>
-</div>
+<main class="dashboard-shell">
+    <aside class="dashboard-sidebar" aria-label="Navigation espace client">
+        <a href="index.html" class="dashboard-brand" aria-label="Retour accueil LuxWatch">
+            <span class="dashboard-brand__mark">LW</span>
+            <span>
+                <strong>Client Portal</strong>
+                <small>LuxWatch Maroc</small>
+            </span>
+        </a>
 
-<div class="container account-page">
-    <div class="account-layout">
-        <aside class="lux-card account-sidebar">
-            <div class="account-profile">
-                <div class="account-profile__avatar">YB</div>
-                <h2 class="account-profile__name">Youssef Benali</h2>
-                <p class="account-profile__email">youssef@example.com</p>
+        <div class="dashboard-user">
+            <div class="dashboard-avatar">YB</div>
+            <div>
+                <strong>Youssef Benali</strong>
+                <span>Compte verifie</span>
             </div>
-            <nav class="account-nav" aria-label="Menu compte">
-                <button type="button" class="account-nav__item is-active" data-tab="dashboard"><i class="fas fa-gem"></i> Tableau de bord</button>
-                <button type="button" class="account-nav__item" data-tab="orders"><i class="fas fa-box"></i> Commandes</button>
-                <button type="button" class="account-nav__item" data-tab="addresses"><i class="fas fa-map-marker-alt"></i> Adresses</button>
-                <button type="button" class="account-nav__item" data-tab="settings"><i class="fas fa-cog"></i> Paramètres</button>
-                <button type="button" class="account-nav__item account-nav__item--logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
-            </nav>
-        </aside>
-
-        <div class="account-main">
-            <section id="dashboard" class="account-panel is-active">
-                <header class="account-panel__head">
-                    <h2 class="lw-title">Bienvenue, Youssef</h2>
-                    <p class="text-muted">Gérez vos réservations et pièces favorites.</p>
-                </header>
-                <div class="account-stats">
-                    <a href="#" class="lux-card account-stat" data-tab-link="orders">
-                        <i class="fas fa-box"></i>
-                        <strong>3</strong>
-                        <span>Commandes</span>
-                    </a>
-                    <a href="wishlist.html" class="lux-card account-stat">
-                        <i class="fas fa-heart"></i>
-                        <strong id="accountWishCount">0</strong>
-                        <span>Favoris</span>
-                    </a>
-                    <a href="order-tracking.html" class="lux-card account-stat">
-                        <i class="fas fa-truck"></i>
-                        <strong>1</strong>
-                        <span>En cours</span>
-                    </a>
-                </div>
-            </section>
-
-            <section id="orders" class="account-panel">
-                <header class="account-panel__head">
-                    <h2 class="lw-title">Historique</h2>
-                </header>
-                <article class="lux-card account-order">
-                    <div class="account-order__head">
-                        <div>
-                            <strong>#LW-982341</strong>
-                            <span class="text-muted">28 mai 2026</span>
-                        </div>
-                        <span class="lw-status lw-status--active">En préparation</span>
-                    </div>
-                    <div class="account-order__body">
-                        <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=120&q=80" alt="">
-                        <div>
-                            <strong>Royal Chronograph Gold</strong>
-                            <span class="text-muted">Qté 1</span>
-                        </div>
-                        <span class="account-order__price">3 499 MAD</span>
-                    </div>
-                    <a href="order-tracking.html?ref=LW-982341" class="btn btn-ghost btn-sm">Suivre la livraison</a>
-                </article>
-                <article class="lux-card account-order">
-                    <div class="account-order__head">
-                        <div>
-                            <strong>#LW-772189</strong>
-                            <span class="text-muted">15 avril 2026</span>
-                        </div>
-                        <span class="lw-status lw-status--done">Livrée</span>
-                    </div>
-                    <div class="account-order__body">
-                        <img src="https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?w=120&q=80" alt="">
-                        <div>
-                            <strong>Elegance Silver Moon</strong>
-                            <span class="text-muted">Qté 1</span>
-                        </div>
-                        <span class="account-order__price">1 899 MAD</span>
-                    </div>
-                </article>
-            </section>
-
-            <section id="addresses" class="account-panel">
-                <header class="account-panel__head">
-                    <h2 class="lw-title">Adresses</h2>
-                </header>
-                <div class="account-address-grid">
-                    <div class="lux-card account-address">
-                        <span class="lw-eyebrow">Par défaut</span>
-                        <p>Youssef Benali<br>Résidence Les Roses, Appt 12<br>20000 Casablanca<br>+212 6 12 34 56 78</p>
-                        <button type="button" class="btn btn-ghost btn-sm">Modifier</button>
-                    </div>
-                    <button type="button" class="lux-card account-address account-address--add">
-                        <i class="fas fa-plus"></i>
-                        <span>Ajouter une adresse</span>
-                    </button>
-                </div>
-            </section>
-
-            <section id="settings" class="account-panel">
-                <header class="account-panel__head">
-                    <h2 class="lw-title">Paramètres</h2>
-                </header>
-                <div class="lux-card" style="padding:var(--space-5);">
-                    <form class="auth-form" onsubmit="event.preventDefault(); showToast('Modifications enregistrées');">
-                        <div class="form-row auth-form__row">
-                            <div class="lux-field"><label>Prénom</label><input type="text" value="Youssef"></div>
-                            <div class="lux-field"><label>Nom</label><input type="text" value="Benali"></div>
-                        </div>
-                        <div class="lux-field"><label>Email</label><input type="email" value="youssef@example.com"></div>
-                        <div class="lux-field"><label>Téléphone</label><input type="tel" value="+212 6 12 34 56 78"></div>
-                        <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    </form>
-                </div>
-            </section>
         </div>
-    </div>
-</div>
 
-<div id="site-footer"></div>
+        <nav class="dashboard-nav">
+            <button class="dashboard-nav__item is-active" type="button" data-dashboard-tab="overview"><i class="fas fa-chart-line"></i> Overview</button>
+            <button class="dashboard-nav__item" type="button" data-dashboard-tab="orders"><i class="fas fa-box"></i> My Orders</button>
+            <button class="dashboard-nav__item" type="button" data-dashboard-tab="reservations"><i class="fas fa-clock"></i> Reservations</button>
+            <button class="dashboard-nav__item" type="button" data-dashboard-tab="wishlist"><i class="fas fa-heart"></i> Wishlist</button>
+            <button class="dashboard-nav__item" type="button" data-dashboard-tab="account"><i class="fas fa-user-gear"></i> Account</button>
+            <button class="dashboard-nav__item" type="button" data-dashboard-tab="notifications"><i class="fas fa-bell"></i> Notifications</button>
+            <button class="dashboard-nav__item" type="button" data-dashboard-tab="security"><i class="fas fa-shield-halved"></i> Security</button>
+        </nav>
+
+        <div class="dashboard-sidebar__footer">
+            <div class="security-chip"><i class="fas fa-lock"></i> Session protegee</div>
+            <button class="dashboard-nav__item dashboard-nav__item--logout" type="button" data-logout><i class="fas fa-arrow-right-from-bracket"></i> Deconnexion</button>
+        </div>
+    </aside>
+
+    <section class="dashboard-workspace">
+        <header class="dashboard-topbar">
+            <div>
+                <span class="dashboard-kicker">Espace client</span>
+                <h1>Relation client</h1>
+                <p>Commandes, reservations, paiements et securite du compte.</p>
+            </div>
+            <div class="dashboard-topbar__actions">
+                <a class="btn btn-ghost btn-sm" href="shop.html"><i class="fas fa-search"></i> Decouvrir</a>
+                <a class="btn btn-primary btn-sm" href="checkout.html"><i class="fas fa-gem"></i> Reserver</a>
+            </div>
+        </header>
+
+        <section class="dashboard-panel is-active" id="overview" data-dashboard-panel>
+            <div class="dashboard-grid dashboard-grid--stats">
+                <article class="metric-card">
+                    <span>Commandes actives</span>
+                    <strong>2</strong>
+                    <small>1 en preparation, 1 en livraison</small>
+                </article>
+                <article class="metric-card">
+                    <span>Reservation</span>
+                    <strong>48h</strong>
+                    <small>Expire le 03 juin 2026</small>
+                </article>
+                <article class="metric-card">
+                    <span>Compte</span>
+                    <strong>Gold</strong>
+                    <small>Identite et telephone verifies</small>
+                </article>
+                <article class="metric-card">
+                    <span>Notifications</span>
+                    <strong>4</strong>
+                    <small>2 actions recommandees</small>
+                </article>
+            </div>
+
+            <div class="dashboard-grid dashboard-grid--main">
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Current orders</h2>
+                            <p>Statut operationnel des commandes recentes.</p>
+                        </div>
+                        <button class="btn btn-ghost btn-sm" data-tab-open="orders">Voir tout</button>
+                    </div>
+                    <div class="status-list" id="clientCurrentOrders"></div>
+                </article>
+
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Quick actions</h2>
+                            <p>Actions frequentes pour accelerer le suivi.</p>
+                        </div>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="quick-action" type="button" data-dashboard-action="download-receipt"><i class="fas fa-file-arrow-down"></i><span>Download receipt</span></button>
+                        <button class="quick-action" type="button" data-tab-open="reservations"><i class="fas fa-clock"></i><span>Manage reservation</span></button>
+                        <button class="quick-action" type="button" data-tab-open="account"><i class="fas fa-location-dot"></i><span>Update address</span></button>
+                        <button class="quick-action" type="button" data-tab-open="security"><i class="fas fa-shield"></i><span>Review devices</span></button>
+                    </div>
+                </article>
+            </div>
+
+            <div class="dashboard-grid dashboard-grid--main">
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Recent activity</h2>
+                            <p>Historique client, paiements et reservations.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-list" id="clientActivity"></div>
+                </article>
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Notifications</h2>
+                            <p>Messages importants de LuxWatch.</p>
+                        </div>
+                    </div>
+                    <div class="notification-list" id="clientNotificationPreview"></div>
+                </article>
+            </div>
+        </section>
+
+        <section class="dashboard-panel" id="orders" data-dashboard-panel>
+            <div class="dashboard-card">
+                <div class="dashboard-card__head">
+                    <div>
+                        <h2>My Orders</h2>
+                        <p>Suivi, factures, recus, paiement et livraison.</p>
+                    </div>
+                    <div class="dashboard-tools">
+                        <input class="dashboard-search" type="search" placeholder="Rechercher une commande" data-table-search="clientOrdersTable">
+                        <select class="dashboard-select" data-table-filter="clientOrdersTable">
+                            <option value="">Tous les statuts</option>
+                            <option value="Processing">Processing</option>
+                            <option value="In delivery">In delivery</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-shell">
+                    <table class="dashboard-table" id="clientOrdersTable">
+                        <thead>
+                            <tr><th>Order</th><th>Status</th><th>Payment</th><th>Delivery</th><th>Total</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="clientOrdersBody"></tbody>
+                    </table>
+                </div>
+                <div class="pagination-bar" data-pagination-for="clientOrdersTable"></div>
+            </div>
+        </section>
+
+        <section class="dashboard-panel" id="reservations" data-dashboard-panel>
+            <div class="dashboard-card">
+                <div class="dashboard-card__head">
+                    <div>
+                        <h2>Reservations</h2>
+                        <p>Pieces reservees, expiration et historique.</p>
+                    </div>
+                    <a class="btn btn-primary btn-sm" href="shop.html">Ajouter une reservation</a>
+                </div>
+                <div class="reservation-grid" id="clientReservations"></div>
+            </div>
+        </section>
+
+        <section class="dashboard-panel" id="wishlist" data-dashboard-panel>
+            <div class="dashboard-card">
+                <div class="dashboard-card__head">
+                    <div>
+                        <h2>Wishlist</h2>
+                        <p>Favoris sauvegardes et conversion en reservation.</p>
+                    </div>
+                    <a class="btn btn-ghost btn-sm" href="wishlist.html">Ouvrir favoris</a>
+                </div>
+                <div class="reservation-grid" id="clientWishlist"></div>
+            </div>
+        </section>
+
+        <section class="dashboard-panel" id="account" data-dashboard-panel>
+            <div class="dashboard-grid dashboard-grid--main">
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Profile</h2>
+                            <p>Identite, telephone et preferences.</p>
+                        </div>
+                    </div>
+                    <form class="dashboard-form" data-secure-form="profile">
+                        <input type="hidden" name="csrf">
+                        <div class="form-row">
+                            <label>First name<input required name="firstName" value="Youssef"></label>
+                            <label>Last name<input required name="lastName" value="Benali"></label>
+                        </div>
+                        <label>Email<input required type="email" name="email" value="youssef@example.com"></label>
+                        <label>Phone<input required type="tel" name="phone" value="+212 6 12 34 56 78"></label>
+                        <label>Preferences<select name="preference"><option>Order updates by SMS</option><option>Email only</option><option>WhatsApp priority</option></select></label>
+                        <button class="btn btn-primary" type="submit">Save profile</button>
+                    </form>
+                </article>
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Addresses</h2>
+                            <p>Livraison et facturation.</p>
+                        </div>
+                    </div>
+                    <div class="address-stack">
+                        <div class="address-card">
+                            <strong>Adresse principale</strong>
+                            <p>Residence Les Roses, Appt 12<br>Casablanca 20000<br>+212 6 12 34 56 78</p>
+                            <button class="btn btn-ghost btn-sm" type="button" data-dashboard-action="edit-address">Modifier</button>
+                        </div>
+                        <button class="address-card address-card--button" type="button" data-dashboard-action="add-address"><i class="fas fa-plus"></i> Ajouter une adresse</button>
+                    </div>
+                </article>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="dashboard-card__head">
+                    <div>
+                        <h2>Password policy</h2>
+                        <p>Changement protege avec validation forte.</p>
+                    </div>
+                </div>
+                <form class="dashboard-form dashboard-form--inline" data-secure-form="password">
+                    <input type="hidden" name="csrf">
+                    <label>Current password<input required type="password" minlength="8" autocomplete="current-password"></label>
+                    <label>New password<input required type="password" minlength="12" autocomplete="new-password" data-password-strength></label>
+                    <label>Confirm<input required type="password" minlength="12" autocomplete="new-password"></label>
+                    <button class="btn btn-primary" type="submit">Change password</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="dashboard-panel" id="notifications" data-dashboard-panel>
+            <div class="dashboard-card">
+                <div class="dashboard-card__head">
+                    <div>
+                        <h2>Notifications</h2>
+                        <p>Order updates, payment updates, reminders and system messages.</p>
+                    </div>
+                    <button class="btn btn-ghost btn-sm" type="button" data-dashboard-action="mark-read">Mark all read</button>
+                </div>
+                <div class="notification-list notification-list--full" id="clientNotifications"></div>
+            </div>
+        </section>
+
+        <section class="dashboard-panel" id="security" data-dashboard-panel>
+            <div class="dashboard-grid dashboard-grid--main">
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Security overview</h2>
+                            <p>Session, appareils actifs et surveillance compte.</p>
+                        </div>
+                    </div>
+                    <div class="security-grid">
+                        <div><span>Role</span><strong>Client</strong></div>
+                        <div><span>CSRF token</span><strong data-csrf-status>Active</strong></div>
+                        <div><span>Lockout</span><strong>5 attempts</strong></div>
+                        <div><span>Last password change</span><strong>24 May 2026</strong></div>
+                    </div>
+                </article>
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Active sessions</h2>
+                            <p>Device management and session revocation.</p>
+                        </div>
+                    </div>
+                    <div class="status-list" id="clientSessions"></div>
+                </article>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="dashboard-card__head">
+                    <div>
+                        <h2>Login history</h2>
+                        <p>Recent account access events.</p>
+                    </div>
+                </div>
+                <div class="table-shell">
+                    <table class="dashboard-table">
+                        <thead><tr><th>Date</th><th>Device</th><th>Location</th><th>Status</th></tr></thead>
+                        <tbody id="clientLoginHistory"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </section>
+</main>
+
 <div id="site-ui"></div>
 
 <script src="js/products.js"></script>
@@ -156,38 +317,6 @@
 <script src="js/components.js?v=ios-lang3"></script>
 <script src="js/luxury-ui.js"></script>
 <script src="js/app.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    if (!localStorage.getItem('userLoggedIn')) {
-        window.location.href = 'login.html';
-        return;
-    }
-    const wc = document.getElementById('accountWishCount');
-    if (wc) wc.textContent = getWishlist().length;
-
-    document.querySelectorAll('.account-nav__item[data-tab]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tab = btn.dataset.tab;
-            document.querySelectorAll('.account-nav__item').forEach(b => b.classList.remove('is-active'));
-            btn.classList.add('is-active');
-            document.querySelectorAll('.account-panel').forEach(p => p.classList.remove('is-active'));
-            document.getElementById(tab)?.classList.add('is-active');
-        });
-    });
-
-    document.querySelectorAll('[data-tab-link]').forEach(el => {
-        el.addEventListener('click', e => {
-            e.preventDefault();
-            const tab = el.dataset.tabLink;
-            document.querySelector(`.account-nav__item[data-tab="${tab}"]`)?.click();
-        });
-    });
-
-    document.getElementById('logoutBtn')?.addEventListener('click', () => {
-        localStorage.removeItem('userLoggedIn');
-        window.location.href = 'login.html';
-    });
-});
-</script>
+<script src="js/dashboard.js"></script>
 </body>
 </html>
