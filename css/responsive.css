@@ -34,6 +34,7 @@
     /* Header */
     .header-inner { height: 60px; }
     .nav {
+        display: flex !important;
         position: fixed;
         top: 0;
         left: -100%;
@@ -44,12 +45,13 @@
         align-items: stretch;
         gap: 0;
         padding: 72px 20px 32px;
-        z-index: 900;
+        z-index: 1001;
         box-shadow: var(--shadow-raised);
         overflow-y: auto;
         transition: left 0.35s var(--ease);
     }
     .nav.active { left: 0; }
+    .nav-overlay { z-index: 1000; }
 
     .nav > a {
         padding: 14px 12px;
@@ -228,8 +230,8 @@
     /* ── Hide top announcement bar ── */
     .top-bar { display: none; }
 
-    /* ── Hide desktop hamburger (tab bar replaces nav) ── */
-    .menu-toggle { display: none !important; }
+    /* ── Hamburger opens full nav (tab bar = quick links) ── */
+    .menu-toggle { display: flex !important; }
     .header-icon-btn[href="wishlist.html"] { display: none; }
 
     /* ── iOS-style sticky header (shorter, cleaner) ── */
@@ -239,6 +241,7 @@
         background: rgba(255,255,255,0.92);
         backdrop-filter: saturate(180%) blur(20px);
         -webkit-backdrop-filter: saturate(180%) blur(20px);
+        z-index: 900;
     }
     .header-inner { height: 52px; }
     .logo-wordmark { font-size: 1.0625rem; }
@@ -423,8 +426,8 @@
     /* ── Hide top announcement bar ── */
     .top-bar { display: none; }
 
-    /* ── Hide desktop hamburger (tab bar replaces nav) ── */
-    .menu-toggle { display: none !important; }
+    /* ── Hamburger opens full nav (tab bar = quick links) ── */
+    .menu-toggle { display: flex !important; }
 
     /* ── iOS-style sticky header (shorter, cleaner) ── */
     .header {
@@ -433,6 +436,7 @@
         background: rgba(255,255,255,0.92);
         backdrop-filter: saturate(180%) blur(20px);
         -webkit-backdrop-filter: saturate(180%) blur(20px);
+        z-index: 900;
     }
     .header-inner { height: 52px; }
     .logo-wordmark { font-size: 1.0625rem; }

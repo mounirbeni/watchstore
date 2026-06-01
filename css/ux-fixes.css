@@ -206,13 +206,6 @@
         justify-content: center;
         margin-bottom: var(--space-3);
     }
-    /* Prevent duplicate nav drawer on app mode */
-    .nav {
-        display: none !important;
-    }
-    .nav-overlay {
-        display: none !important;
-    }
 }
 
 /* Header account link */

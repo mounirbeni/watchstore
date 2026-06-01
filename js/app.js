@@ -213,6 +213,14 @@ function initMobileNav() {
     toggle.addEventListener('click', () => nav.classList.contains('active') ? close() : open());
     overlay?.addEventListener('click', close);
 
+    nav.querySelectorAll('a[href]').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768 && !link.parentElement?.classList.contains('nav-dropdown')) {
+                close();
+            }
+        });
+    });
+
     // Mobile dropdowns
     document.querySelectorAll('.nav-dropdown > a').forEach(link => {
         link.addEventListener('click', e => {
