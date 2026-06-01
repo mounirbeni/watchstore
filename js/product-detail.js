@@ -66,9 +66,12 @@ function renderLuxuryProduct(product) {
     const bar = document.getElementById('productStickyBar');
     if (bar) {
         bar.innerHTML = `
-            <span class="product-sticky-bar__price">${formatPrice(product.price)}</span>
+            <div class="product-sticky-bar__price">
+                <small>Prix</small>
+                ${formatPrice(product.price)}
+            </div>
             <button type="button" class="btn btn-reserve" id="reserveBtnSticky">
-                Réserver
+                <i class="fas fa-gem"></i> Réserver
             </button>`;
     }
 

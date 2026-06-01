@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#F8F8F6">
     <title>Boutique — LuxWatch Maroc</title>
     <meta name="description" content="Parcourez nos 65 montres de luxe. Filtrez par catégorie, prix et marque. Livraison partout au Maroc.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="css/design-system.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/premium.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></head>
-<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="has-tab-bar">
 
 <div id="site-header"></div>
 
@@ -28,7 +32,7 @@
         <!-- Sidebar -->
         <aside class="shop-sidebar hidden-mobile" id="shopSidebar">
             <div class="filter-group">
-                <h4>Catégories</h4>
+                <div class="filter-group-header"><h4>Catégories</h4></div>
                 <label class="filter-option"><input type="checkbox" value="homme" class="cat-filter"> Homme <span class="filter-count">(15)</span></label>
                 <label class="filter-option"><input type="checkbox" value="femme" class="cat-filter"> Femme <span class="filter-count">(15)</span></label>
                 <label class="filter-option"><input type="checkbox" value="sport" class="cat-filter"> Sport <span class="filter-count">(13)</span></label>
@@ -36,7 +40,7 @@
                 <label class="filter-option"><input type="checkbox" value="smart" class="cat-filter"> Smart Watch <span class="filter-count">(10)</span></label>
             </div>
             <div class="filter-group">
-                <h4>Prix (MAD)</h4>
+                <div class="filter-group-header"><h4>Prix (MAD)</h4></div>
                 <input type="range" class="price-slider" min="0" max="10000" value="10000" id="priceSlider">
                 <div class="price-inputs">
                     <input type="number" placeholder="Min" id="priceMin" value="0">
@@ -44,7 +48,7 @@
                 </div>
             </div>
             <div class="filter-group">
-                <h4>Marque</h4>
+                <div class="filter-group-header"><h4>Marque</h4></div>
                 <label class="filter-option"><input type="checkbox" value="Royal" class="brand-filter"> Royal</label>
                 <label class="filter-option"><input type="checkbox" value="Elegance" class="brand-filter"> Elegance</label>
                 <label class="filter-option"><input type="checkbox" value="Heritage" class="brand-filter"> Heritage</label>
@@ -54,7 +58,7 @@
                 <label class="filter-option"><input type="checkbox" value="Executive" class="brand-filter"> Executive</label>
             </div>
             <div class="filter-group">
-                <h4>Statut</h4>
+                <div class="filter-group-header"><h4>Statut</h4></div>
                 <label class="filter-option"><input type="checkbox" value="new" class="status-filter"> Nouveautés</label>
                 <label class="filter-option"><input type="checkbox" value="sale" class="status-filter"> En promotion</label>
             </div>
@@ -62,7 +66,7 @@
 
         <!-- Products -->
         <div class="shop-main">
-            <button class="btn btn-dark btn-sm mobile-filter-toggle" id="filterToggle">
+            <button class="btn btn-ghost btn-sm mobile-filter-toggle" id="filterToggle">
                 <i class="fas fa-sliders-h"></i> Filtrer &amp; Trier
             </button>
             <div class="shop-toolbar">

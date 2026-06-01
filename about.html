@@ -3,20 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#F8F8F6">
     <title>À Propos — LuxWatch Maroc</title>
+    <meta name="description" content="Découvrez l'histoire et les valeurs de LuxWatch Maroc, votre boutique de montres de luxe au Maroc depuis 2018.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="css/design-system.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/premium.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></head>
-<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="has-tab-bar">
 
 <div id="site-header"></div>
 
 <div class="page-header">
     <div class="container">
         <h1>À Propos de Nous</h1>
-        <div class="breadcrumb"><a href="index.html">Accueil</a><span>/</span><span>À Propos</span></div>
+        <div class="breadcrumb">
+            <a href="index.html">Accueil</a><span>/</span><span>À Propos</span>
+        </div>
     </div>
 </div>
 
@@ -24,10 +31,10 @@
 <div class="container">
     <div class="about-intro">
         <div class="about-image">
-            <img src="https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?w=800&q=80" alt="LuxWatch Maroc">
+            <img src="https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?w=800&q=80" alt="LuxWatch Maroc" loading="lazy">
         </div>
         <div class="about-text">
-            <span class="section-tag">Notre Histoire</span>
+            <span class="section-eyebrow">Notre Histoire</span>
             <h2>L'Excellence Horlogère au Maroc</h2>
             <p>Fondée en 2018 à Casablanca, LuxWatch Maroc est née de la passion pour l'horlogerie et du désir de rendre les montres de qualité accessibles à tous les Marocains.</p>
             <p>Notre mission est simple : offrir des montres authentiques, élégantes et durables, avec un service client irréprochable et une livraison rapide partout au Maroc.</p>
@@ -44,18 +51,42 @@
 <!-- Values -->
 <section class="about-values section">
     <div class="container">
-        <div class="section-header">
-            <span class="section-tag">Nos Engagements</span>
-            <h2>Nos Valeurs</h2>
-            <p>Ce qui nous distingue et nous motive chaque jour</p>
-        </div>
+        <header class="section-header center">
+            <span class="section-eyebrow">Nos Engagements</span>
+            <h2 class="section-title">Ce Qui Nous Définit</h2>
+            <p class="section-desc">Les valeurs qui guident chacune de nos décisions et chaque interaction avec nos clients.</p>
+        </header>
         <div class="values-grid">
-            <div class="value-card"><i class="fas fa-gem"></i><h4>Authenticité</h4><p>Toutes nos montres sont 100% authentiques avec certificat d'authenticité.</p></div>
-            <div class="value-card"><i class="fas fa-hand-holding-heart"></i><h4>Service Client</h4><p>Notre équipe est disponible 7j/7 par WhatsApp pour vous conseiller.</p></div>
-            <div class="value-card"><i class="fas fa-shipping-fast"></i><h4>Livraison Rapide</h4><p>Livraison en 24–48h dans toutes les villes du Maroc. Paiement à la livraison.</p></div>
-            <div class="value-card"><i class="fas fa-award"></i><h4>Qualité Garantie</h4><p>Garantie de 2 ans sur toutes nos montres avec SAV dédié.</p></div>
-            <div class="value-card"><i class="fas fa-tags"></i><h4>Meilleurs Prix</h4><p>Partenariats directs avec les fabricants pour des prix compétitifs.</p></div>
-            <div class="value-card"><i class="fas fa-undo-alt"></i><h4>Retour Facile</h4><p>Retour gratuit sous 14 jours. Remboursement intégral garanti.</p></div>
+            <div class="value-card">
+                <div class="value-card-icon"><i class="fas fa-gem" aria-hidden="true"></i></div>
+                <h4>Authenticité</h4>
+                <p>Toutes nos montres sont 100% authentiques, livrées avec certificat d'authenticité.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-card-icon"><i class="fas fa-hand-holding-heart" aria-hidden="true"></i></div>
+                <h4>Service Client</h4>
+                <p>Notre équipe est disponible 7j/7 par WhatsApp pour vous conseiller et vous accompagner.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-card-icon"><i class="fas fa-shipping-fast" aria-hidden="true"></i></div>
+                <h4>Livraison Rapide</h4>
+                <p>Livraison en 24–48h dans toutes les villes du Maroc. Paiement à la livraison disponible.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-card-icon"><i class="fas fa-award" aria-hidden="true"></i></div>
+                <h4>Qualité Garantie</h4>
+                <p>Garantie de 2 ans sur toutes nos montres avec service après-vente dédié.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-card-icon"><i class="fas fa-tags" aria-hidden="true"></i></div>
+                <h4>Meilleurs Prix</h4>
+                <p>Partenariats directs avec les fabricants pour des prix compétitifs sans intermédiaires.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-card-icon"><i class="fas fa-undo-alt" aria-hidden="true"></i></div>
+                <h4>Retour Facile</h4>
+                <p>Retour gratuit sous 14 jours. Remboursement intégral garanti, sans complications.</p>
+            </div>
         </div>
     </div>
 </section>
@@ -63,40 +94,44 @@
 <!-- Team -->
 <section class="section">
     <div class="container">
-        <div class="section-header">
-            <span class="section-tag">L'Équipe</span>
-            <h2>Notre Équipe Passionnée</h2>
-        </div>
+        <header class="section-header center">
+            <span class="section-eyebrow">L'Équipe</span>
+            <h2 class="section-title">Les Artisans de Votre Expérience</h2>
+        </header>
         <div class="testimonials-grid">
             <div class="testimonial-card" style="text-align:center;">
-                <div class="author-avatar" style="width:72px;height:72px;margin:0 auto 14px;font-size:1.4rem;">MK</div>
-                <h4 style="margin-bottom:4px;">Mohamed K.</h4>
-                <span class="section-tag" style="font-size:0.65rem;">Fondateur & CEO</span>
-                <p style="margin-top:12px;">Passionné d'horlogerie depuis plus de 15 ans, Mohamed a fondé LuxWatch pour partager sa passion avec tous les Marocains.</p>
+                <div class="author-avatar" style="width:64px;height:64px;margin:0 auto 16px;font-size:18px;" aria-hidden="true">MK</div>
+                <strong style="display:block;font-size:16px;margin-bottom:4px;">Mohamed K.</strong>
+                <span class="section-eyebrow" style="margin-bottom:12px;display:block;">Fondateur &amp; CEO</span>
+                <p>Passionné d'horlogerie depuis plus de 15 ans, Mohamed a fondé LuxWatch pour partager sa passion avec tous les Marocains.</p>
             </div>
             <div class="testimonial-card" style="text-align:center;">
-                <div class="author-avatar" style="width:72px;height:72px;margin:0 auto 14px;font-size:1.4rem;">LB</div>
-                <h4 style="margin-bottom:4px;">Leila B.</h4>
-                <span class="section-tag" style="font-size:0.65rem;">Directrice Commerciale</span>
-                <p style="margin-top:12px;">10 ans d'expérience dans le retail de luxe. Leila veille à ce que chaque client vive une expérience exceptionnelle.</p>
+                <div class="author-avatar" style="width:64px;height:64px;margin:0 auto 16px;font-size:18px;" aria-hidden="true">LB</div>
+                <strong style="display:block;font-size:16px;margin-bottom:4px;">Leila B.</strong>
+                <span class="section-eyebrow" style="margin-bottom:12px;display:block;">Directrice Commerciale</span>
+                <p>10 ans d'expérience dans le retail de luxe. Leila veille à ce que chaque client vive une expérience exceptionnelle.</p>
             </div>
             <div class="testimonial-card" style="text-align:center;">
-                <div class="author-avatar" style="width:72px;height:72px;margin:0 auto 14px;font-size:1.4rem;">AE</div>
-                <h4 style="margin-bottom:4px;">Amine E.</h4>
-                <span class="section-tag" style="font-size:0.65rem;">Expert Horloger</span>
-                <p style="margin-top:12px;">Horloger certifié, Amine sélectionne et vérifie chaque montre pour garantir une qualité irréprochable.</p>
+                <div class="author-avatar" style="width:64px;height:64px;margin:0 auto 16px;font-size:18px;" aria-hidden="true">AE</div>
+                <strong style="display:block;font-size:16px;margin-bottom:4px;">Amine E.</strong>
+                <span class="section-eyebrow" style="margin-bottom:12px;display:block;">Expert Horloger</span>
+                <p>Horloger certifié, Amine sélectionne et vérifie chaque montre pour garantir une qualité irréprochable.</p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- CTA -->
-<section class="newsletter">
-    <div class="container">
-        <h2>Prêt à Trouver Votre Montre ?</h2>
-        <p>Explorez notre catalogue de 65 montres et trouvez celle qui vous correspond</p>
-        <div style="margin-top:20px;">
-            <a href="shop.html" class="btn" style="background:var(--dark);color:#fff;"><i class="fas fa-store"></i> Découvrir la Boutique</a>
+<section style="padding: 0 24px 64px;">
+    <div class="container" style="padding: 0;">
+        <div class="newsletter">
+            <h2>Prêt à Trouver Votre Montre ?</h2>
+            <p>Explorez notre catalogue de 65 montres et trouvez la pièce qui vous correspond.</p>
+            <div style="margin-top: 20px;">
+                <a href="shop.html" class="btn" style="background:var(--white);color:var(--dark);border-radius:var(--r-pill);padding:13px 28px;font-size:14px;font-weight:600;">
+                    <i class="fas fa-store" aria-hidden="true"></i> Découvrir la Boutique
+                </a>
+            </div>
         </div>
     </div>
 </section>

@@ -3,271 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Mon Compte - LuxWatch Maroc</title>
+    <meta name="theme-color" content="#F8F8F6">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Mon Compte — LuxWatch Maroc</title>
     <link rel="stylesheet" href="css/design-system.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/premium.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">    <style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
         .account-layout {
             display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 40px;
-            margin-top: 40px;
+            grid-template-columns: 240px 1fr;
+            gap: 32px;
+            margin-top: 32px;
             margin-bottom: 80px;
         }
         @media (max-width: 768px) {
             .account-layout { grid-template-columns: 1fr; }
         }
         .account-sidebar {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
+            background: var(--white);
+            border: var(--border-soft);
+            border-radius: var(--r-xl);
+            padding: 24px;
+            height: fit-content;
         }
-        .account-nav {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        .account-avatar {
+            width: 72px;
+            height: 72px;
+            background: var(--dark);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 auto 12px;
         }
-        .account-nav li {
-            margin-bottom: 10px;
-        }
+        .account-nav { list-style: none; padding: 0; margin: 0; }
+        .account-nav li { margin-bottom: 4px; }
         .account-nav a {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 12px 15px;
-            color: var(--text);
-            border-radius: 4px;
-            transition: 0.3s;
+            gap: 12px;
+            padding: 10px 14px;
+            color: var(--text-secondary);
+            border-radius: var(--r-md);
+            transition: background 0.2s, color 0.2s;
             font-weight: 500;
+            font-size: 14px;
         }
         .account-nav a:hover, .account-nav a.active {
-            background: var(--primary);
-            color: #fff;
+            background: var(--off-white);
+            color: var(--dark);
         }
-        .account-section {
-            display: none;
-        }
-        .account-section.active {
-            display: block;
-        }
+        .account-nav a.active { font-weight: 600; }
+        .account-section { display: none; }
+        .account-section.active { display: block; }
         .order-card {
-            border: 1px solid #e8e8e8;
-            border-radius: 8px;
+            border: var(--border-soft);
+            border-radius: var(--r-lg);
             padding: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+            background: var(--white);
         }
         .order-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: var(--border-subtle);
         }
         .status-badge {
             display: inline-block;
-            padding: 5px 12px;
-            border-radius: 50px;
-            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: var(--r-pill);
+            font-size: 12px;
             font-weight: 600;
         }
-        .status-delivered { background: #e8f5e9; color: #2e7d32; }
-        .status-processing { background: #fff3e0; color: #f57c00; }
+        .status-delivered { background: var(--gold-pale); color: var(--gold); }
+        .status-processing { background: var(--off-white); color: var(--text-secondary); }
     </style>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="theme-color" content="#ffffff">
 </head>
-<body>
-    </div>
+<body class="has-tab-bar">
 
-    <header class="header" id="header"><div class="container"><div class="header-inner">
-        <a href="index.html" class="logo"><i class="fas fa-clock"></i><span>Lux<strong>Watch</strong></span></a>
-        <nav class="nav" id="nav"><a href="index.html">Accueil</a><a href="shop.html">Boutique</a><div class="nav-dropdown"><a href="#">Collections <i class="fas fa-chevron-down"></i></a><div class="dropdown-menu"><a href="shop.html?cat=homme">Homme</a><a href="shop.html?cat=femme">Femme</a><a href="shop.html?cat=sport">Sport</a><a href="shop.html?cat=classique">Classique</a><a href="shop.html?cat=smart">Smart Watch</a></div></div><a href="about.html">À Propos</a><a href="contact.html">Contact</a></nav>
-        <div class="header-actions">
-            <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i></button>
-            <a href="account.html" class="user-btn"><i class="fas fa-user"></i></a>
-            <a href="wishlist.html" class="wishlist-btn"><i class="fas fa-heart"></i><span class="badge" id="wishlistCount">0</span></a>
-            <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-bag"></i><span class="badge" id="cartCount">0</span></a>
-            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-        </div>
-    </div></div></header>
+<div id="site-header"></div>
 
-    <div class="search-overlay" id="searchOverlay"><div class="search-overlay-content"><button class="search-close" id="searchClose"><i class="fas fa-times"></i></button><h3>Rechercher</h3><div class="search-input-wrap"><input type="text" placeholder="Rechercher une montre..." id="searchInput"><button><i class="fas fa-search"></i></button></div></div></div>
-
-    <div class="page-header">
-        <div class="container">
-            <h1>Mon Compte</h1>
-            <div class="breadcrumb"><a href="index.html">Accueil</a> <span>/</span> <span>Mon Compte</span></div>
-        </div>
-    </div>
-
+<div class="page-header">
     <div class="container">
-        <div class="account-layout">
-            <div class="account-sidebar">
-                <div style="text-align:center; padding: 20px 0; border-bottom: 1px solid #ddd; margin-bottom: 20px;">
-                    <div style="width: 80px; height: 80px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 10px;">
-                        YB
+        <h1>Mon Compte</h1>
+        <div class="breadcrumb">
+            <a href="index.html">Accueil</a><span>/</span><span>Mon Compte</span>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="account-layout">
+        <div class="account-sidebar">
+            <div style="text-align:center;padding-bottom:20px;border-bottom:var(--border-subtle);margin-bottom:16px;">
+                <div class="account-avatar">YB</div>
+                <strong style="display:block;font-size:15px;margin-bottom:4px;">Youssef Benali</strong>
+                <span style="color:var(--text-secondary);font-size:13px;">youssef@example.com</span>
+            </div>
+            <ul class="account-nav">
+                <li><a href="#" class="active" data-tab="dashboard"><i class="fas fa-home" aria-hidden="true"></i> Tableau de bord</a></li>
+                <li><a href="#" data-tab="orders"><i class="fas fa-box" aria-hidden="true"></i> Mes Commandes</a></li>
+                <li><a href="#" data-tab="addresses"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Mes Adresses</a></li>
+                <li><a href="#" data-tab="settings"><i class="fas fa-cog" aria-hidden="true"></i> Paramètres</a></li>
+                <li><a href="#" id="logoutBtn" style="color:var(--text-secondary);"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Déconnexion</a></li>
+            </ul>
+        </div>
+
+        <div class="account-content">
+            <!-- Dashboard -->
+            <div id="dashboard" class="account-section active">
+                <h2 style="margin-bottom:8px;">Bienvenue, Youssef !</h2>
+                <p style="color:var(--text-secondary);margin-bottom:28px;">Depuis votre tableau de bord, vous pouvez gérer vos commandes, adresses et paramètres.</p>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;">
+                    <div class="contact-card" style="cursor:pointer;text-align:center;" data-tab-trigger="orders">
+                        <div class="contact-card-icon"><i class="fas fa-box" aria-hidden="true"></i></div>
+                        <h4>Commandes</h4>
+                        <p>3 commandes totales</p>
                     </div>
-                    <h4>Youssef Benali</h4>
-                    <span style="color: #777; font-size: 0.9rem;">youssef@example.com</span>
+                    <div class="contact-card" style="cursor:pointer;text-align:center;" data-tab-trigger="addresses">
+                        <div class="contact-card-icon"><i class="fas fa-map-marker-alt" aria-hidden="true"></i></div>
+                        <h4>Adresses</h4>
+                        <p>2 adresses enregistrées</p>
+                    </div>
                 </div>
-                <ul class="account-nav">
-                    <li><a href="#" class="active" onclick="showTab('dashboard')"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
-                    <li><a href="#" onclick="showTab('orders')"><i class="fas fa-box"></i> Mes Commandes</a></li>
-                    <li><a href="#" onclick="showTab('addresses')"><i class="fas fa-map-marker-alt"></i> Mes Adresses</a></li>
-                    <li><a href="#" onclick="showTab('settings')"><i class="fas fa-cog"></i> Paramètres</a></li>
-                    <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-                </ul>
             </div>
 
-            <div class="account-content">
-                <!-- Dashboard -->
-                <div id="dashboard" class="account-section active">
-                    <h2>Bienvenue, Youssef !</h2>
-                    <p style="color:#777; margin-bottom: 30px;">Depuis votre tableau de bord, vous pouvez voir vos commandes récentes, gérer vos adresses de livraison et modifier votre mot de passe.</p>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                        <div class="contact-card" style="text-align: center; cursor: pointer;" onclick="showTab('orders')">
-                            <i class="fas fa-box" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 15px;"></i>
-                            <h4>Commandes</h4>
-                            <p>3 commandes totales</p>
+            <!-- Orders -->
+            <div id="orders" class="account-section">
+                <h2 style="margin-bottom:24px;">Historique des Commandes</h2>
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <span style="font-weight:600;font-size:14px;">Commande #LW-982341</span><br>
+                            <span style="font-size:13px;color:var(--text-secondary);">Passée le 28 Mai 2026</span>
                         </div>
-                        <div class="contact-card" style="text-align: center; cursor: pointer;" onclick="showTab('addresses')">
-                            <i class="fas fa-map-marker-alt" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 15px;"></i>
-                            <h4>Adresses</h4>
-                            <p>2 adresses enregistrées</p>
+                        <div style="text-align:right;">
+                            <span class="status-badge status-processing">En cours de traitement</span><br>
+                            <strong style="color:var(--dark);font-size:15px;margin-top:6px;display:inline-block;">3 499 MAD</strong>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:16px;">
+                        <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=100&q=80" alt="Montre" style="width:56px;height:56px;object-fit:cover;border-radius:var(--r-sm);">
+                        <div>
+                            <strong style="font-size:14px;">Royal Chronograph Gold</strong><br>
+                            <span style="font-size:13px;color:var(--text-secondary);">Quantité : 1</span>
                         </div>
                     </div>
                 </div>
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <span style="font-weight:600;font-size:14px;">Commande #LW-772189</span><br>
+                            <span style="font-size:13px;color:var(--text-secondary);">Passée le 15 Avril 2026</span>
+                        </div>
+                        <div style="text-align:right;">
+                            <span class="status-badge status-delivered">Livrée</span><br>
+                            <strong style="color:var(--gold);font-size:15px;margin-top:6px;display:inline-block;">1 899 MAD</strong>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:16px;">
+                        <img src="https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?w=100&q=80" alt="Montre" style="width:56px;height:56px;object-fit:cover;border-radius:var(--r-sm);">
+                        <div>
+                            <strong style="font-size:14px;">Elegance Silver Moon</strong><br>
+                            <span style="font-size:13px;color:var(--text-secondary);">Quantité : 1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                <!-- Orders -->
-                <div id="orders" class="account-section">
-                    <h2>Historique des Commandes</h2>
+            <!-- Addresses -->
+            <div id="addresses" class="account-section">
+                <h2 style="margin-bottom:24px;">Mes Adresses</h2>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
                     <div class="order-card">
-                        <div class="order-header">
-                            <div>
-                                <span style="font-weight: 600;">Commande #LW-982341</span><br>
-                                <span style="font-size: 0.85rem; color: #777;">Passée le 28 Mai 2026</span>
-                            </div>
-                            <div style="text-align: right;">
-                                <span class="status-badge status-processing">En cours de traitement</span><br>
-                                <strong style="color: var(--primary); margin-top: 5px; display: inline-block;">3,499 MAD</strong>
-                            </div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=100&q=80" alt="Montre" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
-                            <div>
-                                <strong>Royal Chronograph Gold</strong><br>
-                                <span style="font-size: 0.9rem; color: #777;">Quantité: 1</span>
-                            </div>
-                        </div>
+                        <h4 style="margin-bottom:10px;">Domicile <span style="font-size:11px;color:var(--gold);font-weight:500;">(Par défaut)</span></h4>
+                        <p style="color:var(--text-secondary);line-height:1.7;font-size:14px;margin-bottom:16px;">
+                            Youssef Benali<br>
+                            Résidence Les Roses, Appt 12, Maarif<br>
+                            20000 Casablanca, Maroc<br>
+                            +212 6 12 34 56 78
+                        </p>
+                        <button type="button" class="btn btn-ghost" style="padding:8px 18px;font-size:13px;" onclick="showToast('Modification disponible prochainement.')">Modifier</button>
                     </div>
-
-                    <div class="order-card">
-                        <div class="order-header">
-                            <div>
-                                <span style="font-weight: 600;">Commande #LW-772189</span><br>
-                                <span style="font-size: 0.85rem; color: #777;">Passée le 15 Avril 2026</span>
-                            </div>
-                            <div style="text-align: right;">
-                                <span class="status-badge status-delivered">Livrée</span><br>
-                                <strong style="color: var(--primary); margin-top: 5px; display: inline-block;">1,899 MAD</strong>
-                            </div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <img src="https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?w=100&q=80" alt="Montre" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
-                            <div>
-                                <strong>Elegance Silver Moon</strong><br>
-                                <span style="font-size: 0.9rem; color: #777;">Quantité: 1</span>
-                            </div>
-                        </div>
+                    <div class="order-card" style="border-style:dashed;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;cursor:pointer;color:var(--text-secondary);min-height:160px;" onclick="showToast('Fonctionnalité disponible prochainement.')">
+                        <i class="fas fa-plus-circle" style="font-size:1.5rem;" aria-hidden="true"></i>
+                        <span style="font-size:14px;font-weight:500;">Ajouter une adresse</span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Addresses -->
-                <div id="addresses" class="account-section">
-                    <h2>Mes Adresses</h2>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                        <div class="order-card">
-                            <h4>Domicile (Par défaut)</h4>
-                            <p style="color: #777; line-height: 1.6; margin: 10px 0;">
-                                Youssef Benali<br>
-                                Résidence Les Roses, Appt 12, Maarif<br>
-                                20000 Casablanca<br>
-                                Maroc<br>
-                                +212 6 12 34 56 78
-                            </p>
-                            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                                <button class="btn btn-outline" style="padding: 5px 15px; font-size: 0.9rem;">Modifier</button>
-                            </div>
-                        </div>
-                        <div class="order-card" style="border-style: dashed; display: flex; align-items: center; justify-content: center; flex-direction: column; cursor: pointer; color: #777;">
-                            <i class="fas fa-plus-circle" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                            <span>Ajouter une adresse</span>
-                        </div>
+            <!-- Settings -->
+            <div id="settings" class="account-section">
+                <h2 style="margin-bottom:24px;">Paramètres du Compte</h2>
+                <form style="max-width:480px;" onsubmit="return false;">
+                    <div class="form-row">
+                        <div class="form-group"><label>Prénom</label><input type="text" value="Youssef" autocomplete="given-name"></div>
+                        <div class="form-group"><label>Nom</label><input type="text" value="Benali" autocomplete="family-name"></div>
                     </div>
-                </div>
+                    <div class="form-group"><label>Email</label><input type="email" value="youssef@example.com" autocomplete="email"></div>
+                    <div class="form-group"><label>Téléphone</label><input type="tel" value="+212 6 12 34 56 78" autocomplete="tel"></div>
+                    <button type="button" class="btn btn-primary" onclick="showToast('Modifications enregistrées !')">Enregistrer les modifications</button>
+                </form>
 
-                <!-- Settings -->
-                <div id="settings" class="account-section">
-                    <h2>Paramètres du Compte</h2>
-                    <form style="max-width: 500px; margin-top: 20px;">
-                        <div class="form-row">
-                            <div class="form-group"><label>Prénom</label><input type="text" value="Youssef"></div>
-                            <div class="form-group"><label>Nom</label><input type="text" value="Benali"></div>
-                        </div>
-                        <div class="form-group"><label>Email</label><input type="email" value="youssef@example.com"></div>
-                        <div class="form-group"><label>Téléphone</label><input type="tel" value="+212 6 12 34 56 78"></div>
-                        <button type="button" class="btn btn-primary" onclick="showToast('Modifications enregistrées !')">Enregistrer les modifications</button>
-                    </form>
-                    
-                    <h3 style="margin-top: 40px; margin-bottom: 20px;">Modifier le mot de passe</h3>
-                    <form style="max-width: 500px;">
-                        <div class="form-group"><label>Mot de passe actuel</label><input type="password"></div>
-                        <div class="form-group"><label>Nouveau mot de passe</label><input type="password"></div>
-                        <button type="button" class="btn btn-dark" onclick="showToast('Mot de passe mis à jour !')">Mettre à jour le mot de passe</button>
-                    </form>
-                </div>
+                <h3 style="margin-top:40px;margin-bottom:20px;">Modifier le mot de passe</h3>
+                <form style="max-width:480px;" onsubmit="return false;">
+                    <div class="form-group"><label>Mot de passe actuel</label><input type="password" autocomplete="current-password"></div>
+                    <div class="form-group"><label>Nouveau mot de passe</label><input type="password" autocomplete="new-password"></div>
+                    <button type="button" class="btn btn-primary" onclick="showToast('Mot de passe mis à jour !')">Mettre à jour le mot de passe</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-col"><a href="index.html" class="footer-logo"><i class="fas fa-clock"></i><span>Lux<strong>Watch</strong></span></a><p>Votre destination pour les montres de luxe au Maroc.</p></div><div class="footer-col"><h4>Liens</h4><a href="index.html">Accueil</a><a href="shop.html">Boutique</a><a href="about.html">À Propos</a><a href="contact.html">Contact</a></div><div class="footer-col"><h4>Collections</h4><a href="shop.html?cat=homme">Homme</a><a href="shop.html?cat=femme">Femme</a><a href="shop.html?cat=sport">Sport</a></div><div class="footer-col"><h4>Contact</h4><div class="footer-contact"><p><i class="fas fa-map-marker-alt"></i> Casablanca, Maroc</p></div></div></div><div class="footer-bottom"><div class="footer-bottom-inner"><p>&copy; 2026 LuxWatch Maroc.</p></div></div></div></footer>
+<div id="site-footer"></div>
+<div id="site-ui"></div>
 
-    <a href="https://wa.me/212600000000" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
-    <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMessage"></span></div>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js"></script>
+<script src="js/luxury-ui.js"></script>
+<script src="js/app.js"></script>
+<script>
+    function showTab(tabId) {
+        document.querySelectorAll('.account-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.account-nav a').forEach(a => a.classList.remove('active'));
+        const section = document.getElementById(tabId);
+        if (section) section.classList.add('active');
+        const navLink = document.querySelector(`.account-nav a[data-tab="${tabId}"]`);
+        if (navLink) navLink.classList.add('active');
+    }
 
-    <script src="js/products.js"></script>
-    <script src="js/cart.js"></script>
-    <script src="js/app.js"></script>
-    <script>
-        // Tab switching logic
-        function showTab(tabId) {
-            document.querySelectorAll('.account-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.querySelectorAll('.account-nav a').forEach(nav => {
-                nav.classList.remove('active');
-            });
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
+    document.querySelectorAll('.account-nav a[data-tab]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            showTab(this.dataset.tab);
+        });
+    });
 
-        // Simulate logout
-        function logout() {
-            localStorage.removeItem('userLoggedIn');
+    document.querySelectorAll('[data-tab-trigger]').forEach(el => {
+        el.addEventListener('click', function() { showTab(this.dataset.tabTrigger); });
+    });
+
+    document.getElementById('logoutBtn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('userLoggedIn');
+        window.location.href = 'login.html';
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!localStorage.getItem('userLoggedIn')) {
             window.location.href = 'login.html';
         }
-
-        // Redirect to login if not authenticated (simulate)
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!localStorage.getItem('userLoggedIn')) {
-                window.location.href = 'login.html';
-            }
-        });
-    </script>
-    
+    });
+</script>
 </body>
 </html>

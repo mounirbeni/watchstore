@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#F8F8F6">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>FAQ — LuxWatch Maroc</title>
     <link rel="stylesheet" href="css/design-system.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/premium.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></head>
-<body>
+<body class="has-tab-bar">
 
 <div id="site-header"></div>
 
@@ -22,11 +25,12 @@
 
 <div class="container">
     <div class="faq-container">
-        <div class="section-header">
-            <span class="section-tag">FAQ</span>
-            <h2>Comment pouvons-nous vous aider ?</h2>
-        </div>
+        <header class="section-header center" style="text-align:left;align-items:flex-start;">
+            <span class="section-eyebrow">FAQ</span>
+            <h2 class="section-title">Comment pouvons-nous vous aider ?</h2>
+        </header>
 
+        <div class="faq-items">
         <div class="faq-item active">
             <div class="faq-question">Comment passer une commande ?<i class="fas fa-chevron-down"></i></div>
             <div class="faq-answer"><p>Choisissez la montre souhaitée, ajoutez-la au panier, puis suivez les étapes de commande. Renseignez vos coordonnées et votre adresse. Vous recevrez un message de confirmation.</p></div>
@@ -66,6 +70,7 @@
         <div class="faq-item">
             <div class="faq-question">Puis-je modifier ou annuler ma commande ?<i class="fas fa-chevron-down"></i></div>
             <div class="faq-answer"><p>Contactez-nous via WhatsApp le plus rapidement possible. Nous pouvons modifier ou annuler votre commande avant l'expédition.</p></div>
+        </div>
         </div>
     </div>
 </div>
