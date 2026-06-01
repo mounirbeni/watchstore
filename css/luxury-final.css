@@ -2679,30 +2679,36 @@ input[type="radio"] { accent-color: var(--gold); }
 
 .quick-view-buttons .btn { width: 100%; justify-content: center; }
 
-/* ─── 25. TAB BAR ────────────────────────────────────────────────── */
+/* ─── 25. TAB BAR — native iOS style ────────────────────────────── */
 .tab-bar {
   display: none;
   position: fixed;
-  left: 12px !important;
-  right: 12px !important;
-  bottom: max(10px, env(safe-area-inset-bottom, 0px));
-  height: 72px !important;
-  border-radius: var(--r-2xl) !important;
-  background: rgba(255,255,255,0.88);
-  backdrop-filter: saturate(180%) blur(28px);
-  -webkit-backdrop-filter: saturate(180%) blur(28px);
-  border: 1px solid var(--hairline);
-  box-shadow: 0 16px 56px rgba(26,26,26,0.16);
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0;
+  width: 100% !important;
+  max-width: 100% !important;
+  border-radius: 0 !important;
+  background: rgba(250,250,250,0.94);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-top: 0.5px solid rgba(60,60,67,0.16);
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
   z-index: 950;
-  overflow: hidden;
+  padding: 0 !important;
+  padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+  overflow: visible;
 }
 
 .tab-bar-inner {
   display: grid !important;
-  grid-template-columns: repeat(5, 1fr);
-  height: 100%;
-  padding: 6px !important;
-  gap: 4px !important;
+  grid-template-columns: repeat(5, 1fr) !important;
+  height: 49px !important;
+  padding: 0 !important;
+  gap: 0 !important;
   align-items: stretch;
 }
 
@@ -2712,53 +2718,57 @@ input[type="radio"] { accent-color: var(--gold); }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 2px;
   width: 100% !important;
+  min-width: 0 !important;
   height: 100% !important;
-  border-radius: 20px !important;
-  color: rgba(26,26,26,0.48);
+  border-radius: 0 !important;
+  color: rgba(60,60,67,0.55);
   text-decoration: none;
-  font-size: 9px;
-  font-weight: 500;
-  transition: background var(--t-fast), color var(--t-fast);
-  background: transparent;
+  font-size: 10px;
+  font-weight: 400;
+  transition: color 0.12s ease, opacity 0.1s ease;
+  background: transparent !important;
   border: none;
   cursor: pointer;
   position: relative;
-  padding: 5px 2px 4px;
+  padding: 4px 4px 2px !important;
   overflow: visible;
+  flex: 1;
 }
 
-.tab-item:active { transform: scale(0.94); }
+.tab-item:active { opacity: 0.55; }
 
 .tab-item i {
-  font-size: 19px !important;
+  font-size: 22px !important;
   line-height: 1;
-  width: 22px;
-  height: 22px;
+  width: 26px !important;
+  height: 26px !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .tab-item > span:not(.tab-badge) {
-  font-size: 8.5px !important;
-  font-weight: 500;
+  font-size: 10px !important;
+  font-weight: 400;
   letter-spacing: 0 !important;
   white-space: nowrap;
   display: block !important;
+  line-height: 1;
 }
 
 .tab-item.active {
-  background: var(--ink) !important;
-  color: #fff !important;
+  background: transparent !important;
+  color: var(--gold) !important;
 }
 
 .tab-item.active i { color: var(--gold) !important; }
 
 .tab-item.active > span:not(.tab-badge) {
-  color: #fff !important;
-  font-weight: 600;
+  color: var(--gold) !important;
+  font-weight: 500;
 }
 
 .tab-badge {
@@ -3086,7 +3096,7 @@ input[type="radio"] { accent-color: var(--gold); }
   html { scroll-padding-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + 14px); }
 
   body.app-shell.has-tab-bar {
-    padding-bottom: calc(94px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: calc(49px + env(safe-area-inset-bottom, 0px) + 12px) !important;
   }
 
   body.app-shell {
@@ -3096,7 +3106,7 @@ input[type="radio"] { accent-color: var(--gold); }
   .tab-bar { display: block !important; }
   .footer { display: none !important; }
   .whatsapp-float { display: none !important; }
-  .back-to-top { bottom: calc(96px + env(safe-area-inset-bottom, 0px)) !important; }
+  .back-to-top { bottom: calc(49px + env(safe-area-inset-bottom, 0px) + 14px) !important; }
 
   /* Header */
   .header {
@@ -3130,7 +3140,7 @@ input[type="radio"] { accent-color: var(--gold); }
     position: fixed;
     left: 12px !important;
     right: 12px !important;
-    bottom: calc(92px + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: calc(49px + env(safe-area-inset-bottom, 0px) + 10px) !important;
     top: auto !important;
     width: auto !important;
     max-height: min(620px, 72dvh);
@@ -3371,7 +3381,7 @@ input[type="radio"] { accent-color: var(--gold); }
   .checkout-progress__step:not(:last-child)::after { display: none; }
   .checkout-progress__dot { width: 30px; height: 30px; font-size: 11px; }
   .checkout-progress__label { font-size: 8px; }
-  .checkout-actions { bottom: calc(82px + env(safe-area-inset-bottom, 0px)); border-radius: var(--r-2xl); }
+  .checkout-actions { bottom: calc(49px + env(safe-area-inset-bottom, 0px) + 10px); border-radius: var(--r-xl); }
   .order-summary-card { position: static !important; }
 
   /* Product detail */
@@ -3385,7 +3395,7 @@ input[type="radio"] { accent-color: var(--gold); }
   .product-sticky-bar {
     left: 10px;
     right: 10px;
-    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(49px + env(safe-area-inset-bottom, 0px) + 10px);
     border-radius: var(--r-xl);
     box-shadow: 0 16px 52px rgba(26,26,26,0.14);
     border: 1px solid var(--hairline);
@@ -3478,4 +3488,235 @@ input[type="radio"] { accent-color: var(--gold); }
   .cart-layout { grid-template-columns: 1fr 300px; }
   .checkout-layout { grid-template-columns: 1fr 300px; }
   .watch-gallery-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ─── 40. TAB BAR — final override (must come last) ──────────────
+   Neutralises any !important rules from earlier stylesheets
+   (ux-fixes.css hardening block) so the native-style bar wins.
+   ──────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .tab-bar {
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-top: 0.5px solid rgba(60,60,67,0.16) !important;
+    background: rgba(250,250,250,0.94) !important;
+    overflow: visible !important;
+  }
+
+  .tab-bar-inner {
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    height: 49px !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    align-items: stretch !important;
+  }
+
+  .tab-item,
+  .tab-search-trigger {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    padding: 4px 4px 2px !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: rgba(60,60,67,0.55) !important;
+    gap: 2px;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tab-item i {
+    font-size: 22px !important;
+    width: 26px !important;
+    height: 26px !important;
+    color: inherit !important;
+  }
+
+  .tab-item > span:not(.tab-badge) {
+    font-size: 10px !important;
+    display: block !important;
+    font-weight: 400 !important;
+    overflow: visible !important;
+  }
+
+  .tab-item.active,
+  .tab-item.active:hover {
+    background: transparent !important;
+    color: var(--gold) !important;
+    min-width: 0 !important;
+  }
+
+  .tab-item.active i { color: var(--gold) !important; }
+  .tab-item.active > span:not(.tab-badge) {
+    color: var(--gold) !important;
+    font-weight: 500 !important;
+  }
+
+  /* Badge position adjustment for native bar */
+  .tab-item .tab-badge {
+    position: absolute;
+    top: 4px;
+    left: calc(50% + 8px);
+    margin-left: 0;
+  }
+
+  /* Hide menu-toggle on mobile (nav opened via tab bar actions) */
+  .menu-toggle { display: flex !important; }
+
+  /* Shop sticky toolbar — clean top anchor */
+  .shop-toolbar,
+  .products-toolbar {
+    position: sticky;
+    top: calc(58px + env(safe-area-inset-top, 0px));
+    z-index: 20;
+    background: rgba(248,248,246,0.9) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    border-bottom: 1px solid rgba(26,26,26,0.07) !important;
+    box-shadow: none !important;
+    margin-left: -14px;
+    margin-right: -14px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  /* Newsletter form — never overflow on mobile */
+  .newsletter-form {
+    flex-direction: column !important;
+    max-width: 100% !important;
+  }
+
+  .newsletter-form input,
+  .newsletter-form .btn {
+    width: 100% !important;
+    min-height: 50px;
+    border-radius: 14px !important;
+  }
+
+  /* Prevent any horizontal overflow */
+  .categories-grid,
+  .products-grid,
+  .brands-grid,
+  .testimonials-grid,
+  .watch-gallery-grid {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  /* Fix toast position above tab bar */
+  .toast {
+    bottom: calc(49px + env(safe-area-inset-bottom, 0px) + 12px) !important;
+    left: 16px !important;
+    right: 16px !important;
+    transform: translateY(8px) !important;
+    width: auto !important;
+  }
+
+  .toast.show { transform: translateY(0) !important; }
+}
+
+/* ─── 41. BORDER RADIUS CALIBRATION ──────────────────────────────
+   Consistent, professional values per component type.
+   ──────────────────────────────────────────────────────────────── */
+
+/* Inputs: 14px — rounded but not pill-like */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+select,
+textarea {
+  border-radius: 14px !important;
+}
+
+/* Small interactive controls */
+.cart-qty-btn,
+.qty-input,
+.search-close,
+.modal-close,
+.filter-option { border-radius: 10px !important; }
+
+/* Buttons: 14px standard */
+.btn { border-radius: 14px !important; }
+.btn-sm { border-radius: 12px !important; }
+
+/* Tab/segment buttons inside pill containers */
+.tab-btn,
+.product-tab-btn,
+.segment-btn { border-radius: 10px !important; }
+
+/* Product cards */
+.product-card { border-radius: 22px !important; }
+.product-image { border-radius: 0 !important; }
+
+/* Image containers */
+.product-hero-gallery .main-image,
+.quick-view-image,
+.category-card,
+.gallery-item { border-radius: 20px !important; }
+
+.cart-product img,
+.order-item img,
+.author-avatar { border-radius: 12px !important; }
+
+/* Product card thumbnails */
+.product-hero-gallery .thumb-images img { border-radius: 10px !important; }
+
+/* Sections / cards */
+.product-hero-gallery { border-radius: 28px !important; }
+.cart-table,
+.cart-summary,
+.order-summary-card,
+.checkout-section,
+.checkout-progress,
+.shop-sidebar,
+.auth-card,
+.tracking-card,
+.faq-items,
+.brands-panel,
+.lux-state,
+.empty-state { border-radius: 22px !important; }
+
+/* Large section panels */
+.promo-banner,
+.newsletter,
+.modal-content,
+.shop-sidebar.show-mobile { border-radius: 28px !important; }
+
+/* Sheet modals: rounded top only */
+.modal-content,
+.search-overlay-content,
+.shop-sidebar.show-mobile {
+  border-radius: 28px 28px 0 0 !important;
+}
+
+@media (min-width: 769px) {
+  .modal.active .modal-content { border-radius: 24px !important; }
+  .search-overlay-content { border-radius: 24px !important; }
+}
+
+/* Hero bottom corners */
+.hero { border-radius: 0 0 36px 36px !important; }
+
+@media (max-width: 768px) {
+  .hero { border-radius: 28px !important; }
+  .features-grid { border-radius: 22px !important; }
+  .product-card { border-radius: 20px !important; }
+  .newsletter { border-radius: 24px !important; }
+  .promo-banner { border-radius: 24px !important; }
+  .footer { border-radius: 28px 28px 0 0 !important; }
 }
