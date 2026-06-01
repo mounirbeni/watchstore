@@ -220,8 +220,10 @@
     /* ── Show iOS tab bar ── */
     .tab-bar { display: flex !important; }
 
-    /* ── Body: leave room for tab bar ── */
-    body { padding-bottom: var(--tab-bar-h); }
+    /* ── Body: leave room for tab bar + safe area ── */
+    body.app-shell.has-tab-bar {
+        padding-bottom: calc(var(--tab-bar-h) + var(--safe-bottom, 0px));
+    }
 
     /* ── Hide top announcement bar ── */
     .top-bar { display: none; }
@@ -232,8 +234,9 @@
 
     /* ── iOS-style sticky header (shorter, cleaner) ── */
     .header {
-        height: 52px;
-        background: rgba(255,255,255,0.88);
+        height: calc(52px + var(--safe-top, 0px));
+        padding-top: var(--safe-top, 0px);
+        background: rgba(255,255,255,0.92);
         backdrop-filter: saturate(180%) blur(20px);
         -webkit-backdrop-filter: saturate(180%) blur(20px);
     }
@@ -412,8 +415,10 @@
     /* ── Show iOS tab bar ── */
     .tab-bar { display: flex !important; }
 
-    /* ── Body: leave room for tab bar ── */
-    body { padding-bottom: var(--tab-bar-h); }
+    /* ── Body: leave room for tab bar + safe area ── */
+    body.app-shell.has-tab-bar {
+        padding-bottom: calc(var(--tab-bar-h) + var(--safe-bottom, 0px));
+    }
 
     /* ── Hide top announcement bar ── */
     .top-bar { display: none; }
@@ -423,8 +428,9 @@
 
     /* ── iOS-style sticky header (shorter, cleaner) ── */
     .header {
-        height: 52px;
-        background: rgba(255,255,255,0.88);
+        height: calc(52px + var(--safe-top, 0px));
+        padding-top: var(--safe-top, 0px);
+        background: rgba(255,255,255,0.92);
         backdrop-filter: saturate(180%) blur(20px);
         -webkit-backdrop-filter: saturate(180%) blur(20px);
     }

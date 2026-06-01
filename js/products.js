@@ -598,8 +598,8 @@ function createProductCard(product) {
                 </div>
             </div>
             <div class="product-footer">
-                <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
-                    <i class="fas fa-shopping-bag"></i> Ajouter au panier
+                <button class="add-to-cart-btn" onclick="addToCart(${product.id});window.location.href='checkout.html'">
+                    <i class="fas fa-gem"></i> Réserver
                 </button>
             </div>
         </div>

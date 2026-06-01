@@ -182,7 +182,7 @@
 
     // ── quick-view modal + toast (shared UI) ────────────────────────────
     const sharedUI = `
-    <div class="modal" id="quickViewModal" role="dialog" aria-modal="true">
+    <div class="modal sheet-modal" id="quickViewModal" role="dialog" aria-modal="true">
         <div class="modal-content">
             <button class="modal-close" id="modalClose" aria-label="Fermer"><i class="fas fa-times"></i></button>
             <div class="quick-view-body" id="quickViewBody"></div>

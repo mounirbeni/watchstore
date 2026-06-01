@@ -2,12 +2,14 @@
 <html lang="fr" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#F8F8F6">
     <title>Détail Produit — LuxWatch Maroc</title>
+    <link rel="stylesheet" href="css/design-system.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/premium.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -15,7 +17,7 @@
 
 <div class="page-header" id="pageHeader">
     <div class="container">
-        <h1 id="productTitle">Détail du Produit</h1>
+        <h1 id="productTitle">Collection</h1>
         <div class="breadcrumb">
             <a href="index.html">Accueil</a><span>/</span>
             <a href="shop.html">Boutique</a><span>/</span>
@@ -24,54 +26,54 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container product-luxury">
     <div class="product-detail">
-        <div class="product-detail-grid" id="productDetail">
-            <!-- Populated by JS -->
-        </div>
+        <div class="product-detail-grid" id="productDetail"></div>
 
         <div class="product-tabs">
             <div class="product-tabs-nav">
-                <button class="product-tab-btn active" data-tab="tabDescription">Description</button>
-                <button class="product-tab-btn" data-tab="tabSpecs">Caractéristiques</button>
-                <button class="product-tab-btn" data-tab="tabShipping">Livraison</button>
-                <button class="product-tab-btn" data-tab="tabReviews">Avis clients</button>
+                <button type="button" class="product-tab-btn active" data-tab="tabDescription">Histoire</button>
+                <button type="button" class="product-tab-btn" data-tab="tabSpecs">Spécifications</button>
+                <button type="button" class="product-tab-btn" data-tab="tabShipping">Livraison</button>
+                <button type="button" class="product-tab-btn" data-tab="tabReviews">Avis</button>
             </div>
             <div class="product-tab-content active" id="tabDescription"></div>
             <div class="product-tab-content" id="tabSpecs"></div>
             <div class="product-tab-content" id="tabShipping">
-                <p><strong>Livraison standard (24–48h) :</strong> Gratuite pour les commandes &gt; 500 MAD. 30 MAD pour les commandes inférieures.</p>
-                <p><strong>Livraison express (même jour) :</strong> Disponible à Casablanca, Rabat et Marrakech pour 50 MAD.</p>
-                <p><strong>Paiement à la livraison :</strong> Payez en espèces à la réception. Aucun frais supplémentaire.</p>
-                <p><strong>Retour gratuit :</strong> Retournez le produit sous 14 jours pour un remboursement complet.</p>
-                <p>Chaque montre est livrée dans un écrin de luxe avec certificat d'authenticité et garantie 2 ans.</p>
+                <p><strong>Livraison standard (24–48h) :</strong> Gratuite pour les commandes supérieures à 500 MAD.</p>
+                <p><strong>Livraison express :</strong> Disponible à Casablanca, Rabat et Marrakech.</p>
+                <p><strong>Paiement à la livraison :</strong> Réglez en toute sérénité à la réception.</p>
+                <p><strong>Retour 14 jours :</strong> Satisfait ou remboursé, sans complication.</p>
+                <p class="text-muted">Écrin signature, certificat d'authenticité et garantie 2 ans inclus.</p>
             </div>
             <div class="product-tab-content" id="tabReviews">
                 <div class="testimonials-grid" style="margin-top:8px;">
                     <div class="testimonial-card">
                         <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                        <p>"Excellente montre, la qualité est au rendez-vous ! Livraison rapide à Casablanca."</p>
-                        <div class="testimonial-author"><div class="author-avatar">AH</div><div><strong>Ahmed H.</strong><span>Casablanca — Achat vérifié</span></div></div>
+                        <p>« Une pièce d'exception. La finition est remarquable. »</p>
+                        <div class="testimonial-author"><div class="author-avatar">AH</div><div><strong>Ahmed H.</strong><span>Casablanca</span></div></div>
                     </div>
                     <div class="testimonial-card">
                         <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
-                        <p>"Très belle montre, conforme à la description. L'emballage était soigné. Paiement à la livraison très pratique."</p>
-                        <div class="testimonial-author"><div class="author-avatar">SL</div><div><strong>Sara L.</strong><span>Rabat — Achat vérifié</span></div></div>
+                        <p>« Service concierge impeccable, livraison soignée. »</p>
+                        <div class="testimonial-author"><div class="author-avatar">SL</div><div><strong>Sara L.</strong><span>Rabat</span></div></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Related -->
-        <div style="margin-top:60px;">
-            <div class="section-header">
-                <span class="section-tag">Vous aimerez aussi</span>
-                <h2>Produits Similaires</h2>
-            </div>
+        <section class="related-luxury">
+            <header class="featured-head">
+                <span class="section-tag">Sélection</span>
+                <h2>Vous aimerez aussi</h2>
+                <p class="featured-head__desc">D'autres montres choisies pour vous</p>
+            </header>
             <div class="products-grid" id="relatedProducts"></div>
-        </div>
+        </section>
     </div>
 </div>
+
+<div class="product-sticky-bar" id="productStickyBar" aria-hidden="true"></div>
 
 <div id="site-footer"></div>
 <div id="site-ui"></div>
@@ -79,106 +81,8 @@
 <script src="js/products.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/components.js"></script>
+<script src="js/luxury-ui.js"></script>
 <script src="js/app.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const hash    = window.location.hash.substring(1);
-    const params  = new URLSearchParams(hash);
-    const id      = parseInt(params.get('id'));
-    const product = PRODUCTS.find(p => p.id === id);
-
-    if (!product) {
-        document.getElementById('productDetail').innerHTML = `
-            <div class="empty-state" style="grid-column:span 2">
-                <i class="fas fa-exclamation-triangle"></i>
-                <h3>Produit introuvable</h3>
-                <p>Ce produit n'existe pas ou a été retiré du catalogue.</p>
-                <a href="shop.html" class="btn btn-primary">Retour à la boutique</a>
-            </div>`;
-        return;
-    }
-
-    document.title = product.name + ' — LuxWatch Maroc';
-    document.getElementById('productTitle').textContent = product.name;
-    document.getElementById('breadcrumbName').textContent = product.name;
-
-    const inWishlist = getWishlist().includes(product.id);
-    const discount   = product.oldPrice
-        ? Math.round((1 - product.price / product.oldPrice) * 100)
-        : null;
-
-    document.getElementById('productDetail').innerHTML = `
-        <div class="product-gallery-sticky">
-            <div class="main-image">
-                <img src="${product.images[0]}" alt="${product.name}" id="mainImg">
-            </div>
-            <div class="thumb-images">
-                ${product.images.map((img, i) => `
-                    <img src="${img}" alt="${product.name}" class="${i === 0 ? 'active' : ''}"
-                         onclick="document.getElementById('mainImg').src='${img}';
-                                  document.querySelectorAll('.thumb-images img').forEach(t=>t.classList.remove('active'));
-                                  this.classList.add('active');">
-                `).join('')}
-            </div>
-        </div>
-        <div class="product-detail-info">
-            <span class="product-brand" style="font-size:0.75rem;display:block;margin-bottom:6px;">${product.brand}</span>
-            <h1>${product.name}</h1>
-            <div class="product-rating" style="margin:10px 0;">
-                ${getStarsHTML(product.rating)}
-                <span style="margin-left:6px;font-size:0.82rem;color:var(--text-muted);">(${product.reviews} avis)</span>
-            </div>
-            <div class="product-price" style="margin:16px 0; align-items:center;">
-                <span class="current-price" style="font-size:1.7rem;">${formatPrice(product.price)}</span>
-                ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
-                ${discount ? `<span class="discount-pct">-${discount}%</span>` : ''}
-            </div>
-            <p style="color:var(--text-muted);line-height:1.8;margin-bottom:16px;font-size:0.9rem;">${product.description}</p>
-            <div class="product-meta-list">
-                ${Object.entries(product.specs).map(([k,v]) => `
-                    <div class="product-meta-row">
-                        <strong>${k.charAt(0).toUpperCase()+k.slice(1)}</strong>
-                        <span>${v}</span>
-                    </div>`).join('')}
-            </div>
-            <div class="stock-badge"><i class="fas fa-circle"></i> En stock — Livraison 24–48h</div>
-            <div class="quantity-selector">
-                <span class="qty-label">Quantité :</span>
-                <button class="qty-btn" onclick="let i=document.getElementById('detailQty');i.value=Math.max(1,parseInt(i.value)-1)">−</button>
-                <input type="number" class="qty-input" value="1" min="1" id="detailQty">
-                <button class="qty-btn" onclick="let i=document.getElementById('detailQty');i.value=parseInt(i.value)+1">+</button>
-            </div>
-            <div class="detail-actions">
-                <button class="btn btn-primary btn-lg" onclick="addToCart(${product.id},parseInt(document.getElementById('detailQty').value))">
-                    <i class="fas fa-shopping-bag"></i> Ajouter au panier
-                </button>
-                <button class="btn ${inWishlist ? 'btn-primary' : 'btn-outline-gold'}" id="wishlistBtn"
-                    onclick="toggleWishlist(${product.id});this.className=getWishlist().includes(${product.id})?'btn btn-primary':'btn btn-outline-gold'">
-                    <i class="fas fa-heart"></i> ${inWishlist ? 'Dans les favoris' : 'Favoris'}
-                </button>
-            </div>
-            <div class="detail-trust">
-                <div class="trust-item"><i class="fas fa-truck"></i> Livraison 24–48h</div>
-                <div class="trust-item"><i class="fas fa-shield-alt"></i> Garantie 2 ans</div>
-                <div class="trust-item"><i class="fas fa-undo"></i> Retour 14 jours</div>
-                <div class="trust-item"><i class="fas fa-money-bill-wave"></i> Paiement à la livraison</div>
-            </div>
-        </div>`;
-
-    document.getElementById('tabDescription').innerHTML = `
-        <p>${product.description}</p>
-        <p>Chaque montre LuxWatch est livrée dans un écrin de luxe avec certificat d'authenticité, garantie internationale de 2 ans et notice d'utilisation.</p>`;
-
-    document.getElementById('tabSpecs').innerHTML = `
-        <table class="specs-table">
-            ${Object.entries(product.specs).map(([k,v]) =>
-                `<tr><td>${k.charAt(0).toUpperCase()+k.slice(1)}</td><td>${v}</td></tr>`
-            ).join('')}
-        </table>`;
-
-    const related = PRODUCTS.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
-    document.getElementById('relatedProducts').innerHTML = related.map(p => createProductCard(p)).join('');
-});
-</script>
+<script src="js/product-detail.js"></script>
 </body>
 </html>
