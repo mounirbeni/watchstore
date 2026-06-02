@@ -112,8 +112,7 @@ export default function HeroCarousel() {
 
   return (
     <section
-      className="relative w-full overflow-hidden"
-      style={{ height: "calc(100svh + 4rem)", maxHeight: "calc(100svh + 4rem)" }}
+      className="relative w-full overflow-hidden aspect-square"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={onTouchStart}
@@ -151,9 +150,9 @@ export default function HeroCarousel() {
         <span className="text-white/50 text-xs">{SLIDES.length}</span>
       </div>
 
-      {/* Content — sits at bottom on mobile, centered on desktop */}
-      <div className="absolute inset-0 z-20 flex flex-col justify-end sm:justify-center">
-        <div className="w-full max-w-7xl mx-auto px-5 sm:px-10 pb-28 sm:pb-16">
+      {/* Content — sits at bottom of the square */}
+      <div className="absolute inset-0 z-20 flex flex-col justify-end">
+        <div className="w-full max-w-7xl mx-auto px-5 sm:px-10 pb-14 sm:pb-12">
           {SLIDES.map((slide, i) => (
             <div
               key={slide.image}
@@ -221,8 +220,8 @@ export default function HeroCarousel() {
         <ChevronRight className="h-5 w-5" />
       </button>
 
-      {/* Dots — above buttons on mobile */}
-      <div className="absolute bottom-[7.5rem] sm:bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2">
+      {/* Dots */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2">
         {SLIDES.map((slide, i) => (
           <button
             key={slide.image}
@@ -237,12 +236,6 @@ export default function HeroCarousel() {
         ))}
       </div>
 
-      {/* Swipe hint — shows briefly on first load on mobile */}
-      <div className="sm:hidden absolute bottom-[11rem] right-5 z-30 flex items-center gap-1.5 text-white/30 text-[10px] animate-pulse pointer-events-none">
-        <ChevronLeft className="h-3 w-3" />
-        <span>Swipe</span>
-        <ChevronRight className="h-3 w-3" />
-      </div>
     </section>
   );
 }

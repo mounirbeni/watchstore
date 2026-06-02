@@ -71,10 +71,8 @@ export default async function HomePage() {
       <Header />
       <main className="flex-1">
 
-        {/* Hero — pulls up behind sticky header so it's truly full-screen on mobile */}
-        <div className="-mt-16">
-          <HeroCarousel />
-        </div>
+        {/* Hero carousel */}
+        <HeroCarousel />
 
         {metrics.length > 0 && (
           <section className="border-y border-luxury-border bg-luxury-dark">
