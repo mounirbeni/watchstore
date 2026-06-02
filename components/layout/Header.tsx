@@ -3,7 +3,6 @@ import { getCurrentUser } from "@/lib/session";
 import { db } from "@/lib/db";
 import { logoutAction } from "@/actions/auth";
 import { ShoppingCart, User, Settings, LogOut } from "lucide-react";
-import MobileMenu from "./MobileMenu";
 
 async function getCartCount(userId: string): Promise<number> {
   const cart = await db.cart.findUnique({
@@ -96,19 +95,6 @@ export default async function Header() {
                 </Link>
               </div>
             )}
-
-            <MobileMenu
-              user={
-                user
-                  ? {
-                      firstName: user.firstName,
-                      lastName: user.lastName,
-                      email: user.email,
-                      role: user.role,
-                    }
-                  : null
-              }
-            />
           </div>
         </div>
       </div>
