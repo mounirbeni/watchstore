@@ -5,6 +5,7 @@ import { formatDate, formatPrice, timeAgo } from "@/lib/utils";
 import Card from "@/components/ui/Card";
 import StatCard from "@/components/dashboard/StatCard";
 import StatusBadge from "@/components/dashboard/StatusBadge";
+import MobileAccountHeader from "@/components/dashboard/MobileAccountHeader";
 
 export const metadata = { title: "Client Dashboard" };
 
@@ -41,7 +42,19 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <header>
+      <MobileAccountHeader
+        firstName={profile?.firstName ?? session.firstName}
+        lastName={session.lastName}
+        email={session.email}
+        isAdmin={session.role === "ADMIN"}
+        counts={{
+          orders: orders.length,
+          reservations: reservations.length,
+          wishlist: wishlist?.items.length ?? 0,
+        }}
+      />
+
+      <header className="hidden lg:block">
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Client portal</p>
         <h1 className="mt-2 text-3xl font-serif font-semibold text-white">
           Welcome, {profile?.firstName ?? session.firstName}
