@@ -22,7 +22,7 @@ export default async function AdminPage() {
     recentCustomers,
     recentPayments,
   ] = await Promise.all([
-    db.payment.aggregate({ where: { status: "PAID" }, _sum: { amount: true } }),
+    db.payment.aggregate({ where: { status: "DEPOSIT_PAID" }, _sum: { amount: true } }),
     db.order.count(),
     db.reservation.count({ where: { status: ReservationStatus.PENDING } }),
     db.user.count({ where: { role: "CUSTOMER", isActive: true } }),

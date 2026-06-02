@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { db } from "@/lib/db";
@@ -62,6 +62,13 @@ export default async function ProductDetailPage({ params }: Props) {
     "use server";
     const productId = String(formData.get("productId") ?? "");
     await addToCartAction(productId);
+  }
+
+  async function handleBuyNow(formData: FormData) {
+    "use server";
+    const productId = String(formData.get("productId") ?? "");
+    await addToCartAction(productId);
+    redirect("/checkout");
   }
 
   async function handleToggleWishlist(formData: FormData) {
@@ -172,11 +179,18 @@ export default async function ProductDetailPage({ params }: Props) {
 
           {user ? (
             <div className="flex flex-col gap-3">
-              <form action={handleAddToCart}>
+              <form action={handleBuyNow}>
                 <input type="hidden" name="productId" value={product.id} />
                 <Button type="submit" className="w-full" size="lg" disabled={product.stock === 0}>
                   <ShoppingCart className="h-4 w-4 mr-2" />
-                  {product.stock === 0 ? "Hors stock" : "Ajouter au panier"}
+                  {product.stock === 0 ? "Hors stock" : "Acheter maintenant"}
+                </Button>
+              </form>
+
+              <form action={handleAddToCart}>
+                <input type="hidden" name="productId" value={product.id} />
+                <Button type="submit" variant="outline" className="w-full" size="lg" disabled={product.stock === 0}>
+                  Ajouter au panier
                 </Button>
               </form>
 

@@ -40,7 +40,7 @@ export default async function AdminCustomersPage() {
       <div className="grid gap-4">
         {customers.map((customer) => {
           const paidTotal = customer.orders
-            .filter((order) => order.payment?.status === "PAID")
+            .filter((order) => order.payment?.status === "DEPOSIT_PAID")
             .reduce((sum, order) => sum + Number(order.total), 0);
           return (
             <Card key={customer.id} className="rounded-2xl">

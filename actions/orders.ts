@@ -1,53 +1,111 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { headers } from "next/headers";
 import { requireAuth, requireAdmin } from "@/lib/session";
 import { createAuditLog, notifyUser } from "@/lib/audit";
-import { CheckoutSchema } from "@/validations";
-import { generateOrderNumber } from "@/lib/utils";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { computePricing } from "@/lib/pricing";
+import { generateOrderNumber, formatPrice } from "@/lib/utils";
+import {
+  CheckoutSchema,
+  SubmitDepositSchema,
+  ReviewDepositSchema,
+  UpdateOrderStatusSchema,
+  CancelOrderSchema,
+} from "@/validations";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { OrderStatus } from "@prisma/client";
+import { OrderStatus, PaymentStatus, PaymentMethod } from "@prisma/client";
 import type { ActionResult } from "./auth";
+
+// Statuses in which stock has already been deducted from inventory.
+const STOCK_DEDUCTED: OrderStatus[] = [
+  OrderStatus.CONFIRMED,
+  OrderStatus.PREPARING,
+  OrderStatus.OUT_FOR_DELIVERY,
+  OrderStatus.DELIVERED,
+];
+
+async function getClientMeta() {
+  const h = await headers();
+  const forwarded = h.get("x-forwarded-for");
+  const ip = forwarded?.split(",")[0]?.trim() || h.get("x-real-ip") || null;
+  const userAgent = h.get("user-agent") || null;
+  return { ip, userAgent };
+}
+
+function revalidateOrderViews() {
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/orders");
+  revalidatePath("/admin/orders");
+  revalidatePath("/admin");
+}
+
+// ─── Create order (deposit-based COD) ────────────────────────────────────────
 
 export async function createOrderAction(formData: FormData): Promise<ActionResult<{ orderNumber: string }>> {
   const session = await requireAuth().catch(() => null);
   if (!session) return { success: false, error: "Connexion requise" };
 
-  const raw = Object.fromEntries(formData.entries());
-  const parsed = CheckoutSchema.safeParse(raw);
+  // Rate limit checkout attempts per user (anti-spam).
+  const rl = checkRateLimit(`checkout:${session.userId}`, 6, 60_000);
+  if (!rl.allowed) return { success: false, error: "Trop de tentatives. Réessayez dans une minute." };
+
+  const parsed = CheckoutSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
-    return { success: false, error: "Données invalides",
-      fieldErrors: parsed.error.flatten().fieldErrors as Record<string, string[]> };
+    return {
+      success: false,
+      error: "Veuillez vérifier vos informations.",
+      fieldErrors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
+    };
   }
 
   const cart = await db.cart.findUnique({
     where: { userId: session.userId },
-    include: { items: { include: { product: { include: { images: { where: { isPrimary: true } } } } } } },
+    include: { items: { include: { product: { include: { images: { where: { isPrimary: true }, take: 1 } } } } } },
   });
+  if (!cart || cart.items.length === 0) return { success: false, error: "Votre panier est vide." };
 
-  if (!cart || cart.items.length === 0) {
-    return { success: false, error: "Panier vide" };
-  }
-
-  const address = await db.address.findUnique({
+  const address = await db.address.findFirst({
     where: { id: parsed.data.addressId, userId: session.userId },
   });
-  if (!address) return { success: false, error: "Adresse invalide" };
+  if (!address) return { success: false, error: "Adresse de livraison invalide." };
 
-  // Validate stock for all items
+  // Stock validation.
   for (const item of cart.items) {
+    if (!item.product.isActive) return { success: false, error: `Produit indisponible : ${item.product.name}` };
     if (item.product.stock < item.quantity) {
-      return { success: false, error: `Stock insuffisant: ${item.product.name}` };
+      return { success: false, error: `Stock insuffisant : ${item.product.name}` };
     }
   }
 
-  const subtotal = cart.items.reduce(
-    (sum, item) => sum + Number(item.product.price) * item.quantity,
-    0,
+  // Fraud: block an identical pending order created in the last 15 minutes.
+  const productIds = [...cart.items.map((i) => i.productId)].sort();
+  const recent = await db.order.findMany({
+    where: {
+      userId: session.userId,
+      status: { in: [OrderStatus.AWAITING_DEPOSIT, OrderStatus.DEPOSIT_PENDING] },
+      createdAt: { gte: new Date(Date.now() - 15 * 60 * 1000) },
+    },
+    include: { items: true },
+  });
+  const duplicate = recent.some(
+    (o) => JSON.stringify([...o.items.map((i) => i.productId)].sort()) === JSON.stringify(productIds),
   );
-  const total = subtotal; // shipping could be added here
+  if (duplicate) {
+    return { success: false, error: "Vous avez déjà une commande en attente d'acompte pour ces articles." };
+  }
 
+  // Risk flag: many orders in a short window.
+  const ordersLastHour = await db.order.count({
+    where: { userId: session.userId, createdAt: { gte: new Date(Date.now() - 60 * 60 * 1000) } },
+  });
+  const flagged = ordersLastHour >= 4;
+
+  const subtotal = cart.items.reduce((s, i) => s + Number(i.product.price) * i.quantity, 0);
+  const pricing = computePricing(subtotal);
+  const { ip, userAgent } = await getClientMeta();
   const orderNumber = generateOrderNumber();
 
   const order = await db.order.create({
@@ -55,12 +113,19 @@ export async function createOrderAction(formData: FormData): Promise<ActionResul
       orderNumber,
       userId: session.userId,
       addressId: address.id,
-      status: OrderStatus.PENDING,
-      subtotal,
-      shippingCost: 0,
+      status: OrderStatus.AWAITING_DEPOSIT,
+      subtotal: pricing.subtotal,
+      shippingCost: pricing.shipping,
       discount: 0,
-      total,
+      total: pricing.total,
+      depositAmount: pricing.deposit,
+      remainingBalance: pricing.remaining,
+      customerPhone: parsed.data.phone,
       notes: parsed.data.notes,
+      ipAddress: ip,
+      userAgent: userAgent ?? undefined,
+      flagged,
+      riskNote: flagged ? `${ordersLastHour} commandes dans la dernière heure` : null,
       items: {
         create: cart.items.map((item) => ({
           productId: item.product.id,
@@ -75,106 +140,327 @@ export async function createOrderAction(formData: FormData): Promise<ActionResul
       payment: {
         create: {
           userId: session.userId,
-          amount: total,
+          amount: pricing.deposit,
           currency: "MAD",
-          method: parsed.data.paymentMethod as "CARD" | "BANK_TRANSFER" | "CASH_ON_DELIVERY" | "CRYPTO",
-          status: "PENDING",
+          method: parsed.data.method as PaymentMethod,
+          status: PaymentStatus.UNPAID,
         },
       },
     },
   });
 
-  // Decrement stock
-  for (const item of cart.items) {
-    await db.product.update({
-      where: { id: item.product.id },
-      data: { stock: { decrement: item.quantity } },
-    });
-  }
-
-  // Clear cart
-  await db.cartItem.deleteMany({ where: { cartId: cart.id } });
-
-  // Update customer stats
+  // Save phone to profile if missing (smoother future checkouts).
   await db.customerProfile.updateMany({
-    where: { userId: session.userId },
-    data: {
-      totalSpent: { increment: total },
-      orderCount: { increment: 1 },
-    },
+    where: { userId: session.userId, OR: [{ phone: null }, { phone: "" }] },
+    data: { phone: parsed.data.phone },
   });
 
-  await notifyUser(session.userId, "ORDER_UPDATE",
-    "Commande confirmée",
-    `Votre commande ${orderNumber} a été reçue et est en cours de traitement.`,
-    { orderNumber });
+  // Clear the cart — the items are now captured on the order.
+  await db.cartItem.deleteMany({ where: { cartId: cart.id } });
+
+  await notifyUser(
+    session.userId,
+    "PAYMENT_UPDATE",
+    "Acompte requis pour confirmer",
+    `Votre commande ${orderNumber} est enregistrée. Réglez l'acompte de ${formatPrice(pricing.deposit)} pour la confirmer. Le solde de ${formatPrice(pricing.remaining)} sera payé à la livraison.`,
+    { orderNumber },
+  );
 
   await createAuditLog({
     userId: session.userId,
     action: "CREATE_ORDER",
     entity: "Order",
     entityId: order.id,
-    newValues: { orderNumber, total: String(total) },
+    newValues: { orderNumber, total: String(pricing.total), deposit: String(pricing.deposit), flagged },
+    ipAddress: ip ?? undefined,
+    userAgent: userAgent ?? undefined,
   });
 
-  revalidatePath("/dashboard/orders");
-  revalidatePath("/admin/orders");
-  redirect(`/dashboard/orders?created=${encodeURIComponent(orderNumber)}`);
+  revalidateOrderViews();
+  redirect(`/checkout/confirmation/${orderNumber}`);
 }
 
-export async function updateOrderStatusAction(
-  orderId: string,
-  status: OrderStatus,
-): Promise<ActionResult> {
+// ─── Customer submits deposit proof ──────────────────────────────────────────
+
+export async function submitDepositProofAction(formData: FormData): Promise<ActionResult> {
+  const session = await requireAuth().catch(() => null);
+  if (!session) return { success: false, error: "Connexion requise" };
+
+  const parsed = SubmitDepositSchema.safeParse(Object.fromEntries(formData.entries()));
+  if (!parsed.success) {
+    return {
+      success: false,
+      error: "Veuillez vérifier la référence de paiement.",
+      fieldErrors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
+    };
+  }
+
+  const order = await db.order.findFirst({
+    where: { id: parsed.data.orderId, userId: session.userId },
+    include: { payment: true },
+  });
+  if (!order || !order.payment) return { success: false, error: "Commande introuvable." };
+
+  const resubmittable: OrderStatus[] = [OrderStatus.AWAITING_DEPOSIT, OrderStatus.DEPOSIT_PENDING];
+  if (!resubmittable.includes(order.status)) {
+    return { success: false, error: "Cette commande ne nécessite plus d'acompte." };
+  }
+
+  await db.payment.update({
+    where: { id: order.payment.id },
+    data: {
+      method: parsed.data.method as PaymentMethod,
+      proofReference: parsed.data.reference,
+      proofUrl: parsed.data.proofUrl,
+      status: PaymentStatus.DEPOSIT_PENDING,
+      failedAt: null,
+    },
+  });
+  await db.order.update({ where: { id: order.id }, data: { status: OrderStatus.DEPOSIT_PENDING } });
+
+  await notifyUser(
+    session.userId,
+    "PAYMENT_UPDATE",
+    "Preuve d'acompte reçue",
+    `Nous avons bien reçu votre preuve de paiement pour la commande ${order.orderNumber}. Notre équipe la vérifie et confirmera votre commande sous peu.`,
+    { orderNumber: order.orderNumber },
+  );
+
+  await createAuditLog({
+    userId: session.userId,
+    action: "SUBMIT_DEPOSIT_PROOF",
+    entity: "Order",
+    entityId: order.id,
+    newValues: { method: parsed.data.method, reference: parsed.data.reference },
+  });
+
+  revalidateOrderViews();
+  revalidatePath(`/checkout/confirmation/${order.orderNumber}`);
+  revalidatePath(`/dashboard/orders/${order.orderNumber}`);
+  return { success: true, data: undefined };
+}
+
+// ─── Admin reviews the deposit (approve / reject) ────────────────────────────
+
+export async function reviewDepositAction(formData: FormData): Promise<ActionResult> {
   const admin = await requireAdmin().catch(() => null);
   if (!admin) return { success: false, error: "Accès refusé" };
 
+  const parsed = ReviewDepositSchema.safeParse(Object.fromEntries(formData.entries()));
+  if (!parsed.success) return { success: false, error: "Données invalides" };
+
   const order = await db.order.findUnique({
-    where: { id: orderId },
-    include: { payment: true },
+    where: { id: parsed.data.orderId },
+    include: { payment: true, items: true },
   });
-  if (!order) return { success: false, error: "Commande introuvable" };
+  if (!order || !order.payment) return { success: false, error: "Commande introuvable." };
 
-  const updateData: Record<string, unknown> = { status };
-  if (status === OrderStatus.SHIPPED) updateData["shippedAt"] = new Date();
-  if (status === OrderStatus.DELIVERED) updateData["deliveredAt"] = new Date();
-  if (status === OrderStatus.CANCELLED) updateData["cancelledAt"] = new Date();
+  if (parsed.data.decision === "APPROVE") {
+    // Re-validate stock before confirming.
+    for (const item of order.items) {
+      const product = await db.product.findUnique({ where: { id: item.productId } });
+      if (!product || product.stock < item.quantity) {
+        return { success: false, error: `Stock insuffisant : ${item.productName}` };
+      }
+    }
 
-  await db.order.update({ where: { id: orderId }, data: updateData });
-
-  if (status === OrderStatus.DELIVERED && order.payment) {
     await db.payment.update({
       where: { id: order.payment.id },
-      data: { status: "PAID", paidAt: new Date() },
+      data: {
+        status: PaymentStatus.DEPOSIT_PAID,
+        paidAt: new Date(),
+        reviewedAt: new Date(),
+        reviewedBy: admin.userId,
+        transactionRef: order.payment.proofReference,
+      },
     });
+    await db.order.update({
+      where: { id: order.id },
+      data: {
+        status: OrderStatus.CONFIRMED,
+        confirmedAt: new Date(),
+        adminNotes: parsed.data.adminNote ?? order.adminNotes,
+      },
+    });
+
+    // Deduct stock now that the order is real.
+    for (const item of order.items) {
+      await db.product.update({ where: { id: item.productId }, data: { stock: { decrement: item.quantity } } });
+    }
+    await db.customerProfile.updateMany({
+      where: { userId: order.userId },
+      data: { orderCount: { increment: 1 } },
+    });
+
+    await notifyUser(
+      order.userId,
+      "ORDER_UPDATE",
+      "Commande confirmée ✓",
+      `Votre acompte est validé et votre commande ${order.orderNumber} est confirmée. Le solde de ${formatPrice(Number(order.remainingBalance))} sera réglé à la livraison.`,
+      { orderNumber: order.orderNumber },
+    );
+  } else {
+    await db.payment.update({
+      where: { id: order.payment.id },
+      data: { status: PaymentStatus.DEPOSIT_FAILED, failedAt: new Date(), reviewedAt: new Date(), reviewedBy: admin.userId },
+    });
+    await db.order.update({
+      where: { id: order.id },
+      data: { status: OrderStatus.AWAITING_DEPOSIT, adminNotes: parsed.data.adminNote ?? order.adminNotes },
+    });
+
+    await notifyUser(
+      order.userId,
+      "PAYMENT_UPDATE",
+      "Acompte non validé",
+      `Nous n'avons pas pu valider votre acompte pour la commande ${order.orderNumber}.${
+        parsed.data.adminNote ? ` Motif : ${parsed.data.adminNote}.` : ""
+      } Vous pouvez renvoyer une nouvelle preuve de paiement.`,
+      { orderNumber: order.orderNumber },
+    );
   }
 
-  const statusLabels: Partial<Record<OrderStatus, string>> = {
+  await createAuditLog({
+    userId: admin.userId,
+    action: `REVIEW_DEPOSIT_${parsed.data.decision}`,
+    entity: "Order",
+    entityId: order.id,
+    oldValues: { status: order.status },
+    newValues: { decision: parsed.data.decision },
+  });
+
+  revalidateOrderViews();
+  revalidatePath(`/dashboard/orders/${order.orderNumber}`);
+  return { success: true, data: undefined };
+}
+
+// ─── Admin updates fulfilment status ─────────────────────────────────────────
+
+export async function updateOrderStatusAction(formData: FormData): Promise<ActionResult> {
+  const admin = await requireAdmin().catch(() => null);
+  if (!admin) return { success: false, error: "Accès refusé" };
+
+  const parsed = UpdateOrderStatusSchema.safeParse(Object.fromEntries(formData.entries()));
+  if (!parsed.success) return { success: false, error: "Statut invalide" };
+
+  const order = await db.order.findUnique({ where: { id: parsed.data.orderId }, include: { items: true } });
+  if (!order) return { success: false, error: "Commande introuvable." };
+
+  const status = parsed.data.status as OrderStatus;
+  const data: Record<string, unknown> = { status };
+  if (parsed.data.adminNote) data["adminNotes"] = parsed.data.adminNote;
+  if (status === OrderStatus.CONFIRMED && !order.confirmedAt) data["confirmedAt"] = new Date();
+  if (status === OrderStatus.PREPARING) data["preparingAt"] = new Date();
+  if (status === OrderStatus.OUT_FOR_DELIVERY) data["outForDeliveryAt"] = new Date();
+  if (status === OrderStatus.DELIVERED) {
+    data["deliveredAt"] = new Date();
+    data["remainingBalance"] = 0;
+  }
+  if (status === OrderStatus.CANCELLED) data["cancelledAt"] = new Date();
+
+  // Restore stock if we leave a stock-deducted state for cancel/refund.
+  const wasDeducted = STOCK_DEDUCTED.includes(order.status);
+  const nowReleased = status === OrderStatus.CANCELLED || status === OrderStatus.REFUNDED;
+  if (wasDeducted && nowReleased) {
+    for (const item of order.items) {
+      await db.product.update({ where: { id: item.productId }, data: { stock: { increment: item.quantity } } });
+    }
+  }
+
+  await db.order.update({ where: { id: order.id }, data });
+
+  const labels: Partial<Record<OrderStatus, string>> = {
     CONFIRMED: "confirmée",
-    PROCESSING: "en cours de préparation",
-    SHIPPED: "expédiée",
+    PREPARING: "en préparation",
+    OUT_FOR_DELIVERY: "en cours de livraison",
     DELIVERED: "livrée",
     CANCELLED: "annulée",
+    REFUNDED: "remboursée",
   };
-
-  const label = statusLabels[status];
+  const label = labels[status];
   if (label) {
-    await notifyUser(order.userId, "ORDER_UPDATE",
-      "Mise à jour commande",
+    await notifyUser(
+      order.userId,
+      "ORDER_UPDATE",
+      "Mise à jour de commande",
       `Votre commande ${order.orderNumber} est ${label}.`,
-      { orderNumber: order.orderNumber, status });
+      { orderNumber: order.orderNumber },
+    );
   }
 
   await createAuditLog({
     userId: admin.userId,
     action: "UPDATE_ORDER_STATUS",
     entity: "Order",
-    entityId: orderId,
+    entityId: order.id,
     oldValues: { status: order.status },
     newValues: { status },
   });
 
-  revalidatePath("/admin/orders");
-  revalidatePath("/dashboard/orders");
+  revalidateOrderViews();
+  revalidatePath(`/dashboard/orders/${order.orderNumber}`);
+  return { success: true, data: undefined };
+}
+
+// ─── Cancel order (customer or admin) ────────────────────────────────────────
+
+const CLIENT_CANCELLABLE: OrderStatus[] = [
+  OrderStatus.AWAITING_DEPOSIT,
+  OrderStatus.DEPOSIT_PENDING,
+  OrderStatus.CONFIRMED,
+];
+
+export async function cancelOrderAction(formData: FormData): Promise<ActionResult> {
+  const session = await requireAuth().catch(() => null);
+  if (!session) return { success: false, error: "Connexion requise" };
+
+  const parsed = CancelOrderSchema.safeParse(Object.fromEntries(formData.entries()));
+  if (!parsed.success) return { success: false, error: "Données invalides" };
+
+  const order = await db.order.findFirst({
+    where: { id: parsed.data.orderId, userId: session.userId },
+    include: { items: true },
+  });
+  if (!order) return { success: false, error: "Commande introuvable." };
+
+  if (!CLIENT_CANCELLABLE.includes(order.status)) {
+    return { success: false, error: "Cette commande ne peut plus être annulée. Contactez le support." };
+  }
+
+  // Restore stock if it had been deducted (CONFIRMED).
+  if (STOCK_DEDUCTED.includes(order.status)) {
+    for (const item of order.items) {
+      await db.product.update({ where: { id: item.productId }, data: { stock: { increment: item.quantity } } });
+    }
+  }
+
+  await db.order.update({
+    where: { id: order.id },
+    data: {
+      status: OrderStatus.CANCELLED,
+      cancelledAt: new Date(),
+      cancellationReason: parsed.data.reason ?? "Annulée par le client",
+    },
+  });
+
+  await notifyUser(
+    order.userId,
+    "ORDER_UPDATE",
+    "Commande annulée",
+    `Votre commande ${order.orderNumber} a été annulée.`,
+    { orderNumber: order.orderNumber },
+  );
+
+  await createAuditLog({
+    userId: session.userId,
+    action: "CANCEL_ORDER",
+    entity: "Order",
+    entityId: order.id,
+    oldValues: { status: order.status },
+    newValues: { status: OrderStatus.CANCELLED, reason: parsed.data.reason },
+  });
+
+  revalidateOrderViews();
+  revalidatePath(`/dashboard/orders/${order.orderNumber}`);
   return { success: true, data: undefined };
 }

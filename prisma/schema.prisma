@@ -15,10 +15,13 @@ enum Role {
 }
 
 enum OrderStatus {
-  PENDING
+  DRAFT
+  AWAITING_DEPOSIT
+  DEPOSIT_PENDING
+  DEPOSIT_PAID
   CONFIRMED
-  PROCESSING
-  SHIPPED
+  PREPARING
+  OUT_FOR_DELIVERY
   DELIVERED
   CANCELLED
   REFUNDED
@@ -33,18 +36,18 @@ enum ReservationStatus {
 }
 
 enum PaymentStatus {
-  PENDING
-  PAID
-  FAILED
+  UNPAID
+  DEPOSIT_PENDING
+  DEPOSIT_PAID
+  DEPOSIT_FAILED
   REFUNDED
-  PARTIALLY_REFUNDED
 }
 
 enum PaymentMethod {
-  CARD
   BANK_TRANSFER
-  CASH_ON_DELIVERY
-  CRYPTO
+  CASHPLUS
+  WAFACASH
+  CARD
 }
 
 enum NotificationType {
@@ -281,13 +284,27 @@ model Order {
   userId         String
   addressId      String?
   reservationId  String?     @unique
-  status         OrderStatus @default(PENDING)
-  subtotal       Decimal     @db.Decimal(10, 2)
-  shippingCost   Decimal     @default(0) @db.Decimal(10, 2)
-  discount       Decimal     @default(0) @db.Decimal(10, 2)
-  total          Decimal     @db.Decimal(10, 2)
+  status         OrderStatus @default(AWAITING_DEPOSIT)
+  subtotal         Decimal   @db.Decimal(10, 2)
+  shippingCost     Decimal   @default(0) @db.Decimal(10, 2)
+  discount         Decimal   @default(0) @db.Decimal(10, 2)
+  total            Decimal   @db.Decimal(10, 2)
+  depositAmount    Decimal   @default(0) @db.Decimal(10, 2)
+  remainingBalance Decimal   @default(0) @db.Decimal(10, 2)
+  customerPhone  String?
   notes          String?
+  adminNotes     String?
+  cancellationReason String?
   trackingNumber String?
+  // Fraud / audit signals captured at checkout
+  ipAddress      String?
+  userAgent      String?     @db.Text
+  flagged        Boolean     @default(false)
+  riskNote       String?
+  // Lifecycle timestamps
+  confirmedAt    DateTime?
+  preparingAt    DateTime?
+  outForDeliveryAt DateTime?
   shippedAt      DateTime?
   deliveredAt    DateTime?
   cancelledAt    DateTime?
@@ -329,12 +346,16 @@ model Payment {
   id              String        @id @default(cuid())
   orderId         String        @unique
   userId          String
-  amount          Decimal       @db.Decimal(10, 2)
+  amount          Decimal       @db.Decimal(10, 2) // deposit amount due now
   currency        String        @default("MAD")
-  method          PaymentMethod @default(CARD)
-  status          PaymentStatus @default(PENDING)
+  method          PaymentMethod @default(BANK_TRANSFER)
+  status          PaymentStatus @default(UNPAID)
   transactionRef  String?
+  proofReference  String?       // customer-supplied transfer/transaction reference
+  proofUrl        String?       // optional link to a proof screenshot
   gatewayResponse String?       @db.Text
+  reviewedBy      String?       // admin user id who validated the deposit
+  reviewedAt      DateTime?
   paidAt          DateTime?
   failedAt        DateTime?
   refundedAt      DateTime?

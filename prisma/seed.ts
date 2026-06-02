@@ -417,7 +417,7 @@ async function main() {
               amount: 2499,
               currency: "MAD",
               method: PaymentMethod.CARD,
-              status: PaymentStatus.PAID,
+              status: PaymentStatus.DEPOSIT_PAID,
               paidAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
             },
           },

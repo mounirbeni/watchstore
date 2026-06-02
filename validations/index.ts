@@ -84,10 +84,66 @@ export const ProductSchema = z.object({
   categoryId: optionalTrimmedString,
 });
 
+const phoneSchema = z
+  .string()
+  .trim()
+  .regex(/^(?:\+212|0)[\s.-]?\d(?:[\s.-]?\d){8}$/, "Numéro de téléphone invalide");
+
+export const DEPOSIT_METHOD_VALUES = ["BANK_TRANSFER", "CASHPLUS", "WAFACASH"] as const;
+
 export const CheckoutSchema = z.object({
-  addressId: z.string().min(1, "Address is required"),
-  paymentMethod: z.enum(["CARD", "BANK_TRANSFER", "CASH_ON_DELIVERY", "CRYPTO"]),
-  notes: z.string().optional(),
+  addressId: z.string().min(1, "Adresse requise"),
+  phone: phoneSchema,
+  method: z.enum(DEPOSIT_METHOD_VALUES),
+  notes: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().max(500).optional(),
+  ),
+});
+
+export const SubmitDepositSchema = z.object({
+  orderId: z.string().min(1),
+  method: z.enum(DEPOSIT_METHOD_VALUES),
+  reference: z.string().trim().min(3, "Référence requise").max(120),
+  proofUrl: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().url("Lien invalide").max(500).optional(),
+  ),
+});
+
+export const ReviewDepositSchema = z.object({
+  orderId: z.string().min(1),
+  decision: z.enum(["APPROVE", "REJECT"]),
+  adminNote: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().max(500).optional(),
+  ),
+});
+
+export const UpdateOrderStatusSchema = z.object({
+  orderId: z.string().min(1),
+  status: z.enum([
+    "AWAITING_DEPOSIT",
+    "DEPOSIT_PENDING",
+    "CONFIRMED",
+    "PREPARING",
+    "OUT_FOR_DELIVERY",
+    "DELIVERED",
+    "CANCELLED",
+    "REFUNDED",
+  ]),
+  adminNote: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().max(500).optional(),
+  ),
+});
+
+export const CancelOrderSchema = z.object({
+  orderId: z.string().min(1),
+  reason: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().max(500).optional(),
+  ),
 });
 
 export const ReservationSchema = z.object({

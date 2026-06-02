@@ -1,19 +1,19 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/session";
+import { computePricing } from "@/lib/pricing";
 
 export async function GET() {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const [cart, addresses] = await Promise.all([
+  const [cart, addresses, profile] = await Promise.all([
     db.cart.findUnique({
       where: { userId: user.userId },
       include: {
         items: {
-          include: {
-            product: { include: { images: { where: { isPrimary: true }, take: 1 } } },
-          },
+          include: { product: { include: { images: { where: { isPrimary: true }, take: 1 } } } },
+          orderBy: { addedAt: "desc" },
         },
       },
     }),
@@ -21,6 +21,7 @@ export async function GET() {
       where: { userId: user.userId },
       orderBy: [{ isDefault: "desc" }, { createdAt: "desc" }],
     }),
+    db.customerProfile.findUnique({ where: { userId: user.userId } }),
   ]);
 
   const cartItems = (cart?.items ?? []).map((i) => ({
@@ -33,6 +34,8 @@ export async function GET() {
   }));
 
   const subtotal = cartItems.reduce((s, i) => s + i.total, 0);
+  const pricing = computePricing(subtotal);
+  const defaultPhone = profile?.phone ?? addresses.find((a) => a.isDefault)?.phone ?? addresses[0]?.phone ?? "";
 
-  return NextResponse.json({ addresses, cartItems, subtotal });
+  return NextResponse.json({ addresses, cartItems, pricing, defaultPhone });
 }
