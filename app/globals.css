@@ -7,6 +7,11 @@
     --font-inter: "Inter", system-ui, sans-serif;
     --font-playfair: "Playfair Display", Georgia, serif;
     --font-mono: "JetBrains Mono", monospace;
+    /* Safe-area insets for notched / home-indicator phones */
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    /* Height reserved by the mobile bottom tab bar */
+    --mobile-nav-h: 4.25rem;
   }
 
   * {
@@ -15,15 +20,33 @@
 
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
     @apply bg-luxury-black text-luxury-white antialiased;
     font-family: var(--font-inter);
+    /* App-like feel: no rubber-band overscroll color flash, smooth momentum scroll */
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* On touch / mobile, reserve room for the fixed bottom tab bar so content
+     is never hidden behind it. Cleared at md where the bar is hidden. */
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: calc(var(--mobile-nav-h) + var(--safe-bottom));
+    }
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-playfair);
+  }
+
+  /* Avoid iOS auto-zoom on focus: inputs need >=16px */
+  input, select, textarea {
+    font-size: 16px;
   }
 
   ::selection {
@@ -54,18 +77,31 @@
     @apply text-gold-400;
   }
 
+  /* Editorial gold gradient text for magazine headlines */
+  .gold-gradient-text {
+    background-image: linear-gradient(120deg, #f5e59a 0%, #e5c132 40%, #c9a227 70%, #a67c20 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
   .card-luxury {
     @apply bg-luxury-card border border-luxury-border rounded-xl;
   }
 
+  /* Frosted-glass surface for app chrome (headers, tab bar) */
+  .glass {
+    @apply bg-luxury-black/80 backdrop-blur-xl backdrop-saturate-150;
+  }
+
   .btn-gold {
     @apply bg-gold-500 text-black font-semibold hover:bg-gold-400 transition-all duration-200
-           disabled:opacity-50 disabled:cursor-not-allowed;
+           disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98];
   }
 
   .btn-outline-gold {
     @apply border border-gold-500 text-gold-400 hover:bg-gold-500/10
-           transition-all duration-200;
+           transition-all duration-200 active:scale-[0.98];
   }
 
   .input-luxury {
@@ -82,5 +118,23 @@
 
   .skeleton {
     @apply animate-pulse bg-luxury-border rounded;
+  }
+
+  /* Hide scrollbar on horizontal magazine rails while keeping scroll */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer utilities {
+  .safe-top {
+    padding-top: var(--safe-top);
+  }
+  .safe-bottom {
+    padding-bottom: var(--safe-bottom);
   }
 }

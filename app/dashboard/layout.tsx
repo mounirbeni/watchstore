@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { requireAuth } from "@/lib/session";
 import DashboardNav from "@/components/dashboard/DashboardNav";
+import MobileTabBar from "@/components/layout/MobileTabBar";
 
 export default async function ClientDashboardLayout({ children }: { children: React.ReactNode }) {
   try {
@@ -15,6 +16,7 @@ export default async function ClientDashboardLayout({ children }: { children: Re
         <DashboardNav role="client" />
         <section className="min-w-0">{children}</section>
       </main>
+      <MobileTabBar />
     </div>
   );
 }

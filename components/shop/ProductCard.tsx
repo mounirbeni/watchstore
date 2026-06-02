@@ -19,8 +19,8 @@ export default function ProductCard({ product }: { product: ProductWithImage }) 
   };
 
   return (
-    <Link href={`/products/${product.slug}`} className="group block">
-      <div className="bg-luxury-card border border-luxury-border rounded-xl overflow-hidden hover:border-gold-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/5">
+    <Link href={`/products/${product.slug}`} className="group block active:scale-[0.98] transition-transform duration-200">
+      <div className="bg-luxury-card border border-luxury-border rounded-2xl overflow-hidden hover:border-gold-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/5">
         {/* Image */}
         <div className="relative aspect-square overflow-hidden bg-luxury-dark">
           {primaryImage ? (

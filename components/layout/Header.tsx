@@ -2,7 +2,8 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/session";
 import { db } from "@/lib/db";
 import { logoutAction } from "@/actions/auth";
-import { ShoppingCart, User, Settings, LogOut, Menu } from "lucide-react";
+import { ShoppingCart, User, Settings, LogOut } from "lucide-react";
+import MobileMenu from "./MobileMenu";
 
 async function getCartCount(userId: string): Promise<number> {
   const cart = await db.cart.findUnique({
@@ -17,11 +18,11 @@ export default async function Header() {
   const cartCount = user ? await getCartCount(user.userId) : 0;
 
   return (
-    <header className="sticky top-0 z-50 bg-luxury-black/95 backdrop-blur-md border-b border-luxury-border">
+    <header className="sticky top-0 z-50 glass border-b border-luxury-border safe-top">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 active:scale-95 transition-transform">
             <span className="text-xl font-serif gold-text font-bold tracking-wide">ChronoCraft</span>
           </Link>
 
@@ -56,7 +57,7 @@ export default async function Header() {
             </Link>
 
             {user ? (
-              <div className="relative group">
+              <div className="relative group hidden md:block">
                 <button className="flex items-center gap-2 p-2 text-luxury-light hover:text-gold-400 transition-colors">
                   <div className="w-7 h-7 rounded-full bg-gold-500/20 border border-gold-500/40 flex items-center justify-center text-xs font-bold text-gold-400">
                     {user.firstName[0]?.toUpperCase()}
@@ -86,7 +87,7 @@ export default async function Header() {
                 </div>
               </div>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="hidden md:flex items-center gap-2">
                 <Link href="/login" className="text-sm text-luxury-light hover:text-gold-400 transition-colors px-3 py-1.5">
                   Connexion
                 </Link>
@@ -96,9 +97,18 @@ export default async function Header() {
               </div>
             )}
 
-            <button className="md:hidden p-2 text-luxury-light hover:text-white">
-              <Menu className="h-5 w-5" />
-            </button>
+            <MobileMenu
+              user={
+                user
+                  ? {
+                      firstName: user.firstName,
+                      lastName: user.lastName,
+                      email: user.email,
+                      role: user.role,
+                    }
+                  : null
+              }
+            />
           </div>
         </div>
       </div>

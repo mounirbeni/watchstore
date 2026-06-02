@@ -4,8 +4,9 @@ import { db } from "@/lib/db";
 import ProductCard from "@/components/shop/ProductCard";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import MobileTabBar from "@/components/layout/MobileTabBar";
 import { OrderStatus, Role } from "@prisma/client";
-import { ArrowRight, Shield, Truck, Award, RefreshCw } from "lucide-react";
+import { ArrowRight, Shield, Truck, Award, RefreshCw, Sparkles } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -69,42 +70,44 @@ export default async function HomePage() {
       <Header />
       <main className="flex-1">
 
-        {/* Hero */}
-        <section className="relative min-h-[80vh] flex items-center overflow-hidden">
-          <div className="absolute inset-0 bg-luxury-black/70 z-10" />
+        {/* Hero — editorial, magazine cover style */}
+        <section className="relative min-h-[88vh] sm:min-h-[80vh] flex items-end sm:items-center overflow-hidden">
           <div className="absolute inset-0">
             <Image
               src="https://images.unsplash.com/photo-1609587312208-cea54be969e7?w=1400&q=90"
               alt="Luxury watch"
               fill
-              className="object-cover"
+              className="object-cover scale-105"
               priority
             />
           </div>
+          {/* Layered gradient for an editorial cover feel */}
+          <div className="absolute inset-0 z-10 bg-gradient-to-t from-luxury-black via-luxury-black/55 to-luxury-black/20" />
+          <div className="absolute inset-0 z-10 bg-gradient-to-r from-luxury-black/80 to-transparent" />
 
-          <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="max-w-2xl">
-              <p className="text-gold-400 text-sm font-medium uppercase tracking-[0.3em] mb-4">
-                Collection Exclusive
+          <div className="relative z-20 w-full max-w-7xl mx-auto px-5 sm:px-6 pb-12 sm:pb-0">
+            <div className="max-w-2xl animate-slide-up">
+              <p className="inline-flex items-center gap-2 text-gold-400 text-[11px] sm:text-sm font-medium uppercase tracking-[0.3em] mb-4">
+                <Sparkles className="h-3.5 w-3.5" /> Collection Exclusive
               </p>
-              <h1 className="text-5xl sm:text-6xl md:text-7xl font-serif font-bold text-white leading-tight mb-6">
+              <h1 className="text-[3.25rem] leading-[0.95] sm:text-6xl md:text-7xl font-serif font-bold text-white mb-5">
                 L&apos;Art du
                 <br />
-                <span className="gold-text">Temps</span>
+                <span className="gold-gradient-text">Temps</span>
               </h1>
-              <p className="text-lg text-luxury-light mb-8 leading-relaxed max-w-lg">
+              <p className="text-base sm:text-lg text-luxury-light mb-8 leading-relaxed max-w-lg">
                 Chaque pièce raconte une histoire d&apos;élégance et de précision. Découvrez notre collection de montres d&apos;exception.
               </p>
-              <div className="flex gap-4 flex-wrap">
+              <div className="flex gap-3 sm:gap-4 flex-col sm:flex-row">
                 <Link
                   href="/shop"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-gold-500 text-black font-semibold rounded-lg hover:bg-gold-400 transition-all duration-200 shadow-sm shadow-gold-500/30"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gold-500 text-black font-semibold rounded-2xl hover:bg-gold-400 active:scale-[0.98] transition-all duration-200 shadow-lg shadow-gold-500/20"
                 >
                   Explorer la collection <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
                   href="/shop?category=luxe"
-                  className="inline-flex items-center gap-2 px-8 py-4 border border-gold-500/50 text-gold-400 font-medium rounded-lg hover:bg-gold-500/10 transition-all duration-200"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-gold-500/50 text-gold-400 font-medium rounded-2xl hover:bg-gold-500/10 active:scale-[0.98] transition-all duration-200"
                 >
                   Haute Horlogerie
                 </Link>
@@ -129,28 +132,30 @@ export default async function HomePage() {
         )}
 
         {/* Categories */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-white mb-4">
-              Nos <span className="gold-text">Collections</span>
-            </h2>
-            <p className="text-luxury-muted">Explorez nos catégories soigneusement sélectionnées</p>
+        <section className="max-w-7xl mx-auto px-5 sm:px-6 py-14 sm:py-20">
+          <div className="flex items-end justify-between mb-8 sm:mb-12 sm:text-center sm:block">
+            <div className="sm:mb-0">
+              <h2 className="text-3xl sm:text-4xl font-serif font-bold text-white mb-2 sm:mb-4">
+                Nos <span className="gold-text">Collections</span>
+              </h2>
+              <p className="text-sm sm:text-base text-luxury-muted">Explorez nos catégories soigneusement sélectionnées</p>
+            </div>
           </div>
 
           {categories.length === 0 ? (
             <p className="text-center text-sm text-luxury-muted">La collection sera disponible apres configuration de la base de donnees.</p>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 md:grid-cols-4 sm:gap-4 sm:overflow-visible">
               {categories.map((cat) => (
                 <Link
                   key={cat.id}
                   href={`/shop?category=${cat.slug}`}
-                  className="group relative aspect-square overflow-hidden rounded-xl bg-luxury-card border border-luxury-border hover:border-gold-500/50 transition-all duration-300"
+                  className="group relative shrink-0 w-[42%] sm:w-auto aspect-[3/4] sm:aspect-square overflow-hidden rounded-2xl bg-luxury-card border border-luxury-border hover:border-gold-500/50 transition-all duration-300 snap-start"
                 >
                   {cat.imageUrl && (
-                    <Image src={cat.imageUrl} alt={cat.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <Image src={cat.imageUrl} alt={cat.name} fill sizes="(max-width:640px) 42vw, 25vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
                   )}
-                  <div className="absolute inset-0 bg-black/55" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <h3 className="text-white font-serif font-semibold text-lg">{cat.name}</h3>
                     <p className="text-gold-400 text-xs">{cat._count.products} pieces</p>
@@ -162,16 +167,16 @@ export default async function HomePage() {
         </section>
 
         {/* Featured Products */}
-        <section className="bg-luxury-dark py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="flex justify-between items-end mb-12">
+        <section className="bg-luxury-dark py-14 sm:py-20">
+          <div className="max-w-7xl mx-auto px-5 sm:px-6">
+            <div className="flex justify-between items-end mb-8 sm:mb-12">
               <div>
-                <h2 className="text-3xl sm:text-4xl font-serif font-bold text-white mb-2">
+                <h2 className="text-3xl sm:text-4xl font-serif font-bold text-white mb-1 sm:mb-2">
                   Pièces <span className="gold-text">Vedettes</span>
                 </h2>
-                <p className="text-luxury-muted">Notre sélection exclusive du moment</p>
+                <p className="text-sm sm:text-base text-luxury-muted">Notre sélection exclusive du moment</p>
               </div>
-              <Link href="/shop" className="text-sm text-gold-400 hover:text-gold-300 flex items-center gap-1 transition-colors">
+              <Link href="/shop" className="shrink-0 text-sm text-gold-400 hover:text-gold-300 flex items-center gap-1 transition-colors">
                 Voir tout <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
@@ -179,9 +184,11 @@ export default async function HomePage() {
             {featured.length === 0 ? (
               <p className="text-luxury-muted text-center py-12">La collection arrive bientôt.</p>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:overflow-visible">
                 {featured.map((p) => (
-                  <ProductCard key={p.id} product={p} />
+                  <div key={p.id} className="shrink-0 w-[68%] sm:w-auto snap-start">
+                    <ProductCard product={p} />
+                  </div>
                 ))}
               </div>
             )}
@@ -189,20 +196,20 @@ export default async function HomePage() {
         </section>
 
         {/* Services */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-20">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section className="max-w-7xl mx-auto px-5 sm:px-6 py-14 sm:py-20">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {[
               { Icon: Shield, title: "Authenticité garantie", desc: "Chaque pièce est certifiée et accompagnée de sa documentation" },
               { Icon: Truck, title: "Livraison sécurisée", desc: "Livraison assurée avec suivi en temps réel dans tout le Maroc" },
               { Icon: Award, title: "Service premium", desc: "Notre équipe d'experts est à votre disposition" },
               { Icon: RefreshCw, title: "Retours 30 jours", desc: "Échanges et retours facilités sur toutes les commandes" },
             ].map(({ Icon, title, desc }) => (
-              <div key={title} className="text-center p-6 bg-luxury-card border border-luxury-border rounded-xl hover:border-gold-500/30 transition-colors">
-                <div className="w-12 h-12 rounded-full bg-gold-500/20 flex items-center justify-center mx-auto mb-4">
-                  <Icon className="h-6 w-6 text-gold-400" />
+              <div key={title} className="text-center p-5 sm:p-6 bg-luxury-card border border-luxury-border rounded-2xl hover:border-gold-500/30 transition-colors">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-gold-500/20 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                  <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-gold-400" />
                 </div>
-                <h3 className="font-semibold text-white mb-2">{title}</h3>
-                <p className="text-sm text-luxury-muted leading-relaxed">{desc}</p>
+                <h3 className="text-sm sm:text-base font-semibold text-white mb-1.5 sm:mb-2">{title}</h3>
+                <p className="text-xs sm:text-sm text-luxury-muted leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -210,6 +217,7 @@ export default async function HomePage() {
 
       </main>
       <Footer />
+      <MobileTabBar />
     </div>
   );
 }
