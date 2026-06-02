@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { getSession } from "@/lib/session";
+import { getSession, hasSessionConfig } from "@/lib/session";
 import { createAuditLog } from "@/lib/audit";
 import { createNotification, notifyAdmins } from "@/lib/notifications";
 import { checkRateLimit } from "@/lib/rate-limit";
@@ -39,9 +39,15 @@ async function createLoginSession(userId: string, ipAddress?: string, userAgent?
   return token;
 }
 
+const AUTH_CONFIG_ERROR = "Authentication is not configured. Set SESSION_SECRET in production.";
+
 export async function registerAction(
   formData: FormData,
 ): Promise<ActionResult<{ email: string }>> {
+  if (!hasSessionConfig()) {
+    return { success: false, error: AUTH_CONFIG_ERROR };
+  }
+
   const { ipAddress, userAgent } = await getRequestMeta();
   const emailForLimit = String(formData.get("email") ?? "unknown").toLowerCase();
   const limited = checkRateLimit(`register:${ipAddress}:${emailForLimit}`, 5, 10 * 60 * 1000);
@@ -122,6 +128,10 @@ export async function registerAction(
 export async function loginAction(
   formData: FormData,
 ): Promise<ActionResult<{ role: Role }>> {
+  if (!hasSessionConfig()) {
+    return { success: false, error: AUTH_CONFIG_ERROR };
+  }
+
   const { ipAddress, userAgent } = await getRequestMeta();
   const emailForLimit = String(formData.get("email") ?? "unknown").toLowerCase();
   const limited = checkRateLimit(`login:${ipAddress}:${emailForLimit}`, 8, 10 * 60 * 1000);
@@ -187,6 +197,10 @@ export async function loginAction(
 }
 
 export async function logoutAction() {
+  if (!hasSessionConfig()) {
+    redirect("/login");
+  }
+
   const session = await getSession();
   if (session.sessionToken) {
     await db.loginSession.updateMany({
@@ -202,6 +216,10 @@ export async function logoutAction() {
 export async function changePasswordAction(
   formData: FormData,
 ): Promise<ActionResult> {
+  if (!hasSessionConfig()) {
+    return { success: false, error: AUTH_CONFIG_ERROR };
+  }
+
   const session = await getSession();
   if (!session.isLoggedIn) return { success: false, error: "Not authenticated" };
 

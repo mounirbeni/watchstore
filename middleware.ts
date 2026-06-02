@@ -4,7 +4,7 @@ import { getIronSession } from "iron-session";
 import type { SessionData } from "@/lib/session";
 
 const sessionOptions = {
-  password: process.env["SESSION_SECRET"] as string,
+  password: process.env["SESSION_SECRET"] ?? "",
   cookieName: "chronocraft_session",
   cookieOptions: {
     secure: process.env["NODE_ENV"] === "production",
@@ -13,9 +13,28 @@ const sessionOptions = {
   },
 };
 
+function hasSessionConfig(): boolean {
+  const password = process.env["SESSION_SECRET"];
+  return typeof password === "string" && password.length >= 32;
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const response = NextResponse.next();
+  const isProtected =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/checkout") ||
+    pathname === "/cart" ||
+    pathname.startsWith("/cart/");
+
+  if (!hasSessionConfig()) {
+    if (isProtected) {
+      return NextResponse.redirect(new URL(`/login?from=${encodeURIComponent(pathname)}`, request.url));
+    }
+    return response;
+  }
+
   const session = await getIronSession<SessionData>(request, response, sessionOptions);
 
   const isLoggedIn = session.isLoggedIn === true;
@@ -29,12 +48,7 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  if (
-    pathname.startsWith("/dashboard") ||
-    pathname.startsWith("/checkout") ||
-    pathname === "/cart" ||
-    pathname.startsWith("/cart/")
-  ) {
+  if (isProtected) {
     if (!isLoggedIn) {
       return NextResponse.redirect(new URL(`/login?from=${encodeURIComponent(pathname)}`, request.url));
     }
