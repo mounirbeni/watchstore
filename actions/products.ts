@@ -144,6 +144,10 @@ export async function updateProductAction(
 }
 
 export async function deleteProductAction(productId: string): Promise<ActionResult> {
+  return setProductActiveAction(productId, false);
+}
+
+export async function setProductActiveAction(productId: string, isActive: boolean): Promise<ActionResult> {
   const admin = await requireAdmin().catch(() => null);
   if (!admin) return { success: false, error: "Accès refusé" };
 
@@ -152,19 +156,22 @@ export async function deleteProductAction(productId: string): Promise<ActionResu
 
   await db.product.update({
     where: { id: productId },
-    data: { isActive: false },
+    data: { isActive },
   });
 
   await createAuditLog({
     userId: admin.userId,
-    action: "DELETE",
+    action: "UPDATE",
     entity: "Product",
     entityId: productId,
-    oldValues: { name: product.name },
+    oldValues: { name: product.name, isActive: product.isActive },
+    newValues: { name: product.name, isActive },
   });
 
   revalidatePath("/admin/products");
+  revalidatePath(`/admin/products/${productId}`);
   revalidatePath("/shop");
+  revalidatePath(`/products/${product.slug}`);
   return { success: true, data: undefined };
 }
 
@@ -177,7 +184,25 @@ export async function updateStockAction(
 
   if (stock < 0) return { success: false, error: "Stock invalide" };
 
+  const product = await db.product.findUnique({
+    where: { id: productId },
+    select: { id: true, name: true, slug: true, stock: true },
+  });
+  if (!product) return { success: false, error: "Produit introuvable" };
+
   await db.product.update({ where: { id: productId }, data: { stock } });
+
+  await createAuditLog({
+    userId: admin.userId,
+    action: "UPDATE",
+    entity: "Product",
+    entityId: productId,
+    oldValues: { name: product.name, stock: product.stock },
+    newValues: { name: product.name, stock },
+  });
+
   revalidatePath("/admin/products");
+  revalidatePath(`/admin/products/${productId}`);
+  revalidatePath(`/products/${product.slug}`);
   return { success: true, data: undefined };
 }
