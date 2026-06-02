@@ -110,7 +110,7 @@ export default async function ProductDetailPage({ params }: Props) {
         <div className="space-y-4">
           <div className="relative aspect-square rounded-2xl overflow-hidden bg-luxury-card border border-luxury-border">
             {primaryImage ? (
-              <Image src={primaryImage.url} alt={primaryImage.alt ?? product.name} fill className="object-cover" priority />
+              <Image src={primaryImage.url} alt={primaryImage.altText ?? primaryImage.alt ?? product.name} fill className="object-cover" priority />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-6xl text-luxury-muted">⌚</div>
             )}
@@ -125,7 +125,7 @@ export default async function ProductDetailPage({ params }: Props) {
             <div className="grid grid-cols-4 gap-3">
               {product.images.map((img) => (
                 <div key={img.id} className="aspect-square rounded-lg overflow-hidden bg-luxury-card border border-luxury-border hover:border-gold-500/50 transition-colors cursor-pointer">
-                  <Image src={img.url} alt={img.alt ?? product.name} width={120} height={120} className="object-cover w-full h-full" />
+                  <Image src={img.url} alt={img.altText ?? img.alt ?? product.name} width={120} height={120} className="object-cover w-full h-full" />
                 </div>
               ))}
             </div>

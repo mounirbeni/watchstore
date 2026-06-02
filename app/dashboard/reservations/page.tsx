@@ -59,7 +59,7 @@ export default async function DashboardReservationsPage() {
                     {image && (
                       <Image
                         src={image.url}
-                        alt={image.alt ?? reservation.product.name}
+                        alt={image.altText ?? image.alt ?? reservation.product.name}
                         fill
                         sizes="96px"
                         className="object-cover"

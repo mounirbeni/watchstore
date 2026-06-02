@@ -6,7 +6,39 @@ import { createAuditLog } from "@/lib/audit";
 import { ProductSchema } from "@/validations";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils";
+import { deleteProductImage } from "@/lib/product-image-storage";
 import type { ActionResult } from "./auth";
+
+interface ProductImagePayload {
+  id?: string;
+  url: string;
+  publicId?: string | null;
+  altText?: string | null;
+  isPrimary?: boolean;
+  sortOrder?: number;
+}
+
+function parseProductImages(formData: FormData): ProductImagePayload[] {
+  const raw = String(formData.get("productImages") ?? "[]");
+  const parsed = JSON.parse(raw) as ProductImagePayload[];
+
+  if (!Array.isArray(parsed)) return [];
+
+  const images = parsed
+    .filter((image) => typeof image.url === "string" && image.url.startsWith("https://"))
+    .map((image, index) => ({
+      id: typeof image.id === "string" ? image.id : undefined,
+      url: image.url.trim(),
+      publicId: typeof image.publicId === "string" && image.publicId.trim() ? image.publicId.trim() : null,
+      altText: typeof image.altText === "string" && image.altText.trim() ? image.altText.trim() : null,
+      isPrimary: Boolean(image.isPrimary),
+      sortOrder: Number.isInteger(image.sortOrder) ? Number(image.sortOrder) : index,
+    }))
+    .sort((a, b) => a.sortOrder - b.sortOrder);
+
+  const primaryIndex = Math.max(0, images.findIndex((image) => image.isPrimary));
+  return images.map((image, index) => ({ ...image, sortOrder: index, isPrimary: index === primaryIndex }));
+}
 
 export async function createProductAction(formData: FormData): Promise<ActionResult<{ slug: string }>> {
   const admin = await requireAdmin().catch(() => null);
@@ -27,10 +59,22 @@ export async function createProductAction(formData: FormData): Promise<ActionRes
     };
   }
 
+  let productImages: ProductImagePayload[];
+  try {
+    productImages = parseProductImages(formData);
+  } catch {
+    return { success: false, error: "Invalid product image data" };
+  }
+
+  if (productImages.length === 0) {
+    return { success: false, error: "Upload at least one product image before saving." };
+  }
+
+  if (productImages.some((image) => !image.publicId)) {
+    return { success: false, error: "Product images must be uploaded from the device before saving." };
+  }
+
   const slug = slugify(parsed.data.name);
-  const imageUrls = (formData.getAll("images") as string[])
-    .map((url) => url.trim())
-    .filter(Boolean);
 
   const product = await db.product.create({
     data: {
@@ -39,11 +83,13 @@ export async function createProductAction(formData: FormData): Promise<ActionRes
       price: parsed.data.price,
       comparePrice: parsed.data.comparePrice ?? undefined,
       images: {
-        create: imageUrls.map((url, i) => ({
-          url,
-          alt: parsed.data.name,
+        create: productImages.map((image, i) => ({
+          url: image.url,
+          publicId: image.publicId,
+          altText: image.altText ?? parsed.data.name,
+          alt: image.altText ?? parsed.data.name,
           sortOrder: i,
-          isPrimary: i === 0,
+          isPrimary: image.isPrimary,
         })),
       },
     },
@@ -84,13 +130,30 @@ export async function updateProductAction(
     };
   }
 
-  const existing = await db.product.findUnique({ where: { id: productId } });
+  const existing = await db.product.findUnique({
+    where: { id: productId },
+    include: { images: true },
+  });
   if (!existing) return { success: false, error: "Produit introuvable" };
 
-  const imageUrls = (formData.getAll("images") as string[])
-    .map((url) => url.trim())
-    .filter(Boolean);
-  const replaceImages = formData.get("replaceImages") === "true";
+  let productImages: ProductImagePayload[];
+  try {
+    productImages = parseProductImages(formData);
+  } catch {
+    return { success: false, error: "Invalid product image data" };
+  }
+
+  if (productImages.length === 0) {
+    return { success: false, error: "Upload at least one product image before saving." };
+  }
+
+  const existingIds = new Set(existing.images.map((image) => image.id));
+  if (productImages.some((image) => !image.publicId && (!image.id || !existingIds.has(image.id)))) {
+    return { success: false, error: "New product images must be uploaded from the device before saving." };
+  }
+
+  const submittedPublicIds = new Set(productImages.map((image) => image.publicId).filter(Boolean));
+  const removedStorageImages = existing.images.filter((image) => image.publicId && !submittedPublicIds.has(image.publicId));
 
   await db.product.update({
     where: { id: productId },
@@ -112,21 +175,23 @@ export async function updateProductAction(
       isFeatured: parsed.data.isFeatured,
       isActive: parsed.data.isActive,
       categoryId: parsed.data.categoryId ?? null,
-      ...(replaceImages
-        ? {
-            images: {
-              deleteMany: {},
-              create: imageUrls.map((url, i) => ({
-                url,
-                alt: parsed.data.name,
-                sortOrder: i,
-                isPrimary: i === 0,
-              })),
-            },
-          }
-        : {}),
+      images: {
+        deleteMany: {},
+        create: productImages.map((image, i) => ({
+          url: image.url,
+          publicId: image.publicId ?? null,
+          altText: image.altText ?? parsed.data.name,
+          alt: image.altText ?? parsed.data.name,
+          sortOrder: i,
+          isPrimary: image.isPrimary,
+        })),
+      },
     },
   });
+
+  for (const image of removedStorageImages) {
+    if (image.publicId) await deleteProductImage(image.publicId);
+  }
 
   await createAuditLog({
     userId: admin.userId,

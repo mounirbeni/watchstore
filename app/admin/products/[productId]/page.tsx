@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/session";
 import { updateProductAction } from "@/actions/products";
 import Card from "@/components/ui/Card";
 import SubmitButton from "@/components/forms/SubmitButton";
+import ProductImageUploader from "../ProductImageUploader";
 
 export const metadata = { title: "Edit Product" };
 
@@ -32,13 +33,6 @@ export default async function AdminProductEditPage({ params }: Props) {
 
   if (!product) notFound();
 
-  const imageSlots = [
-    ...product.images.map((image) => image.url),
-    "",
-    "",
-    "",
-  ].slice(0, 6);
-
   return (
     <div className="space-y-6">
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -59,8 +53,6 @@ export default async function AdminProductEditPage({ params }: Props) {
 
       <Card className="rounded-2xl">
         <form action={updateProduct.bind(null, product.id)} className="grid gap-5">
-          <input type="hidden" name="replaceImages" value="true" />
-
           <section className="grid gap-4 md:grid-cols-2">
             <label className="space-y-2">
               <span className="text-sm font-medium text-luxury-light">Watch name</span>
@@ -154,20 +146,16 @@ export default async function AdminProductEditPage({ params }: Props) {
             </label>
           </section>
 
-          <section className="space-y-3">
-            <div>
-              <h2 className="text-lg font-serif text-white">Gallery image URLs</h2>
-              <p className="mt-1 text-sm text-luxury-muted">The first URL becomes the primary image. Empty all fields to remove the gallery.</p>
-            </div>
-            <div className="grid gap-3 md:grid-cols-2">
-              {imageSlots.map((url, index) => (
-                <label key={index} className="space-y-2">
-                  <span className="text-sm font-medium text-luxury-light">Image {index + 1}</span>
-                  <input name="images" type="url" defaultValue={url} className="input-luxury w-full" placeholder="https://..." />
-                </label>
-              ))}
-            </div>
-          </section>
+          <ProductImageUploader
+            initialImages={product.images.map((image) => ({
+              id: image.id,
+              url: image.url,
+              publicId: image.publicId,
+              altText: image.altText ?? image.alt,
+              isPrimary: image.isPrimary,
+              sortOrder: image.sortOrder,
+            }))}
+          />
 
           <div className="flex flex-wrap items-center gap-3 border-t border-luxury-border pt-5">
             <SubmitButton>Save product changes</SubmitButton>

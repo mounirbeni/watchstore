@@ -6,6 +6,7 @@ import { createProductAction, setProductActiveAction, updateStockAction } from "
 import { formatPrice } from "@/lib/utils";
 import Card from "@/components/ui/Card";
 import SubmitButton from "@/components/forms/SubmitButton";
+import ProductImageUploader from "./ProductImageUploader";
 
 export const metadata = { title: "Admin Products" };
 
@@ -161,7 +162,7 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
             <input name="waterResist" className="input-luxury" placeholder="Water resistance" />
           </div>
           <input name="strapMaterial" className="input-luxury" placeholder="Strap material" />
-          <input name="images" type="url" className="input-luxury" placeholder="Primary image URL" />
+          <ProductImageUploader />
           <input type="hidden" name="isActive" value="true" />
           <label className="flex items-center gap-2 text-sm text-luxury-muted"><input type="checkbox" name="isFeatured" value="true" /> Featured product</label>
           <SubmitButton>Create product</SubmitButton>
@@ -223,7 +224,7 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
                       <div className="flex items-center gap-4">
                         <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl border border-luxury-border bg-luxury-dark">
                           {primaryImage ? (
-                            // eslint-disable-next-line @next/next/no-img-element -- Admin thumbnails must support arbitrary product image URLs.
+                            // eslint-disable-next-line @next/next/no-img-element -- Admin thumbnails may include stored Cloudinary URLs and legacy records.
                             <img src={primaryImage} alt={product.name} className="h-full w-full object-cover" />
                           ) : (
                             <span className="text-xs text-luxury-muted">No img</span>

@@ -367,6 +367,7 @@ async function main() {
         images: {
           create: images.map((url, i) => ({
             url,
+            altText: productData.name,
             alt: productData.name,
             sortOrder: i,
             isPrimary: i === 0,

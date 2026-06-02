@@ -119,7 +119,7 @@ export default async function AdminInventoryPage() {
                         <div className="flex min-w-0 items-center gap-4">
                           <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-luxury-border bg-luxury-dark">
                             {image ? (
-                              // eslint-disable-next-line @next/next/no-img-element -- Admin thumbnails must support arbitrary product image URLs.
+                              // eslint-disable-next-line @next/next/no-img-element -- Admin thumbnails may include stored Cloudinary URLs and legacy records.
                               <img src={image} alt={product.name} className="h-full w-full object-cover" />
                             ) : (
                               <span className="text-[10px] uppercase tracking-[0.12em] text-luxury-muted">No img</span>
