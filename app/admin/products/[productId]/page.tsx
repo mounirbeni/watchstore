@@ -9,6 +9,12 @@ import ProductImageUploader from "../ProductImageUploader";
 
 export const metadata = { title: "Edit Product" };
 
+const cloudinaryConfigured = !!(
+  process.env.CLOUDINARY_CLOUD_NAME &&
+  process.env.CLOUDINARY_API_KEY &&
+  process.env.CLOUDINARY_API_SECRET
+);
+
 interface Props {
   params: Promise<{ productId: string }>;
 }
@@ -147,6 +153,7 @@ export default async function AdminProductEditPage({ params }: Props) {
           </section>
 
           <ProductImageUploader
+            cloudinaryConfigured={cloudinaryConfigured}
             initialImages={product.images.map((image) => ({
               id: image.id,
               url: image.url,

@@ -20,6 +20,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: validationError }, { status: 400 });
   }
 
+  const configured = !!(
+    process.env.CLOUDINARY_CLOUD_NAME &&
+    process.env.CLOUDINARY_API_KEY &&
+    process.env.CLOUDINARY_API_SECRET
+  );
+  if (!configured) {
+    return NextResponse.json(
+      { error: "Cloudinary storage is not configured. Add CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET to your environment variables, or use 'Add by URL' to add images via link." },
+      { status: 503 },
+    );
+  }
+
   try {
     const uploaded = await uploadProductImage(file);
     return NextResponse.json(uploaded);

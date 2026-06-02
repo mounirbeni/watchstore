@@ -59,6 +59,12 @@ async function updateProductStatus(formData: FormData) {
   await setProductActiveAction(productId, isActive);
 }
 
+const cloudinaryConfigured = !!(
+  process.env.CLOUDINARY_CLOUD_NAME &&
+  process.env.CLOUDINARY_API_KEY &&
+  process.env.CLOUDINARY_API_SECRET
+);
+
 export default async function AdminProductsPage({ searchParams }: AdminProductsPageProps) {
   await requireAdmin();
 
@@ -162,7 +168,7 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
             <input name="waterResist" className="input-luxury" placeholder="Water resistance" />
           </div>
           <input name="strapMaterial" className="input-luxury" placeholder="Strap material" />
-          <ProductImageUploader />
+          <ProductImageUploader cloudinaryConfigured={cloudinaryConfigured} />
           <input type="hidden" name="isActive" value="true" />
           <label className="flex items-center gap-2 text-sm text-luxury-muted"><input type="checkbox" name="isFeatured" value="true" /> Featured product</label>
           <SubmitButton>Create product</SubmitButton>
