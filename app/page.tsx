@@ -219,7 +219,7 @@ export default async function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5">
                 <span className="inline-flex items-center gap-1.5 bg-gold-500 text-black text-xs font-bold px-3 py-1.5 rounded-full">
-                  <Gem className="h-3 w-3" /> Artisanat d'exception
+                  <Gem className="h-3 w-3" /> Artisanat d&apos;exception
                 </span>
               </div>
             </div>
@@ -229,7 +229,7 @@ export default async function HomePage() {
               <div>
                 <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-3">Notre Histoire</p>
                 <h2 className="text-3xl sm:text-4xl font-serif font-bold text-white leading-tight mb-4">
-                  L'excellence<br />
+                  L&apos;excellence<br />
                   <span className="gold-text">à portée de main</span>
                 </h2>
                 <p className="text-sm sm:text-base text-luxury-muted leading-relaxed">
@@ -267,7 +267,7 @@ export default async function HomePage() {
             <div className="max-w-7xl mx-auto px-5 sm:px-6">
               <div className="flex justify-between items-end mb-6 sm:mb-10">
                 <div>
-                  <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-1.5">Vient d'arriver</p>
+                  <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-1.5">Vient d&apos;arriver</p>
                   <h2 className="text-2xl sm:text-4xl font-serif font-bold text-white">
                     Nouvelles <span className="gold-text">Arrivées</span>
                   </h2>
@@ -292,7 +292,7 @@ export default async function HomePage() {
           <div className="text-center mb-8 sm:mb-12">
             <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-2">Avis clients</p>
             <h2 className="text-2xl sm:text-4xl font-serif font-bold text-white mb-2">
-              Ce qu'ils <span className="gold-text">disent</span>
+              Ce qu&apos;ils <span className="gold-text">disent</span>
             </h2>
             <div className="flex items-center justify-center gap-1 mt-3">
               {Array.from({ length: 5 }).map((_, i) => (

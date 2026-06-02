@@ -104,7 +104,7 @@ export default function HeroCarousel() {
     const dx = (e.changedTouches[0]?.clientX ?? 0) - touchStartX.current;
     const dy = (e.changedTouches[0]?.clientY ?? 0) - touchStartY.current;
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44) {
-      dx < 0 ? next() : prev();
+      if (dx < 0) next(); else prev();
     }
     touchStartX.current = null;
     touchStartY.current = null;
