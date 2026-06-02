@@ -18,7 +18,7 @@ export default async function Header() {
   const cartCount = user ? await getCartCount(user.userId) : 0;
 
   return (
-    <header className="sticky top-0 z-50 glass border-b border-luxury-border safe-top">
+    <header className="sticky top-0 z-50 bg-luxury-black/80 backdrop-blur-md border-b border-luxury-border/40 safe-top">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
