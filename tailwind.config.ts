@@ -9,32 +9,40 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Luxury Gold — warm champagne gold (#C9A86A primary / #D8B67A hover)
         gold: {
-          50:  "#fdfbf0",
-          100: "#faf3d0",
-          200: "#f5e59a",
-          300: "#edd45f",
-          400: "#e5c132",
-          500: "#c9a227",
-          600: "#a67c20",
-          700: "#7e5d1b",
-          800: "#5a4118",
-          900: "#3c2c12",
+          50:  "#faf6ee",
+          100: "#f2e8d4",
+          200: "#e7d3a9",
+          300: "#ddc28c",
+          400: "#d8b67a", // Rich Gold — hover / active
+          500: "#c9a86a", // Luxury Gold — primary accent
+          600: "#b08f50",
+          700: "#8c7140",
+          800: "#6a5530",
+          900: "#483a20",
         },
         luxury: {
-          black:  "#0a0a0a",
-          dark:   "#111111",
-          card:   "#1a1a1a",
-          border: "#2a2a2a",
-          muted:  "#6b6b6b",
-          light:  "#d4d4d4",
-          white:  "#f5f5f0",
+          black:  "#0a0a0a", // Deep Black — primary background
+          dark:   "#161616", // Charcoal Black — secondary background
+          card:   "#1c1c1c", // Dark Graphite — cards & surfaces
+          border: "#373126", // Gold-tinted graphite hairline (works with opacity modifiers)
+          muted:  "#8a8a8a", // tertiary text
+          light:  "#b8b8b8", // Soft Silver — secondary text
+          white:  "#ffffff", // Pure White — primary text
         },
       },
       fontFamily: {
         sans:   ["var(--font-inter)", "system-ui", "sans-serif"],
         serif:  ["var(--font-playfair)", "Georgia", "serif"],
         mono:   ["var(--font-mono)", "monospace"],
+      },
+      boxShadow: {
+        "gold-glow":    "0 0 30px rgba(201, 168, 106, 0.20)",
+        "gold-glow-sm": "0 0 16px rgba(201, 168, 106, 0.18)",
+      },
+      backgroundImage: {
+        "premium-gradient": "linear-gradient(135deg, #0a0a0a 0%, #161616 100%)",
       },
       animation: {
         "fade-in":    "fadeIn 0.3s ease-in-out",
