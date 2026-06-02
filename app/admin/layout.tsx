@@ -5,6 +5,7 @@ import { logoutAction } from "@/actions/auth";
 import {
   LayoutDashboard, Package, ShoppingBag, Users,
   Calendar, FileText, LogOut, Settings, Bell,
+  Warehouse,
 } from "lucide-react";
 import NotificationBell from "@/components/notifications/NotificationBell";
 import type { Metadata } from "next";
@@ -14,6 +15,7 @@ export const metadata: Metadata = { title: { default: "Administration", template
 const navItems = [
   { href: "/admin",              label: "Vue d'ensemble", Icon: LayoutDashboard },
   { href: "/admin/products",     label: "Produits",       Icon: Package },
+  { href: "/admin/inventory",    label: "Inventaire",     Icon: Warehouse },
   { href: "/admin/orders",       label: "Commandes",      Icon: ShoppingBag },
   { href: "/admin/reservations", label: "Réservations",   Icon: Calendar },
   { href: "/admin/customers",    label: "Clients",        Icon: Users },

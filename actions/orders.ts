@@ -448,6 +448,86 @@ export async function updateOrderStatusAction(formData: FormData): Promise<Actio
   return { success: true, data: undefined };
 }
 
+export async function updateAdminOrderAction(formData: FormData): Promise<ActionResult> {
+  const admin = await requireAdmin().catch(() => null);
+  if (!admin) return { success: false, error: "AccÃ¨s refusÃ©" };
+
+  const orderId = String(formData.get("orderId") ?? "");
+  const statusValue = String(formData.get("status") ?? "");
+  const adminNotes = String(formData.get("adminNotes") ?? "").trim();
+  const trackingNumber = String(formData.get("trackingNumber") ?? "").trim();
+  const customerPhone = String(formData.get("customerPhone") ?? "").trim();
+
+  if (!orderId) return { success: false, error: "Commande introuvable." };
+  if (!Object.values(OrderStatus).includes(statusValue as OrderStatus)) {
+    return { success: false, error: "Statut invalide" };
+  }
+
+  const order = await db.order.findUnique({
+    where: { id: orderId },
+    include: { items: true },
+  });
+  if (!order) return { success: false, error: "Commande introuvable." };
+
+  const status = statusValue as OrderStatus;
+  const data: Record<string, unknown> = {
+    status,
+    adminNotes: adminNotes || null,
+    trackingNumber: trackingNumber || null,
+    customerPhone: customerPhone || null,
+  };
+
+  if (status === OrderStatus.CONFIRMED && !order.confirmedAt) data["confirmedAt"] = new Date();
+  if (status === OrderStatus.PREPARING && !order.preparingAt) data["preparingAt"] = new Date();
+  if (status === OrderStatus.OUT_FOR_DELIVERY && !order.outForDeliveryAt) data["outForDeliveryAt"] = new Date();
+  if (status === OrderStatus.DELIVERED && !order.deliveredAt) {
+    data["deliveredAt"] = new Date();
+    data["remainingBalance"] = 0;
+  }
+  if (status === OrderStatus.CANCELLED && !order.cancelledAt) data["cancelledAt"] = new Date();
+
+  const wasDeducted = STOCK_DEDUCTED.includes(order.status);
+  const nowReleased = status === OrderStatus.CANCELLED || status === OrderStatus.REFUNDED;
+  if (wasDeducted && nowReleased) {
+    for (const item of order.items) {
+      await db.product.update({ where: { id: item.productId }, data: { stock: { increment: item.quantity } } });
+    }
+  }
+
+  await db.order.update({ where: { id: order.id }, data });
+
+  await createAuditLog({
+    userId: admin.userId,
+    action: "ADMIN_UPDATE_ORDER",
+    entity: "Order",
+    entityId: order.id,
+    oldValues: {
+      status: order.status,
+      adminNotes: order.adminNotes,
+      trackingNumber: order.trackingNumber,
+      customerPhone: order.customerPhone,
+    },
+    newValues: { status, adminNotes: adminNotes || null, trackingNumber: trackingNumber || null, customerPhone: customerPhone || null },
+  });
+
+  await createNotification({
+    userId: order.userId,
+    category: status === OrderStatus.OUT_FOR_DELIVERY || status === OrderStatus.DELIVERED
+      ? NotificationCategory.SHIPPING
+      : NotificationCategory.ORDER,
+    priority: NotificationPriority.IMPORTANT,
+    title: "Mise Ã  jour de commande",
+    message: `Votre commande ${order.orderNumber} est maintenant ${status}.`,
+    actionUrl: `/dashboard/orders/${order.orderNumber}`,
+    data: { orderNumber: order.orderNumber, status, trackingNumber: trackingNumber || null },
+  });
+
+  revalidateOrderViews();
+  revalidatePath(`/admin/orders/${order.id}`);
+  revalidatePath(`/dashboard/orders/${order.orderNumber}`);
+  return { success: true, data: undefined };
+}
+
 // ─── Cancel order (customer or admin) ────────────────────────────────────────
 
 const CLIENT_CANCELLABLE: OrderStatus[] = [
