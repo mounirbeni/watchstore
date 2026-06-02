@@ -28,6 +28,21 @@ async function main() {
       update: {},
       create: { name: "Luxe", slug: "luxe", description: "Collection haute horlogerie", imageUrl: "https://images.unsplash.com/photo-1609587312208-cea54be969e7?w=500&q=80", sortOrder: 4 },
     }),
+    prisma.category.upsert({
+      where: { slug: "smart" },
+      update: {},
+      create: { name: "Smart", slug: "smart", description: "Montres connectees et modernes", imageUrl: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80", sortOrder: 5 },
+    }),
+    prisma.category.upsert({
+      where: { slug: "pack" },
+      update: {},
+      create: { name: "Pack", slug: "pack", description: "Packs et coffrets de montres", imageUrl: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80", sortOrder: 6 },
+    }),
+    prisma.category.upsert({
+      where: { slug: "limited-edition" },
+      update: {},
+      create: { name: "Limited Edition", slug: "limited-edition", description: "Editions limitees et pieces exclusives", imageUrl: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=500&q=80", sortOrder: 7 },
+    }),
   ]);
 
   const [homme, femme, sport, luxe] = categories;
