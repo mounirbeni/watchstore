@@ -173,17 +173,10 @@ export default function ProductImageUploader({
             : image
         )));
       } catch (uploadError) {
+        const errMsg = uploadError instanceof Error ? uploadError.message : "Image upload failed.";
+        setError(errMsg);
+        setImages((current) => current.filter((image) => image.localId !== localId));
         URL.revokeObjectURL(previewUrl);
-        setImages((current) => current.map((image) => (
-          image.localId === localId
-            ? {
-                ...image,
-                url: "",
-                uploading: false,
-                error: uploadError instanceof Error ? uploadError.message : "Image upload failed.",
-              }
-            : image
-        )));
       }
     }
   };
@@ -353,7 +346,7 @@ export default function ProductImageUploader({
 
       {images.length > 0 && (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {images.filter((image) => !image.error || image.uploading).map((image, index) => (
+          {images.map((image, index) => (
             <article key={image.localId} className="overflow-hidden rounded-2xl border border-luxury-border bg-luxury-dark/40">
               <div className="relative aspect-square bg-luxury-dark">
                 {image.url && (
@@ -406,7 +399,7 @@ export default function ProductImageUploader({
                   <button
                     type="button"
                     onClick={() => moveImage(image.localId, 1)}
-                    disabled={index === images.filter((i) => !i.error || i.uploading).length - 1 || image.uploading}
+                    disabled={index === images.length - 1 || image.uploading}
                     className="rounded-lg border border-luxury-border px-3 py-2 text-xs font-semibold text-luxury-muted transition hover:text-white disabled:opacity-40"
                   >
                     Down
