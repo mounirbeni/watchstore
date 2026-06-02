@@ -28,7 +28,9 @@ export async function createProductAction(formData: FormData): Promise<ActionRes
   }
 
   const slug = slugify(parsed.data.name);
-  const imageUrls = (formData.getAll("images") as string[]).filter(Boolean);
+  const imageUrls = (formData.getAll("images") as string[])
+    .map((url) => url.trim())
+    .filter(Boolean);
 
   const product = await db.product.create({
     data: {
@@ -85,15 +87,32 @@ export async function updateProductAction(
   const existing = await db.product.findUnique({ where: { id: productId } });
   if (!existing) return { success: false, error: "Produit introuvable" };
 
-  const imageUrls = (formData.getAll("images") as string[]).filter(Boolean);
+  const imageUrls = (formData.getAll("images") as string[])
+    .map((url) => url.trim())
+    .filter(Boolean);
+  const replaceImages = formData.get("replaceImages") === "true";
 
   await db.product.update({
     where: { id: productId },
     data: {
-      ...parsed.data,
+      name: parsed.data.name,
+      description: parsed.data.description,
       price: parsed.data.price,
       comparePrice: parsed.data.comparePrice ?? null,
-      ...(imageUrls.length > 0
+      sku: parsed.data.sku ?? null,
+      stock: parsed.data.stock,
+      lowStockAt: parsed.data.lowStockAt,
+      brand: parsed.data.brand ?? null,
+      movement: parsed.data.movement ?? null,
+      caseSize: parsed.data.caseSize ?? null,
+      caseMaterial: parsed.data.caseMaterial ?? null,
+      waterResist: parsed.data.waterResist ?? null,
+      strapMaterial: parsed.data.strapMaterial ?? null,
+      badge: parsed.data.badge ?? null,
+      isFeatured: parsed.data.isFeatured,
+      isActive: parsed.data.isActive,
+      categoryId: parsed.data.categoryId ?? null,
+      ...(replaceImages
         ? {
             images: {
               deleteMany: {},
@@ -119,6 +138,7 @@ export async function updateProductAction(
   });
 
   revalidatePath("/admin/products");
+  revalidatePath(`/admin/products/${productId}`);
   revalidatePath(`/products/${existing.slug}`);
   return { success: true, data: undefined };
 }

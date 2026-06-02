@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 import { createProductAction, deleteProductAction, updateStockAction } from "@/actions/products";
@@ -94,9 +95,14 @@ export default async function AdminProductsPage() {
                   </td>
                   <td className="px-5 py-4 font-medium text-white">{formatPrice(product.price)}</td>
                   <td className="px-5 py-4">
-                    <form action={deactivateProduct.bind(null, product.id)}>
+                    <div className="flex flex-wrap gap-2">
+                      <Link href={`/admin/products/${product.id}`} className="rounded-xl border border-gold-500/40 px-3 py-2 text-xs font-semibold text-gold-400 transition hover:bg-gold-500/10">
+                        Edit
+                      </Link>
+                      <form action={deactivateProduct.bind(null, product.id)}>
                       <SubmitButton variant="danger">Deactivate</SubmitButton>
-                    </form>
+                      </form>
+                    </div>
                   </td>
                 </tr>
               ))}
