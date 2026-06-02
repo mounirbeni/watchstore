@@ -112,7 +112,7 @@ export default function HeroCarousel() {
 
   return (
     <section
-      className="relative w-full overflow-hidden aspect-square"
+      className="relative w-full overflow-hidden aspect-square sm:aspect-[16/7] sm:max-h-[820px]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={onTouchStart}
@@ -150,14 +150,14 @@ export default function HeroCarousel() {
         <span className="text-white/50 text-xs">{SLIDES.length}</span>
       </div>
 
-      {/* Content — sits at bottom of the square */}
-      <div className="absolute inset-0 z-20 flex flex-col justify-end">
-        <div className="w-full max-w-7xl mx-auto px-5 sm:px-10 pb-14 sm:pb-12">
+      {/* Content — bottom on mobile, vertically centered on desktop */}
+      <div className="absolute inset-0 z-20 flex flex-col justify-end sm:justify-center">
+        <div className="w-full max-w-7xl mx-auto px-5 sm:px-14 pb-14 sm:pb-0">
           {SLIDES.map((slide, i) => (
             <div
               key={slide.image}
               aria-hidden={i !== index}
-              className={`transition-all duration-600 ${
+              className={`max-w-2xl transition-all duration-600 ${
                 i === index
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-6 absolute pointer-events-none"
@@ -170,7 +170,7 @@ export default function HeroCarousel() {
               </p>
 
               {/* Title */}
-              <h1 className="text-[2.6rem] leading-[0.92] sm:text-6xl md:text-7xl font-serif font-bold text-white mb-4 sm:mb-5">
+              <h1 className="text-[2.6rem] leading-[0.92] sm:text-6xl md:text-7xl lg:text-8xl font-serif font-bold text-white mb-4 sm:mb-5">
                 {slide.titleTop}
                 <br />
                 <span className="gold-gradient-text">{slide.titleAccent}</span>
@@ -181,7 +181,7 @@ export default function HeroCarousel() {
                 {slide.description}
               </p>
 
-              {/* Buttons — large and thumb-friendly on mobile */}
+              {/* Buttons */}
               <div className="flex gap-3 flex-col xs:flex-row sm:flex-row">
                 <Link
                   href={slide.primaryHref}
