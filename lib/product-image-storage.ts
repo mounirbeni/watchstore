@@ -9,15 +9,44 @@ interface UploadedProductImage {
 }
 
 function getCloudinaryConfig() {
-  const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-  const apiKey = process.env.CLOUDINARY_API_KEY;
-  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+  let cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+  let apiKey = process.env.CLOUDINARY_API_KEY;
+  let apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+  // Fall back to the standard CLOUDINARY_URL (cloudinary://key:secret@cloud_name)
+  if ((!cloudName || !apiKey || !apiSecret) && process.env.CLOUDINARY_URL) {
+    const parsed = parseCloudinaryUrl(process.env.CLOUDINARY_URL);
+    if (parsed) {
+      cloudName = cloudName || parsed.cloudName;
+      apiKey = apiKey || parsed.apiKey;
+      apiSecret = apiSecret || parsed.apiSecret;
+    }
+  }
 
   if (!cloudName || !apiKey || !apiSecret) {
     throw new Error("Cloudinary storage is not configured");
   }
 
   return { cloudName, apiKey, apiSecret };
+}
+
+function parseCloudinaryUrl(url: string): { cloudName: string; apiKey: string; apiSecret: string } | null {
+  // cloudinary://<api_key>:<api_secret>@<cloud_name>
+  const match = url.match(/^cloudinary:\/\/([^:]+):([^@]+)@(.+)$/);
+  if (!match) return null;
+  const [, apiKey, apiSecret, cloudName] = match;
+  if (!apiKey || !apiSecret || !cloudName) return null;
+  return { apiKey, apiSecret, cloudName };
+}
+
+export function isCloudinaryConfigured(): boolean {
+  const hasParts = !!(
+    process.env.CLOUDINARY_CLOUD_NAME &&
+    process.env.CLOUDINARY_API_KEY &&
+    process.env.CLOUDINARY_API_SECRET
+  );
+  if (hasParts) return true;
+  return !!(process.env.CLOUDINARY_URL && parseCloudinaryUrl(process.env.CLOUDINARY_URL));
 }
 
 function signCloudinaryParams(params: Record<string, string | number>, apiSecret: string) {

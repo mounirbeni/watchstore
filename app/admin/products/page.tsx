@@ -7,6 +7,7 @@ import { formatPrice } from "@/lib/utils";
 import Card from "@/components/ui/Card";
 import SubmitButton from "@/components/forms/SubmitButton";
 import ProductImageUploader from "./ProductImageUploader";
+import { isCloudinaryConfigured } from "@/lib/product-image-storage";
 
 export const metadata = { title: "Admin Products" };
 
@@ -59,14 +60,9 @@ async function updateProductStatus(formData: FormData) {
   await setProductActiveAction(productId, isActive);
 }
 
-const cloudinaryConfigured = !!(
-  process.env.CLOUDINARY_CLOUD_NAME &&
-  process.env.CLOUDINARY_API_KEY &&
-  process.env.CLOUDINARY_API_SECRET
-);
-
 export default async function AdminProductsPage({ searchParams }: AdminProductsPageProps) {
   await requireAdmin();
+  const cloudinaryConfigured = isCloudinaryConfigured();
 
   const params = (await searchParams) ?? {};
   const query = firstParam(params.q).trim();

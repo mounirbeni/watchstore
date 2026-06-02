@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/session";
-import { uploadProductImage, validateProductImageFile } from "@/lib/product-image-storage";
+import { uploadProductImage, validateProductImageFile, isCloudinaryConfigured } from "@/lib/product-image-storage";
 
 export async function POST(request: Request) {
   const admin = await requireAdmin().catch(() => null);
@@ -20,14 +20,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: validationError }, { status: 400 });
   }
 
-  const configured = !!(
-    process.env.CLOUDINARY_CLOUD_NAME &&
-    process.env.CLOUDINARY_API_KEY &&
-    process.env.CLOUDINARY_API_SECRET
-  );
-  if (!configured) {
+  if (!isCloudinaryConfigured()) {
     return NextResponse.json(
-      { error: "Cloudinary storage is not configured. Add CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET to your environment variables, or use 'Add by URL' to add images via link." },
+      { error: "Cloudinary storage is not configured. Add CLOUDINARY_URL (or CLOUDINARY_CLOUD_NAME / CLOUDINARY_API_KEY / CLOUDINARY_API_SECRET) to your environment variables, or use 'Add by URL' to add images via link." },
       { status: 503 },
     );
   }

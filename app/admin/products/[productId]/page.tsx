@@ -6,14 +6,9 @@ import { updateProductAction } from "@/actions/products";
 import Card from "@/components/ui/Card";
 import SubmitButton from "@/components/forms/SubmitButton";
 import ProductImageUploader from "../ProductImageUploader";
+import { isCloudinaryConfigured } from "@/lib/product-image-storage";
 
 export const metadata = { title: "Edit Product" };
-
-const cloudinaryConfigured = !!(
-  process.env.CLOUDINARY_CLOUD_NAME &&
-  process.env.CLOUDINARY_API_KEY &&
-  process.env.CLOUDINARY_API_SECRET
-);
 
 interface Props {
   params: Promise<{ productId: string }>;
@@ -38,6 +33,8 @@ export default async function AdminProductEditPage({ params }: Props) {
   ]);
 
   if (!product) notFound();
+
+  const cloudinaryConfigured = isCloudinaryConfigured();
 
   return (
     <div className="space-y-6">
