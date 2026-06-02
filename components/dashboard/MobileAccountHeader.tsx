@@ -8,6 +8,7 @@ import {
   Settings,
   LogOut,
   ChevronRight,
+  Bell,
 } from "lucide-react";
 
 interface Props {
@@ -37,6 +38,7 @@ export default function MobileAccountHeader({
     { href: "/dashboard/orders", label: "Mes commandes", Icon: Package, badge: counts.orders },
     { href: "/dashboard/reservations", label: "Mes réservations", Icon: CalendarClock, badge: counts.reservations },
     { href: "/dashboard/wishlist", label: "Ma wishlist", Icon: Heart, badge: counts.wishlist },
+    { href: "/dashboard/notifications", label: "Notifications", Icon: Bell, badge: undefined as number | undefined },
     { href: "/dashboard/profile", label: "Mon profil", Icon: User, badge: undefined as number | undefined },
   ];
 

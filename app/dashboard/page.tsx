@@ -99,7 +99,10 @@ export default async function DashboardPage() {
         </Card>
 
         <Card className="rounded-2xl">
-          <h2 className="mb-4 text-xl font-serif text-white">Notifications</h2>
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <h2 className="text-xl font-serif text-white">Notifications</h2>
+            <Link href="/dashboard/notifications" className="text-sm text-gold-400 hover:text-gold-300 transition-colors">Tout voir</Link>
+          </div>
           <div className="space-y-3">
             {notifications.length === 0 ? (
               <p className="text-sm text-luxury-muted">Aucune notification.</p>

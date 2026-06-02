@@ -3,10 +3,12 @@
 import { db } from "@/lib/db";
 import { headers } from "next/headers";
 import { requireAuth, requireAdmin } from "@/lib/session";
-import { createAuditLog, notifyUser } from "@/lib/audit";
+import { createAuditLog } from "@/lib/audit";
+import { createNotification, notifyAdmins, checkLowStock } from "@/lib/notifications";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { computePricing } from "@/lib/pricing";
 import { generateOrderNumber, formatPrice } from "@/lib/utils";
+import { NotificationCategory, NotificationPriority } from "@prisma/client";
 import {
   CheckoutSchema,
   SubmitDepositSchema,
@@ -158,13 +160,34 @@ export async function createOrderAction(formData: FormData): Promise<ActionResul
   // Clear the cart — the items are now captured on the order.
   await db.cartItem.deleteMany({ where: { cartId: cart.id } });
 
-  await notifyUser(
-    session.userId,
-    "PAYMENT_UPDATE",
-    "Acompte requis pour confirmer",
-    `Votre commande ${orderNumber} est enregistrée. Réglez l'acompte de ${formatPrice(pricing.deposit)} pour la confirmer. Le solde de ${formatPrice(pricing.remaining)} sera payé à la livraison.`,
-    { orderNumber },
-  );
+  await createNotification({
+    userId: session.userId,
+    category: NotificationCategory.PAYMENT,
+    priority: NotificationPriority.IMPORTANT,
+    title: "Acompte requis pour confirmer",
+    message: `Votre commande ${orderNumber} est enregistrée. Réglez l'acompte de ${formatPrice(pricing.deposit)} pour la confirmer. Le solde de ${formatPrice(pricing.remaining)} sera payé à la livraison.`,
+    actionUrl: `/checkout/confirmation/${orderNumber}`,
+    data: { orderNumber },
+  });
+
+  // Admin notifications: new order + fraud alert if flagged.
+  await notifyAdmins({
+    category: NotificationCategory.ORDER,
+    priority: NotificationPriority.IMPORTANT,
+    title: "Nouvelle commande",
+    message: `Commande ${orderNumber} (${formatPrice(pricing.total)}) en attente d'acompte.`,
+    actionUrl: "/admin/orders",
+  });
+  if (flagged) {
+    await notifyAdmins({
+      category: NotificationCategory.SECURITY,
+      priority: NotificationPriority.CRITICAL,
+      title: "Activité suspecte détectée",
+      message: `La commande ${orderNumber} est marquée à risque : ${ordersLastHour} commandes en 1 h depuis la même session.`,
+      actionUrl: "/admin/orders?status=AWAITING_DEPOSIT",
+      email: true,
+    });
+  }
 
   await createAuditLog({
     userId: session.userId,
@@ -218,13 +241,23 @@ export async function submitDepositProofAction(formData: FormData): Promise<Acti
   });
   await db.order.update({ where: { id: order.id }, data: { status: OrderStatus.DEPOSIT_PENDING } });
 
-  await notifyUser(
-    session.userId,
-    "PAYMENT_UPDATE",
-    "Preuve d'acompte reçue",
-    `Nous avons bien reçu votre preuve de paiement pour la commande ${order.orderNumber}. Notre équipe la vérifie et confirmera votre commande sous peu.`,
-    { orderNumber: order.orderNumber },
-  );
+  await createNotification({
+    userId: session.userId,
+    category: NotificationCategory.PAYMENT,
+    priority: NotificationPriority.STANDARD,
+    title: "Preuve d'acompte reçue",
+    message: `Nous avons bien reçu votre preuve de paiement pour la commande ${order.orderNumber}. Notre équipe la vérifie et confirmera votre commande sous peu.`,
+    actionUrl: `/dashboard/orders/${order.orderNumber}`,
+    data: { orderNumber: order.orderNumber },
+  });
+
+  await notifyAdmins({
+    category: NotificationCategory.PAYMENT,
+    priority: NotificationPriority.IMPORTANT,
+    title: "Acompte à vérifier",
+    message: `Preuve de paiement reçue pour la commande ${order.orderNumber} (${parsed.data.method}). Réf : ${parsed.data.reference}.`,
+    actionUrl: "/admin/orders?status=DEPOSIT_PENDING",
+  });
 
   await createAuditLog({
     userId: session.userId,
@@ -283,22 +316,26 @@ export async function reviewDepositAction(formData: FormData): Promise<ActionRes
       },
     });
 
-    // Deduct stock now that the order is real.
+    // Deduct stock now that the order is real, then alert admins on low stock.
     for (const item of order.items) {
       await db.product.update({ where: { id: item.productId }, data: { stock: { decrement: item.quantity } } });
+      await checkLowStock(item.productId);
     }
     await db.customerProfile.updateMany({
       where: { userId: order.userId },
       data: { orderCount: { increment: 1 } },
     });
 
-    await notifyUser(
-      order.userId,
-      "ORDER_UPDATE",
-      "Commande confirmée ✓",
-      `Votre acompte est validé et votre commande ${order.orderNumber} est confirmée. Le solde de ${formatPrice(Number(order.remainingBalance))} sera réglé à la livraison.`,
-      { orderNumber: order.orderNumber },
-    );
+    await createNotification({
+      userId: order.userId,
+      category: NotificationCategory.ORDER,
+      priority: NotificationPriority.IMPORTANT,
+      title: "Commande confirmée ✓",
+      message: `Votre acompte est validé et votre commande ${order.orderNumber} est confirmée. Le solde de ${formatPrice(Number(order.remainingBalance))} sera réglé à la livraison.`,
+      actionUrl: `/dashboard/orders/${order.orderNumber}`,
+      email: true,
+      data: { orderNumber: order.orderNumber },
+    });
   } else {
     await db.payment.update({
       where: { id: order.payment.id },
@@ -309,15 +346,18 @@ export async function reviewDepositAction(formData: FormData): Promise<ActionRes
       data: { status: OrderStatus.AWAITING_DEPOSIT, adminNotes: parsed.data.adminNote ?? order.adminNotes },
     });
 
-    await notifyUser(
-      order.userId,
-      "PAYMENT_UPDATE",
-      "Acompte non validé",
-      `Nous n'avons pas pu valider votre acompte pour la commande ${order.orderNumber}.${
+    await createNotification({
+      userId: order.userId,
+      category: NotificationCategory.PAYMENT,
+      priority: NotificationPriority.IMPORTANT,
+      title: "Acompte non validé",
+      message: `Nous n'avons pas pu valider votre acompte pour la commande ${order.orderNumber}.${
         parsed.data.adminNote ? ` Motif : ${parsed.data.adminNote}.` : ""
       } Vous pouvez renvoyer une nouvelle preuve de paiement.`,
-      { orderNumber: order.orderNumber },
-    );
+      actionUrl: `/dashboard/orders/${order.orderNumber}`,
+      email: true,
+      data: { orderNumber: order.orderNumber },
+    });
   }
 
   await createAuditLog({
@@ -379,13 +419,19 @@ export async function updateOrderStatusAction(formData: FormData): Promise<Actio
   };
   const label = labels[status];
   if (label) {
-    await notifyUser(
-      order.userId,
-      "ORDER_UPDATE",
-      "Mise à jour de commande",
-      `Votre commande ${order.orderNumber} est ${label}.`,
-      { orderNumber: order.orderNumber },
-    );
+    const isShipping = status === OrderStatus.OUT_FOR_DELIVERY || status === OrderStatus.DELIVERED;
+    const important =
+      status === OrderStatus.CONFIRMED || status === OrderStatus.DELIVERED || status === OrderStatus.OUT_FOR_DELIVERY;
+    await createNotification({
+      userId: order.userId,
+      category: isShipping ? NotificationCategory.SHIPPING : NotificationCategory.ORDER,
+      priority: important ? NotificationPriority.IMPORTANT : NotificationPriority.STANDARD,
+      title: "Mise à jour de commande",
+      message: `Votre commande ${order.orderNumber} est ${label}.`,
+      actionUrl: `/dashboard/orders/${order.orderNumber}`,
+      email: isShipping, // shipped / out-for-delivery / delivered -> email
+      data: { orderNumber: order.orderNumber, status },
+    });
   }
 
   await createAuditLog({
@@ -443,13 +489,15 @@ export async function cancelOrderAction(formData: FormData): Promise<ActionResul
     },
   });
 
-  await notifyUser(
-    order.userId,
-    "ORDER_UPDATE",
-    "Commande annulée",
-    `Votre commande ${order.orderNumber} a été annulée.`,
-    { orderNumber: order.orderNumber },
-  );
+  await createNotification({
+    userId: order.userId,
+    category: NotificationCategory.ORDER,
+    priority: NotificationPriority.IMPORTANT,
+    title: "Commande annulée",
+    message: `Votre commande ${order.orderNumber} a été annulée.`,
+    actionUrl: `/dashboard/orders/${order.orderNumber}`,
+    data: { orderNumber: order.orderNumber },
+  });
 
   await createAuditLog({
     userId: session.userId,

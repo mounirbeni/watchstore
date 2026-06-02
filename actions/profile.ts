@@ -2,7 +2,9 @@
 
 import { db } from "@/lib/db";
 import { requireAuth } from "@/lib/session";
+import { createNotification } from "@/lib/notifications";
 import { AddressSchema, UpdateProfileSchema } from "@/validations";
+import { NotificationCategory, NotificationPriority } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import type { ActionResult } from "./auth";
 
@@ -21,6 +23,15 @@ export async function updateProfileAction(formData: FormData): Promise<ActionRes
     where: { userId: session.userId },
     update: parsed.data,
     create: { userId: session.userId, ...parsed.data },
+  });
+
+  await createNotification({
+    userId: session.userId,
+    category: NotificationCategory.ACCOUNT,
+    priority: NotificationPriority.STANDARD,
+    title: "Profil mis à jour",
+    message: "Vos informations personnelles ont été enregistrées.",
+    actionUrl: "/dashboard/profile",
   });
 
   revalidatePath("/dashboard/profile");

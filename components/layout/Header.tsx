@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/session";
 import { db } from "@/lib/db";
 import { logoutAction } from "@/actions/auth";
 import { ShoppingCart, User, Settings, LogOut } from "lucide-react";
+import NotificationBell from "@/components/notifications/NotificationBell";
 
 async function getCartCount(userId: string): Promise<number> {
   const cart = await db.cart.findUnique({
@@ -42,7 +43,8 @@ export default async function Header() {
           </nav>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 sm:gap-2">
+            {user && <NotificationBell />}
             <Link
               href="/cart"
               className="relative p-2 text-luxury-light hover:text-gold-400 transition-colors"

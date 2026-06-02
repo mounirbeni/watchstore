@@ -11,6 +11,7 @@ import {
   User,
   Home,
   LogOut,
+  Bell,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -25,6 +26,7 @@ const items = [
   { href: "/dashboard/orders", label: "Mes commandes", Icon: ShoppingBag },
   { href: "/dashboard/reservations", label: "Réservations", Icon: CalendarClock },
   { href: "/dashboard/wishlist", label: "Ma wishlist", Icon: Heart },
+  { href: "/dashboard/notifications", label: "Notifications", Icon: Bell },
   { href: "/dashboard/profile", label: "Mon profil", Icon: User },
 ];
 

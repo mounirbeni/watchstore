@@ -26,6 +26,19 @@ export async function createAuditLog(params: AuditParams) {
   });
 }
 
+const TYPE_TO_CATEGORY = {
+  ORDER_UPDATE: "ORDER",
+  RESERVATION_UPDATE: "RESERVATION",
+  PAYMENT_UPDATE: "PAYMENT",
+  PROMOTION: "SYSTEM",
+  SYSTEM: "SYSTEM",
+} as const;
+
+/**
+ * Backward-compatible wrapper. New code should call `createNotification` /
+ * `notifyAdmins` from "@/lib/notifications" directly for category, priority,
+ * actionUrl and email support.
+ */
 export async function notifyUser(
   userId: string,
   type: "ORDER_UPDATE" | "RESERVATION_UPDATE" | "PAYMENT_UPDATE" | "PROMOTION" | "SYSTEM",
@@ -33,13 +46,12 @@ export async function notifyUser(
   message: string,
   data?: Record<string, unknown>,
 ) {
-  return db.notification.create({
-    data: {
-      userId,
-      type,
-      title,
-      message,
-      data: data ? JSON.stringify(data) : null,
-    },
+  const { createNotification } = await import("@/lib/notifications");
+  return createNotification({
+    userId,
+    category: TYPE_TO_CATEGORY[type] as "ORDER" | "RESERVATION" | "PAYMENT" | "SYSTEM",
+    title,
+    message,
+    data,
   });
 }

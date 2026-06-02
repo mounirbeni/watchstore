@@ -3,13 +3,14 @@
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/session";
 import { createAuditLog } from "@/lib/audit";
+import { createNotification, notifyAdmins } from "@/lib/notifications";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { ChangePasswordSchema, LoginSchema, RegisterSchema } from "@/validations";
 import bcrypt from "bcryptjs";
 import { randomBytes } from "crypto";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { Role } from "@prisma/client";
+import { Role, NotificationCategory, NotificationPriority } from "@prisma/client";
 import { headers } from "next/headers";
 
 export type ActionResult<T = void> =
@@ -89,6 +90,22 @@ export async function registerAction(
     userAgent,
   });
 
+  await createNotification({
+    userId: user.id,
+    category: NotificationCategory.ACCOUNT,
+    priority: NotificationPriority.STANDARD,
+    title: "Bienvenue chez ChronoCraft 👋",
+    message: "Votre compte est créé. Découvrez la collection et suivez vos commandes et notifications ici.",
+    actionUrl: "/shop",
+  });
+  await notifyAdmins({
+    category: NotificationCategory.ACCOUNT,
+    priority: NotificationPriority.STANDARD,
+    title: "Nouveau client inscrit",
+    message: `${firstName} ${lastName} (${email}) vient de créer un compte.`,
+    actionUrl: "/admin/customers",
+  });
+
   const session = await getSession();
   session.userId = user.id;
   session.email = user.email;
@@ -145,6 +162,15 @@ export async function loginAction(
     entityId: user.id,
     ipAddress,
     userAgent,
+  });
+
+  await createNotification({
+    userId: user.id,
+    category: NotificationCategory.SECURITY,
+    priority: NotificationPriority.STANDARD,
+    title: "Nouvelle connexion détectée",
+    message: `Connexion à votre compte le ${new Date().toLocaleString("fr-FR")}${ipAddress ? ` depuis ${ipAddress}` : ""}. Si ce n'était pas vous, changez votre mot de passe.`,
+    actionUrl: "/dashboard/profile",
   });
 
   const session = await getSession();
@@ -210,6 +236,17 @@ export async function changePasswordAction(
     action: "PASSWORD_CHANGE",
     entity: "User",
     entityId: user.id,
+  });
+
+  await createNotification({
+    userId: user.id,
+    category: NotificationCategory.SECURITY,
+    priority: NotificationPriority.IMPORTANT,
+    title: "Mot de passe modifié",
+    message: "Votre mot de passe a été modifié. Si vous n'êtes pas à l'origine de ce changement, contactez-nous immédiatement.",
+    actionUrl: "/dashboard/profile",
+    email: true,
+    emailTo: user.email,
   });
 
   return { success: true, data: undefined };

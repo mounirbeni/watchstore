@@ -2,7 +2,9 @@
 
 import { db } from "@/lib/db";
 import { requireAuth, requireAdmin } from "@/lib/session";
-import { createAuditLog, notifyUser } from "@/lib/audit";
+import { createAuditLog } from "@/lib/audit";
+import { createNotification, notifyAdmins } from "@/lib/notifications";
+import { NotificationCategory, NotificationPriority } from "@prisma/client";
 import { ReservationSchema, ReviewReservationSchema } from "@/validations";
 import { revalidatePath } from "next/cache";
 import { ReservationStatus } from "@prisma/client";
@@ -44,10 +46,22 @@ export async function createReservationAction(formData: FormData): Promise<Actio
     },
   });
 
-  await notifyUser(session.userId, "RESERVATION_UPDATE",
-    "Réservation créée",
-    `Votre demande de réservation pour "${product.name}" a été reçue. Notre équipe vous contactera sous 24h.`,
-    { reservationId: reservation.id });
+  await createNotification({
+    userId: session.userId,
+    category: NotificationCategory.RESERVATION,
+    priority: NotificationPriority.STANDARD,
+    title: "Réservation créée",
+    message: `Votre demande de réservation pour « ${product.name} » a été reçue. Notre équipe vous contactera sous 24h.`,
+    actionUrl: "/dashboard/reservations",
+    data: { reservationId: reservation.id },
+  });
+  await notifyAdmins({
+    category: NotificationCategory.RESERVATION,
+    priority: NotificationPriority.IMPORTANT,
+    title: "Nouvelle réservation",
+    message: `Demande de réservation pour « ${product.name} » à examiner.`,
+    actionUrl: "/admin/reservations",
+  });
 
   await createAuditLog({
     userId: session.userId,
@@ -94,12 +108,18 @@ export async function reviewReservationAction(formData: FormData): Promise<Actio
   });
 
   const statusLabel = newStatus === ReservationStatus.APPROVED ? "approuvée" : "refusée";
-  await notifyUser(reservation.userId, "RESERVATION_UPDATE",
-    `Réservation ${statusLabel}`,
-    `Votre réservation pour "${reservation.product.name}" a été ${statusLabel}.${
-      parsed.data.adminNotes ? ` Note: ${parsed.data.adminNotes}` : ""
+  await createNotification({
+    userId: reservation.userId,
+    category: NotificationCategory.RESERVATION,
+    priority: NotificationPriority.IMPORTANT,
+    title: `Réservation ${statusLabel}`,
+    message: `Votre réservation pour « ${reservation.product.name} » a été ${statusLabel}.${
+      parsed.data.adminNotes ? ` Note : ${parsed.data.adminNotes}` : ""
     }`,
-    { reservationId: reservation.id });
+    actionUrl: "/dashboard/reservations",
+    email: true,
+    data: { reservationId: reservation.id },
+  });
 
   await createAuditLog({
     userId: admin.userId,
