@@ -1,11 +1,15 @@
 import Link from "next/link";
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { requireAuth } from "@/lib/session";
 import { formatDate, formatPrice } from "@/lib/utils";
 import Card from "@/components/ui/Card";
 import StatusBadge from "@/components/dashboard/StatusBadge";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import EmptyState from "@/components/ui/EmptyState";
+import { CalendarClock } from "lucide-react";
 
-export const metadata = { title: "Reservations" };
+export const metadata = { title: "Mes réservations" };
 
 export default async function DashboardReservationsPage() {
   const session = await requireAuth();
@@ -17,41 +21,72 @@ export default async function DashboardReservationsPage() {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Client portal</p>
-          <h1 className="mt-2 text-3xl font-serif font-semibold text-white">Reservations</h1>
-          <p className="mt-2 text-luxury-muted">Every reservation shown here belongs to your authenticated user id.</p>
-        </div>
-        <Link href="/shop" className="rounded-xl bg-gold-500 px-4 py-2 text-sm font-semibold text-black">Reserve a watch</Link>
-      </header>
+      <DashboardHeader
+        title="Mes réservations"
+        subtitle="Vos demandes de réservation et leur statut."
+        backHref="/dashboard"
+        action={
+          <Link
+            href="/shop"
+            className="inline-flex items-center justify-center rounded-xl bg-gold-500 px-4 py-2.5 text-sm font-semibold text-black shadow-gold-glow-sm transition-all hover:bg-gold-400 active:scale-[0.98]"
+          >
+            Réserver une montre
+          </Link>
+        }
+      />
 
-      <div className="grid gap-4 md:grid-cols-2">
-        {reservations.length === 0 ? (
-          <Card className="md:col-span-2"><p className="text-sm text-luxury-muted">No reservations yet.</p></Card>
-        ) : reservations.map((reservation) => {
-          const image = reservation.product.images[0];
-          return (
-            <Card key={reservation.id} className="rounded-2xl">
-              <div className="flex gap-4">
-                {image && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={image.url} alt={image.alt ?? reservation.product.name} className="h-24 w-24 rounded-xl object-cover" />
-                )}
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-start justify-between gap-3">
-                    <h2 className="font-serif text-xl text-white">{reservation.product.name}</h2>
-                    <StatusBadge status={reservation.status} />
+      {reservations.length === 0 ? (
+        <Card className="rounded-2xl" padding="none">
+          <EmptyState
+            icon={<CalendarClock className="h-7 w-7" />}
+            title="Aucune réservation"
+            description="Réservez une montre depuis la boutique pour la retrouver ici."
+            action={
+              <Link href="/shop" className="text-sm text-gold-400 hover:text-gold-300 transition-colors">
+                Explorer la collection
+              </Link>
+            }
+          />
+        </Card>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2">
+          {reservations.map((reservation) => {
+            const image = reservation.product.images[0];
+            return (
+              <Card key={reservation.id} className="rounded-2xl">
+                <div className="flex gap-4">
+                  <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-luxury-dark">
+                    {image && (
+                      <Image
+                        src={image.url}
+                        alt={image.alt ?? reservation.product.name}
+                        fill
+                        sizes="96px"
+                        className="object-cover"
+                      />
+                    )}
                   </div>
-                  <p className="mt-1 text-sm text-luxury-muted">{formatPrice(reservation.product.price)} / expires {formatDate(reservation.expiresAt)}</p>
-                  {reservation.adminNotes && <p className="mt-2 text-sm text-luxury-muted">Admin note: {reservation.adminNotes}</p>}
-                  {reservation.order && <p className="mt-2 text-sm text-gold-400">Converted to order {reservation.order.orderNumber}</p>}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-start justify-between gap-3">
+                      <h2 className="font-serif text-lg text-white">{reservation.product.name}</h2>
+                      <StatusBadge status={reservation.status} />
+                    </div>
+                    <p className="mt-1 text-sm text-luxury-muted">
+                      {formatPrice(reservation.product.price)} · expire le {formatDate(reservation.expiresAt)}
+                    </p>
+                    {reservation.adminNotes && (
+                      <p className="mt-2 text-sm text-luxury-muted">Note : {reservation.adminNotes}</p>
+                    )}
+                    {reservation.order && (
+                      <p className="mt-2 text-sm text-gold-400">Convertie en commande {reservation.order.orderNumber}</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Card>
-          );
-        })}
-      </div>
+              </Card>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

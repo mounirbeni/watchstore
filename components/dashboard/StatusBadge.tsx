@@ -17,6 +17,23 @@ const variants: Record<string, "gold" | "green" | "red" | "blue" | "orange" | "g
   PARTIALLY_REFUNDED: "orange",
 };
 
+const labels: Record<string, string> = {
+  PENDING:    "En attente",
+  CONFIRMED:  "Confirmée",
+  PROCESSING: "En préparation",
+  SHIPPED:    "Expédiée",
+  DELIVERED:  "Livrée",
+  CANCELLED:  "Annulée",
+  REFUNDED:   "Remboursée",
+  APPROVED:   "Approuvée",
+  REJECTED:   "Refusée",
+  EXPIRED:    "Expirée",
+  CONVERTED:  "Convertie",
+  PAID:       "Payée",
+  FAILED:     "Échouée",
+  PARTIALLY_REFUNDED: "Remb. partiel",
+};
+
 export default function StatusBadge({ status }: { status: string }) {
-  return <Badge variant={variants[status] ?? "gray"}>{status.replaceAll("_", " ")}</Badge>;
+  return <Badge variant={variants[status] ?? "gray"}>{labels[status] ?? status.replaceAll("_", " ")}</Badge>;
 }
