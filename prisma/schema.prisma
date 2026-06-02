@@ -16,11 +16,14 @@ enum Role {
 
 enum OrderStatus {
   DRAFT
+  PENDING
   AWAITING_DEPOSIT
   DEPOSIT_PENDING
   DEPOSIT_PAID
   CONFIRMED
+  PROCESSING
   PREPARING
+  SHIPPED
   OUT_FOR_DELIVERY
   DELIVERED
   CANCELLED
@@ -36,11 +39,15 @@ enum ReservationStatus {
 }
 
 enum PaymentStatus {
+  PENDING
   UNPAID
   DEPOSIT_PENDING
   DEPOSIT_PAID
   DEPOSIT_FAILED
+  PAID
+  FAILED
   REFUNDED
+  PARTIALLY_REFUNDED
 }
 
 enum PaymentMethod {
@@ -48,6 +55,8 @@ enum PaymentMethod {
   CASHPLUS
   WAFACASH
   CARD
+  CASH_ON_DELIVERY
+  CRYPTO
 }
 
 enum NotificationType {
