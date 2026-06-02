@@ -32,7 +32,8 @@ export async function POST(request: Request) {
     return NextResponse.json(uploaded);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Image upload failed.";
-    console.error("[product-images] upload failed:", message);
+    console.error("[product-images] upload failed:", message.slice(0, 500));
+    console.error("[product-images] env check — CLOUD_NAME:", process.env.CLOUDINARY_CLOUD_NAME, "KEY_LEN:", process.env.CLOUDINARY_API_KEY?.length, "SECRET_LEN:", process.env.CLOUDINARY_API_SECRET?.length, "HAS_URL:", !!process.env.CLOUDINARY_URL);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

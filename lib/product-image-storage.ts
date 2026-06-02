@@ -8,10 +8,14 @@ interface UploadedProductImage {
   publicId: string;
 }
 
+function stripBrackets(s: string | undefined) {
+  return s?.replace(/[<>]/g, "").trim() || undefined;
+}
+
 function getCloudinaryConfig() {
-  let cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-  let apiKey = process.env.CLOUDINARY_API_KEY;
-  let apiSecret = process.env.CLOUDINARY_API_SECRET;
+  let cloudName = stripBrackets(process.env.CLOUDINARY_CLOUD_NAME);
+  let apiKey = stripBrackets(process.env.CLOUDINARY_API_KEY);
+  let apiSecret = stripBrackets(process.env.CLOUDINARY_API_SECRET);
 
   // Fall back to the standard CLOUDINARY_URL (cloudinary://key:secret@cloud_name)
   if ((!cloudName || !apiKey || !apiSecret) && process.env.CLOUDINARY_URL) {
@@ -31,10 +35,12 @@ function getCloudinaryConfig() {
 }
 
 function parseCloudinaryUrl(url: string): { cloudName: string; apiKey: string; apiSecret: string } | null {
-  // cloudinary://<api_key>:<api_secret>@<cloud_name>
-  const match = url.match(/^cloudinary:\/\/([^:]+):([^@]+)@(.+)$/);
+  // cloudinary://<api_key>:<api_secret>@<cloud_name>  (angle brackets are docs placeholders, strip them)
+  const match = url.trim().match(/^cloudinary:\/\/([^:]+):([^@]+)@(.+)$/);
   if (!match) return null;
-  const [, apiKey, apiSecret, cloudName] = match;
+  const apiKey = match[1]?.replace(/[<>]/g, "").trim();
+  const apiSecret = match[2]?.replace(/[<>]/g, "").trim();
+  const cloudName = match[3]?.replace(/[<>]/g, "").trim();
   if (!apiKey || !apiSecret || !cloudName) return null;
   return { apiKey, apiSecret, cloudName };
 }
