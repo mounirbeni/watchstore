@@ -18,8 +18,12 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = await db.product.findUnique({ where: { slug } });
-  return { title: product?.name ?? "Produit introuvable" };
+  try {
+    const product = await db.product.findUnique({ where: { slug } });
+    return { title: product?.name ?? "Produit introuvable" };
+  } catch {
+    return { title: "Produit indisponible" };
+  }
 }
 
 export default async function ProductDetailPage({ params }: Props) {
@@ -32,7 +36,7 @@ export default async function ProductDetailPage({ params }: Props) {
         images: { orderBy: { sortOrder: "asc" } },
         category: true,
       },
-    }),
+    }).catch(() => null),
     getCurrentUser(),
   ]);
 
@@ -48,14 +52,14 @@ export default async function ProductDetailPage({ params }: Props) {
     const wishlist = await db.wishlist.findUnique({
       where: { userId: user.userId },
       include: { items: { where: { productId: product.id } } },
-    });
+    }).catch(() => null);
     inWishlist = (wishlist?.items.length ?? 0) > 0;
   }
 
-  const badgeVariant: Record<string, "gold" | "green" | "red" | "orange"> = {
-    hot: "red",
-    new: "green",
-    sale: "orange",
+  const badgeVariant: Record<string, "gold" | "gray"> = {
+    hot: "gold",
+    new: "gold",
+    sale: "gold",
   };
 
   async function handleAddToCart(formData: FormData) {
@@ -140,7 +144,7 @@ export default async function ProductDetailPage({ params }: Props) {
             {product.comparePrice && (
               <>
                 <span className="text-lg text-luxury-muted line-through">{formatPrice(product.comparePrice)}</span>
-                <Badge variant="orange">-{discount}%</Badge>
+                <Badge variant="gold">-{discount}%</Badge>
               </>
             )}
           </div>
@@ -169,11 +173,11 @@ export default async function ProductDetailPage({ params }: Props) {
 
           <div className="flex items-center gap-2 mb-6">
             {product.stock > 10 ? (
-              <><span className="w-2 h-2 rounded-full bg-green-400" /><span className="text-sm text-green-400">En stock ({product.stock} disponibles)</span></>
+              <><span className="w-2 h-2 rounded-full bg-gold-400" /><span className="text-sm text-gold-400">En stock ({product.stock} disponibles)</span></>
             ) : product.stock > 0 ? (
-              <><span className="w-2 h-2 rounded-full bg-orange-400" /><span className="text-sm text-orange-400">Stock limité ({product.stock} restants)</span></>
+              <><span className="w-2 h-2 rounded-full bg-gold-400" /><span className="text-sm text-gold-400">Stock limite ({product.stock} restants)</span></>
             ) : (
-              <><span className="w-2 h-2 rounded-full bg-red-400" /><span className="text-sm text-red-400">Hors stock</span></>
+              <><span className="w-2 h-2 rounded-full bg-luxury-muted" /><span className="text-sm text-luxury-muted">Hors stock</span></>
             )}
           </div>
 

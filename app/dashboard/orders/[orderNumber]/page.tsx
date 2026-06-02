@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { db } from "@/lib/db";
 import { requireAuth } from "@/lib/session";
 import { cancelOrderAction } from "@/actions/orders";
