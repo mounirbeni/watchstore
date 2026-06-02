@@ -6,7 +6,6 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MobileTabBar from "@/components/layout/MobileTabBar";
 import HeroCarousel from "@/components/home/HeroCarousel";
-import { OrderStatus, Role } from "@prisma/client";
 import {
   ArrowRight, Shield, Truck, Award, RefreshCw,
   Zap, Star, Quote, CheckCircle2, Clock, Gem,
@@ -46,22 +45,6 @@ async function getCategories() {
   } catch { return []; }
 }
 
-async function getPlatformMetrics() {
-  try {
-    const [inventory, categoryCount, clientCount, deliveredOrders] = await Promise.all([
-      db.product.aggregate({ where: { isActive: true }, _sum: { stock: true } }),
-      db.category.count({ where: { isActive: true } }),
-      db.user.count({ where: { role: Role.CUSTOMER, isActive: true } }),
-      db.order.count({ where: { status: OrderStatus.DELIVERED } }),
-    ]);
-    return [
-      { value: String(inventory._sum.stock ?? 0), label: "Pièces disponibles" },
-      { value: String(categoryCount), label: "Collections actives" },
-      { value: String(clientCount), label: "Clients inscrits" },
-      { value: String(deliveredOrders), label: "Commandes livrées" },
-    ];
-  } catch { return []; }
-}
 
 const TESTIMONIALS = [
   {
@@ -91,11 +74,10 @@ const TESTIMONIALS = [
 ];
 
 export default async function HomePage() {
-  const [featured, newArrivals, categories, metrics] = await Promise.all([
+  const [featured, newArrivals, categories] = await Promise.all([
     getFeaturedProducts(),
     getNewArrivals(),
     getCategories(),
-    getPlatformMetrics(),
   ]);
 
   return (
@@ -122,21 +104,6 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── Stats bar ─────────────────────────────────────────── */}
-        {metrics.length > 0 && (
-          <section className="border-y border-luxury-border bg-luxury-dark">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-7">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                {metrics.map((s) => (
-                  <div key={s.label}>
-                    <p className="text-2xl sm:text-3xl font-serif font-bold gold-text mb-0.5">{s.value}</p>
-                    <p className="text-xs sm:text-sm text-luxury-muted">{s.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
 
         {/* ── Categories ────────────────────────────────────────── */}
         <section className="max-w-7xl mx-auto px-5 sm:px-6 pt-12 pb-10 sm:py-20">
