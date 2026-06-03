@@ -474,3 +474,24 @@ model LoginSession {
 
   @@map("login_sessions")
 }
+
+// ─── Hero Slide ───────────────────────────────────────────────────────────────
+
+model HeroSlide {
+  id             String   @id @default(cuid())
+  image          String
+  eyebrow        String   @default("")
+  titleTop       String   @default("")
+  titleAccent    String   @default("")
+  description    String   @default("")
+  primaryLabel   String   @default("Explorer")
+  primaryHref    String   @default("/shop")
+  secondaryLabel String   @default("Voir tout")
+  secondaryHref  String   @default("/shop")
+  sortOrder      Int      @default(0)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("hero_slides")
+}

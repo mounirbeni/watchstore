@@ -5,7 +5,7 @@ import { logoutAction } from "@/actions/auth";
 import {
   LayoutDashboard, Package, ShoppingBag, Users,
   Calendar, FileText, LogOut, Settings, Bell,
-  Warehouse, Tag,
+  Warehouse, Tag, Grid2X2, MonitorPlay,
 } from "lucide-react";
 import NotificationBell from "@/components/notifications/NotificationBell";
 import type { Metadata } from "next";
@@ -13,15 +13,17 @@ import type { Metadata } from "next";
 export const metadata: Metadata = { title: { default: "Administration", template: "%s | Admin" } };
 
 const navItems = [
-  { href: "/admin",              label: "Vue d'ensemble", Icon: LayoutDashboard },
-  { href: "/admin/products",     label: "Produits",       Icon: Package },
-  { href: "/admin/inventory",    label: "Inventaire",     Icon: Warehouse },
-  { href: "/admin/orders",       label: "Commandes",      Icon: ShoppingBag },
-  { href: "/admin/reservations", label: "Réservations",   Icon: Calendar },
-  { href: "/admin/customers",    label: "Clients",        Icon: Users },
+  { href: "/admin",               label: "Vue d'ensemble", Icon: LayoutDashboard },
+  { href: "/admin/products",      label: "Produits",       Icon: Package },
+  { href: "/admin/categories",    label: "Catégories",     Icon: Grid2X2 },
+  { href: "/admin/hero",          label: "Slides Hero",    Icon: MonitorPlay },
+  { href: "/admin/inventory",     label: "Inventaire",     Icon: Warehouse },
+  { href: "/admin/orders",        label: "Commandes",      Icon: ShoppingBag },
+  { href: "/admin/reservations",  label: "Réservations",   Icon: Calendar },
+  { href: "/admin/customers",     label: "Clients",        Icon: Users },
   { href: "/admin/promos",        label: "Codes Promo",    Icon: Tag },
   { href: "/admin/notifications", label: "Notifications",  Icon: Bell },
-  { href: "/admin/audit",        label: "Audit",          Icon: FileText },
+  { href: "/admin/audit",         label: "Audit",          Icon: FileText },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {

@@ -17,6 +17,10 @@ interface HeroSlide {
   secondaryHref: string;
 }
 
+interface HeroCarouselProps {
+  slides?: HeroSlide[];
+}
+
 const SLIDES: HeroSlide[] = [
   {
     image: "https://images.unsplash.com/photo-1609587312208-cea54be969e7?w=1600&q=90",
@@ -77,21 +81,22 @@ const SLIDES: HeroSlide[] = [
 
 const AUTOPLAY_MS = 5500;
 
-export default function HeroCarousel() {
+export default function HeroCarousel({ slides: propSlides }: HeroCarouselProps = {}) {
+  const ACTIVE_SLIDES = (propSlides && propSlides.length > 0) ? propSlides : SLIDES;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
 
   const goTo = useCallback((i: number) => {
-    setIndex(((i % SLIDES.length) + SLIDES.length) % SLIDES.length);
+    setIndex(((i % ACTIVE_SLIDES.length) + ACTIVE_SLIDES.length) % ACTIVE_SLIDES.length);
   }, []);
   const next = useCallback(() => goTo(index + 1), [goTo, index]);
   const prev = useCallback(() => goTo(index - 1), [goTo, index]);
 
   useEffect(() => {
     if (paused) return;
-    const id = setInterval(() => setIndex((c) => (c + 1) % SLIDES.length), AUTOPLAY_MS);
+    const id = setInterval(() => setIndex((c) => (c + 1) % ACTIVE_SLIDES.length), AUTOPLAY_MS);
     return () => clearInterval(id);
   }, [paused, index]);
 
@@ -120,7 +125,7 @@ export default function HeroCarousel() {
       aria-roledescription="carousel"
     >
       {/* Background images */}
-      {SLIDES.map((slide, i) => (
+      {ACTIVE_SLIDES.map((slide, i) => (
         <div
           key={slide.image}
           aria-hidden={i !== index}
@@ -147,13 +152,13 @@ export default function HeroCarousel() {
       <div className="absolute top-5 right-5 z-30 flex items-center gap-1.5 rounded-full bg-black/40 px-3 py-1.5 backdrop-blur-sm border border-white/10">
         <span className="text-gold-400 text-xs font-bold tabular-nums">{index + 1}</span>
         <span className="text-white/40 text-xs">/</span>
-        <span className="text-white/50 text-xs">{SLIDES.length}</span>
+        <span className="text-white/50 text-xs">{ACTIVE_SLIDES.length}</span>
       </div>
 
       {/* Content — bottom on mobile, vertically centered on desktop */}
       <div className="absolute inset-0 z-20 flex flex-col justify-end sm:justify-center">
         <div className="w-full max-w-7xl mx-auto px-5 sm:px-14 pb-14 sm:pb-0">
-          {SLIDES.map((slide, i) => (
+          {ACTIVE_SLIDES.map((slide, i) => (
             <div
               key={slide.image}
               aria-hidden={i !== index}
@@ -222,7 +227,7 @@ export default function HeroCarousel() {
 
       {/* Dots */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2">
-        {SLIDES.map((slide, i) => (
+        {ACTIVE_SLIDES.map((slide, i) => (
           <button
             key={slide.image}
             type="button"

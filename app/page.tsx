@@ -46,6 +46,12 @@ async function getCategories() {
   } catch { return []; }
 }
 
+async function getHeroSlides() {
+  try {
+    return await db.heroSlide.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } });
+  } catch { return []; }
+}
+
 const TESTIMONIALS = [
   { name: "Youssef B.", city: "Casablanca", stars: 5, text: "Montre reçue en 48h, emballage luxueux et qualité au rendez-vous. Je recommande à 100%." },
   { name: "Amine K.",   city: "Rabat",       stars: 5, text: "Service client impeccable. Ils m&apos;ont aidé à choisir le modèle parfait pour mon budget." },
@@ -54,10 +60,11 @@ const TESTIMONIALS = [
 ];
 
 export default async function HomePage() {
-  const [featured, newArrivals, categories] = await Promise.all([
+  const [featured, newArrivals, categories, heroSlides] = await Promise.all([
     getFeaturedProducts(),
     getNewArrivals(),
     getCategories(),
+    getHeroSlides(),
   ]);
 
   return (
@@ -66,7 +73,7 @@ export default async function HomePage() {
       <main className="flex-1">
 
         {/* ── Hero carousel ─────────────────────────────────────── */}
-        <HeroCarousel />
+        <HeroCarousel slides={heroSlides.length > 0 ? heroSlides : undefined} />
 
         {/* ── Flash promo banner ────────────────────────────────── */}
         <section className="bg-gold-500">
@@ -95,12 +102,17 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {/* Two-panel model banner */}
+          {/* Two-panel model banner — images come from category imageUrl set in admin */}
           <div className="grid grid-cols-2 gap-3 sm:gap-5">
-            {[
-              { src: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=800&q=85", label: "Homme", sub: "Élégance & caractère", href: "/shop?category=homme" },
-              { src: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=85", label: "Femme", sub: "Grâce & raffinement",  href: "/shop?category=femme" },
-            ].map(({ src, label, sub, href }) => (
+            {(["homme", "femme"] as const).map((slug) => {
+              const cat = categories.find((c) => c.slug === slug);
+              const src = cat?.imageUrl ?? (slug === "homme"
+                ? "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=800&q=85"
+                : "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=85");
+              const label = cat?.name ?? (slug === "homme" ? "Homme" : "Femme");
+              const sub   = slug === "homme" ? "Élégance & caractère" : "Grâce & raffinement";
+              const href  = `/shop?category=${slug}`;
+              return (
               <Link
                 key={label}
                 href={href}
@@ -123,7 +135,8 @@ export default async function HomePage() {
                   </span>
                 </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         </section>
 
