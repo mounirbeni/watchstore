@@ -42,7 +42,7 @@ export default async function DashboardPage() {
   const unreadNotifications = notifications.filter((notification) => !notification.isRead).length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       <MobileAccountHeader
         firstName={profile?.firstName ?? session.firstName}
         lastName={session.lastName}
@@ -65,15 +65,15 @@ export default async function DashboardPage() {
         </p>
       </header>
 
-      <section className="grid gap-4 grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-3 grid-cols-2 sm:gap-4 xl:grid-cols-4">
         <StatCard label="Commandes en cours" value={activeOrders} detail={`${orders.length} au total`} Icon={ShoppingBag} />
         <StatCard label="Réservations" value={pendingReservations} detail="En attente" Icon={CalendarClock} />
         <StatCard label="Wishlist" value={wishlist?.items.length ?? 0} detail="Montres sauvegardées" Icon={Heart} />
         <StatCard label="Notifications" value={unreadNotifications} detail="Non lues" Icon={Bell} />
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">
-        <Card className="rounded-2xl">
+      <section className="grid gap-5 sm:gap-6 xl:grid-cols-[1.3fr_0.7fr]">
+        <Card className="rounded-2xl p-4 sm:p-6" padding="none">
           <div className="mb-4 flex items-center justify-between gap-3">
             <h2 className="text-xl font-serif text-luxury-white">Commandes récentes</h2>
             <Link href="/dashboard/orders" className="text-sm text-gold-400 hover:text-gold-300 transition-colors">Tout voir</Link>
@@ -98,7 +98,7 @@ export default async function DashboardPage() {
           </div>
         </Card>
 
-        <Card className="rounded-2xl">
+        <Card className="rounded-2xl p-4 sm:p-6" padding="none">
           <div className="mb-4 flex items-center justify-between gap-3">
             <h2 className="text-xl font-serif text-luxury-white">Notifications</h2>
             <Link href="/dashboard/notifications" className="text-sm text-gold-400 hover:text-gold-300 transition-colors">Tout voir</Link>
@@ -120,7 +120,7 @@ export default async function DashboardPage() {
         </Card>
       </section>
 
-      <Card className="rounded-2xl">
+      <Card className="rounded-2xl p-4 sm:p-6" padding="none">
         <div className="mb-4 flex items-center justify-between gap-3">
           <h2 className="text-xl font-serif text-luxury-white">Réservations</h2>
           <Link href="/dashboard/reservations" className="text-sm text-gold-400 hover:text-gold-300 transition-colors">Gérer</Link>

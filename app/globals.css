@@ -32,11 +32,11 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  @media (max-width: 767px) {
-    body {
-      padding-bottom: calc(var(--mobile-nav-h) + var(--safe-bottom));
-    }
-  }
+  /*
+   * Bottom-nav clearance is applied per-layout via `.pb-mobile-nav`
+   * (only on surfaces that actually render the mobile tab bar), so admin
+   * and auth pages — which have no bottom nav — don't get dead space.
+   */
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-playfair);
@@ -146,5 +146,15 @@
   }
   .safe-bottom {
     padding-bottom: var(--safe-bottom);
+  }
+
+  /* Clears the fixed mobile tab bar; collapses to 0 on tablet/desktop. */
+  .pb-mobile-nav {
+    padding-bottom: calc(var(--mobile-nav-h) + var(--safe-bottom));
+  }
+  @media (min-width: 768px) {
+    .pb-mobile-nav {
+      padding-bottom: 0;
+    }
   }
 }

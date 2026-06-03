@@ -78,7 +78,7 @@ export default async function AdminCustomersPage({ searchParams }: Props) {
       <header className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Customer operations</p>
-          <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Customer management</h1>
+          <h1 className="mt-2 text-2xl sm:text-3xl font-serif font-semibold text-luxury-white">Customer management</h1>
           <p className="mt-2 max-w-2xl text-luxury-muted">
             Search customers, review spend and risk, notify clients, and suspend or reactivate accounts.
           </p>

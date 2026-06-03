@@ -39,7 +39,7 @@ export default async function AdminHeroPage() {
     <div className="space-y-6">
       <header>
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Admin</p>
-        <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Slides Hero</h1>
+        <h1 className="mt-2 text-2xl sm:text-3xl font-serif font-semibold text-luxury-white">Slides Hero</h1>
         <p className="mt-1 text-luxury-muted text-sm">Gérez les slides du carousel principal de la page d&apos;accueil.</p>
       </header>
 

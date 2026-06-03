@@ -32,7 +32,7 @@ export default async function AdminCategoriesPage() {
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Admin</p>
-          <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Catégories</h1>
+          <h1 className="mt-2 text-2xl sm:text-3xl font-serif font-semibold text-luxury-white">Catégories</h1>
           <p className="mt-1 text-luxury-muted text-sm">Gérez les catégories et leurs images d&apos;illustration.</p>
         </div>
       </header>

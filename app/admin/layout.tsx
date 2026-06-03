@@ -8,6 +8,7 @@ import {
   Warehouse, Tag, Grid2X2, MonitorPlay,
 } from "lucide-react";
 import NotificationBell from "@/components/notifications/NotificationBell";
+import AdminMobileNav from "@/components/admin/AdminMobileNav";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: { default: "Administration", template: "%s | Admin" } };
@@ -74,12 +75,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </div>
       </aside>
       <main className="flex-1 overflow-auto">
-        <div className="sticky top-0 z-40 flex items-center justify-between gap-3 border-b border-luxury-border glass px-4 sm:px-6 h-14">
+        <div className="safe-top sticky top-0 z-40 flex items-center justify-between gap-3 border-b border-luxury-border glass px-4 sm:px-6 h-14">
           <Link href="/admin" className="font-serif text-sm font-bold gold-text md:hidden">ChronoCraft Admin</Link>
           <span className="hidden md:block" />
           <NotificationBell />
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">{children}</div>
+        <AdminMobileNav />
+        <div className="max-w-7xl mx-auto px-4 py-5 sm:px-6 sm:py-8">{children}</div>
       </main>
     </div>
   );

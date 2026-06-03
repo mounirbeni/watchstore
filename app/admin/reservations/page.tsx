@@ -24,7 +24,7 @@ export default async function AdminReservationsPage() {
     <div className="space-y-6">
       <header>
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Admin console</p>
-        <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Reservation review</h1>
+        <h1 className="mt-2 text-2xl sm:text-3xl font-serif font-semibold text-luxury-white">Reservation review</h1>
         <p className="mt-2 text-luxury-muted">Approve or reject real reservation records. Each decision creates an audit log and customer notification.</p>
       </header>
 

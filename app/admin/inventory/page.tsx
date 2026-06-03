@@ -63,7 +63,7 @@ export default async function AdminInventoryPage() {
         <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Inventory control</p>
-            <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Inventory management</h1>
+            <h1 className="mt-2 text-2xl sm:text-3xl font-serif font-semibold text-luxury-white">Inventory management</h1>
             <p className="mt-2 max-w-2xl text-luxury-muted">
               Track stock health, update quantities, and review movement history from real product records.
             </p>

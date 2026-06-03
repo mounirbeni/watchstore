@@ -115,7 +115,7 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
       <header className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Admin console</p>
-          <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Product management</h1>
+          <h1 className="mt-2 text-2xl sm:text-3xl font-serif font-semibold text-luxury-white">Product management</h1>
           <p className="mt-2 max-w-2xl text-luxury-muted">
             Create watches, find any catalog item quickly, update inventory, and control storefront visibility.
           </p>
@@ -203,7 +203,55 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
         </div>
       </Card>
 
-      <Card className="overflow-hidden rounded-2xl" padding="none">
+      {/* Mobile — card list (tables become cards under 768px) */}
+      <div className="grid gap-3 md:hidden">
+        {products.length === 0 ? (
+          <Card className="rounded-2xl"><p className="text-center text-sm text-luxury-muted">No products match these filters.</p></Card>
+        ) : products.map((product) => {
+          const primaryImage = product.images[0]?.url;
+          return (
+            <Card key={product.id} className="rounded-2xl" padding="none">
+              <div className="flex gap-3 p-4">
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-luxury-border bg-luxury-dark">
+                  {primaryImage ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={primaryImage} alt={product.name} className="h-full w-full object-cover" />
+                  ) : (
+                    <span className="text-[10px] text-luxury-muted">No img</span>
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="truncate font-medium text-luxury-white">{product.name}</p>
+                    <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-semibold ${product.isActive ? "border-gold-500/40 text-gold-500" : "border-luxury-border text-luxury-muted"}`}>
+                      {product.isActive ? "Active" : "Inactive"}
+                    </span>
+                  </div>
+                  <p className="mt-0.5 truncate text-xs text-luxury-muted">{product.category?.name ?? "Uncategorized"} · {product.brand ?? "No brand"}</p>
+                  <p className="mt-1 text-sm font-semibold text-luxury-white">{formatPrice(product.price)} · <span className="font-normal text-luxury-muted">Stock {product.stock}</span></p>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2 border-t border-luxury-border p-3">
+                <form action={updateStock} className="flex flex-1 gap-2">
+                  <input type="hidden" name="productId" value={product.id} />
+                  <input name="stock" type="number" min="0" defaultValue={product.stock} className="input-luxury w-full" aria-label="Stock" />
+                  <SubmitButton>Save</SubmitButton>
+                </form>
+                <Link href={`/admin/products/${product.id}`} className="rounded-xl border border-gold-500/40 px-3 py-2 text-xs font-semibold text-gold-500 transition hover:bg-gold-500/10">Edit</Link>
+                <Link href={`/products/${product.slug}`} className="rounded-xl border border-luxury-border px-3 py-2 text-xs font-semibold text-luxury-muted transition hover:text-luxury-white">View</Link>
+                <form action={updateProductStatus}>
+                  <input type="hidden" name="productId" value={product.id} />
+                  <input type="hidden" name="isActive" value={product.isActive ? "false" : "true"} />
+                  <SubmitButton variant={product.isActive ? "danger" : "outline"}>{product.isActive ? "Off" : "On"}</SubmitButton>
+                </form>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+
+      {/* Desktop — full table */}
+      <Card className="hidden overflow-hidden rounded-2xl md:block" padding="none">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[1040px] text-left text-sm">
             <thead className="bg-luxury-dark text-xs uppercase tracking-[0.16em] text-luxury-muted">
@@ -278,29 +326,29 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
             </tbody>
           </table>
         </div>
-
-        <div className="flex flex-col gap-3 border-t border-luxury-border px-5 py-4 text-sm text-luxury-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            Page {currentPage} of {pageCount}
-          </p>
-          <div className="flex gap-2">
-            {currentPage > 1 ? (
-              <Link href={productListHref({ q: query, status, categoryId, page: currentPage - 1 })} className="rounded-xl border border-luxury-border px-4 py-2 transition hover:text-luxury-white">
-                Previous
-              </Link>
-            ) : (
-              <span className="rounded-xl border border-luxury-border px-4 py-2 opacity-40">Previous</span>
-            )}
-            {currentPage < pageCount ? (
-              <Link href={productListHref({ q: query, status, categoryId, page: currentPage + 1 })} className="rounded-xl border border-luxury-border px-4 py-2 transition hover:text-luxury-white">
-                Next
-              </Link>
-            ) : (
-              <span className="rounded-xl border border-luxury-border px-4 py-2 opacity-40">Next</span>
-            )}
-          </div>
-        </div>
       </Card>
+
+      <div className="flex flex-col gap-3 rounded-2xl border border-luxury-border px-4 py-3 text-sm text-luxury-muted sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-4">
+        <p>
+          Page {currentPage} of {pageCount}
+        </p>
+        <div className="flex gap-2">
+          {currentPage > 1 ? (
+            <Link href={productListHref({ q: query, status, categoryId, page: currentPage - 1 })} className="rounded-xl border border-luxury-border px-4 py-2 transition hover:text-luxury-white">
+              Previous
+            </Link>
+          ) : (
+            <span className="rounded-xl border border-luxury-border px-4 py-2 opacity-40">Previous</span>
+          )}
+          {currentPage < pageCount ? (
+            <Link href={productListHref({ q: query, status, categoryId, page: currentPage + 1 })} className="rounded-xl border border-luxury-border px-4 py-2 transition hover:text-luxury-white">
+              Next
+            </Link>
+          ) : (
+            <span className="rounded-xl border border-luxury-border px-4 py-2 opacity-40">Next</span>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

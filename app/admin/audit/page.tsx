@@ -17,7 +17,7 @@ export default async function AdminAuditPage() {
     <div className="space-y-6">
       <header>
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Admin console</p>
-        <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Audit logs</h1>
+        <h1 className="mt-2 text-2xl sm:text-3xl font-serif font-semibold text-luxury-white">Audit logs</h1>
         <p className="mt-2 text-luxury-muted">Important business and security actions are persisted here.</p>
       </header>
 
