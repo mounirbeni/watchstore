@@ -66,7 +66,7 @@ export default function Footer() {
             © {new Date().getFullYear()} ChronoCraft. Tous droits réservés.
           </p>
           <div className="flex gap-6">
-            {[["Confidentialité", "#"], ["CGV", "#"], ["Mentions légales", "#"]].map(([label, href]) => (
+            {[["Confidentialité", "/confidentialite"], ["CGV", "/cgv"], ["Mentions légales", "/mentions-legales"]].map(([label, href]) => (
               <Link key={label} href={href!} className="text-xs text-luxury-muted hover:text-luxury-white transition-colors">
                 {label}
               </Link>
