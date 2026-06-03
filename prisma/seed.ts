@@ -454,6 +454,33 @@ async function main() {
     }
   }
 
+  // ─── Promo Codes ─────────────────────────────────────────────────────────
+  await prisma.promoCode.upsert({
+    where: { code: "BIENVENUE10" },
+    update: {},
+    create: {
+      code: "BIENVENUE10",
+      description: "Remise de bienvenue 10%",
+      discountType: "PERCENT",
+      discountValue: 10,
+      minOrderAmount: 300,
+      isActive: true,
+    },
+  });
+  await prisma.promoCode.upsert({
+    where: { code: "PROMO50" },
+    update: {},
+    create: {
+      code: "PROMO50",
+      description: "50 MAD de réduction",
+      discountType: "FIXED",
+      discountValue: 50,
+      minOrderAmount: 500,
+      isActive: true,
+    },
+  });
+  console.log("✅ Promo codes seeded");
+
   // ─── Welcome Notification ─────────────────────────────────────────────────
   const existingNotif = await prisma.notification.findFirst({
     where: { userId: customer.id },

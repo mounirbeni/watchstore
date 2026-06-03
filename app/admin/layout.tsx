@@ -4,7 +4,7 @@ import { requireAdmin } from "@/lib/session";
 import { logoutAction } from "@/actions/auth";
 import {
   LayoutDashboard, Package, ShoppingBag, Users,
-  Calendar, FileText, LogOut, Settings, Bell,
+  Calendar, FileText, LogOut, Settings, Bell, Tag,
 } from "lucide-react";
 import NotificationBell from "@/components/notifications/NotificationBell";
 import type { Metadata } from "next";
@@ -17,6 +17,7 @@ const navItems = [
   { href: "/admin/orders",       label: "Commandes",      Icon: ShoppingBag },
   { href: "/admin/reservations", label: "Réservations",   Icon: Calendar },
   { href: "/admin/customers",    label: "Clients",        Icon: Users },
+  { href: "/admin/promos",        label: "Codes Promo",    Icon: Tag },
   { href: "/admin/notifications", label: "Notifications",  Icon: Bell },
   { href: "/admin/audit",        label: "Audit",          Icon: FileText },
 ];

@@ -99,6 +99,10 @@ export const CheckoutSchema = z.object({
     (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
     z.string().max(500).optional(),
   ),
+  promoCode: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().max(50).optional(),
+  ),
 });
 
 export const SubmitDepositSchema = z.object({

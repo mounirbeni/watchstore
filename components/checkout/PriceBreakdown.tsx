@@ -1,24 +1,28 @@
 import { formatPrice } from "@/lib/utils";
-import { Wallet, Truck } from "lucide-react";
+import { Wallet, Truck, Tag } from "lucide-react";
 
 interface Props {
   subtotal: number;
+  discount?: number;
   shipping: number;
   total: number;
   deposit: number;
   remaining: number;
   freeShipping?: boolean;
+  promoCode?: string;
   /** Hide the explanatory note (e.g. when shown next to a confirmed order). */
   hideNote?: boolean;
 }
 
 export default function PriceBreakdown({
   subtotal,
+  discount = 0,
   shipping,
   total,
   deposit,
   remaining,
   freeShipping,
+  promoCode,
   hideNote,
 }: Props) {
   return (
@@ -28,6 +32,15 @@ export default function PriceBreakdown({
           <span className="text-luxury-muted">Sous-total</span>
           <span className="text-luxury-light">{formatPrice(subtotal)}</span>
         </div>
+        {discount > 0 && (
+          <div className="flex justify-between text-green-600">
+            <span className="flex items-center gap-1">
+              <Tag className="h-3 w-3" />
+              {promoCode ? `Code "${promoCode}"` : "Remise"}
+            </span>
+            <span className="font-medium">−{formatPrice(discount)}</span>
+          </div>
+        )}
         <div className="flex justify-between">
           <span className="text-luxury-muted">Livraison</span>
           {freeShipping || shipping === 0 ? (

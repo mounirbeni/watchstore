@@ -1,14 +1,15 @@
 "use client";
 
-import { useActionState, useEffect, useMemo, useState } from "react";
+import { useActionState, useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createOrderAction } from "@/actions/orders";
 import Button from "@/components/ui/Button";
 import PriceBreakdown from "@/components/checkout/PriceBreakdown";
+import { computePricing } from "@/lib/pricing";
 import {
   MapPin, Phone, Plus, Building2, Store, Check, ChevronLeft, ChevronRight,
-  ShoppingBag, ShieldCheck, Wallet,
+  ShoppingBag, ShieldCheck, Wallet, Tag, X, Loader2,
 } from "lucide-react";
 
 interface Address {
@@ -16,7 +17,7 @@ interface Address {
   street: string; city: string; country: string; isDefault: boolean; phone: string;
 }
 interface CartItem { id: string; productName: string; quantity: number; unitPrice: number; total: number; imageUrl: string | null; }
-interface Pricing { subtotal: number; shipping: number; total: number; deposit: number; remaining: number; freeShipping: boolean; }
+interface Pricing { subtotal: number; discount?: number; shipping: number; total: number; deposit: number; remaining: number; freeShipping: boolean; }
 interface CheckoutData { addresses: Address[]; cartItems: CartItem[]; pricing: Pricing; defaultPhone: string; }
 
 const METHODS = [
@@ -37,6 +38,35 @@ export default function CheckoutPage() {
   const [phone, setPhone] = useState("");
   const [method, setMethod] = useState<string>("BANK_TRANSFER");
   const [notes, setNotes] = useState("");
+
+  const [promoInput, setPromoInput] = useState("");
+  const [promoLoading, setPromoLoading] = useState(false);
+  const [promoError, setPromoError] = useState("");
+  const [appliedPromo, setAppliedPromo] = useState<{ code: string; discount: number; description: string | null } | null>(null);
+
+  const applyPromo = useCallback(async () => {
+    if (!promoInput.trim() || !data) return;
+    setPromoLoading(true);
+    setPromoError("");
+    try {
+      const res = await fetch(`/api/promo/validate?code=${encodeURIComponent(promoInput.trim())}&subtotal=${data.pricing.subtotal}`);
+      const json = await res.json();
+      if (json.valid) {
+        setAppliedPromo({ code: json.code, discount: json.discountAmount, description: json.description });
+        setPromoInput("");
+      } else {
+        setPromoError(json.error ?? "Code invalide");
+      }
+    } catch {
+      setPromoError("Erreur de validation");
+    }
+    setPromoLoading(false);
+  }, [promoInput, data]);
+
+  const removePromo = useCallback(() => {
+    setAppliedPromo(null);
+    setPromoError("");
+  }, []);
 
   useEffect(() => {
     fetch("/api/checkout-data")
@@ -59,6 +89,11 @@ export default function CheckoutPage() {
   const phoneValid = useMemo(() => /^(?:\+212|0)[\s.-]?\d(?:[\s.-]?\d){8}$/.test(phone.trim()), [phone]);
   const canContinueStep1 = Boolean(addressId) && phoneValid;
 
+  const effectivePricing = useMemo(() => {
+    if (!data) return null;
+    return computePricing(data.pricing.subtotal, appliedPromo?.discount ?? 0);
+  }, [data, appliedPromo]);
+
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
@@ -66,6 +101,8 @@ export default function CheckoutPage() {
       </div>
     );
   }
+
+  const pricing = effectivePricing ?? data?.pricing;
 
   if (!data || data.cartItems.length === 0) {
     return (
@@ -79,8 +116,6 @@ export default function CheckoutPage() {
       </div>
     );
   }
-
-  const { pricing } = data;
 
   return (
     <div className="mx-auto max-w-5xl px-4 sm:px-6 py-8 pb-28 lg:pb-12">
@@ -120,6 +155,7 @@ export default function CheckoutPage() {
         <input type="hidden" name="phone" value={phone} />
         <input type="hidden" name="method" value={method} />
         <input type="hidden" name="notes" value={notes} />
+        <input type="hidden" name="promoCode" value={appliedPromo?.code ?? ""} />
 
         <div className="space-y-6 lg:col-span-2">
           {/* STEP 1 — Delivery */}
@@ -194,8 +230,42 @@ export default function CheckoutPage() {
                   </div>
                 ))}
               </div>
-              <div className="mt-6 border-t border-luxury-border pt-6 lg:hidden">
-                <PriceBreakdown {...pricing} />
+              {/* Promo code */}
+              <div className="mt-5 border-t border-luxury-border pt-5">
+                <p className="mb-2 flex items-center gap-1.5 text-sm font-medium text-white">
+                  <Tag className="h-4 w-4 text-gold-400" /> Code promo
+                </p>
+                {appliedPromo ? (
+                  <div className="flex items-center justify-between rounded-xl border border-green-500/30 bg-green-500/5 px-4 py-3">
+                    <span className="text-sm text-green-400">
+                      <span className="font-bold">{appliedPromo.code}</span>
+                      {" · "}−{appliedPromo.discount} MAD
+                      {appliedPromo.description && <span className="text-xs text-luxury-muted ml-1">({appliedPromo.description})</span>}
+                    </span>
+                    <button type="button" onClick={removePromo} className="text-luxury-muted hover:text-red-400 transition-colors">
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={promoInput}
+                      onChange={(e) => { setPromoInput(e.target.value.toUpperCase()); setPromoError(""); }}
+                      onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), applyPromo())}
+                      placeholder="CODEDISCOUNT"
+                      className="input-luxury flex-1 uppercase"
+                    />
+                    <Button type="button" variant="outline" size="sm" onClick={applyPromo} disabled={!promoInput.trim() || promoLoading}>
+                      {promoLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Appliquer"}
+                    </Button>
+                  </div>
+                )}
+                {promoError && <p className="mt-1.5 text-xs text-red-400">{promoError}</p>}
+              </div>
+
+              <div className="mt-5 border-t border-luxury-border pt-5 lg:hidden">
+                {pricing && <PriceBreakdown {...pricing} promoCode={appliedPromo?.code} />}
               </div>
               <div className="mt-4">
                 <label className="mb-1.5 block text-xs font-medium uppercase tracking-[0.12em] text-luxury-muted">Note (facultatif)</label>
@@ -263,7 +333,7 @@ export default function CheckoutPage() {
         <aside className="hidden lg:block">
           <div className="sticky top-24 rounded-2xl border border-luxury-border bg-luxury-card p-6">
             <h2 className="mb-4 text-lg font-semibold text-white">Récapitulatif</h2>
-            <PriceBreakdown {...pricing} />
+            {pricing && <PriceBreakdown {...pricing} promoCode={appliedPromo?.code} />}
           </div>
         </aside>
       </form>
