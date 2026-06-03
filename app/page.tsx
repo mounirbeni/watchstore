@@ -81,8 +81,8 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── Categories ────────────────────────────────────────── */}
-        <section className="max-w-7xl mx-auto px-5 sm:px-6 pt-12 pb-10 sm:py-16">
+        {/* ── Collections cover banner ──────────────────────────── */}
+        <section className="max-w-7xl mx-auto px-5 sm:px-6 pt-12 pb-0 sm:pt-16">
           <div className="flex items-end justify-between mb-6 sm:mb-8">
             <div>
               <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-1.5">Explorer</p>
@@ -95,35 +95,69 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {categories.length === 0 ? (
-            <p className="text-center text-sm text-luxury-muted">Bientôt disponible.</p>
-          ) : (
-            <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 md:grid-cols-4 sm:gap-4 sm:overflow-visible">
-              {categories.map((cat) => (
-                <Link
-                  key={cat.id}
-                  href={`/shop?category=${cat.slug}`}
-                  className="group relative shrink-0 w-[42%] sm:w-auto aspect-[3/4] sm:aspect-square overflow-hidden rounded-2xl bg-luxury-dark border border-luxury-border hover:shadow-card-hover transition-all duration-300 snap-start"
-                >
-                  {cat.imageUrl && (
-                    <Image
-                      src={cat.imageUrl}
-                      alt={cat.name}
-                      fill
-                      sizes="(max-width:640px) 42vw, 25vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="text-white font-serif font-semibold text-base sm:text-lg">{cat.name}</h3>
-                    <p className="text-gold-400 text-xs mt-0.5">{cat._count.products} pièces</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
+          {/* Two-panel model banner */}
+          <div className="grid grid-cols-2 gap-3 sm:gap-5">
+            {[
+              { src: "/images/banner-homme.jpg", label: "Homme", sub: "Élégance & caractère", href: "/shop?category=homme" },
+              { src: "/images/banner-femme.jpg", label: "Femme", sub: "Grâce & raffinement",  href: "/shop?category=femme" },
+            ].map(({ src, label, sub, href }) => (
+              <Link
+                key={label}
+                href={href}
+                className="group relative overflow-hidden rounded-2xl bg-luxury-dark border border-luxury-border hover:shadow-card-hover transition-all duration-300 aspect-[3/4] sm:aspect-[4/5]"
+              >
+                <Image
+                  src={src}
+                  alt={`Collection ${label}`}
+                  fill
+                  sizes="(max-width:640px) 50vw, 40vw"
+                  className="object-cover object-top group-hover:scale-[1.03] transition-transform duration-500"
+                />
+                {/* subtle bottom gradient for text legibility */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+                  <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-gold-400 mb-1">{sub}</p>
+                  <h3 className="text-white font-serif font-bold text-xl sm:text-3xl">{label}</h3>
+                  <span className="mt-2 inline-flex items-center gap-1 text-xs sm:text-sm text-white/80 group-hover:text-gold-400 transition-colors font-medium">
+                    Découvrir <ArrowRight className="h-3 w-3" />
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
         </section>
+
+        {/* ── Other categories ──────────────────────────────────── */}
+        {categories.filter((c) => c.slug !== "homme" && c.slug !== "femme").length > 0 && (
+          <section className="max-w-7xl mx-auto px-5 sm:px-6 pt-5 pb-10 sm:pb-16">
+            <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-5 sm:gap-4 sm:overflow-visible">
+              {categories
+                .filter((c) => c.slug !== "homme" && c.slug !== "femme")
+                .map((cat) => (
+                  <Link
+                    key={cat.id}
+                    href={`/shop?category=${cat.slug}`}
+                    className="group relative shrink-0 w-[38%] sm:w-auto aspect-square overflow-hidden rounded-2xl bg-luxury-dark border border-luxury-border hover:shadow-card-hover transition-all duration-300 snap-start"
+                  >
+                    {cat.imageUrl && (
+                      <Image
+                        src={cat.imageUrl}
+                        alt={cat.name}
+                        fill
+                        sizes="(max-width:640px) 38vw, 20vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4">
+                      <h3 className="text-white font-serif font-semibold text-sm sm:text-base">{cat.name}</h3>
+                      <p className="text-gold-400 text-[10px] sm:text-xs mt-0.5">{cat._count.products} pièces</p>
+                    </div>
+                  </Link>
+                ))}
+            </div>
+          </section>
+        )}
 
         {/* ── Featured Products ─────────────────────────────────── */}
         <section className="bg-luxury-dark py-12 sm:py-16">
