@@ -15,6 +15,27 @@ const TRUST_ICON: Record<string, typeof Truck> = {
   "Édition limitée": Gem,
 };
 
+/** Five gold stars with half-star support, no review count. */
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <span className="inline-flex items-center gap-px" aria-label={`Note ${rating} sur 5`}>
+      {[0, 1, 2, 3, 4].map((i) => {
+        const fill = Math.max(0, Math.min(1, rating - i)); // 0, partial, or 1
+        return (
+          <span key={i} className="relative inline-block h-3 w-3">
+            <Star className="absolute inset-0 h-3 w-3 text-gold-500/30" />
+            {fill > 0 && (
+              <span className="absolute inset-0 overflow-hidden" style={{ width: `${fill * 100}%` }}>
+                <Star className="h-3 w-3 fill-gold-500 text-gold-500" />
+              </span>
+            )}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
 export default function ProductCard({ product }: { product: ProductWithImage }) {
   const primaryImage = product.images.find((i) => i.isPrimary) ?? product.images[0];
   const discount = product.comparePrice
@@ -86,18 +107,19 @@ export default function ProductCard({ product }: { product: ProductWithImage }) 
             {product.name}
           </h3>
 
-          {/* 3 — Rating (only if reviews) + sold count */}
-          <div className="mb-2 flex min-h-[16px] items-center gap-2 text-[11px] text-luxury-muted">
-            {signals.hasReviews && (
-              <span className="inline-flex items-center gap-0.5 font-medium text-luxury-light">
-                <Star className="h-3 w-3 fill-gold-500 text-gold-500" />
-                {signals.rating.toFixed(1)}
-                <span className="ml-0.5 text-luxury-muted">({signals.reviewCount})</span>
-              </span>
-            )}
-            {signals.hasReviews && <span className="text-luxury-border">·</span>}
-            <span>{signals.soldLabel}</span>
-          </div>
+          {/* 3 — Stars (admin rating) + sold count — no review count */}
+          {(signals.showRating || signals.showSold) && (
+            <div className="mb-2 flex min-h-[16px] items-center gap-2 text-[11px] text-luxury-muted">
+              {signals.showRating && (
+                <span className="inline-flex items-center gap-1">
+                  <StarRating rating={signals.rating} />
+                  <span className="font-medium text-luxury-light">{signals.rating.toFixed(1)}</span>
+                </span>
+              )}
+              {signals.showRating && signals.showSold && <span className="text-luxury-border">·</span>}
+              {signals.showSold && <span>{signals.soldLabel}</span>}
+            </div>
+          )}
 
           {/* 4 — Stock status (gold accent, never red) */}
           <div className="mb-3 min-h-[18px]">

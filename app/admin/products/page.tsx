@@ -164,6 +164,11 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
             <input name="waterResist" className="input-luxury" placeholder="Water resistance" />
           </div>
           <input name="strapMaterial" className="input-luxury" placeholder="Strap material" />
+          <div className="grid gap-4 md:grid-cols-3">
+            <input name="badge" className="input-luxury" placeholder="Badge (new, hot…)" />
+            <input name="rating" type="number" min="0" max="5" step="0.1" defaultValue="0" className="input-luxury" placeholder="Note ★ (0–5, ex 4.8)" />
+            <input name="soldCount" type="number" min="0" step="1" defaultValue="0" className="input-luxury" placeholder="Nombre vendu (ex 1500)" />
+          </div>
           <ProductImageUploader cloudinaryConfigured={cloudinaryConfigured} />
           <input type="hidden" name="isActive" value="true" />
           <label className="flex items-center gap-2 text-sm text-luxury-muted"><input type="checkbox" name="isFeatured" value="true" /> Featured product</label>

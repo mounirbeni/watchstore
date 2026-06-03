@@ -193,6 +193,8 @@ model Product {
   waterResist  String?
   strapMaterial String?
   badge        String?
+  rating       Float    @default(0)
+  soldCount    Int      @default(0)
   isFeatured   Boolean  @default(false)
   isActive     Boolean  @default(true)
   categoryId   String?

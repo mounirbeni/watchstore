@@ -79,6 +79,8 @@ export const ProductSchema = z.object({
   waterResist: optionalTrimmedString,
   strapMaterial: optionalTrimmedString,
   badge: optionalTrimmedString,
+  rating: z.coerce.number().min(0).max(5).optional().default(0),
+  soldCount: z.coerce.number().int().min(0).optional().default(0),
   isFeatured: z.boolean().optional().default(false),
   isActive: z.boolean().optional().default(true),
   categoryId: optionalTrimmedString,

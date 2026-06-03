@@ -172,6 +172,8 @@ export async function updateProductAction(
       waterResist: parsed.data.waterResist ?? null,
       strapMaterial: parsed.data.strapMaterial ?? null,
       badge: parsed.data.badge ?? null,
+      rating: parsed.data.rating,
+      soldCount: parsed.data.soldCount,
       isFeatured: parsed.data.isFeatured,
       isActive: parsed.data.isActive,
       categoryId: parsed.data.categoryId ?? null,

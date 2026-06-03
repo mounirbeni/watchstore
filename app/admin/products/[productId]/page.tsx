@@ -149,6 +149,37 @@ export default async function AdminProductEditPage({ params }: Props) {
             </label>
           </section>
 
+          {/* Social proof — admin-controlled, shown on product cards */}
+          <section className="grid gap-4 md:grid-cols-2">
+            <label className="space-y-2">
+              <span className="text-sm font-medium text-luxury-light">Note (étoiles)</span>
+              <input
+                name="rating"
+                type="number"
+                min="0"
+                max="5"
+                step="0.1"
+                defaultValue={product.rating ?? 0}
+                className="input-luxury w-full"
+                placeholder="ex: 4.8"
+              />
+              <span className="text-xs text-luxury-muted">0 à 5. Mettre 0 pour masquer les étoiles.</span>
+            </label>
+            <label className="space-y-2">
+              <span className="text-sm font-medium text-luxury-light">Nombre vendu</span>
+              <input
+                name="soldCount"
+                type="number"
+                min="0"
+                step="1"
+                defaultValue={product.soldCount ?? 0}
+                className="input-luxury w-full"
+                placeholder="ex: 1500"
+              />
+              <span className="text-xs text-luxury-muted">Affiché comme « 1.5K vendus ». 0 pour masquer.</span>
+            </label>
+          </section>
+
           <ProductImageUploader
             cloudinaryConfigured={cloudinaryConfigured}
             initialImages={product.images.map((image) => ({
