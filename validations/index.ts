@@ -52,15 +52,24 @@ export const UpdateProfileSchema = z.object({
 });
 
 export const AddressSchema = z.object({
-  label: z.string().min(1).max(50).optional().default("Home"),
+  label: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().min(1).max(50).optional().default("Home"),
+  ),
   firstName: z.string().min(2).max(50),
   lastName: z.string().min(2).max(50),
   phone: z.string().min(8).max(20),
   street: z.string().min(5).max(200),
   city: z.string().min(2).max(100),
-  state: z.string().optional(),
+  state: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().max(100).optional(),
+  ),
   postalCode: z.string().min(4).max(10),
-  country: z.string().min(2).max(100).default("Morocco"),
+  country: z.preprocess(
+    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+    z.string().min(2).max(100).default("Morocco"),
+  ),
   isDefault: z.boolean().optional().default(false),
 });
 
