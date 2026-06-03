@@ -39,7 +39,7 @@ export default async function DashboardWishlistPage() {
           />
         </Card>
       ) : (
-        <div className="grid gap-4 sm:gap-6 grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-3 sm:gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-stretch">
           {products.map((product) => <ProductCard key={product.id} product={product} />)}
         </div>
       )}

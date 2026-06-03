@@ -142,7 +142,7 @@ export default async function HomePage() {
             {featured.length === 0 ? (
               <p className="text-luxury-muted text-center py-10">La collection arrive bientôt.</p>
             ) : (
-              <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 sm:overflow-visible">
+              <div className="flex items-stretch gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 sm:overflow-visible">
                 {featured.map((p) => (
                   <div key={p.id} className="shrink-0 w-[62%] sm:w-auto snap-start">
                     <ProductCard product={p} />
@@ -279,7 +279,7 @@ export default async function HomePage() {
                   Voir tout <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
-              <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-5 sm:overflow-visible">
+              <div className="flex items-stretch gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 sm:overflow-visible">
                 {newArrivals.map((p) => (
                   <div key={p.id} className="shrink-0 w-[62%] sm:w-auto snap-start">
                     <ProductCard product={p} />

@@ -206,7 +206,7 @@ export default async function ShopPage({ searchParams }: Props) {
               action={<Link href="/shop" className="text-sm text-gold-500 hover:text-gold-400 transition-colors font-medium">Voir tous les produits</Link>}
             />
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 items-stretch">
               {products.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
