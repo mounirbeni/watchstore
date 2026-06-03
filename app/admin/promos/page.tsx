@@ -8,6 +8,21 @@ import type { PromoCode } from "@prisma/client";
 export const metadata: Metadata = { title: "Codes Promo" };
 export const dynamic = "force-dynamic";
 
+async function createPromo(formData: FormData) {
+  "use server";
+  await createPromoCodeAction(formData);
+}
+
+async function togglePromo(formData: FormData) {
+  "use server";
+  await togglePromoCodeAction(formData);
+}
+
+async function deletePromo(formData: FormData) {
+  "use server";
+  await deletePromoCodeAction(formData);
+}
+
 export default async function AdminPromosPage() {
   const promos = await db.promoCode.findMany({ orderBy: { createdAt: "desc" } });
 
@@ -25,7 +40,7 @@ export default async function AdminPromosPage() {
         <h2 className="text-base font-semibold text-luxury-white mb-5 flex items-center gap-2">
           <Plus className="h-4 w-4 text-gold-500" /> Nouveau code promo
         </h2>
-        <form action={async (fd) => { await createPromoCodeAction(fd); }} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <form action={createPromo} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-luxury-light uppercase tracking-wide">Code *</label>
             <input name="code" required placeholder="SUMMER20" className="input-luxury uppercase" />
@@ -130,7 +145,7 @@ export default async function AdminPromosPage() {
                       </td>
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-2 justify-end">
-                          <form action={async (fd) => { await togglePromoCodeAction(fd); }}>
+                          <form action={togglePromo}>
                             <input type="hidden" name="id" value={promo.id} />
                             <button type="submit" title={promo.isActive ? "Désactiver" : "Activer"}
                               className="text-luxury-muted hover:text-luxury-white transition-colors p-1.5 rounded-lg hover:bg-luxury-dark">
@@ -140,7 +155,7 @@ export default async function AdminPromosPage() {
                               }
                             </button>
                           </form>
-                          <form action={async (fd) => { await deletePromoCodeAction(fd); }}>
+                          <form action={deletePromo}>
                             <input type="hidden" name="id" value={promo.id} />
                             <button type="submit" title="Supprimer"
                               className="text-luxury-muted hover:text-red-500 transition-colors p-1.5 rounded-lg hover:bg-red-50">
