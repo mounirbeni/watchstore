@@ -106,7 +106,29 @@ export async function createOrderAction(formData: FormData): Promise<ActionResul
   const flagged = ordersLastHour >= 4;
 
   const subtotal = cart.items.reduce((s, i) => s + Number(i.product.price) * i.quantity, 0);
-  const pricing = computePricing(subtotal);
+
+  // Validate promo code if provided.
+  let promoDiscount = 0;
+  let promoCodeRecord: { id: string; code: string } | null = null;
+  if (parsed.data.promoCode) {
+    const promo = await db.promoCode.findUnique({ where: { code: parsed.data.promoCode.toUpperCase() } });
+    if (
+      promo &&
+      promo.isActive &&
+      (!promo.expiresAt || promo.expiresAt > new Date()) &&
+      (promo.maxUses === null || promo.usedCount < promo.maxUses) &&
+      (promo.minOrderAmount === null || subtotal >= Number(promo.minOrderAmount))
+    ) {
+      if (promo.discountType === "PERCENT") {
+        promoDiscount = Math.round((subtotal * Number(promo.discountValue)) / 100);
+      } else {
+        promoDiscount = Math.min(Number(promo.discountValue), subtotal);
+      }
+      promoCodeRecord = { id: promo.id, code: promo.code };
+    }
+  }
+
+  const pricing = computePricing(subtotal, promoDiscount);
   const { ip, userAgent } = await getClientMeta();
   const orderNumber = generateOrderNumber();
 
@@ -118,7 +140,8 @@ export async function createOrderAction(formData: FormData): Promise<ActionResul
       status: OrderStatus.AWAITING_DEPOSIT,
       subtotal: pricing.subtotal,
       shippingCost: pricing.shipping,
-      discount: 0,
+      discount: pricing.discount,
+      promoCode: promoCodeRecord?.code ?? null,
       total: pricing.total,
       depositAmount: pricing.deposit,
       remainingBalance: pricing.remaining,
@@ -150,6 +173,11 @@ export async function createOrderAction(formData: FormData): Promise<ActionResul
       },
     },
   });
+
+  // Increment promo code usage counter.
+  if (promoCodeRecord) {
+    await db.promoCode.update({ where: { id: promoCodeRecord.id }, data: { usedCount: { increment: 1 } } });
+  }
 
   // Save phone to profile if missing (smoother future checkouts).
   await db.customerProfile.updateMany({

@@ -32,6 +32,7 @@ export function shippingForSubtotal(subtotal: number): number {
 
 export interface OrderPricing {
   subtotal: number;
+  discount: number;
   shipping: number;
   total: number;
   deposit: number;
@@ -41,20 +42,22 @@ export interface OrderPricing {
   freeShippingGap: number;
 }
 
-/** Compute the full price breakdown from a product subtotal. */
-export function computePricing(subtotal: number): OrderPricing {
-  const shipping = shippingForSubtotal(subtotal);
-  const total = subtotal + shipping;
-  const deposit = Math.min(depositForSubtotal(subtotal), total);
+/** Compute the full price breakdown from a product subtotal with optional promo discount. */
+export function computePricing(subtotal: number, discount = 0): OrderPricing {
+  const discountedSubtotal = Math.max(0, subtotal - discount);
+  const shipping = shippingForSubtotal(discountedSubtotal);
+  const total = discountedSubtotal + shipping;
+  const deposit = Math.min(depositForSubtotal(discountedSubtotal), total);
   const remaining = Math.max(0, total - deposit);
   return {
     subtotal,
+    discount,
     shipping,
     total,
     deposit,
     remaining,
     freeShipping: shipping === 0,
-    freeShippingGap: Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal),
+    freeShippingGap: Math.max(0, FREE_SHIPPING_THRESHOLD - discountedSubtotal),
   };
 }
 

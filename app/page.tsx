@@ -9,6 +9,7 @@ import HeroCarousel from "@/components/home/HeroCarousel";
 import {
   ArrowRight, Shield, Truck, Award, RefreshCw,
   Zap, Star, Quote, CheckCircle2, Clock, Gem,
+  Search, ShoppingCart, Package, MapPin, Users, Timer,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -207,9 +208,65 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* ── How it works ─────────────────────────────────────── */}
+        <section className="bg-luxury-dark py-12 sm:py-16">
+          <div className="max-w-7xl mx-auto px-5 sm:px-6">
+            <div className="text-center mb-10 sm:mb-12">
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-2">Simple & rapide</p>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-luxury-white">
+                Comment ça <span className="gold-text">marche</span>
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 relative">
+              <div className="hidden sm:block absolute top-10 left-1/3 right-1/3 h-px bg-gradient-to-r from-gold-500/30 via-gold-500 to-gold-500/30" />
+              {[
+                {
+                  step: "01",
+                  Icon: Search,
+                  title: "Choisissez votre montre",
+                  desc: "Parcourez notre catalogue de montres premium sélectionnées avec soin — filtrées par marque, style et budget.",
+                },
+                {
+                  step: "02",
+                  Icon: ShoppingCart,
+                  title: "Passez commande en ligne",
+                  desc: "Ajoutez au panier, entrez vos coordonnées et versez un simple acompte pour confirmer votre réservation.",
+                },
+                {
+                  step: "03",
+                  Icon: Package,
+                  title: "Recevez à domicile",
+                  desc: "Votre montre est livrée dans un écrin luxueux. Le solde est réglé en espèces à la livraison.",
+                },
+              ].map(({ step, Icon, title, desc }) => (
+                <div key={step} className="relative flex flex-col items-center text-center px-4">
+                  <div className="relative mb-5">
+                    <div className="w-20 h-20 rounded-2xl bg-white border border-luxury-border shadow-card flex items-center justify-center">
+                      <Icon className="h-8 w-8 text-gold-500" />
+                    </div>
+                    <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-gold-500 text-black text-xs font-bold flex items-center justify-center">
+                      {step}
+                    </span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-serif font-semibold text-luxury-white mb-2">{title}</h3>
+                  <p className="text-sm text-luxury-muted leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-10 text-center">
+              <Link
+                href="/shop"
+                className="inline-flex items-center gap-2 px-7 py-3.5 bg-gold-500 text-black text-sm font-bold rounded-xl hover:bg-gold-400 active:scale-[0.98] transition-all"
+              >
+                Commencer maintenant <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* ── New Arrivals ──────────────────────────────────────── */}
         {newArrivals.length > 0 && (
-          <section className="bg-luxury-dark py-12 sm:py-16">
+          <section className="py-12 sm:py-16">
             <div className="max-w-7xl mx-auto px-5 sm:px-6">
               <div className="flex justify-between items-end mb-6 sm:mb-8">
                 <div>
@@ -234,44 +291,145 @@ export default async function HomePage() {
         )}
 
         {/* ── Testimonials ──────────────────────────────────────── */}
-        <section className="max-w-7xl mx-auto px-5 sm:px-6 py-12 sm:py-16">
-          <div className="text-center mb-8 sm:mb-10">
-            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-2">Avis clients</p>
-            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-luxury-white mb-3">
-              Ce qu&apos;ils <span className="gold-text">disent</span>
-            </h2>
-            <div className="flex items-center justify-center gap-1">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className="h-3.5 w-3.5 fill-gold-500 text-gold-500" />
+        <section className="bg-luxury-dark py-12 sm:py-16">
+          <div className="max-w-7xl mx-auto px-5 sm:px-6">
+            <div className="text-center mb-8 sm:mb-10">
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-2">Avis clients</p>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-luxury-white mb-3">
+                Ce qu&apos;ils <span className="gold-text">disent</span>
+              </h2>
+              <div className="flex items-center justify-center gap-1">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="h-3.5 w-3.5 fill-gold-500 text-gold-500" />
+                ))}
+                <span className="ml-2 text-sm text-luxury-muted">4.9 / 5 · 200+ avis</span>
+              </div>
+            </div>
+
+            <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:overflow-visible">
+              {TESTIMONIALS.map((t) => (
+                <div
+                  key={t.name}
+                  className="shrink-0 w-[78%] sm:w-auto snap-start bg-white border border-luxury-border rounded-2xl p-5 flex flex-col gap-3 shadow-card hover:shadow-card-hover transition-shadow"
+                >
+                  <Quote className="h-5 w-5 text-gold-500/50" />
+                  <p className="text-sm text-luxury-light leading-relaxed flex-1">{t.text}</p>
+                  <div className="flex items-center gap-0.5">
+                    {Array.from({ length: t.stars }).map((_, i) => (
+                      <Star key={i} className="h-3 w-3 fill-gold-500 text-gold-500" />
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-2.5 border-t border-luxury-border pt-3">
+                    <div className="h-8 w-8 rounded-full bg-gold-500/15 border border-gold-500/30 flex items-center justify-center text-xs font-bold text-gold-500">
+                      {t.name[0]}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-luxury-white">{t.name}</p>
+                      <p className="text-xs text-luxury-muted">{t.city}</p>
+                    </div>
+                  </div>
+                </div>
               ))}
-              <span className="ml-2 text-sm text-luxury-muted">4.9 / 5 · 200+ avis</span>
             </div>
           </div>
+        </section>
 
-          <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:overflow-visible">
-            {TESTIMONIALS.map((t) => (
-              <div
-                key={t.name}
-                className="shrink-0 w-[78%] sm:w-auto snap-start bg-white border border-luxury-border rounded-2xl p-5 flex flex-col gap-3 shadow-card hover:shadow-card-hover transition-shadow"
-              >
-                <Quote className="h-5 w-5 text-gold-500/50" />
-                <p className="text-sm text-luxury-light leading-relaxed flex-1">{t.text}</p>
-                <div className="flex items-center gap-0.5">
-                  {Array.from({ length: t.stars }).map((_, i) => (
-                    <Star key={i} className="h-3 w-3 fill-gold-500 text-gold-500" />
-                  ))}
-                </div>
-                <div className="flex items-center gap-2.5 border-t border-luxury-border pt-3">
-                  <div className="h-8 w-8 rounded-full bg-gold-500/15 border border-gold-500/30 flex items-center justify-center text-xs font-bold text-gold-500">
-                    {t.name[0]}
+        {/* ── Key numbers strip ────────────────────────────────── */}
+        <section className="border-y border-luxury-border">
+          <div className="max-w-7xl mx-auto px-5 sm:px-6 py-8 sm:py-10">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 text-center">
+              {[
+                { value: "500+", label: "Montres disponibles", Icon: Package },
+                { value: "48h", label: "Délai de livraison", Icon: Timer },
+                { value: "4.9/5", label: "Satisfaction client", Icon: Star },
+                { value: "12+", label: "Villes desservies", Icon: MapPin },
+              ].map(({ value, label, Icon }) => (
+                <div key={label} className="flex flex-col items-center gap-2">
+                  <div className="w-10 h-10 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto">
+                    <Icon className="h-5 w-5 text-gold-500" />
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-luxury-white">{t.name}</p>
-                    <p className="text-xs text-luxury-muted">{t.city}</p>
-                  </div>
+                  <p className="text-2xl sm:text-3xl font-serif font-bold gold-text">{value}</p>
+                  <p className="text-xs sm:text-sm text-luxury-muted">{label}</p>
                 </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── FAQ teaser ───────────────────────────────────────── */}
+        <section className="max-w-7xl mx-auto px-5 sm:px-6 py-12 sm:py-16">
+          <div className="grid md:grid-cols-2 gap-10 sm:gap-16 items-start">
+            <div>
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-3">Questions fréquentes</p>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-luxury-white mb-6">
+                Vous avez des <span className="gold-text">questions ?</span>
+              </h2>
+              <div className="space-y-4">
+                {[
+                  {
+                    q: "Comment fonctionne le paiement ?",
+                    a: "Vous versez un petit acompte en ligne pour confirmer votre commande. Le reste est réglé en espèces directement au livreur.",
+                  },
+                  {
+                    q: "Quels sont les délais de livraison ?",
+                    a: "Nous livrons dans tout le Maroc sous 24 à 72 heures après confirmation de l'acompte.",
+                  },
+                  {
+                    q: "Les montres sont-elles authentiques ?",
+                    a: "Absolument. Chaque montre est vérifiée et livrée avec ses documents d'origine et une garantie.",
+                  },
+                  {
+                    q: "Puis-je retourner un article ?",
+                    a: "Oui, vous disposez de 30 jours pour retourner un article non porté dans son emballage d'origine.",
+                  },
+                ].map(({ q, a }) => (
+                  <details key={q} className="group bg-white border border-luxury-border rounded-xl overflow-hidden shadow-card">
+                    <summary className="flex items-center justify-between px-5 py-4 cursor-pointer list-none">
+                      <span className="text-sm font-medium text-luxury-white pr-4">{q}</span>
+                      <span className="shrink-0 w-5 h-5 rounded-full bg-gold-500/10 text-gold-500 flex items-center justify-center text-xs font-bold group-open:rotate-45 transition-transform duration-200">+</span>
+                    </summary>
+                    <div className="px-5 pb-4">
+                      <p className="text-sm text-luxury-muted leading-relaxed">{a}</p>
+                    </div>
+                  </details>
+                ))}
               </div>
-            ))}
+            </div>
+
+            <div className="flex flex-col gap-5">
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500">Nous contacter</p>
+              <h3 className="text-xl sm:text-2xl font-serif font-bold text-luxury-white">
+                Une question ? <br />
+                <span className="gold-text">Nous sommes là.</span>
+              </h3>
+              <p className="text-sm text-luxury-muted leading-relaxed">
+                Notre équipe est disponible 7j/7 pour vous aider à trouver la montre parfaite et répondre à toutes vos questions.
+              </p>
+              <div className="space-y-3">
+                {[
+                  { Icon: Users, title: "Service client", desc: "Réponse en moins de 2h" },
+                  { Icon: Truck, title: "Livraison sécurisée", desc: "Partout au Maroc" },
+                  { Icon: Shield, title: "Authenticité garantie", desc: "100% certifié" },
+                ].map(({ Icon, title, desc }) => (
+                  <div key={title} className="flex items-center gap-3 p-4 bg-white border border-luxury-border rounded-xl shadow-card">
+                    <div className="w-9 h-9 rounded-xl bg-gold-500/10 flex items-center justify-center shrink-0">
+                      <Icon className="h-4 w-4 text-gold-500" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-luxury-white">{title}</p>
+                      <p className="text-xs text-luxury-muted">{desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <a
+                href="https://wa.me/212600000000"
+                className="inline-flex items-center gap-2 self-start px-6 py-3.5 bg-[#25D366] text-white text-sm font-bold rounded-xl hover:bg-[#1EBE57] active:scale-[0.98] transition-all"
+              >
+                <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Nous contacter sur WhatsApp
+              </a>
+            </div>
           </div>
         </section>
 
