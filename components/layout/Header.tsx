@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/session";
 import { db } from "@/lib/db";
 import { logoutAction } from "@/actions/auth";
-import { ShoppingCart, User, Settings, LogOut } from "lucide-react";
+import { ShoppingCart, User, Settings, LogOut, ChevronDown } from "lucide-react";
 import NotificationBell from "@/components/notifications/NotificationBell";
 
 async function getCartCount(userId: string): Promise<number> {
@@ -12,6 +12,16 @@ async function getCartCount(userId: string): Promise<number> {
   });
   return cart?._count?.items ?? 0;
 }
+
+const CATEGORIES = [
+  { href: "/shop?category=homme", label: "Homme" },
+  { href: "/shop?category=femme", label: "Femme" },
+  { href: "/shop?category=sport", label: "Sport" },
+  { href: "/shop?category=luxe", label: "Haute Horlogerie" },
+  { href: "/shop?category=smart", label: "Smart" },
+  { href: "/shop?category=pack", label: "Pack & Coffrets" },
+  { href: "/shop?category=limited-edition", label: "Édition Limitée" },
+];
 
 export default async function Header() {
   const user = await getCurrentUser();
@@ -29,20 +39,45 @@ export default async function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
-            {[
-              ["/shop", "Collection"],
-              ["/shop?category=homme", "Homme"],
-              ["/shop?category=femme", "Femme"],
-              ["/shop?category=luxe", "Haute Horlogerie"],
-            ].map(([href, label]) => (
+            <Link href="/" className="text-sm text-luxury-light hover:text-luxury-white transition-colors font-medium">
+              Accueil
+            </Link>
+
+            {/* Collection dropdown */}
+            <div className="relative group">
               <Link
-                key={href}
-                href={href!}
-                className="text-sm text-luxury-light hover:text-luxury-white transition-colors font-medium"
+                href="/shop"
+                className="flex items-center gap-1 text-sm text-luxury-light hover:text-luxury-white transition-colors font-medium py-5"
               >
-                {label}
+                Collection
+                <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200 group-hover:rotate-180" />
               </Link>
-            ))}
+
+              {/* Transparent bridge prevents gap between trigger and panel */}
+              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                <div className="w-52 bg-white border border-luxury-border rounded-xl shadow-card-hover overflow-hidden">
+                  <Link
+                    href="/shop"
+                    className="block px-4 py-2.5 text-sm font-semibold text-luxury-white hover:bg-luxury-dark transition-colors border-b border-luxury-border"
+                  >
+                    Toutes les montres
+                  </Link>
+                  {CATEGORIES.map(({ href, label }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      className="block px-4 py-2.5 text-sm text-luxury-light hover:text-luxury-white hover:bg-luxury-dark transition-colors"
+                    >
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <Link href="/shop?sort=newest" className="text-sm text-luxury-light hover:text-luxury-white transition-colors font-medium">
+              Nouveautés
+            </Link>
           </nav>
 
           {/* Actions */}
