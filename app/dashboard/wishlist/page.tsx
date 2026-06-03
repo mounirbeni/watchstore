@@ -13,7 +13,7 @@ export default async function DashboardWishlistPage() {
   const session = await requireAuth();
   const wishlist = await db.wishlist.findUnique({
     where: { userId: session.userId },
-    include: { items: { include: { product: { include: { images: { orderBy: { sortOrder: "asc" } } } } } } },
+    include: { items: { include: { product: { include: { images: { orderBy: { sortOrder: "asc" } }, category: true } } } } },
   });
   const products = wishlist?.items.map((item) => item.product).filter((product) => product.isActive) ?? [];
 

@@ -18,7 +18,7 @@ async function getFeaturedProducts() {
   try {
     return await db.product.findMany({
       where: { isFeatured: true, isActive: true },
-      include: { images: { orderBy: { sortOrder: "asc" } } },
+      include: { images: { orderBy: { sortOrder: "asc" } }, category: true },
       take: 8,
       orderBy: { createdAt: "desc" },
     });
@@ -29,7 +29,7 @@ async function getNewArrivals() {
   try {
     return await db.product.findMany({
       where: { isActive: true },
-      include: { images: { orderBy: { sortOrder: "asc" } } },
+      include: { images: { orderBy: { sortOrder: "asc" } }, category: true },
       take: 6,
       orderBy: { createdAt: "desc" },
     });

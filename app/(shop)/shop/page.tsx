@@ -36,7 +36,7 @@ export default async function ShopPage({ searchParams }: Props) {
     params.sort === "price-desc" ? { price: "desc" as const } :
                                    { createdAt: "desc" as const };
 
-  type ListedProduct = Prisma.ProductGetPayload<{ include: { images: true } }>;
+  type ListedProduct = Prisma.ProductGetPayload<{ include: { images: true; category: true } }>;
   let products: ListedProduct[] = [];
   let categories: Category[] = [];
   let total = 0;
@@ -44,7 +44,7 @@ export default async function ShopPage({ searchParams }: Props) {
 
   try {
     [products, categories, total] = await Promise.all([
-      db.product.findMany({ where, include: { images: { orderBy: { sortOrder: "asc" } } }, orderBy }),
+      db.product.findMany({ where, include: { images: { orderBy: { sortOrder: "asc" } }, category: true }, orderBy }),
       db.category.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
       db.product.count({ where }),
     ]);
