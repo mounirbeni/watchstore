@@ -240,7 +240,7 @@ export default function ProductImageUploader({
     <section ref={rootRef} className="space-y-4">
       <input type="hidden" name={inputName} value={serializedImages} />
       <div>
-        <h2 className="text-lg font-serif text-white">Product images</h2>
+        <h2 className="text-lg font-serif text-luxury-white">Product images</h2>
         <p className="mt-1 text-sm text-luxury-muted">
           Upload main, gallery, and detail images. JPG, PNG, and WEBP only. Maximum 5MB per image.
         </p>
@@ -292,7 +292,7 @@ export default function ProductImageUploader({
               event.currentTarget.value = "";
             }}
           />
-          <p className="text-sm font-medium text-white">Drag images here or select files from your device.</p>
+          <p className="text-sm font-medium text-luxury-white">Drag images here or select files from your device.</p>
           <p className="mt-1 text-xs text-luxury-muted">Recommended ratio: 1:1 or 4:5.</p>
           <button
             type="button"
@@ -309,7 +309,7 @@ export default function ProductImageUploader({
           <button
             type="button"
             onClick={() => setShowUrlInput(true)}
-            className="rounded-xl border border-luxury-border px-4 py-2 text-sm font-medium text-luxury-muted transition hover:text-white"
+            className="rounded-xl border border-luxury-border px-4 py-2 text-sm font-medium text-luxury-muted transition hover:text-luxury-white"
           >
             + Add by URL
           </button>
@@ -334,7 +334,7 @@ export default function ProductImageUploader({
             <button
               type="button"
               onClick={() => { setShowUrlInput(false); setUrlInput(""); }}
-              className="rounded-xl border border-luxury-border px-4 py-2 text-sm font-medium text-luxury-muted transition hover:text-white"
+              className="rounded-xl border border-luxury-border px-4 py-2 text-sm font-medium text-luxury-muted transition hover:text-luxury-white"
             >
               Cancel
             </button>
@@ -359,7 +359,7 @@ export default function ProductImageUploader({
                   </span>
                 )}
                 {image.uploading && (
-                  <div className="absolute inset-x-0 bottom-0 bg-luxury-black/80 p-3">
+                  <div className="absolute inset-x-0 bottom-0 bg-black/80 p-3">
                     <div className="h-1.5 overflow-hidden rounded-full bg-luxury-border">
                       <div className="h-full rounded-full bg-gold-500" style={{ width: `${image.progress}%` }} />
                     </div>
@@ -392,7 +392,7 @@ export default function ProductImageUploader({
                     type="button"
                     onClick={() => moveImage(image.localId, -1)}
                     disabled={index === 0 || image.uploading}
-                    className="rounded-lg border border-luxury-border px-3 py-2 text-xs font-semibold text-luxury-muted transition hover:text-white disabled:opacity-40"
+                    className="rounded-lg border border-luxury-border px-3 py-2 text-xs font-semibold text-luxury-muted transition hover:text-luxury-white disabled:opacity-40"
                   >
                     Up
                   </button>
@@ -400,14 +400,14 @@ export default function ProductImageUploader({
                     type="button"
                     onClick={() => moveImage(image.localId, 1)}
                     disabled={index === images.length - 1 || image.uploading}
-                    className="rounded-lg border border-luxury-border px-3 py-2 text-xs font-semibold text-luxury-muted transition hover:text-white disabled:opacity-40"
+                    className="rounded-lg border border-luxury-border px-3 py-2 text-xs font-semibold text-luxury-muted transition hover:text-luxury-white disabled:opacity-40"
                   >
                     Down
                   </button>
                   <button
                     type="button"
                     onClick={() => removeImage(image.localId)}
-                    className="rounded-lg border border-luxury-border px-3 py-2 text-xs font-semibold text-luxury-muted transition hover:text-white"
+                    className="rounded-lg border border-luxury-border px-3 py-2 text-xs font-semibold text-luxury-muted transition hover:text-luxury-white"
                   >
                     Remove
                   </button>

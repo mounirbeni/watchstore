@@ -63,7 +63,7 @@ export default async function AdminInventoryPage() {
         <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Inventory control</p>
-            <h1 className="mt-2 text-3xl font-serif font-semibold text-white">Inventory management</h1>
+            <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Inventory management</h1>
             <p className="mt-2 max-w-2xl text-luxury-muted">
               Track stock health, update quantities, and review movement history from real product records.
             </p>
@@ -77,7 +77,7 @@ export default async function AdminInventoryPage() {
             ].map(([label, value]) => (
               <div key={label} className="rounded-2xl border border-luxury-border bg-luxury-dark/60 px-4 py-3 text-center">
                 <p className="text-[11px] uppercase tracking-[0.14em] text-luxury-muted">{label}</p>
-                <p className="mt-1 text-2xl font-semibold text-white">{value}</p>
+                <p className="mt-1 text-2xl font-semibold text-luxury-white">{value}</p>
               </div>
             ))}
           </div>
@@ -88,7 +88,7 @@ export default async function AdminInventoryPage() {
         <Card className="overflow-hidden rounded-3xl" padding="none">
           <div className="flex flex-col gap-3 border-b border-luxury-border px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-xl font-serif text-white">Inventory ledger</h2>
+              <h2 className="text-xl font-serif text-luxury-white">Inventory ledger</h2>
               <p className="mt-1 text-sm text-luxury-muted">Sorted by lowest stock first.</p>
             </div>
             <div className="flex flex-wrap gap-2 text-xs text-luxury-muted">
@@ -126,7 +126,7 @@ export default async function AdminInventoryPage() {
                             )}
                           </div>
                           <div className="min-w-0">
-                            <p className="truncate font-medium text-white">{product.name}</p>
+                            <p className="truncate font-medium text-luxury-white">{product.name}</p>
                             <p className="mt-1 text-xs text-luxury-muted">{product.sku ?? "No SKU"}</p>
                           </div>
                         </div>
@@ -139,7 +139,7 @@ export default async function AdminInventoryPage() {
                       </td>
                       <td className="px-5 py-4">
                         <div className="inline-flex min-w-16 items-baseline justify-center rounded-2xl border border-luxury-border bg-luxury-dark/50 px-4 py-2">
-                          <span className="text-xl font-semibold text-white">{product.stock}</span>
+                          <span className="text-xl font-semibold text-luxury-white">{product.stock}</span>
                           <span className="ml-1 text-xs text-luxury-muted">units</span>
                         </div>
                       </td>
@@ -156,7 +156,7 @@ export default async function AdminInventoryPage() {
                           <SubmitButton>Update</SubmitButton>
                           <Link
                             href={`/admin/products/${product.id}`}
-                            className="inline-flex h-10 items-center rounded-lg border border-luxury-border px-3 text-xs font-semibold text-luxury-muted transition hover:text-white"
+                            className="inline-flex h-10 items-center rounded-lg border border-luxury-border px-3 text-xs font-semibold text-luxury-muted transition hover:text-luxury-white"
                           >
                             Edit
                           </Link>
@@ -172,7 +172,7 @@ export default async function AdminInventoryPage() {
 
         <aside className="space-y-6">
           <Card className="rounded-3xl">
-            <h2 className="text-xl font-serif text-white">Stock health</h2>
+            <h2 className="text-xl font-serif text-luxury-white">Stock health</h2>
             <div className="mt-4 space-y-3">
               {[
                 ["Out of stock", outOfStock],
@@ -182,14 +182,14 @@ export default async function AdminInventoryPage() {
               ].map(([label, value]) => (
                 <div key={label} className="flex items-center justify-between rounded-2xl border border-luxury-border bg-luxury-dark/50 px-4 py-3">
                   <span className="text-sm text-luxury-muted">{label}</span>
-                  <span className="font-semibold text-white">{value}</span>
+                  <span className="font-semibold text-luxury-white">{value}</span>
                 </div>
               ))}
             </div>
           </Card>
 
           <Card className="rounded-3xl">
-            <h2 className="text-xl font-serif text-white">Stock movements</h2>
+            <h2 className="text-xl font-serif text-luxury-white">Stock movements</h2>
             <div className="mt-4 max-h-[560px] space-y-3 overflow-y-auto pr-1">
               {recentMovements.length === 0 ? (
                 <p className="text-sm text-luxury-muted">No stock movements yet.</p>
@@ -200,7 +200,7 @@ export default async function AdminInventoryPage() {
                   <div key={movement.id} className="rounded-2xl border border-luxury-border p-4">
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="font-medium text-white">{movement.action}</p>
+                        <p className="font-medium text-luxury-white">{movement.action}</p>
                         <p className="mt-1 text-xs text-luxury-muted">{formatDate(movement.createdAt)}</p>
                       </div>
                       {(oldStock || newStock) && (

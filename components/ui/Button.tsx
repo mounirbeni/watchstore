@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { type ButtonHTMLAttributes, forwardRef } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "gold" | "outline" | "ghost" | "danger";
+  variant?: "gold" | "outline" | "ghost" | "danger" | "dark";
   size?: "sm" | "md" | "lg";
   loading?: boolean;
 }
@@ -10,13 +10,14 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "gold", size = "md", loading, disabled, children, ...props }, ref) => {
     const base =
-      "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gold-500/50 disabled:opacity-50 disabled:cursor-not-allowed";
+      "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gold-500/40 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]";
 
     const variants = {
-      gold: "bg-gold-500 text-black hover:bg-gold-400 shadow-sm shadow-gold-500/20",
-      outline: "border border-gold-500/50 text-gold-400 hover:bg-gold-500/10 hover:border-gold-400",
-      ghost: "text-luxury-light hover:text-white hover:bg-luxury-border",
-      danger: "border border-gold-500/40 text-gold-400 hover:bg-gold-500/10",
+      gold:    "bg-gold-500 text-black hover:bg-gold-400 shadow-sm",
+      dark:    "bg-luxury-white text-white hover:opacity-80",
+      outline: "border border-luxury-border text-luxury-light bg-white hover:border-gold-500 hover:text-gold-500 shadow-card",
+      ghost:   "text-luxury-light hover:text-luxury-white hover:bg-luxury-dark",
+      danger:  "border border-red-200 text-red-500 hover:bg-red-50",
     };
 
     const sizes = {

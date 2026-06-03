@@ -76,7 +76,7 @@ export default async function AdminPage() {
     <div className="space-y-6">
       <header>
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Admin console</p>
-        <h1 className="mt-2 text-3xl font-serif font-semibold text-white">Business control center</h1>
+        <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Business control center</h1>
         <p className="mt-2 text-luxury-muted">Revenue, operations, customers, inventory, payments, and alerts from database records only.</p>
       </header>
 
@@ -100,7 +100,7 @@ export default async function AdminPage() {
         <Card className="rounded-2xl">
           <div className="mb-4 flex items-start justify-between gap-3">
             <div>
-              <h2 className="text-xl font-serif text-white">Operations queue</h2>
+              <h2 className="text-xl font-serif text-luxury-white">Operations queue</h2>
               <p className="text-sm text-luxury-muted">Orders that need payment, fulfilment, or risk review.</p>
             </div>
             <Link href="/admin/orders" className="text-sm text-gold-400 hover:text-gold-300">Manage</Link>
@@ -109,7 +109,7 @@ export default async function AdminPage() {
             {recentOrders.map((order) => (
               <Link key={order.id} href={`/admin/orders/${order.id}`} className="flex flex-col gap-3 rounded-xl border border-luxury-border p-4 transition hover:border-gold-500/40 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="font-medium text-white">{order.orderNumber}</p>
+                  <p className="font-medium text-luxury-white">{order.orderNumber}</p>
                   <p className="text-sm text-luxury-muted">{order.user.profile?.firstName} {order.user.profile?.lastName} / {formatPrice(order.total)}</p>
                 </div>
                 <div className="flex flex-wrap gap-2"><StatusBadge status={order.status} />{order.payment && <StatusBadge status={order.payment.status} />}</div>
@@ -121,7 +121,7 @@ export default async function AdminPage() {
         <Card className="rounded-2xl">
           <div className="mb-4 flex items-start justify-between gap-3">
             <div>
-              <h2 className="text-xl font-serif text-white">Inventory alerts</h2>
+              <h2 className="text-xl font-serif text-luxury-white">Inventory alerts</h2>
               <p className="text-sm text-luxury-muted">Automatic thresholds: under 10, under 5, and out of stock.</p>
             </div>
             <Link href="/admin/inventory" className="text-sm text-gold-400 hover:text-gold-300">Inventory</Link>
@@ -131,7 +131,7 @@ export default async function AdminPage() {
               <div key={product.id} className="rounded-xl border border-luxury-border p-4">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="font-medium text-white">{product.name}</p>
+                    <p className="font-medium text-luxury-white">{product.name}</p>
                     <p className="text-sm text-luxury-muted">SKU {product.sku ?? "n/a"}</p>
                   </div>
                   <span className="rounded-full bg-gold-500/20 px-3 py-1 text-sm text-gold-400">{product.stock} left</span>
@@ -144,11 +144,11 @@ export default async function AdminPage() {
 
       <section className="grid gap-6 xl:grid-cols-3">
         <Card className="rounded-2xl">
-          <h2 className="mb-4 text-xl font-serif text-white">Best selling products</h2>
+          <h2 className="mb-4 text-xl font-serif text-luxury-white">Best selling products</h2>
           <div className="space-y-3">
             {bestSellingItems.length === 0 ? <p className="text-sm text-luxury-muted">No sales yet.</p> : bestSellingItems.map((item) => (
               <div key={item.productId} className="rounded-xl border border-luxury-border p-4">
-                <p className="font-medium text-white">{item.productName}</p>
+                <p className="font-medium text-luxury-white">{item.productName}</p>
                 <p className="text-sm text-luxury-muted">{item._sum.quantity ?? 0} units / {formatPrice(item._sum.total ?? 0)}</p>
               </div>
             ))}
@@ -156,11 +156,11 @@ export default async function AdminPage() {
         </Card>
 
         <Card className="rounded-2xl">
-          <h2 className="mb-4 text-xl font-serif text-white">Recent customers</h2>
+          <h2 className="mb-4 text-xl font-serif text-luxury-white">Recent customers</h2>
           <div className="space-y-3">
             {recentCustomers.map((user) => (
               <Link key={user.id} href={`/admin/customers/${user.id}`} className="block rounded-xl border border-luxury-border p-4 transition hover:border-gold-500/40">
-                <p className="font-medium text-white">{user.profile?.firstName} {user.profile?.lastName}</p>
+                <p className="font-medium text-luxury-white">{user.profile?.firstName} {user.profile?.lastName}</p>
                 <p className="text-sm text-luxury-muted">{user.email} / joined {timeAgo(user.createdAt)}</p>
               </Link>
             ))}
@@ -168,15 +168,15 @@ export default async function AdminPage() {
         </Card>
 
         <Card className="rounded-2xl">
-          <h2 className="mb-4 text-xl font-serif text-white">Admin alerts</h2>
+          <h2 className="mb-4 text-xl font-serif text-luxury-white">Admin alerts</h2>
           <div className="space-y-3">
             <Link href="/admin/notifications" className="block rounded-xl border border-luxury-border p-4 transition hover:border-gold-500/40">
-              <p className="font-medium text-white">{unreadAdminNotifications} unread notifications</p>
+              <p className="font-medium text-luxury-white">{unreadAdminNotifications} unread notifications</p>
               <p className="text-sm text-luxury-muted">New orders, deposits, stock, fraud, and system messages.</p>
             </Link>
             {recentPayments.map((payment) => (
               <div key={payment.id} className="rounded-xl border border-luxury-border p-4">
-                <p className="font-medium text-white">{payment.order.orderNumber}</p>
+                <p className="font-medium text-luxury-white">{payment.order.orderNumber}</p>
                 <p className="text-sm text-luxury-muted">{payment.user.profile?.firstName} {payment.user.profile?.lastName} / {formatPrice(payment.amount)}</p>
                 <div className="mt-2"><StatusBadge status={payment.status} /></div>
               </div>

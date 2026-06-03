@@ -46,21 +46,21 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               {session.firstName[0]?.toUpperCase()}
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-medium text-white truncate">{session.firstName} {session.lastName}</p>
+              <p className="text-sm font-medium text-luxury-white truncate">{session.firstName} {session.lastName}</p>
               <p className="text-xs text-red-400">Administrateur</p>
             </div>
           </div>
         </div>
         <nav className="flex-1 p-4 space-y-1">
           {navItems.map(({ href, label, Icon }) => (
-            <Link key={href} href={href} className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-luxury-muted hover:text-white hover:bg-luxury-border/50 transition-colors group">
+            <Link key={href} href={href} className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-luxury-muted hover:text-luxury-white hover:bg-luxury-border/50 transition-colors group">
               <Icon className="h-4 w-4 group-hover:text-gold-400 transition-colors" />
               {label}
             </Link>
           ))}
         </nav>
         <div className="p-4 border-t border-luxury-border">
-          <Link href="/dashboard" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-luxury-muted hover:text-white hover:bg-luxury-border/50 transition-colors mb-2">
+          <Link href="/dashboard" className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-luxury-muted hover:text-luxury-white hover:bg-luxury-border/50 transition-colors mb-2">
             <Users className="h-4 w-4" /> Espace client
           </Link>
           <form action={logoutAction}>

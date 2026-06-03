@@ -33,7 +33,7 @@ export default function DepositProofForm({
     return (
       <div className="rounded-2xl border border-green-500/30 bg-green-500/10 p-6 text-center">
         <CheckCircle2 className="mx-auto mb-3 h-10 w-10 text-green-400" />
-        <h3 className="font-serif text-lg text-white">Preuve envoyée</h3>
+        <h3 className="font-serif text-lg text-luxury-white">Preuve envoyée</h3>
         <p className="mt-2 text-sm text-luxury-muted">
           Votre paiement est en cours de vérification. Vous recevrez une notification dès la confirmation de votre
           commande.
@@ -69,7 +69,7 @@ export default function DepositProofForm({
 
       {/* Instructions */}
       <div className="rounded-xl border border-luxury-border bg-luxury-dark/50 p-4">
-        <p className="mb-2 flex items-center gap-2 text-sm font-medium text-white">
+        <p className="mb-2 flex items-center gap-2 text-sm font-medium text-luxury-white">
           <Info className="h-4 w-4 text-gold-400" /> Instructions de paiement
         </p>
         <ul className="space-y-1.5 text-sm text-luxury-light">

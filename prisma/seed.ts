@@ -41,7 +41,7 @@ async function main() {
     prisma.category.upsert({
       where: { slug: "limited-edition" },
       update: {},
-      create: { name: "Limited Edition", slug: "limited-edition", description: "Editions limitees et pieces exclusives", imageUrl: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=500&q=80", sortOrder: 7 },
+      create: { name: "Édition Limitée", slug: "limited-edition", description: "Pièces rares en édition limitée", imageUrl: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=500&q=80", sortOrder: 7 },
     }),
   ]);
 

@@ -63,7 +63,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Order operations</p>
-          <h1 className="mt-2 text-3xl font-serif font-semibold text-white">{order.orderNumber}</h1>
+          <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">{order.orderNumber}</h1>
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <StatusBadge status={order.status} />
             {order.payment && <StatusBadge status={order.payment.status} />}
@@ -72,14 +72,14 @@ export default async function AdminOrderDetailPage({ params }: Props) {
             </span>
           </div>
         </div>
-        <Link href="/admin/orders" className="rounded-xl border border-luxury-border px-4 py-2 text-sm text-luxury-muted transition hover:text-white">
+        <Link href="/admin/orders" className="rounded-xl border border-luxury-border px-4 py-2 text-sm text-luxury-muted transition hover:text-luxury-white">
           Back to orders
         </Link>
       </header>
 
       <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
         <Card className="rounded-2xl">
-          <h2 className="text-xl font-serif text-white">Order control</h2>
+          <h2 className="text-xl font-serif text-luxury-white">Order control</h2>
           <form action={updateOrder} className="mt-4 grid gap-4">
             <input type="hidden" name="orderId" value={order.id} />
             <div className="grid gap-4 md:grid-cols-3">
@@ -107,7 +107,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
 
           {order.payment?.status === "DEPOSIT_PENDING" && (
             <div className="mt-5 rounded-2xl border border-gold-500/30 p-4">
-              <h3 className="font-medium text-white">Deposit approval required</h3>
+              <h3 className="font-medium text-luxury-white">Deposit approval required</h3>
               <p className="mt-1 text-sm text-luxury-muted">Reference: {order.payment.proofReference ?? "No reference"} / {order.payment.method}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <form action={reviewDeposit}>
@@ -127,14 +127,14 @@ export default async function AdminOrderDetailPage({ params }: Props) {
         </Card>
 
         <Card className="rounded-2xl">
-          <h2 className="text-xl font-serif text-white">Payment summary</h2>
+          <h2 className="text-xl font-serif text-luxury-white">Payment summary</h2>
           <div className="mt-4 space-y-2 text-sm">
-            <div className="flex justify-between gap-6"><span className="text-luxury-muted">Subtotal</span><span className="text-white">{formatPrice(order.subtotal)}</span></div>
-            <div className="flex justify-between gap-6"><span className="text-luxury-muted">Shipping</span><span className="text-white">{formatPrice(order.shippingCost)}</span></div>
-            <div className="flex justify-between gap-6"><span className="text-luxury-muted">Discount</span><span className="text-white">{formatPrice(order.discount)}</span></div>
-            <div className="flex justify-between gap-6 border-t border-luxury-border pt-2"><span className="text-luxury-muted">Total</span><span className="text-white">{formatPrice(order.total)}</span></div>
+            <div className="flex justify-between gap-6"><span className="text-luxury-muted">Subtotal</span><span className="text-luxury-white">{formatPrice(order.subtotal)}</span></div>
+            <div className="flex justify-between gap-6"><span className="text-luxury-muted">Shipping</span><span className="text-luxury-white">{formatPrice(order.shippingCost)}</span></div>
+            <div className="flex justify-between gap-6"><span className="text-luxury-muted">Discount</span><span className="text-luxury-white">{formatPrice(order.discount)}</span></div>
+            <div className="flex justify-between gap-6 border-t border-luxury-border pt-2"><span className="text-luxury-muted">Total</span><span className="text-luxury-white">{formatPrice(order.total)}</span></div>
             <div className="flex justify-between gap-6"><span className="text-luxury-muted">Deposit</span><span className="text-gold-400">{formatPrice(order.depositAmount)}</span></div>
-            <div className="flex justify-between gap-6"><span className="text-luxury-muted">Remaining</span><span className="text-white">{formatPrice(order.remainingBalance)}</span></div>
+            <div className="flex justify-between gap-6"><span className="text-luxury-muted">Remaining</span><span className="text-luxury-white">{formatPrice(order.remainingBalance)}</span></div>
           </div>
           <div className="mt-4 rounded-xl border border-luxury-border p-3 text-sm text-luxury-muted">
             <p>Method: <span className="text-luxury-light">{order.payment?.method ?? "No payment"}</span></p>
@@ -146,7 +146,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
 
       <section className="grid gap-6 xl:grid-cols-3">
         <Card className="rounded-2xl">
-          <h2 className="text-xl font-serif text-white">Customer</h2>
+          <h2 className="text-xl font-serif text-luxury-white">Customer</h2>
           <div className="mt-4 text-sm text-luxury-muted">
             <p className="text-luxury-light">{order.user.profile?.firstName} {order.user.profile?.lastName}</p>
             <p>{order.user.email}</p>
@@ -162,7 +162,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
         </Card>
 
         <Card className="rounded-2xl">
-          <h2 className="text-xl font-serif text-white">Shipping</h2>
+          <h2 className="text-xl font-serif text-luxury-white">Shipping</h2>
           <div className="mt-4 text-sm text-luxury-muted">
             {order.address ? (
               <>
@@ -178,7 +178,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
         </Card>
 
         <Card className="rounded-2xl">
-          <h2 className="text-xl font-serif text-white">Timeline</h2>
+          <h2 className="text-xl font-serif text-luxury-white">Timeline</h2>
           <div className="mt-4 space-y-2 text-sm text-luxury-muted">
             <p>Created: {formatDate(order.createdAt)}</p>
             <p>Confirmed: {formatDate(order.confirmedAt)}</p>
@@ -191,7 +191,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
       </section>
 
       <Card className="rounded-2xl">
-        <h2 className="text-xl font-serif text-white">Order items</h2>
+        <h2 className="text-xl font-serif text-luxury-white">Order items</h2>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[720px] text-left text-sm">
             <thead className="text-xs uppercase tracking-[0.16em] text-luxury-muted">
@@ -200,10 +200,10 @@ export default async function AdminOrderDetailPage({ params }: Props) {
             <tbody>
               {order.items.map((item) => (
                 <tr key={item.id} className="border-t border-luxury-border">
-                  <td className="py-3 text-white">{item.productName}</td>
+                  <td className="py-3 text-luxury-white">{item.productName}</td>
                   <td className="py-3 text-luxury-muted">{item.quantity}</td>
                   <td className="py-3 text-luxury-muted">{formatPrice(item.unitPrice)}</td>
-                  <td className="py-3 text-white">{formatPrice(item.total)}</td>
+                  <td className="py-3 text-luxury-white">{formatPrice(item.total)}</td>
                   <td className="py-3 text-luxury-muted">{item.product.stock}</td>
                 </tr>
               ))}
@@ -213,12 +213,12 @@ export default async function AdminOrderDetailPage({ params }: Props) {
       </Card>
 
       <Card className="rounded-2xl">
-        <h2 className="text-xl font-serif text-white">Order history</h2>
+        <h2 className="text-xl font-serif text-luxury-white">Order history</h2>
         <div className="mt-4 space-y-3">
           {auditLogs.length === 0 ? <p className="text-sm text-luxury-muted">No audit entries yet.</p> : auditLogs.map((log) => (
             <div key={log.id} className="rounded-xl border border-luxury-border p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="font-medium text-white">{log.action}</p>
+                <p className="font-medium text-luxury-white">{log.action}</p>
                 <p className="text-xs text-luxury-muted">{formatDate(log.createdAt)}</p>
               </div>
               <p className="mt-1 text-sm text-luxury-muted">

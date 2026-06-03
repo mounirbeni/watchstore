@@ -7,15 +7,14 @@
     --font-inter: "Inter", system-ui, sans-serif;
     --font-playfair: "Playfair Display", Georgia, serif;
     --font-mono: "JetBrains Mono", monospace;
-    /* Safe-area insets for notched / home-indicator phones */
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
-    /* Height reserved by the mobile bottom tab bar */
     --mobile-nav-h: 4.25rem;
   }
 
   * {
-    @apply border-luxury-border;
+    box-sizing: border-box;
+    border-color: #E8E8E6;
   }
 
   html {
@@ -25,19 +24,14 @@
   }
 
   body {
-    @apply text-luxury-white antialiased;
+    @apply antialiased;
     font-family: var(--font-inter);
-    /* Premium gradient base for subtle depth (Deep Black -> Charcoal) */
-    background-color: #0a0a0a;
-    background-image: linear-gradient(135deg, #0a0a0a 0%, #161616 100%);
-    background-attachment: fixed;
-    /* App-like feel: no rubber-band overscroll color flash, smooth momentum scroll */
+    background-color: #ffffff;
+    color: #1A1A1A;
     overscroll-behavior-y: none;
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* On touch / mobile, reserve room for the fixed bottom tab bar so content
-     is never hidden behind it. Cleared at md where the bar is hidden. */
   @media (max-width: 767px) {
     body {
       padding-bottom: calc(var(--mobile-nav-h) + var(--safe-bottom));
@@ -46,86 +40,97 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-playfair);
+    color: #1A1A1A;
   }
 
-  /* Avoid iOS auto-zoom on focus: inputs need >=16px */
   input, select, textarea {
     font-size: 16px;
+    color: #1A1A1A;
   }
 
   ::selection {
-    @apply bg-gold-500 text-black;
+    background-color: #c9a86a;
+    color: #000;
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
   }
   ::-webkit-scrollbar-track {
-    @apply bg-luxury-dark;
+    background: #F7F7F5;
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-luxury-border rounded-full;
+    background: #D1D1CE;
+    border-radius: 99px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gold-700;
+    background: #c9a86a;
   }
 }
 
 @layer components {
-  .gold-gradient {
-    @apply bg-gold-500;
-  }
-
+  /* Gold accent text */
   .gold-text {
-    @apply text-gold-400;
+    color: #c9a86a;
   }
 
-  /* Editorial champagne-gold gradient text for magazine headlines */
+  /* Champagne-gold gradient text for headlines */
   .gold-gradient-text {
-    background-image: linear-gradient(120deg, #e7d3a1 0%, #d8b67a 40%, #c9a86a 70%, #b08f50 100%);
+    background-image: linear-gradient(120deg, #d4a85c 0%, #c9a86a 50%, #b08f50 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
-  .card-luxury {
-    @apply bg-luxury-card border border-luxury-border rounded-xl;
-  }
-
-  /* Frosted-glass surface for app chrome (headers, tab bar) */
+  /* White frosted glass — for sticky header */
   .glass {
-    @apply bg-luxury-black/80 backdrop-blur-xl backdrop-saturate-150;
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
+  /* Standard card surface */
+  .card-luxury {
+    background-color: #ffffff;
+    border: 1px solid #E8E8E6;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  }
+
+  /* Primary CTA button */
   .btn-gold {
-    @apply bg-gold-500 text-black font-semibold shadow-gold-glow-sm
-           hover:bg-gold-400 hover:shadow-gold-glow transition-all duration-200
-           disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none active:scale-[0.98];
+    @apply bg-gold-500 text-black font-semibold
+           hover:bg-gold-400 transition-all duration-200
+           disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98];
   }
 
+  /* Outlined gold button */
   .btn-outline-gold {
-    @apply border border-gold-500 text-gold-400 hover:bg-gold-500/10
+    @apply border border-gold-500 text-gold-500 hover:bg-gold-500/8
            transition-all duration-200 active:scale-[0.98];
   }
 
+  /* Light-theme form input */
   .input-luxury {
-    @apply bg-luxury-dark border border-luxury-border text-luxury-white
+    @apply bg-white border border-luxury-border text-luxury-white
            placeholder-luxury-muted rounded-lg px-4 py-2.5
-           focus:outline-none focus:ring-1 focus:ring-gold-500 focus:border-gold-500
+           focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500
            transition-colors duration-200;
   }
 
+  /* Gold pill badge */
   .badge-gold {
     @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
-           bg-gold-500/20 text-gold-400 border border-gold-500/30;
+           bg-gold-500/15 text-gold-600 border border-gold-500/25;
   }
 
+  /* Skeleton loader */
   .skeleton {
     @apply animate-pulse bg-luxury-border rounded;
   }
 
-  /* Hide scrollbar on horizontal magazine rails while keeping scroll */
+  /* Horizontal rails — hide scrollbar, keep scroll */
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;

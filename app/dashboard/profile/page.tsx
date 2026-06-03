@@ -49,7 +49,7 @@ export default async function DashboardProfilePage() {
 
       <section className="grid gap-6 xl:grid-cols-2">
         <Card className="rounded-2xl">
-          <h2 className="mb-4 text-xl font-serif text-white">Informations personnelles</h2>
+          <h2 className="mb-4 text-xl font-serif text-luxury-white">Informations personnelles</h2>
           <form action={updateProfile} className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
@@ -70,7 +70,7 @@ export default async function DashboardProfilePage() {
         </Card>
 
         <Card className="rounded-2xl">
-          <h2 className="mb-4 text-xl font-serif text-white">Mot de passe</h2>
+          <h2 className="mb-4 text-xl font-serif text-luxury-white">Mot de passe</h2>
           <form action={changePassword} className="space-y-4">
             <div>
               <label className={fieldLabel}>Mot de passe actuel</label>
@@ -92,7 +92,7 @@ export default async function DashboardProfilePage() {
 
       <section className="grid gap-6 xl:grid-cols-[1fr_0.9fr]">
         <Card className="rounded-2xl">
-          <h2 className="mb-4 text-xl font-serif text-white">Mes adresses</h2>
+          <h2 className="mb-4 text-xl font-serif text-luxury-white">Mes adresses</h2>
           <div className="space-y-3">
             {addresses.length === 0 ? (
               <p className="rounded-xl border border-luxury-border p-4 text-sm text-luxury-muted">Aucune adresse enregistrée.</p>
@@ -100,7 +100,7 @@ export default async function DashboardProfilePage() {
               <div key={address.id} className="rounded-xl border border-luxury-border p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="flex items-center gap-2 font-medium text-white">
+                    <p className="flex items-center gap-2 font-medium text-luxury-white">
                       <MapPin className="h-4 w-4 text-gold-400" />
                       {address.label}
                       {address.isDefault && (
@@ -121,7 +121,7 @@ export default async function DashboardProfilePage() {
         </Card>
 
         <Card className="rounded-2xl">
-          <h2 className="mb-4 text-xl font-serif text-white">Ajouter une adresse</h2>
+          <h2 className="mb-4 text-xl font-serif text-luxury-white">Ajouter une adresse</h2>
           <form action={addAddress} className="space-y-3">
             <input name="label" className="input-luxury w-full" placeholder="Libellé (Domicile, Bureau…)" />
             <div className="grid gap-3 sm:grid-cols-2">
@@ -141,12 +141,12 @@ export default async function DashboardProfilePage() {
       </section>
 
       <Card className="rounded-2xl">
-        <h2 className="mb-4 text-xl font-serif text-white">Sessions de connexion</h2>
+        <h2 className="mb-4 text-xl font-serif text-luxury-white">Sessions de connexion</h2>
         <div className="space-y-3">
           {sessions.map((item) => (
             <div key={item.id} className="rounded-xl border border-luxury-border p-4 text-sm text-luxury-muted">
               <div className="flex items-center justify-between gap-3">
-                <p className="font-medium text-white">{item.userAgent ?? "Appareil inconnu"}</p>
+                <p className="font-medium text-luxury-white">{item.userAgent ?? "Appareil inconnu"}</p>
                 <span className={item.revokedAt ? "text-luxury-muted" : "text-green-400"}>
                   {item.revokedAt ? "Révoquée" : "Active"}
                 </span>

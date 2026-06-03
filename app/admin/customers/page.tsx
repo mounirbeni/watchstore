@@ -78,7 +78,7 @@ export default async function AdminCustomersPage({ searchParams }: Props) {
       <header className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Customer operations</p>
-          <h1 className="mt-2 text-3xl font-serif font-semibold text-white">Customer management</h1>
+          <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Customer management</h1>
           <p className="mt-2 max-w-2xl text-luxury-muted">
             Search customers, review spend and risk, notify clients, and suspend or reactivate accounts.
           </p>
@@ -86,15 +86,15 @@ export default async function AdminCustomersPage({ searchParams }: Props) {
         <div className="grid grid-cols-3 gap-2 text-center sm:min-w-[420px]">
           <div className="rounded-2xl border border-luxury-border bg-luxury-dark/60 px-4 py-3">
             <p className="text-xs uppercase tracking-[0.16em] text-luxury-muted">Filtered</p>
-            <p className="mt-1 text-xl font-semibold text-white">{totalCustomers}</p>
+            <p className="mt-1 text-xl font-semibold text-luxury-white">{totalCustomers}</p>
           </div>
           <div className="rounded-2xl border border-luxury-border bg-luxury-dark/60 px-4 py-3">
             <p className="text-xs uppercase tracking-[0.16em] text-luxury-muted">Active</p>
-            <p className="mt-1 text-xl font-semibold text-white">{activeCustomers}</p>
+            <p className="mt-1 text-xl font-semibold text-luxury-white">{activeCustomers}</p>
           </div>
           <div className="rounded-2xl border border-luxury-border bg-luxury-dark/60 px-4 py-3">
             <p className="text-xs uppercase tracking-[0.16em] text-luxury-muted">Suspended</p>
-            <p className="mt-1 text-xl font-semibold text-white">{suspendedCustomers}</p>
+            <p className="mt-1 text-xl font-semibold text-luxury-white">{suspendedCustomers}</p>
           </div>
         </div>
       </header>
@@ -108,7 +108,7 @@ export default async function AdminCustomersPage({ searchParams }: Props) {
             <option value="suspended">Suspended only</option>
           </select>
           <button className="rounded-lg bg-gold-500 px-5 py-2.5 text-sm font-medium text-black transition hover:bg-gold-400">Filter</button>
-          <Link href="/admin/customers" className="inline-flex items-center justify-center rounded-lg border border-luxury-border px-5 py-2.5 text-sm font-medium text-luxury-muted transition hover:text-white">
+          <Link href="/admin/customers" className="inline-flex items-center justify-center rounded-lg border border-luxury-border px-5 py-2.5 text-sm font-medium text-luxury-muted transition hover:text-luxury-white">
             Reset
           </Link>
         </form>
@@ -129,7 +129,7 @@ export default async function AdminCustomersPage({ searchParams }: Props) {
               <div className="grid gap-5 xl:grid-cols-[1fr_0.8fr_1fr_auto] xl:items-start">
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <Link href={`/admin/customers/${customer.id}`} className="font-serif text-xl text-white hover:text-gold-300">
+                    <Link href={`/admin/customers/${customer.id}`} className="font-serif text-xl text-luxury-white hover:text-gold-300">
                       {customer.profile?.firstName ?? "No"} {customer.profile?.lastName ?? "Name"}
                     </Link>
                     <span className={`rounded-full border px-2.5 py-1 text-xs ${riskBadgeClass(risk.level)}`}>
@@ -142,7 +142,7 @@ export default async function AdminCustomersPage({ searchParams }: Props) {
                 </div>
                 <div className="text-sm text-luxury-muted">
                   <p>Orders: <span className="text-luxury-light">{customer.orders.length}</span></p>
-                  <p>Total spend: <span className="text-white">{formatPrice(paidTotal)}</span></p>
+                  <p>Total spend: <span className="text-luxury-white">{formatPrice(paidTotal)}</span></p>
                   <p>Cancellations: <span className="text-luxury-light">{cancellations}</span></p>
                   <p>Reservations: <span className="text-luxury-light">{customer.reservations.length}</span></p>
                 </div>
@@ -172,10 +172,10 @@ export default async function AdminCustomersPage({ searchParams }: Props) {
         <span>Page {Math.min(page, pageCount)} of {pageCount}</span>
         <div className="flex gap-2">
           {page > 1 ? (
-            <Link href={`/admin/customers?q=${encodeURIComponent(q)}&status=${status}&page=${page - 1}`} className="rounded-xl border border-luxury-border px-4 py-2 transition hover:text-white">Previous</Link>
+            <Link href={`/admin/customers?q=${encodeURIComponent(q)}&status=${status}&page=${page - 1}`} className="rounded-xl border border-luxury-border px-4 py-2 transition hover:text-luxury-white">Previous</Link>
           ) : <span className="rounded-xl border border-luxury-border px-4 py-2 opacity-40">Previous</span>}
           {page < pageCount ? (
-            <Link href={`/admin/customers?q=${encodeURIComponent(q)}&status=${status}&page=${page + 1}`} className="rounded-xl border border-luxury-border px-4 py-2 transition hover:text-white">Next</Link>
+            <Link href={`/admin/customers?q=${encodeURIComponent(q)}&status=${status}&page=${page + 1}`} className="rounded-xl border border-luxury-border px-4 py-2 transition hover:text-luxury-white">Next</Link>
           ) : <span className="rounded-xl border border-luxury-border px-4 py-2 opacity-40">Next</span>}
         </div>
       </div>

@@ -41,11 +41,11 @@ export default async function AdminProductEditPage({ params }: Props) {
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Admin console</p>
-          <h1 className="mt-2 text-3xl font-serif font-semibold text-white">Edit product</h1>
+          <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Edit product</h1>
           <p className="mt-2 text-luxury-muted">Modify product details, pricing, inventory, category, visibility, and gallery images.</p>
         </div>
         <div className="flex gap-2">
-          <Link href="/admin/products" className="rounded-xl border border-luxury-border px-4 py-2 text-sm text-luxury-muted transition hover:text-white">
+          <Link href="/admin/products" className="rounded-xl border border-luxury-border px-4 py-2 text-sm text-luxury-muted transition hover:text-luxury-white">
             Back
           </Link>
           <Link href={`/products/${product.slug}`} className="rounded-xl border border-gold-500/40 px-4 py-2 text-sm text-gold-400 transition hover:bg-gold-500/10">
@@ -163,7 +163,7 @@ export default async function AdminProductEditPage({ params }: Props) {
 
           <div className="flex flex-wrap items-center gap-3 border-t border-luxury-border pt-5">
             <SubmitButton>Save product changes</SubmitButton>
-            <Link href="/admin/products" className="rounded-xl border border-luxury-border px-4 py-2.5 text-sm text-luxury-muted transition hover:text-white">
+            <Link href="/admin/products" className="rounded-xl border border-luxury-border px-4 py-2.5 text-sm text-luxury-muted transition hover:text-luxury-white">
               Cancel
             </Link>
           </div>

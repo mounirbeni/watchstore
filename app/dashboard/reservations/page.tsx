@@ -68,7 +68,7 @@ export default async function DashboardReservationsPage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-3">
-                      <h2 className="font-serif text-lg text-white">{reservation.product.name}</h2>
+                      <h2 className="font-serif text-lg text-luxury-white">{reservation.product.name}</h2>
                       <StatusBadge status={reservation.status} />
                     </div>
                     <p className="mt-1 text-sm text-luxury-muted">

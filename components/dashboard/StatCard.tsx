@@ -22,7 +22,7 @@ export default function StatCard({
           </span>
         )}
       </div>
-      <p className="mt-3 text-3xl font-serif font-semibold text-white">{value}</p>
+      <p className="mt-3 text-3xl font-serif font-semibold text-luxury-white">{value}</p>
       {detail && <p className="mt-1 text-sm text-luxury-muted">{detail}</p>}
     </Card>
   );

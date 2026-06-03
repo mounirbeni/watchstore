@@ -115,7 +115,7 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
       <header className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Admin console</p>
-          <h1 className="mt-2 text-3xl font-serif font-semibold text-white">Product management</h1>
+          <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Product management</h1>
           <p className="mt-2 max-w-2xl text-luxury-muted">
             Create watches, find any catalog item quickly, update inventory, and control storefront visibility.
           </p>
@@ -123,21 +123,21 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
         <div className="grid grid-cols-3 gap-2 text-center sm:min-w-[420px]">
           <div className="rounded-2xl border border-luxury-border bg-luxury-dark/60 px-4 py-3">
             <p className="text-xs uppercase tracking-[0.16em] text-luxury-muted">Active</p>
-            <p className="mt-1 text-xl font-semibold text-white">{activeCount}</p>
+            <p className="mt-1 text-xl font-semibold text-luxury-white">{activeCount}</p>
           </div>
           <div className="rounded-2xl border border-luxury-border bg-luxury-dark/60 px-4 py-3">
             <p className="text-xs uppercase tracking-[0.16em] text-luxury-muted">Inactive</p>
-            <p className="mt-1 text-xl font-semibold text-white">{inactiveCount}</p>
+            <p className="mt-1 text-xl font-semibold text-luxury-white">{inactiveCount}</p>
           </div>
           <div className="rounded-2xl border border-luxury-border bg-luxury-dark/60 px-4 py-3">
             <p className="text-xs uppercase tracking-[0.16em] text-luxury-muted">Low stock</p>
-            <p className="mt-1 text-xl font-semibold text-white">{lowStockCount}</p>
+            <p className="mt-1 text-xl font-semibold text-luxury-white">{lowStockCount}</p>
           </div>
         </div>
       </header>
 
       <Card className="rounded-2xl">
-        <h2 className="mb-4 text-xl font-serif text-white">Add watch</h2>
+        <h2 className="mb-4 text-xl font-serif text-luxury-white">Add watch</h2>
         <form action={createProduct} className="grid gap-4">
           <div className="grid gap-4 md:grid-cols-2">
             <input name="name" required className="input-luxury" placeholder="Watch name" />
@@ -174,7 +174,7 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
       <Card className="rounded-2xl">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <h2 className="text-xl font-serif text-white">Catalog</h2>
+            <h2 className="text-xl font-serif text-luxury-white">Catalog</h2>
             <p className="mt-1 text-sm text-luxury-muted">
               {totalProducts} product{totalProducts === 1 ? "" : "s"} found
             </p>
@@ -191,7 +191,7 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
               {categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
             </select>
             <SubmitButton>Filter</SubmitButton>
-            <Link href="/admin/products" className="inline-flex items-center justify-center rounded-lg border border-luxury-border px-5 py-2.5 text-sm font-medium text-luxury-muted transition hover:text-white">
+            <Link href="/admin/products" className="inline-flex items-center justify-center rounded-lg border border-luxury-border px-5 py-2.5 text-sm font-medium text-luxury-muted transition hover:text-luxury-white">
               Reset
             </Link>
           </form>
@@ -233,7 +233,7 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
                           )}
                         </div>
                         <div>
-                          <p className="font-medium text-white">{product.name}</p>
+                          <p className="font-medium text-luxury-white">{product.name}</p>
                           <p className="text-xs text-luxury-muted">{product.sku ?? "No SKU"} / {product.brand ?? "No brand"}</p>
                         </div>
                       </div>
@@ -251,13 +251,13 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
                         <SubmitButton>Save</SubmitButton>
                       </form>
                     </td>
-                    <td className="px-5 py-4 font-medium text-white">{formatPrice(product.price)}</td>
+                    <td className="px-5 py-4 font-medium text-luxury-white">{formatPrice(product.price)}</td>
                     <td className="px-5 py-4">
                       <div className="flex flex-wrap gap-2">
                         <Link href={`/admin/products/${product.id}`} className="rounded-xl border border-gold-500/40 px-3 py-2 text-xs font-semibold text-gold-400 transition hover:bg-gold-500/10">
                           Edit
                         </Link>
-                        <Link href={`/products/${product.slug}`} className="rounded-xl border border-luxury-border px-3 py-2 text-xs font-semibold text-luxury-muted transition hover:text-white">
+                        <Link href={`/products/${product.slug}`} className="rounded-xl border border-luxury-border px-3 py-2 text-xs font-semibold text-luxury-muted transition hover:text-luxury-white">
                           View
                         </Link>
                         <form action={updateProductStatus}>
@@ -280,14 +280,14 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
           </p>
           <div className="flex gap-2">
             {currentPage > 1 ? (
-              <Link href={productListHref({ q: query, status, categoryId, page: currentPage - 1 })} className="rounded-xl border border-luxury-border px-4 py-2 transition hover:text-white">
+              <Link href={productListHref({ q: query, status, categoryId, page: currentPage - 1 })} className="rounded-xl border border-luxury-border px-4 py-2 transition hover:text-luxury-white">
                 Previous
               </Link>
             ) : (
               <span className="rounded-xl border border-luxury-border px-4 py-2 opacity-40">Previous</span>
             )}
             {currentPage < pageCount ? (
-              <Link href={productListHref({ q: query, status, categoryId, page: currentPage + 1 })} className="rounded-xl border border-luxury-border px-4 py-2 transition hover:text-white">
+              <Link href={productListHref({ q: query, status, categoryId, page: currentPage + 1 })} className="rounded-xl border border-luxury-border px-4 py-2 transition hover:text-luxury-white">
                 Next
               </Link>
             ) : (

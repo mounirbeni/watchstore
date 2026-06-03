@@ -17,7 +17,7 @@ export default async function AdminAuditPage() {
     <div className="space-y-6">
       <header>
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Admin console</p>
-        <h1 className="mt-2 text-3xl font-serif font-semibold text-white">Audit logs</h1>
+        <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Audit logs</h1>
         <p className="mt-2 text-luxury-muted">Important business and security actions are persisted here.</p>
       </header>
 
@@ -32,7 +32,7 @@ export default async function AdminAuditPage() {
                 <tr key={log.id} className="border-t border-luxury-border">
                   <td className="px-5 py-4 text-luxury-muted">{formatDate(log.createdAt)}</td>
                   <td className="px-5 py-4 text-luxury-muted">{log.user?.email ?? "System"}</td>
-                  <td className="px-5 py-4 font-medium text-white">{log.action}</td>
+                  <td className="px-5 py-4 font-medium text-luxury-white">{log.action}</td>
                   <td className="px-5 py-4 text-luxury-muted">{log.entity}{log.entityId ? ` / ${log.entityId}` : ""}</td>
                   <td className="px-5 py-4 text-luxury-muted">{log.ipAddress ?? "n/a"}</td>
                 </tr>

@@ -45,32 +45,11 @@ async function getCategories() {
   } catch { return []; }
 }
 
-
 const TESTIMONIALS = [
-  {
-    name: "Youssef B.",
-    city: "Casablanca",
-    stars: 5,
-    text: "Montre reçue en 48h, emballage luxueux et qualité au rendez-vous. Je recommande à 100%.",
-  },
-  {
-    name: "Amine K.",
-    city: "Rabat",
-    stars: 5,
-    text: "Service client impeccable. Ils m'ont aidé à choisir le modèle parfait pour mon budget.",
-  },
-  {
-    name: "Mehdi R.",
-    city: "Marrakech",
-    stars: 5,
-    text: "La montre est encore plus belle en vrai qu'en photo. Rapport qualité-prix exceptionnel.",
-  },
-  {
-    name: "Khalid T.",
-    city: "Fès",
-    stars: 5,
-    text: "Troisième achat ici, toujours aussi satisfait. Ma référence pour l'horlogerie au Maroc.",
-  },
+  { name: "Youssef B.", city: "Casablanca", stars: 5, text: "Montre reçue en 48h, emballage luxueux et qualité au rendez-vous. Je recommande à 100%." },
+  { name: "Amine K.",   city: "Rabat",       stars: 5, text: "Service client impeccable. Ils m&apos;ont aidé à choisir le modèle parfait pour mon budget." },
+  { name: "Mehdi R.",   city: "Marrakech",   stars: 5, text: "La montre est encore plus belle en vrai qu&apos;en photo. Rapport qualité-prix exceptionnel." },
+  { name: "Khalid T.",  city: "Fès",         stars: 5, text: "Troisième achat ici, toujours aussi satisfait. Ma référence pour l&apos;horlogerie au Maroc." },
 ];
 
 export default async function HomePage() {
@@ -81,7 +60,7 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Header />
       <main className="flex-1">
 
@@ -89,32 +68,28 @@ export default async function HomePage() {
         <HeroCarousel />
 
         {/* ── Flash promo banner ────────────────────────────────── */}
-        <section className="bg-gradient-to-r from-gold-600 via-gold-500 to-gold-400">
-          <div className="max-w-7xl mx-auto px-5 sm:px-6 py-3.5 flex items-center justify-center gap-3 flex-wrap text-center">
-            <Zap className="h-4 w-4 text-black shrink-0" />
-            <p className="text-black text-sm font-bold">
+        <section className="bg-gold-500">
+          <div className="max-w-7xl mx-auto px-5 sm:px-6 py-3 flex items-center justify-center gap-3 flex-wrap text-center">
+            <Zap className="h-3.5 w-3.5 text-black shrink-0" />
+            <p className="text-black text-sm font-semibold">
               Livraison gratuite dès 800 MAD · Paiement en plusieurs fois disponible
             </p>
-            <Link
-              href="/shop"
-              className="shrink-0 text-xs font-bold text-black underline underline-offset-2 hover:no-underline"
-            >
+            <Link href="/shop" className="shrink-0 text-xs font-bold text-black underline underline-offset-2 hover:no-underline">
               Voir les offres →
             </Link>
           </div>
         </section>
 
-
         {/* ── Categories ────────────────────────────────────────── */}
-        <section className="max-w-7xl mx-auto px-5 sm:px-6 pt-12 pb-10 sm:py-20">
-          <div className="flex items-end justify-between mb-6 sm:mb-10">
+        <section className="max-w-7xl mx-auto px-5 sm:px-6 pt-12 pb-10 sm:py-16">
+          <div className="flex items-end justify-between mb-6 sm:mb-8">
             <div>
               <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-1.5">Explorer</p>
-              <h2 className="text-2xl sm:text-4xl font-serif font-bold text-white">
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-luxury-white">
                 Nos <span className="gold-text">Collections</span>
               </h2>
             </div>
-            <Link href="/shop" className="shrink-0 text-sm text-gold-400 hover:text-gold-300 flex items-center gap-1 transition-colors">
+            <Link href="/shop" className="shrink-0 text-sm text-gold-500 hover:text-gold-400 flex items-center gap-1 transition-colors font-medium">
               Tout voir <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
@@ -127,10 +102,16 @@ export default async function HomePage() {
                 <Link
                   key={cat.id}
                   href={`/shop?category=${cat.slug}`}
-                  className="group relative shrink-0 w-[42%] sm:w-auto aspect-[3/4] sm:aspect-square overflow-hidden rounded-2xl bg-luxury-card border border-luxury-border hover:border-gold-500/50 transition-all duration-300 snap-start"
+                  className="group relative shrink-0 w-[42%] sm:w-auto aspect-[3/4] sm:aspect-square overflow-hidden rounded-2xl bg-luxury-dark border border-luxury-border hover:shadow-card-hover transition-all duration-300 snap-start"
                 >
                   {cat.imageUrl && (
-                    <Image src={cat.imageUrl} alt={cat.name} fill sizes="(max-width:640px) 42vw, 25vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <Image
+                      src={cat.imageUrl}
+                      alt={cat.name}
+                      fill
+                      sizes="(max-width:640px) 42vw, 25vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -144,25 +125,25 @@ export default async function HomePage() {
         </section>
 
         {/* ── Featured Products ─────────────────────────────────── */}
-        <section className="bg-luxury-dark py-12 sm:py-20">
+        <section className="bg-luxury-dark py-12 sm:py-16">
           <div className="max-w-7xl mx-auto px-5 sm:px-6">
-            <div className="flex justify-between items-end mb-6 sm:mb-10">
+            <div className="flex justify-between items-end mb-6 sm:mb-8">
               <div>
                 <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-1.5">Sélection</p>
-                <h2 className="text-2xl sm:text-4xl font-serif font-bold text-white">
+                <h2 className="text-2xl sm:text-3xl font-serif font-bold text-luxury-white">
                   Pièces <span className="gold-text">Vedettes</span>
                 </h2>
               </div>
-              <Link href="/shop" className="shrink-0 text-sm text-gold-400 hover:text-gold-300 flex items-center gap-1 transition-colors">
+              <Link href="/shop" className="shrink-0 text-sm text-gold-500 hover:text-gold-400 flex items-center gap-1 transition-colors font-medium">
                 Voir tout <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
             {featured.length === 0 ? (
-              <p className="text-luxury-muted text-center py-12">La collection arrive bientôt.</p>
+              <p className="text-luxury-muted text-center py-10">La collection arrive bientôt.</p>
             ) : (
-              <div className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:overflow-visible">
+              <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 sm:overflow-visible">
                 {featured.map((p) => (
-                  <div key={p.id} className="shrink-0 w-[68%] sm:w-auto snap-start">
+                  <div key={p.id} className="shrink-0 w-[62%] sm:w-auto snap-start">
                     <ProductCard product={p} />
                   </div>
                 ))}
@@ -172,10 +153,9 @@ export default async function HomePage() {
         </section>
 
         {/* ── Editorial / Brand Story ───────────────────────────── */}
-        <section className="max-w-7xl mx-auto px-5 sm:px-6 py-12 sm:py-20">
-          <div className="grid md:grid-cols-2 gap-6 sm:gap-10 items-center">
-            {/* Image side */}
-            <div className="relative aspect-square sm:aspect-[4/5] rounded-3xl overflow-hidden bg-luxury-dark">
+        <section className="max-w-7xl mx-auto px-5 sm:px-6 py-12 sm:py-16">
+          <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
+            <div className="relative aspect-square sm:aspect-[4/5] rounded-2xl overflow-hidden bg-luxury-dark">
               <Image
                 src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=900&q=90"
                 alt="Artisanat horloger"
@@ -183,7 +163,7 @@ export default async function HomePage() {
                 className="object-cover"
                 sizes="(max-width:768px) 100vw, 50vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5">
                 <span className="inline-flex items-center gap-1.5 bg-gold-500 text-black text-xs font-bold px-3 py-1.5 rounded-full">
                   <Gem className="h-3 w-3" /> Artisanat d&apos;exception
@@ -191,11 +171,10 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* Text side */}
             <div className="flex flex-col justify-center gap-6">
               <div>
                 <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-3">Notre Histoire</p>
-                <h2 className="text-3xl sm:text-4xl font-serif font-bold text-white leading-tight mb-4">
+                <h2 className="text-3xl sm:text-4xl font-serif font-bold text-luxury-white leading-tight mb-4">
                   L&apos;excellence<br />
                   <span className="gold-text">à portée de main</span>
                 </h2>
@@ -220,7 +199,7 @@ export default async function HomePage() {
 
               <Link
                 href="/shop"
-                className="inline-flex items-center gap-2 self-start px-6 py-3.5 bg-gold-500 text-black text-sm font-bold rounded-2xl hover:bg-gold-400 active:scale-[0.98] transition-all shadow-lg shadow-gold-500/20"
+                className="inline-flex items-center gap-2 self-start px-6 py-3.5 bg-gold-500 text-black text-sm font-bold rounded-xl hover:bg-gold-400 active:scale-[0.98] transition-all"
               >
                 Découvrir la collection <ArrowRight className="h-4 w-4" />
               </Link>
@@ -230,22 +209,22 @@ export default async function HomePage() {
 
         {/* ── New Arrivals ──────────────────────────────────────── */}
         {newArrivals.length > 0 && (
-          <section className="bg-luxury-dark py-12 sm:py-20">
+          <section className="bg-luxury-dark py-12 sm:py-16">
             <div className="max-w-7xl mx-auto px-5 sm:px-6">
-              <div className="flex justify-between items-end mb-6 sm:mb-10">
+              <div className="flex justify-between items-end mb-6 sm:mb-8">
                 <div>
                   <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-1.5">Vient d&apos;arriver</p>
-                  <h2 className="text-2xl sm:text-4xl font-serif font-bold text-white">
+                  <h2 className="text-2xl sm:text-3xl font-serif font-bold text-luxury-white">
                     Nouvelles <span className="gold-text">Arrivées</span>
                   </h2>
                 </div>
-                <Link href="/shop" className="shrink-0 text-sm text-gold-400 hover:text-gold-300 flex items-center gap-1 transition-colors">
+                <Link href="/shop" className="shrink-0 text-sm text-gold-500 hover:text-gold-400 flex items-center gap-1 transition-colors font-medium">
                   Voir tout <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
-              <div className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-6 sm:overflow-visible">
+              <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-5 sm:overflow-visible">
                 {newArrivals.map((p) => (
-                  <div key={p.id} className="shrink-0 w-[68%] sm:w-auto snap-start">
+                  <div key={p.id} className="shrink-0 w-[62%] sm:w-auto snap-start">
                     <ProductCard product={p} />
                   </div>
                 ))}
@@ -255,39 +234,39 @@ export default async function HomePage() {
         )}
 
         {/* ── Testimonials ──────────────────────────────────────── */}
-        <section className="max-w-7xl mx-auto px-5 sm:px-6 py-12 sm:py-20">
-          <div className="text-center mb-8 sm:mb-12">
+        <section className="max-w-7xl mx-auto px-5 sm:px-6 py-12 sm:py-16">
+          <div className="text-center mb-8 sm:mb-10">
             <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-2">Avis clients</p>
-            <h2 className="text-2xl sm:text-4xl font-serif font-bold text-white mb-2">
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-luxury-white mb-3">
               Ce qu&apos;ils <span className="gold-text">disent</span>
             </h2>
-            <div className="flex items-center justify-center gap-1 mt-3">
+            <div className="flex items-center justify-center gap-1">
               {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-gold-500 text-gold-500" />
+                <Star key={i} className="h-3.5 w-3.5 fill-gold-500 text-gold-500" />
               ))}
               <span className="ml-2 text-sm text-luxury-muted">4.9 / 5 · 200+ avis</span>
             </div>
           </div>
 
-          <div className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 sm:overflow-visible">
+          <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:overflow-visible">
             {TESTIMONIALS.map((t) => (
               <div
                 key={t.name}
-                className="shrink-0 w-[80%] sm:w-auto snap-start bg-luxury-card border border-luxury-border rounded-2xl p-5 flex flex-col gap-3 hover:border-gold-500/30 transition-colors"
+                className="shrink-0 w-[78%] sm:w-auto snap-start bg-white border border-luxury-border rounded-2xl p-5 flex flex-col gap-3 shadow-card hover:shadow-card-hover transition-shadow"
               >
-                <Quote className="h-5 w-5 text-gold-500/60" />
+                <Quote className="h-5 w-5 text-gold-500/50" />
                 <p className="text-sm text-luxury-light leading-relaxed flex-1">{t.text}</p>
-                <div className="flex items-center gap-1 mt-1">
+                <div className="flex items-center gap-0.5">
                   {Array.from({ length: t.stars }).map((_, i) => (
                     <Star key={i} className="h-3 w-3 fill-gold-500 text-gold-500" />
                   ))}
                 </div>
-                <div className="flex items-center gap-2 border-t border-luxury-border pt-3">
-                  <div className="h-8 w-8 rounded-full bg-gold-500/20 border border-gold-500/40 flex items-center justify-center text-xs font-bold text-gold-400">
+                <div className="flex items-center gap-2.5 border-t border-luxury-border pt-3">
+                  <div className="h-8 w-8 rounded-full bg-gold-500/15 border border-gold-500/30 flex items-center justify-center text-xs font-bold text-gold-500">
                     {t.name[0]}
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-white">{t.name}</p>
+                    <p className="text-sm font-semibold text-luxury-white">{t.name}</p>
                     <p className="text-xs text-luxury-muted">{t.city}</p>
                   </div>
                 </div>
@@ -296,8 +275,8 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── CTA Banner ────────────────────────────────────────── */}
-        <section className="mx-4 sm:mx-6 mb-12 sm:mb-20 rounded-3xl overflow-hidden relative">
+        {/* ── CTA Banner — dark overlay kept intentionally ──────── */}
+        <section className="mx-4 sm:mx-6 mb-12 sm:mb-16 rounded-2xl overflow-hidden relative">
           <div className="absolute inset-0">
             <Image
               src="https://images.unsplash.com/photo-1526045431048-f857369baa09?w=1400&q=85"
@@ -307,8 +286,8 @@ export default async function HomePage() {
               sizes="100vw"
             />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-luxury-black/90 via-luxury-black/70 to-luxury-black/30" />
-          <div className="relative z-10 px-8 py-14 sm:py-20 max-w-lg">
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/30" />
+          <div className="relative z-10 px-8 py-12 sm:py-20 max-w-lg">
             <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-400 mb-3 flex items-center gap-2">
               <Clock className="h-3 w-3" /> Offre limitée
             </p>
@@ -321,7 +300,7 @@ export default async function HomePage() {
             </p>
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 px-7 py-4 bg-gold-500 text-black text-base font-bold rounded-2xl hover:bg-gold-400 active:scale-[0.97] transition-all shadow-xl shadow-gold-500/30"
+              className="inline-flex items-center gap-2 px-7 py-4 bg-gold-500 text-black text-base font-bold rounded-xl hover:bg-gold-400 active:scale-[0.97] transition-all"
             >
               Acheter maintenant <ArrowRight className="h-4 w-4" />
             </Link>
@@ -329,20 +308,20 @@ export default async function HomePage() {
         </section>
 
         {/* ── Services ──────────────────────────────────────────── */}
-        <section className="max-w-7xl mx-auto px-5 sm:px-6 pb-14 sm:pb-20">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+        <section className="max-w-7xl mx-auto px-5 sm:px-6 pb-12 sm:pb-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
             {[
-              { Icon: Shield, title: "Authenticité garantie", desc: "Chaque pièce certifiée avec documentation complète" },
-              { Icon: Truck, title: "Livraison sécurisée", desc: "Suivi en temps réel dans tout le Maroc" },
-              { Icon: Award, title: "Service premium", desc: "Notre équipe d'experts à votre écoute" },
-              { Icon: RefreshCw, title: "Retours 30 jours", desc: "Échanges facilités sur toutes les commandes" },
+              { Icon: Shield,    title: "Authenticité garantie", desc: "Chaque pièce certifiée avec documentation complète" },
+              { Icon: Truck,     title: "Livraison sécurisée",   desc: "Suivi en temps réel dans tout le Maroc" },
+              { Icon: Award,     title: "Service premium",       desc: "Notre équipe d'experts à votre écoute" },
+              { Icon: RefreshCw, title: "Retours 30 jours",      desc: "Échanges facilités sur toutes les commandes" },
             ].map(({ Icon, title, desc }) => (
-              <div key={title} className="text-center p-4 sm:p-6 bg-luxury-card border border-luxury-border rounded-2xl hover:border-gold-500/30 transition-colors">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gold-500/15 flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                  <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-gold-400" />
+              <div key={title} className="text-center p-4 sm:p-5 bg-white border border-luxury-border rounded-xl shadow-card hover:shadow-card-hover transition-shadow">
+                <div className="w-10 h-10 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-3">
+                  <Icon className="h-5 w-5 text-gold-500" />
                 </div>
-                <h3 className="text-xs sm:text-base font-semibold text-white mb-1.5">{title}</h3>
-                <p className="text-[11px] sm:text-sm text-luxury-muted leading-relaxed">{desc}</p>
+                <h3 className="text-xs sm:text-sm font-semibold text-luxury-white mb-1">{title}</h3>
+                <p className="text-[11px] sm:text-xs text-luxury-muted leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>

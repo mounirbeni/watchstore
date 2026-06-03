@@ -139,9 +139,9 @@ export default function HeroCarousel() {
         </div>
       ))}
 
-      {/* Gradients — stronger on mobile for readability */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-t from-luxury-black/95 via-luxury-black/50 to-luxury-black/10" />
-      <div className="absolute inset-0 z-10 bg-gradient-to-r from-luxury-black/70 via-transparent to-transparent" />
+      {/* Dark overlay gradients — keep these hardcoded black regardless of theme */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/90 via-black/45 to-black/10" />
+      <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/65 via-transparent to-transparent" />
 
       {/* Slide counter — top right */}
       <div className="absolute top-5 right-5 z-30 flex items-center gap-1.5 rounded-full bg-black/40 px-3 py-1.5 backdrop-blur-sm border border-white/10">

@@ -37,8 +37,8 @@ export default function PriceBreakdown({
           )}
         </div>
         <div className="flex justify-between border-t border-luxury-border pt-2.5">
-          <span className="font-medium text-white">Total de la commande</span>
-          <span className="font-semibold text-white">{formatPrice(total)}</span>
+          <span className="font-medium text-luxury-white">Total de la commande</span>
+          <span className="font-semibold text-luxury-white">{formatPrice(total)}</span>
         </div>
       </div>
 
@@ -54,7 +54,7 @@ export default function PriceBreakdown({
           <span className="flex items-center gap-2 text-sm text-luxury-light">
             <Truck className="h-4 w-4 text-luxury-muted" /> Reste à payer à la livraison
           </span>
-          <span className="font-semibold text-white">{formatPrice(remaining)}</span>
+          <span className="font-semibold text-luxury-white">{formatPrice(remaining)}</span>
         </div>
       </div>
 

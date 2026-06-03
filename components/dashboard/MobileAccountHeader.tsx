@@ -45,13 +45,13 @@ export default function MobileAccountHeader({
   return (
     <section className="lg:hidden space-y-4">
       {/* Profile header */}
-      <div className="card-luxury rounded-2xl p-5 bg-premium-gradient flex items-center gap-4">
+      <div className="card-luxury rounded-2xl p-5 bg-luxury-dark flex items-center gap-4">
         <div className="w-14 h-14 rounded-full bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-xl font-bold text-gold-400 shrink-0">
           {firstName[0]?.toUpperCase()}
           {lastName[0]?.toUpperCase()}
         </div>
         <div className="min-w-0">
-          <h1 className="text-lg font-serif font-semibold text-white truncate">
+          <h1 className="text-lg font-serif font-semibold text-luxury-white truncate">
             {firstName} {lastName}
           </h1>
           <p className="text-sm text-luxury-muted truncate">{email}</p>
@@ -69,7 +69,7 @@ export default function MobileAccountHeader({
             <span className="w-9 h-9 rounded-xl bg-gold-500/10 flex items-center justify-center shrink-0">
               <Icon className="h-[18px] w-[18px] text-gold-400" />
             </span>
-            <span className="flex-1 text-[15px] text-white">{label}</span>
+            <span className="flex-1 text-[15px] text-luxury-white">{label}</span>
             {badge ? (
               <span className="min-w-[20px] h-5 px-1.5 rounded-full bg-gold-500/20 text-gold-400 text-xs font-semibold flex items-center justify-center">
                 {badge}

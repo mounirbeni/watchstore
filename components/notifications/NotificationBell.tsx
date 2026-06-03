@@ -90,7 +90,7 @@ export default function NotificationBell() {
       {open && (
         <div className="absolute right-0 top-full mt-2 w-[22rem] max-w-[calc(100vw-1.5rem)] overflow-hidden rounded-2xl border border-luxury-border bg-luxury-card shadow-2xl z-[60]">
           <div className="flex items-center justify-between border-b border-luxury-border px-4 py-3">
-            <span className="text-sm font-semibold text-white">Notifications</span>
+            <span className="text-sm font-semibold text-luxury-white">Notifications</span>
             {unread > 0 && (
               <button onClick={handleMarkAll} className="flex items-center gap-1 text-xs text-gold-400 hover:text-gold-300">
                 <Check className="h-3.5 w-3.5" /> Tout marquer lu
@@ -115,7 +115,7 @@ export default function NotificationBell() {
                       <Icon className="h-4 w-4" />
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="flex items-center gap-2 text-sm font-medium text-white">
+                      <p className="flex items-center gap-2 text-sm font-medium text-luxury-white">
                         {!n.isRead && <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${accent.dot}`} />}
                         <span className="truncate">{n.title}</span>
                       </p>

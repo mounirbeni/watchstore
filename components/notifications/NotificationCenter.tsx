@@ -78,7 +78,7 @@ export default function NotificationCenter() {
         </div>
         <div className="flex gap-2">
           <button onClick={markAll} disabled={unread === 0}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-luxury-border px-3 py-2 text-sm text-luxury-light transition-colors hover:text-white disabled:opacity-40">
+            className="inline-flex items-center gap-1.5 rounded-xl border border-luxury-border px-3 py-2 text-sm text-luxury-light transition-colors hover:text-luxury-white disabled:opacity-40">
             <CheckCheck className="h-4 w-4" /> Tout lu
           </button>
           <button onClick={clearAll} disabled={items.length === 0}
@@ -96,7 +96,7 @@ export default function NotificationCenter() {
           return (
             <button key={c} onClick={() => setCategory(c)}
               className={`shrink-0 rounded-full px-3.5 py-1.5 text-sm transition-colors ${
-                active ? "bg-gold-500 text-black font-medium" : "border border-luxury-border text-luxury-muted hover:text-white"
+                active ? "bg-gold-500 text-black font-medium" : "border border-luxury-border text-luxury-muted hover:text-luxury-white"
               }`}>
               {label}
             </button>
@@ -131,7 +131,7 @@ export default function NotificationCenter() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     {!n.isRead && <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${accent.dot}`} />}
-                    <p className="truncate text-sm font-medium text-white">{n.title}</p>
+                    <p className="truncate text-sm font-medium text-luxury-white">{n.title}</p>
                   </div>
                   <p className="mt-0.5 text-sm text-luxury-muted">{n.message}</p>
                   <div className="mt-2 flex items-center gap-3 text-[11px] text-luxury-muted">

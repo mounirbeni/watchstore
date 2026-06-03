@@ -57,7 +57,7 @@ export default async function DashboardPage() {
 
       <header className="hidden lg:block">
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Espace client</p>
-        <h1 className="mt-2 text-3xl font-serif font-semibold text-white">
+        <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">
           Bonjour, {profile?.firstName ?? session.firstName}
         </h1>
         <p className="mt-2 text-luxury-muted">
@@ -75,7 +75,7 @@ export default async function DashboardPage() {
       <section className="grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">
         <Card className="rounded-2xl">
           <div className="mb-4 flex items-center justify-between gap-3">
-            <h2 className="text-xl font-serif text-white">Commandes récentes</h2>
+            <h2 className="text-xl font-serif text-luxury-white">Commandes récentes</h2>
             <Link href="/dashboard/orders" className="text-sm text-gold-400 hover:text-gold-300 transition-colors">Tout voir</Link>
           </div>
           <div className="space-y-3">
@@ -84,7 +84,7 @@ export default async function DashboardPage() {
             ) : orders.map((order) => (
               <div key={order.id} className="flex flex-col gap-3 rounded-xl border border-luxury-border p-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="font-medium text-white">{order.orderNumber}</p>
+                  <p className="font-medium text-luxury-white">{order.orderNumber}</p>
                   <p className="text-sm text-luxury-muted">
                     {order.items.length} article{order.items.length === 1 ? "" : "s"} · {formatPrice(order.total)}
                   </p>
@@ -100,7 +100,7 @@ export default async function DashboardPage() {
 
         <Card className="rounded-2xl">
           <div className="mb-4 flex items-center justify-between gap-3">
-            <h2 className="text-xl font-serif text-white">Notifications</h2>
+            <h2 className="text-xl font-serif text-luxury-white">Notifications</h2>
             <Link href="/dashboard/notifications" className="text-sm text-gold-400 hover:text-gold-300 transition-colors">Tout voir</Link>
           </div>
           <div className="space-y-3">
@@ -109,7 +109,7 @@ export default async function DashboardPage() {
             ) : notifications.map((notification) => (
               <article key={notification.id} className="rounded-xl border border-luxury-border p-4">
                 <div className="flex items-start justify-between gap-3">
-                  <h3 className="font-medium text-white">{notification.title}</h3>
+                  <h3 className="font-medium text-luxury-white">{notification.title}</h3>
                   {!notification.isRead && <span className="rounded-full bg-gold-500/20 px-2 py-0.5 text-xs text-gold-400">Nouveau</span>}
                 </div>
                 <p className="mt-2 text-sm text-luxury-muted">{notification.message}</p>
@@ -122,7 +122,7 @@ export default async function DashboardPage() {
 
       <Card className="rounded-2xl">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <h2 className="text-xl font-serif text-white">Réservations</h2>
+          <h2 className="text-xl font-serif text-luxury-white">Réservations</h2>
           <Link href="/dashboard/reservations" className="text-sm text-gold-400 hover:text-gold-300 transition-colors">Gérer</Link>
         </div>
         <div className="grid gap-3 md:grid-cols-2">
@@ -132,7 +132,7 @@ export default async function DashboardPage() {
             <article key={reservation.id} className="rounded-xl border border-luxury-border p-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h3 className="font-medium text-white">{reservation.product.name}</h3>
+                  <h3 className="font-medium text-luxury-white">{reservation.product.name}</h3>
                   <p className="mt-1 text-sm text-luxury-muted">Expire le {formatDate(reservation.expiresAt)}</p>
                 </div>
                 <StatusBadge status={reservation.status} />

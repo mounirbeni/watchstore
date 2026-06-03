@@ -12,7 +12,7 @@ export default async function ClientDashboardLayout({ children }: { children: Re
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-luxury-dark">
       <main className="mx-auto grid max-w-7xl gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[260px_1fr]">
         <div className="hidden lg:block">
           <DashboardNav

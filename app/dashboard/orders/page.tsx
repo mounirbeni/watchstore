@@ -43,12 +43,12 @@ export default async function DashboardOrdersPage() {
                 <Card className="rounded-2xl">
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <p className="font-medium text-white">{order.orderNumber}</p>
+                      <p className="font-medium text-luxury-white">{order.orderNumber}</p>
                       <p className="text-xs text-luxury-muted">
                         {formatDate(order.createdAt)} · {order.items.length} article{order.items.length === 1 ? "" : "s"}
                       </p>
                     </div>
-                    <p className="whitespace-nowrap font-semibold text-white">{formatPrice(order.total)}</p>
+                    <p className="whitespace-nowrap font-semibold text-luxury-white">{formatPrice(order.total)}</p>
                   </div>
                   <div className="mt-3 flex flex-wrap items-center gap-2">
                     <StatusBadge status={order.status} />
@@ -81,7 +81,7 @@ export default async function DashboardOrdersPage() {
                   {orders.map((order) => (
                     <tr key={order.id} className="border-t border-luxury-border transition-colors hover:bg-luxury-border/20">
                       <td className="px-5 py-4">
-                        <Link href={`/dashboard/orders/${order.orderNumber}`} className="font-medium text-white hover:text-gold-400 transition-colors">{order.orderNumber}</Link>
+                        <Link href={`/dashboard/orders/${order.orderNumber}`} className="font-medium text-luxury-white hover:text-gold-400 transition-colors">{order.orderNumber}</Link>
                         <p className="text-xs text-luxury-muted">{formatDate(order.createdAt)} · {order.items.length} article{order.items.length === 1 ? "" : "s"}</p>
                       </td>
                       <td className="px-5 py-4"><StatusBadge status={order.status} /></td>

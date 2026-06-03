@@ -87,7 +87,7 @@ export default async function OrderDetailPage({ params }: Props) {
           <div className="flex items-start gap-3">
             <XCircle className="mt-0.5 h-5 w-5 text-red-400" />
             <div>
-              <p className="font-medium text-white">Commande {order.status === "REFUNDED" ? "remboursée" : "annulée"}</p>
+              <p className="font-medium text-luxury-white">Commande {order.status === "REFUNDED" ? "remboursée" : "annulée"}</p>
               {order.cancellationReason && <p className="mt-1 text-sm text-luxury-muted">{order.cancellationReason}</p>}
             </div>
           </div>
@@ -99,7 +99,7 @@ export default async function OrderDetailPage({ params }: Props) {
           {/* Deposit action */}
           {(needsDeposit || depositPending) && (
             <Card className="rounded-2xl">
-              <h2 className="mb-1 flex items-center gap-2 text-lg font-serif text-white">
+              <h2 className="mb-1 flex items-center gap-2 text-lg font-serif text-luxury-white">
                 <Wallet className="h-5 w-5 text-gold-400" /> Acompte
               </h2>
               {depositFailed && needsDeposit && (
@@ -118,7 +118,7 @@ export default async function OrderDetailPage({ params }: Props) {
                 <div className="flex items-start gap-3 rounded-xl border border-luxury-border bg-luxury-dark/50 p-4">
                   <Clock className="mt-0.5 h-5 w-5 text-gold-400" />
                   <div>
-                    <p className="text-sm font-medium text-white">Preuve en cours de vérification</p>
+                    <p className="text-sm font-medium text-luxury-white">Preuve en cours de vérification</p>
                     <p className="mt-1 text-sm text-luxury-muted">
                       Référence : {order.payment?.proofReference ?? "—"}. Vous serez notifié dès la confirmation.
                     </p>
@@ -131,7 +131,7 @@ export default async function OrderDetailPage({ params }: Props) {
           {/* Timeline */}
           {!cancelled && rank >= 1 && (
             <Card className="rounded-2xl">
-              <h2 className="mb-4 text-lg font-serif text-white">Suivi</h2>
+              <h2 className="mb-4 text-lg font-serif text-luxury-white">Suivi</h2>
               <ol className="space-y-4">
                 {TIMELINE.map((step, i) => {
                   const reached = rank >= i;
@@ -141,7 +141,7 @@ export default async function OrderDetailPage({ params }: Props) {
                       <span className={`flex h-8 w-8 items-center justify-center rounded-full ${reached ? "bg-gold-500 text-black" : "border border-luxury-border text-luxury-muted"}`}>
                         <Icon className="h-4 w-4" />
                       </span>
-                      <span className={reached ? "text-sm text-white" : "text-sm text-luxury-muted"}>{step.label}</span>
+                      <span className={reached ? "text-sm text-luxury-white" : "text-sm text-luxury-muted"}>{step.label}</span>
                     </li>
                   );
                 })}
@@ -151,7 +151,7 @@ export default async function OrderDetailPage({ params }: Props) {
 
           {/* Items */}
           <Card className="rounded-2xl">
-            <h2 className="mb-4 text-lg font-serif text-white">Articles</h2>
+            <h2 className="mb-4 text-lg font-serif text-luxury-white">Articles</h2>
             <div className="space-y-3">
               {order.items.map((i) => (
                 <div key={i.id} className="flex justify-between text-sm">
@@ -167,7 +167,7 @@ export default async function OrderDetailPage({ params }: Props) {
           {/* Payment summary */}
           <Card className="rounded-2xl">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-serif text-white">Paiement</h2>
+              <h2 className="text-lg font-serif text-luxury-white">Paiement</h2>
               {order.payment && <StatusBadge status={order.payment.status} />}
             </div>
             <PriceBreakdown {...pricing} hideNote />
@@ -176,8 +176,8 @@ export default async function OrderDetailPage({ params }: Props) {
           {/* Delivery */}
           {order.address && (
             <Card className="rounded-2xl">
-              <h2 className="mb-3 text-lg font-serif text-white">Livraison</h2>
-              <p className="text-sm text-white">{order.address.firstName} {order.address.lastName}</p>
+              <h2 className="mb-3 text-lg font-serif text-luxury-white">Livraison</h2>
+              <p className="text-sm text-luxury-white">{order.address.firstName} {order.address.lastName}</p>
               <p className="text-sm text-luxury-muted">{order.address.street}, {order.address.city} {order.address.postalCode}</p>
               <p className="text-sm text-luxury-muted">{order.customerPhone ?? order.address.phone}</p>
             </Card>

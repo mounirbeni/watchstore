@@ -59,7 +59,7 @@ export default async function AdminCustomerDetailPage({ params }: Props) {
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Customer profile</p>
-          <h1 className="mt-2 text-3xl font-serif font-semibold text-white">
+          <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">
             {customer.profile?.firstName ?? "No"} {customer.profile?.lastName ?? "Name"}
           </h1>
           <p className="mt-2 text-luxury-muted">{customer.email}</p>
@@ -69,7 +69,7 @@ export default async function AdminCustomerDetailPage({ params }: Props) {
           </div>
         </div>
         <div className="flex gap-2">
-          <Link href="/admin/customers" className="rounded-xl border border-luxury-border px-4 py-2 text-sm text-luxury-muted transition hover:text-white">Back</Link>
+          <Link href="/admin/customers" className="rounded-xl border border-luxury-border px-4 py-2 text-sm text-luxury-muted transition hover:text-luxury-white">Back</Link>
           <form action={setCustomerActive.bind(null, customer.id, !customer.isActive)}>
             <SubmitButton variant={customer.isActive ? "danger" : "gold"}>
               {customer.isActive ? "Suspend account" : "Reactivate account"}
@@ -79,16 +79,16 @@ export default async function AdminCustomerDetailPage({ params }: Props) {
       </header>
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-        <Card className="rounded-2xl"><p className="text-sm text-luxury-muted">Total spend</p><p className="mt-2 text-2xl font-semibold text-white">{formatPrice(paidTotal)}</p></Card>
-        <Card className="rounded-2xl"><p className="text-sm text-luxury-muted">Orders</p><p className="mt-2 text-2xl font-semibold text-white">{customer.orders.length}</p></Card>
-        <Card className="rounded-2xl"><p className="text-sm text-luxury-muted">Cancellations</p><p className="mt-2 text-2xl font-semibold text-white">{risk.cancellations}</p></Card>
-        <Card className="rounded-2xl"><p className="text-sm text-luxury-muted">Delivery refusals</p><p className="mt-2 text-2xl font-semibold text-white">{risk.deliveryRefusals}</p></Card>
-        <Card className="rounded-2xl"><p className="text-sm text-luxury-muted">Failed payments</p><p className="mt-2 text-2xl font-semibold text-white">{risk.failedPayments}</p></Card>
+        <Card className="rounded-2xl"><p className="text-sm text-luxury-muted">Total spend</p><p className="mt-2 text-2xl font-semibold text-luxury-white">{formatPrice(paidTotal)}</p></Card>
+        <Card className="rounded-2xl"><p className="text-sm text-luxury-muted">Orders</p><p className="mt-2 text-2xl font-semibold text-luxury-white">{customer.orders.length}</p></Card>
+        <Card className="rounded-2xl"><p className="text-sm text-luxury-muted">Cancellations</p><p className="mt-2 text-2xl font-semibold text-luxury-white">{risk.cancellations}</p></Card>
+        <Card className="rounded-2xl"><p className="text-sm text-luxury-muted">Delivery refusals</p><p className="mt-2 text-2xl font-semibold text-luxury-white">{risk.deliveryRefusals}</p></Card>
+        <Card className="rounded-2xl"><p className="text-sm text-luxury-muted">Failed payments</p><p className="mt-2 text-2xl font-semibold text-luxury-white">{risk.failedPayments}</p></Card>
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[1fr_1fr]">
         <Card className="rounded-2xl">
-          <h2 className="text-xl font-serif text-white">Risk indicators</h2>
+          <h2 className="text-xl font-serif text-luxury-white">Risk indicators</h2>
           <div className="mt-4 space-y-2 text-sm text-luxury-muted">
             <p>Orders in 24h: {risk.ordersLast24h}</p>
             <p>Flagged orders: {risk.flaggedOrders}</p>
@@ -96,7 +96,7 @@ export default async function AdminCustomerDetailPage({ params }: Props) {
           </div>
         </Card>
         <Card className="rounded-2xl">
-          <h2 className="text-xl font-serif text-white">Security sessions</h2>
+          <h2 className="text-xl font-serif text-luxury-white">Security sessions</h2>
           <div className="mt-4 space-y-2 text-sm text-luxury-muted">
             {customer.sessions.length === 0 ? <p>No sessions found.</p> : customer.sessions.map((session) => (
               <p key={session.id}>{formatDate(session.createdAt)} / {session.ipAddress ?? "No IP"} / {session.revokedAt ? "Revoked" : "Active"}</p>
@@ -106,7 +106,7 @@ export default async function AdminCustomerDetailPage({ params }: Props) {
       </section>
 
       <Card className="rounded-2xl">
-        <h2 className="text-xl font-serif text-white">Order history</h2>
+        <h2 className="text-xl font-serif text-luxury-white">Order history</h2>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[820px] text-left text-sm">
             <thead className="text-xs uppercase tracking-[0.16em] text-luxury-muted">
@@ -115,11 +115,11 @@ export default async function AdminCustomerDetailPage({ params }: Props) {
             <tbody>
               {customer.orders.map((order) => (
                 <tr key={order.id} className="border-t border-luxury-border">
-                  <td className="py-3 text-white">{order.orderNumber}</td>
+                  <td className="py-3 text-luxury-white">{order.orderNumber}</td>
                   <td className="py-3 text-luxury-muted">{formatDate(order.createdAt)}</td>
                   <td className="py-3"><StatusBadge status={order.status} /></td>
                   <td className="py-3">{order.payment && <StatusBadge status={order.payment.status} />}</td>
-                  <td className="py-3 text-white">{formatPrice(order.total)}</td>
+                  <td className="py-3 text-luxury-white">{formatPrice(order.total)}</td>
                   <td className="py-3"><Link href={`/admin/orders/${order.id}`} className="text-gold-400 hover:text-gold-300">Open</Link></td>
                 </tr>
               ))}
@@ -130,7 +130,7 @@ export default async function AdminCustomerDetailPage({ params }: Props) {
 
       <section className="grid gap-6 xl:grid-cols-2">
         <Card className="rounded-2xl">
-          <h2 className="text-xl font-serif text-white">Addresses</h2>
+          <h2 className="text-xl font-serif text-luxury-white">Addresses</h2>
           <div className="mt-4 space-y-3">
             {customer.addresses.length === 0 ? <p className="text-sm text-luxury-muted">No addresses.</p> : customer.addresses.map((address) => (
               <div key={address.id} className="rounded-xl border border-luxury-border p-4 text-sm text-luxury-muted">
@@ -143,11 +143,11 @@ export default async function AdminCustomerDetailPage({ params }: Props) {
         </Card>
 
         <Card className="rounded-2xl">
-          <h2 className="text-xl font-serif text-white">Reservations</h2>
+          <h2 className="text-xl font-serif text-luxury-white">Reservations</h2>
           <div className="mt-4 space-y-3">
             {customer.reservations.length === 0 ? <p className="text-sm text-luxury-muted">No reservations.</p> : customer.reservations.map((reservation) => (
               <div key={reservation.id} className="rounded-xl border border-luxury-border p-4 text-sm">
-                <p className="text-white">{reservation.product.name}</p>
+                <p className="text-luxury-white">{reservation.product.name}</p>
                 <p className="text-luxury-muted">{reservation.status} / expires {formatDate(reservation.expiresAt)}</p>
               </div>
             ))}
@@ -156,11 +156,11 @@ export default async function AdminCustomerDetailPage({ params }: Props) {
       </section>
 
       <Card className="rounded-2xl">
-        <h2 className="text-xl font-serif text-white">Customer audit trail</h2>
+        <h2 className="text-xl font-serif text-luxury-white">Customer audit trail</h2>
         <div className="mt-4 space-y-3">
           {auditLogs.length === 0 ? <p className="text-sm text-luxury-muted">No customer audit entries.</p> : auditLogs.map((log) => (
             <div key={log.id} className="rounded-xl border border-luxury-border p-4">
-              <p className="font-medium text-white">{log.action}</p>
+              <p className="font-medium text-luxury-white">{log.action}</p>
               <p className="mt-1 text-sm text-luxury-muted">
                 {formatDate(log.createdAt)} by {log.user?.profile ? `${log.user.profile.firstName} ${log.user.profile.lastName}` : log.user?.email ?? "System"}
               </p>
