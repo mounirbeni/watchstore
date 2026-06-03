@@ -98,8 +98,8 @@ export default async function HomePage() {
           {/* Two-panel model banner */}
           <div className="grid grid-cols-2 gap-3 sm:gap-5">
             {[
-              { src: "/images/banner-homme.jpg", label: "Homme", sub: "Élégance & caractère", href: "/shop?category=homme" },
-              { src: "/images/banner-femme.jpg", label: "Femme", sub: "Grâce & raffinement",  href: "/shop?category=femme" },
+              { src: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=800&q=85", label: "Homme", sub: "Élégance & caractère", href: "/shop?category=homme" },
+              { src: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=85", label: "Femme", sub: "Grâce & raffinement",  href: "/shop?category=femme" },
             ].map(({ src, label, sub, href }) => (
               <Link
                 key={label}
