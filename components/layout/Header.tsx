@@ -75,8 +75,11 @@ export default async function Header() {
               </div>
             </div>
 
-            <Link href="/shop?sort=newest" className="text-sm text-luxury-light hover:text-luxury-white transition-colors font-medium">
-              Nouveautés
+            <Link href="/about" className="text-sm text-luxury-light hover:text-luxury-white transition-colors font-medium">
+              À propos
+            </Link>
+            <Link href="/faq" className="text-sm text-luxury-light hover:text-luxury-white transition-colors font-medium">
+              FAQ
             </Link>
           </nav>
 

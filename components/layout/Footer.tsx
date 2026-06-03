@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="bg-luxury-dark border-t border-luxury-border mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div>
             <h3 className="text-base font-serif font-bold gold-text mb-3">ChronoCraft</h3>
             <p className="text-sm text-luxury-muted leading-relaxed">
@@ -49,6 +49,23 @@ export default function Footer() {
           </div>
 
           <div>
+            <h4 className="text-xs font-semibold text-luxury-white mb-4 uppercase tracking-[0.18em]">Informations</h4>
+            <ul className="space-y-2.5">
+              {[
+                ["À propos", "/about"],
+                ["FAQ", "/faq"],
+                ["Paiement & Livraison", "/paiement-livraison"],
+              ].map(([label, href]) => (
+                <li key={href}>
+                  <Link href={href!} className="text-sm text-luxury-muted hover:text-luxury-white transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
             <h4 className="text-xs font-semibold text-luxury-white mb-4 uppercase tracking-[0.18em]">Contact</h4>
             <ul className="space-y-2.5 text-sm text-luxury-muted">
               <li>Casablanca, Maroc</li>
@@ -66,7 +83,7 @@ export default function Footer() {
             © {new Date().getFullYear()} ChronoCraft. Tous droits réservés.
           </p>
           <div className="flex gap-6">
-            {[["Paiement & Livraison", "/paiement-livraison"], ["Confidentialité", "/confidentialite"], ["CGV", "/cgv"], ["Mentions légales", "/mentions-legales"]].map(([label, href]) => (
+            {[["Confidentialité", "/confidentialite"], ["CGV", "/cgv"], ["Mentions légales", "/mentions-legales"]].map(([label, href]) => (
               <Link key={label} href={href!} className="text-xs text-luxury-muted hover:text-luxury-white transition-colors">
                 {label}
               </Link>
