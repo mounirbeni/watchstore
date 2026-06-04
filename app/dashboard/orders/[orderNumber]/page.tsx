@@ -89,7 +89,7 @@ export default async function OrderDetailPage({ params }: Props) {
   const needsDeposit  = order.status === "AWAITING_DEPOSIT";
   const depositPending = order.status === "DEPOSIT_PENDING";
   const depositFailed  = order.payment?.status === "DEPOSIT_FAILED";
-  const cancellable    = ["AWAITING_DEPOSIT", "DEPOSIT_PENDING", "CONFIRMED"].includes(order.status);
+  const cancellable    = ["AWAITING_DEPOSIT", "DEPOSIT_PENDING"].includes(order.status);
   const inTransit      = ["PREPARING", "SHIPPED", "OUT_FOR_DELIVERY"].includes(order.status);
 
   const steps: Step[] = [
