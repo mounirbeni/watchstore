@@ -386,10 +386,10 @@ export default async function HomePage() {
           <div className="max-w-7xl mx-auto px-5 sm:px-6 py-8 sm:py-10">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 text-center">
               {[
-                { value: "500+", label: "Montres disponibles", Icon: Package },
+                { value: "47+", label: "Montres disponibles", Icon: Package },
                 { value: "48h", label: "Délai de livraison", Icon: Timer },
                 { value: "4.9/5", label: "Satisfaction client", Icon: Star },
-                { value: "12+", label: "Villes desservies", Icon: MapPin },
+                { value: "+112", label: "Villes desservies", Icon: MapPin },
               ].map(({ value, label, Icon }) => (
                 <div key={label} className="flex flex-col items-center gap-2">
                   <div className="w-10 h-10 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto">
