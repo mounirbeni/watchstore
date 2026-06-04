@@ -237,14 +237,28 @@ export async function submitDepositProofAction(formData: FormData): Promise<Acti
   const session = await requireAuth().catch(() => null);
   if (!session) return { success: false, error: "Connexion requise" };
 
-  const parsed = SubmitDepositSchema.safeParse(Object.fromEntries(formData.entries()));
-  if (!parsed.success) {
-    return {
-      success: false,
-      error: "Veuillez vérifier la référence de paiement.",
-      fieldErrors: parsed.error.flatten().fieldErrors as Record<string, string[]>,
-    };
+  const parsed = SubmitDepositSchema.safeParse({
+    orderId: formData.get("orderId"),
+    method: formData.get("method"),
+  });
+  if (!parsed.success) return { success: false, error: "Données invalides." };
+
+  // Validate uploaded image
+  const file = formData.get("proofImage");
+  if (!file || !(file instanceof File) || file.size === 0) {
+    return { success: false, error: "Veuillez joindre une photo de votre reçu de paiement." };
   }
+  const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif"];
+  if (!ALLOWED.includes(file.type)) {
+    return { success: false, error: "Format non supporté. Utilisez JPEG, PNG ou WebP." };
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    return { success: false, error: "Image trop grande. Taille maximum : 5 Mo." };
+  }
+
+  // Convert to base64 data URL for storage
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const dataUrl = `data:${file.type};base64,${buffer.toString("base64")}`;
 
   const order = await db.order.findFirst({
     where: { id: parsed.data.orderId, userId: session.userId },
@@ -261,8 +275,8 @@ export async function submitDepositProofAction(formData: FormData): Promise<Acti
     where: { id: order.payment.id },
     data: {
       method: parsed.data.method as PaymentMethod,
-      proofReference: parsed.data.reference,
-      proofUrl: parsed.data.proofUrl,
+      proofReference: null,
+      proofUrl: dataUrl,
       status: PaymentStatus.DEPOSIT_PENDING,
       failedAt: null,
     },
@@ -274,7 +288,7 @@ export async function submitDepositProofAction(formData: FormData): Promise<Acti
     category: NotificationCategory.PAYMENT,
     priority: NotificationPriority.STANDARD,
     title: "Preuve d'acompte reçue",
-    message: `Nous avons bien reçu votre preuve de paiement pour la commande ${order.orderNumber}. Notre équipe la vérifie et confirmera votre commande sous peu.`,
+    message: `Nous avons bien reçu votre justificatif de paiement pour la commande ${order.orderNumber}. Notre équipe le vérifie et confirmera votre commande sous peu.`,
     actionUrl: `/dashboard/orders/${order.orderNumber}`,
     data: { orderNumber: order.orderNumber },
   });
@@ -283,7 +297,7 @@ export async function submitDepositProofAction(formData: FormData): Promise<Acti
     category: NotificationCategory.PAYMENT,
     priority: NotificationPriority.IMPORTANT,
     title: "Acompte à vérifier",
-    message: `Preuve de paiement reçue pour la commande ${order.orderNumber} (${parsed.data.method}). Réf : ${parsed.data.reference}.`,
+    message: `Justificatif de paiement reçu pour la commande ${order.orderNumber} (${parsed.data.method}). Vérifiez la photo du reçu.`,
     actionUrl: "/admin/orders?status=DEPOSIT_PENDING",
   });
 
@@ -292,7 +306,7 @@ export async function submitDepositProofAction(formData: FormData): Promise<Acti
     action: "SUBMIT_DEPOSIT_PROOF",
     entity: "Order",
     entityId: order.id,
-    newValues: { method: parsed.data.method, reference: parsed.data.reference },
+    newValues: { method: parsed.data.method, proofImage: "uploaded" },
   });
 
   revalidateOrderViews();
