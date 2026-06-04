@@ -106,10 +106,32 @@ export default async function AdminOrderDetailPage({ params }: Props) {
           </form>
 
           {order.payment?.status === "DEPOSIT_PENDING" && (
-            <div className="mt-5 rounded-2xl border border-gold-500/30 p-4">
-              <h3 className="font-medium text-luxury-white">Deposit approval required</h3>
-              <p className="mt-1 text-sm text-luxury-muted">Reference: {order.payment.proofReference ?? "No reference"} / {order.payment.method}</p>
-              <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-5 rounded-2xl border border-gold-500/30 p-4 space-y-4">
+              <div>
+                <h3 className="font-medium text-luxury-white">Deposit approval required</h3>
+                <p className="mt-0.5 text-sm text-luxury-muted">Method: {order.payment.method}</p>
+              </div>
+              {/* Proof image */}
+              {order.payment.proofUrl?.startsWith("data:image") ? (
+                <div className="overflow-hidden rounded-xl border border-luxury-border">
+                  <p className="border-b border-luxury-border bg-luxury-dark px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-luxury-muted">
+                    Payment receipt
+                  </p>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={order.payment.proofUrl}
+                    alt="Payment receipt"
+                    className="max-h-80 w-full object-contain bg-luxury-dark/50"
+                  />
+                </div>
+              ) : order.payment.proofUrl ? (
+                <a href={order.payment.proofUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-gold-400 hover:underline">
+                  View proof →
+                </a>
+              ) : (
+                <p className="text-sm text-luxury-muted">No proof image submitted.</p>
+              )}
+              <div className="flex flex-wrap gap-2">
                 <form action={reviewDeposit}>
                   <input type="hidden" name="orderId" value={order.id} />
                   <input type="hidden" name="decision" value="APPROVE" />
@@ -138,7 +160,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
           </div>
           <div className="mt-4 rounded-xl border border-luxury-border p-3 text-sm text-luxury-muted">
             <p>Method: <span className="text-luxury-light">{order.payment?.method ?? "No payment"}</span></p>
-            <p>Reference: <span className="text-luxury-light">{order.payment?.proofReference ?? order.payment?.transactionRef ?? "None"}</span></p>
+            <p>Proof: <span className="text-luxury-light">{order.payment?.proofUrl?.startsWith("data:image") ? "Image uploaded" : (order.payment?.transactionRef ?? "None")}</span></p>
             <p>Reviewed: <span className="text-luxury-light">{formatDate(order.payment?.reviewedAt ?? null)}</span></p>
           </div>
         </Card>

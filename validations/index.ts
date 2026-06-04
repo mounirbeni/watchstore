@@ -119,11 +119,6 @@ export const CheckoutSchema = z.object({
 export const SubmitDepositSchema = z.object({
   orderId: z.string().min(1),
   method: z.enum(DEPOSIT_METHOD_VALUES),
-  reference: z.string().trim().min(3, "Référence requise").max(120),
-  proofUrl: z.preprocess(
-    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
-    z.string().url("Lien invalide").max(500).optional(),
-  ),
 });
 
 export const ReviewDepositSchema = z.object({
