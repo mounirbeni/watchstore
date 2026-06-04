@@ -65,12 +65,20 @@ export function computePricing(subtotal: number, discount = 0): OrderPricing {
 
 export type DepositMethodId = "BANK_TRANSFER" | "CASHPLUS" | "WAFACASH";
 
+export interface PaymentField {
+  label: string;
+  value: string;
+  copyable?: boolean;
+  wide?: boolean;
+}
+
 export interface DepositMethod {
   id: DepositMethodId;
   label: string;
   short: string;
-  /** Step-by-step instructions shown after the order is created. */
-  instructions: string[];
+  agentName: string;
+  fields: PaymentField[];
+  steps: string[];
   referenceHint: string;
 }
 
@@ -83,11 +91,11 @@ const merchant = {
   bankRib: process.env["DEPOSIT_BANK_RIB"] ?? "230 450 3396820211017700 73",
   bankIban: process.env["DEPOSIT_BANK_IBAN"] ?? "MA64 2304 5033 9682 0211 0177 0073",
   bankSwift: process.env["DEPOSIT_BANK_SWIFT"] ?? "CIHMMAMC",
-  bankHolder: process.env["DEPOSIT_BANK_HOLDER"] ?? "CHRONO CRAFT",
+  bankHolder: process.env["DEPOSIT_BANK_HOLDER"] ?? "Mounir Banni",
   cashplusPhone: process.env["DEPOSIT_CASHPLUS_PHONE"] ?? "+21260439975",
-  cashplusName: process.env["DEPOSIT_CASHPLUS_NAME"] ?? "CHRONO CRAFT",
+  cashplusName: process.env["DEPOSIT_CASHPLUS_NAME"] ?? "Mounir Banni",
   wafacashPhone: process.env["DEPOSIT_WAFACASH_PHONE"] ?? "+21260439975",
-  wafacashName: process.env["DEPOSIT_WAFACASH_NAME"] ?? "CHRONO CRAFT",
+  wafacashName: process.env["DEPOSIT_WAFACASH_NAME"] ?? "Mounir Banni",
   whatsapp: process.env["DEPOSIT_WHATSAPP"] ?? "+21260439975",
 };
 
@@ -96,42 +104,53 @@ export function getDepositMethods(depositLabel: string): DepositMethod[] {
     {
       id: "BANK_TRANSFER",
       label: "Virement bancaire",
-      short: "RIB · virement ou versement",
-      referenceHint: "N° de transaction ou référence du virement",
-      instructions: [
-        `Effectuez un virement/versement de ${depositLabel} sur le compte ci-dessous.`,
-        `Banque : ${merchant.bankName}`,
-        `Bénéficiaire : ${merchant.bankHolder}`,
-        `RIB : ${merchant.bankRib}`,
-        `IBAN : ${merchant.bankIban}`,
-        `SWIFT : ${merchant.bankSwift}`,
-        "Indiquez votre numéro de commande dans le motif.",
-        "Saisissez ensuite la référence du virement ci-dessous.",
+      short: "CIH Bank · RIB, IBAN & SWIFT",
+      agentName: merchant.bankHolder,
+      fields: [
+        { label: "Banque", value: merchant.bankName },
+        { label: "Titulaire", value: merchant.bankHolder, copyable: true },
+        { label: "RIB", value: merchant.bankRib, copyable: true, wide: true },
+        { label: "IBAN", value: merchant.bankIban, copyable: true, wide: true },
+        { label: "SWIFT / BIC", value: merchant.bankSwift, copyable: true },
       ],
+      steps: [
+        `Effectuez un virement de ${depositLabel} vers le compte ci-dessous.`,
+        "Indiquez votre numéro de commande dans le motif du virement.",
+        "Saisissez la référence de la transaction ci-dessous et envoyez la preuve.",
+      ],
+      referenceHint: "N° de transaction ou référence du virement",
     },
     {
       id: "CASHPLUS",
       label: "CashPlus",
-      short: "Dépôt en agence CashPlus",
-      referenceHint: "N° de l'opération CashPlus",
-      instructions: [
-        `Rendez-vous dans une agence CashPlus et envoyez ${depositLabel}.`,
-        `Bénéficiaire : ${merchant.cashplusName}`,
-        `Téléphone : ${merchant.cashplusPhone}`,
-        "Conservez le reçu, puis saisissez le numéro de l'opération ci-dessous.",
+      short: "Envoi via agence CashPlus",
+      agentName: merchant.cashplusName,
+      fields: [
+        { label: "Bénéficiaire", value: merchant.cashplusName, copyable: true },
+        { label: "Téléphone", value: merchant.cashplusPhone, copyable: true },
       ],
+      steps: [
+        `Rendez-vous dans une agence CashPlus et envoyez ${depositLabel}.`,
+        "Conservez le reçu de l'opération.",
+        "Saisissez le numéro de l'opération ci-dessous et envoyez la preuve.",
+      ],
+      referenceHint: "N° de l'opération CashPlus",
     },
     {
       id: "WAFACASH",
       label: "Wafacash",
-      short: "Dépôt en agence Wafacash",
-      referenceHint: "N° de l'opération Wafacash",
-      instructions: [
-        `Rendez-vous dans une agence Wafacash et envoyez ${depositLabel}.`,
-        `Bénéficiaire : ${merchant.wafacashName}`,
-        `Téléphone : ${merchant.wafacashPhone}`,
-        "Conservez le reçu, puis saisissez le numéro de l'opération ci-dessous.",
+      short: "Envoi via agence Wafacash",
+      agentName: merchant.wafacashName,
+      fields: [
+        { label: "Bénéficiaire", value: merchant.wafacashName, copyable: true },
+        { label: "Téléphone", value: merchant.wafacashPhone, copyable: true },
       ],
+      steps: [
+        `Rendez-vous dans une agence Wafacash et envoyez ${depositLabel}.`,
+        "Conservez le reçu de l'opération.",
+        "Saisissez le numéro de l'opération ci-dessous et envoyez la preuve.",
+      ],
+      referenceHint: "N° de l'opération Wafacash",
     },
   ];
 }
