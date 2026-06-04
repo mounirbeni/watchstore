@@ -575,7 +575,6 @@ export async function updateAdminOrderAction(formData: FormData): Promise<Action
 const CLIENT_CANCELLABLE: OrderStatus[] = [
   OrderStatus.AWAITING_DEPOSIT,
   OrderStatus.DEPOSIT_PENDING,
-  OrderStatus.CONFIRMED,
 ];
 
 export async function cancelOrderAction(formData: FormData): Promise<ActionResult> {
