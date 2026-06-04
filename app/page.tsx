@@ -206,7 +206,7 @@ export default async function HomePage() {
             <div className="relative aspect-square sm:aspect-[4/5] rounded-2xl overflow-hidden bg-luxury-dark">
               <Image
                 src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=900&q=90"
-                alt="Artisanat horloger"
+                alt="Sélection horlogère premium"
                 fill
                 className="object-cover"
                 sizes="(max-width:768px) 100vw, 50vw"
@@ -214,7 +214,7 @@ export default async function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5">
                 <span className="inline-flex items-center gap-1.5 bg-gold-500 text-black text-xs font-bold px-3 py-1.5 rounded-full">
-                  <Gem className="h-3 w-3" /> Artisanat d&apos;exception
+                  <Gem className="h-3 w-3" /> Sélection d&apos;exception
                 </span>
               </div>
             </div>

@@ -102,8 +102,9 @@ export default function CGVPage() {
           heading: "Garantie",
           body: (
             <p>
-              Toutes nos montres bénéficient d&apos;une garantie contre les défauts de fabrication. En cas de défaut
-              constaté, contactez notre service client qui procédera à la réparation ou au remplacement de la pièce.
+              Toutes nos montres sont couvertes par la garantie constructeur fournie avec chaque pièce. En cas de
+              défaut constaté, contactez notre service client qui vous orientera vers la prise en charge appropriée
+              (réparation ou remplacement selon les conditions du constructeur).
             </p>
           ),
         },

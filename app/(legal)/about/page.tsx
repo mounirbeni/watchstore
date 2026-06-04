@@ -72,8 +72,8 @@ export default function AboutPage() {
           <div className="space-y-4 text-sm sm:text-[15px] text-luxury-muted leading-relaxed">
             <p>
               Fondée en 2022, ChronoCraft est une boutique en ligne marocaine spécialisée dans la vente de
-              montres authentiques. Notre équipe est composée d&apos;horlogers, de collectionneurs et de
-              passionnés qui partagent une même obsession : vous proposer le meilleur de l&apos;horlogerie.
+              montres authentiques. Notre équipe est composée de collectionneurs, d&apos;amateurs passionnés et
+              d&apos;experts en sélection qui partagent une même obsession : vous proposer le meilleur de l&apos;horlogerie.
             </p>
             <p>
               Nous croyons que porter une belle montre est bien plus qu&apos;un accessoire — c&apos;est une
@@ -152,7 +152,7 @@ export default function AboutPage() {
         </h2>
         <div className="grid sm:grid-cols-3 gap-5">
           {[
-            { initials: "KA", name: "Karim A.", role: "Fondateur & expert horloger" },
+            { initials: "KA", name: "Karim A.", role: "Fondateur & directeur de la sélection" },
             { initials: "SB", name: "Sara B.", role: "Responsable service client" },
             { initials: "YM", name: "Youssef M.", role: "Logistique & livraisons" },
           ].map(({ initials, name, role }) => (
@@ -179,7 +179,7 @@ export default function AboutPage() {
           Trouvez la montre qui vous ressemble
         </h2>
         <p className="text-sm text-luxury-muted mb-7 max-w-md mx-auto">
-          Parcourez notre catalogue de plus de 500 références et commandez en toute confiance.
+          Parcourez notre catalogue soigneusement sélectionné et commandez en toute confiance.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
