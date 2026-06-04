@@ -389,7 +389,7 @@ export default async function HomePage() {
                 { value: "47+", label: "Montres disponibles", Icon: Package },
                 { value: "48h", label: "Délai de livraison", Icon: Timer },
                 { value: "4.9/5", label: "Satisfaction client", Icon: Star },
-                { value: "+112", label: "Villes desservies", Icon: MapPin },
+                { value: "+12", label: "Villes desservies", Icon: MapPin },
               ].map(({ value, label, Icon }) => (
                 <div key={label} className="flex flex-col items-center gap-2">
                   <div className="w-10 h-10 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto">
