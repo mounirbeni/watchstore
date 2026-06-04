@@ -1,8 +1,8 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { requireAuth } from "@/lib/session";
-import { createNotification } from "@/lib/notifications";
+import { requireAuth, getSession } from "@/lib/session";
+import { createNotification, notifyAdmins } from "@/lib/notifications";
 import { AddressSchema, UpdateProfileSchema } from "@/validations";
 import { NotificationCategory, NotificationPriority } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -84,6 +84,78 @@ export async function deleteAddressAction(formData: FormData): Promise<ActionRes
   return { success: true, data: undefined };
 }
 
+export async function setDefaultAddressAction(formData: FormData): Promise<ActionResult> {
+  const session = await requireAuth().catch(() => null);
+  if (!session) return { success: false, error: "Non authentifié" };
+
+  const addressId = String(formData.get("addressId") ?? "");
+  const address = await db.address.findUnique({ where: { id: addressId } });
+  if (!address || address.userId !== session.userId) {
+    return { success: false, error: "Adresse introuvable" };
+  }
+
+  await db.address.updateMany({ where: { userId: session.userId }, data: { isDefault: false } });
+  await db.address.update({ where: { id: addressId }, data: { isDefault: true } });
+
+  revalidatePath("/dashboard/profile");
+  return { success: true, data: undefined };
+}
+
+export async function revokeOtherSessionsAction(): Promise<ActionResult> {
+  const session = await requireAuth().catch(() => null);
+  if (!session) return { success: false, error: "Non authentifié" };
+
+  const ironSession = await getSession();
+
+  await db.loginSession.updateMany({
+    where: {
+      userId: session.userId,
+      token: { not: ironSession.sessionToken ?? "" },
+      revokedAt: null,
+    },
+    data: { revokedAt: new Date() },
+  });
+
+  await createNotification({
+    userId: session.userId,
+    category: NotificationCategory.SECURITY,
+    priority: NotificationPriority.IMPORTANT,
+    title: "Déconnexion des autres appareils",
+    message: "Toutes vos autres sessions actives ont été révoquées.",
+    actionUrl: "/dashboard/profile",
+  });
+
+  revalidatePath("/dashboard/profile");
+  return { success: true, data: undefined };
+}
+
+export async function requestAccountDeletionAction(formData: FormData): Promise<ActionResult> {
+  const session = await requireAuth().catch(() => null);
+  if (!session) return { success: false, error: "Non authentifié" };
+
+  const reason = String(formData.get("reason") ?? "").trim();
+
+  await notifyAdmins({
+    category: NotificationCategory.ACCOUNT,
+    priority: NotificationPriority.IMPORTANT,
+    title: "Demande de suppression de compte",
+    message: `L'utilisateur ${session.firstName} ${session.lastName} (${session.email}) demande la suppression de son compte.${reason ? ` Motif : ${reason}` : ""}`,
+    actionUrl: `/admin/customers`,
+  });
+
+  await createNotification({
+    userId: session.userId,
+    category: NotificationCategory.ACCOUNT,
+    priority: NotificationPriority.IMPORTANT,
+    title: "Demande de suppression reçue",
+    message: "Votre demande de suppression de compte a été transmise à notre équipe. Nous vous contacterons sous 48h.",
+    actionUrl: "/dashboard/profile",
+  });
+
+  revalidatePath("/dashboard/profile");
+  return { success: true, data: undefined };
+}
+
 export async function markNotificationReadAction(formData: FormData): Promise<ActionResult> {
   const session = await requireAuth().catch(() => null);
   if (!session) return { success: false, error: "Non authentifié" };
@@ -98,3 +170,4 @@ export async function markNotificationReadAction(formData: FormData): Promise<Ac
   revalidatePath("/dashboard");
   return { success: true, data: undefined };
 }
+
