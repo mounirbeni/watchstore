@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { requireAuth } from "@/lib/session";
+import { db } from "@/lib/db";
 import DashboardNav from "@/components/dashboard/DashboardNav";
 import MobileTabBar from "@/components/layout/MobileTabBar";
 
@@ -11,6 +12,10 @@ export default async function ClientDashboardLayout({ children }: { children: Re
     redirect("/login?from=/dashboard");
   }
 
+  const unreadCount = await db.notification.count({
+    where: { userId: session.userId, isRead: false },
+  });
+
   return (
     <div className="min-h-screen bg-luxury-dark pb-mobile-nav">
       <main className="mx-auto grid max-w-7xl gap-5 px-4 py-5 sm:gap-6 sm:px-6 sm:py-6 lg:grid-cols-[260px_1fr]">
@@ -21,6 +26,7 @@ export default async function ClientDashboardLayout({ children }: { children: Re
               lastName: session.lastName,
               email: session.email,
             }}
+            unreadCount={unreadCount}
           />
         </div>
         <section className="min-w-0">{children}</section>
