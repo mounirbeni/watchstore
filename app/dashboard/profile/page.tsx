@@ -143,86 +143,54 @@ export default async function DashboardProfilePage() {
         </div>
       </section>
 
-      {/* ━━━━━━━━━━━━━━━  PERSONAL INFO + PASSWORD  ━━━━━━━━━━━━━━━ */}
-      <div className="grid gap-4 sm:gap-5 xl:grid-cols-2">
-
-        {/* Personal info */}
-        <section className="rounded-2xl border border-luxury-border bg-white shadow-card overflow-hidden">
-          <div className="flex items-center gap-2 border-b border-luxury-border px-5 py-4">
-            <User className="h-[15px] w-[15px] text-gold-500" />
-            <h2 className="text-sm font-semibold text-luxury-white">Informations personnelles</h2>
-          </div>
-          <form action={updateProfile} className="space-y-4 p-5">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label className={labelClass}>Prénom</label>
-                <input
-                  name="firstName"
-                  required
-                  defaultValue={firstName}
-                  className={inputClass}
-                />
-              </div>
-              <div>
-                <label className={labelClass}>Nom</label>
-                <input
-                  name="lastName"
-                  required
-                  defaultValue={lastName}
-                  className={inputClass}
-                />
-              </div>
-            </div>
+      {/* ━━━━━━━━━━━━━━━  PERSONAL INFO  ━━━━━━━━━━━━━━━ */}
+      <section className="rounded-2xl border border-luxury-border bg-white shadow-card overflow-hidden">
+        <div className="flex items-center gap-2 border-b border-luxury-border px-5 py-4">
+          <User className="h-[15px] w-[15px] text-gold-500" />
+          <h2 className="text-sm font-semibold text-luxury-white">Informations personnelles</h2>
+        </div>
+        <form action={updateProfile} className="space-y-4 p-5">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className={labelClass}>Téléphone</label>
+              <label className={labelClass}>Prénom</label>
               <input
-                name="phone"
-                defaultValue={profile?.phone ?? ""}
-                placeholder="+212 6XX XXX XXX"
+                name="firstName"
+                required
+                defaultValue={firstName}
                 className={inputClass}
               />
             </div>
             <div>
-              <label className={labelClass}>Adresse e-mail</label>
+              <label className={labelClass}>Nom</label>
               <input
-                value={session.email}
-                disabled
-                className="input-luxury w-full opacity-50 cursor-not-allowed"
+                name="lastName"
+                required
+                defaultValue={lastName}
+                className={inputClass}
               />
-              <p className="mt-1 text-[11px] text-luxury-muted">L&apos;adresse e-mail ne peut pas être modifiée.</p>
             </div>
-            <SubmitButton>Enregistrer les modifications</SubmitButton>
-          </form>
-        </section>
-
-        {/* Password */}
-        <section className="rounded-2xl border border-luxury-border bg-white shadow-card overflow-hidden">
-          <div className="flex items-center gap-2 border-b border-luxury-border px-5 py-4">
-            <Lock className="h-[15px] w-[15px] text-gold-500" />
-            <h2 className="text-sm font-semibold text-luxury-white">Mot de passe</h2>
           </div>
-          <form action={changePassword} className="space-y-4 p-5">
-            <div>
-              <label className={labelClass}>Mot de passe actuel</label>
-              <input name="currentPassword" required type="password" autoComplete="current-password" className={inputClass} />
-            </div>
-            <div>
-              <label className={labelClass}>Nouveau mot de passe</label>
-              <input name="newPassword" required type="password" minLength={12} autoComplete="new-password" className={inputClass} />
-            </div>
-            <div>
-              <label className={labelClass}>Confirmer le nouveau mot de passe</label>
-              <input name="confirmPassword" required type="password" minLength={12} autoComplete="new-password" className={inputClass} />
-            </div>
-            <div className="rounded-xl bg-luxury-dark px-4 py-3 border border-luxury-border">
-              <p className="text-[11px] text-luxury-muted leading-relaxed">
-                Minimum 12 caractères · 1 majuscule · 1 chiffre · 1 caractère spécial
-              </p>
-            </div>
-            <SubmitButton>Mettre à jour le mot de passe</SubmitButton>
-          </form>
-        </section>
-      </div>
+          <div>
+            <label className={labelClass}>Téléphone</label>
+            <input
+              name="phone"
+              defaultValue={profile?.phone ?? ""}
+              placeholder="+212 6XX XXX XXX"
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Adresse e-mail</label>
+            <input
+              value={session.email}
+              disabled
+              className="input-luxury w-full opacity-50 cursor-not-allowed"
+            />
+            <p className="mt-1 text-[11px] text-luxury-muted">L&apos;adresse e-mail ne peut pas être modifiée.</p>
+          </div>
+          <SubmitButton>Enregistrer les modifications</SubmitButton>
+        </form>
+      </section>
 
       {/* ━━━━━━━━━━━━━━━  ADDRESSES  ━━━━━━━━━━━━━━━ */}
       <section className="rounded-2xl border border-luxury-border bg-white shadow-card overflow-hidden">
@@ -312,6 +280,34 @@ export default async function DashboardProfilePage() {
             </form>
           </div>
         </div>
+      </section>
+
+      {/* ━━━━━━━━━━━━━━━  PASSWORD  ━━━━━━━━━━━━━━━ */}
+      <section className="rounded-2xl border border-luxury-border bg-white shadow-card overflow-hidden">
+        <div className="flex items-center gap-2 border-b border-luxury-border px-5 py-4">
+          <Lock className="h-[15px] w-[15px] text-gold-500" />
+          <h2 className="text-sm font-semibold text-luxury-white">Mot de passe</h2>
+        </div>
+        <form action={changePassword} className="space-y-4 p-5">
+          <div>
+            <label className={labelClass}>Mot de passe actuel</label>
+            <input name="currentPassword" required type="password" autoComplete="current-password" className={inputClass} />
+          </div>
+          <div>
+            <label className={labelClass}>Nouveau mot de passe</label>
+            <input name="newPassword" required type="password" minLength={12} autoComplete="new-password" className={inputClass} />
+          </div>
+          <div>
+            <label className={labelClass}>Confirmer le nouveau mot de passe</label>
+            <input name="confirmPassword" required type="password" minLength={12} autoComplete="new-password" className={inputClass} />
+          </div>
+          <div className="rounded-xl bg-luxury-dark px-4 py-3 border border-luxury-border">
+            <p className="text-[11px] text-luxury-muted leading-relaxed">
+              Minimum 12 caractères · 1 majuscule · 1 chiffre · 1 caractère spécial
+            </p>
+          </div>
+          <SubmitButton>Mettre à jour le mot de passe</SubmitButton>
+        </form>
       </section>
 
       {/* ━━━━━━━━━━━━━━━  LOGIN SESSIONS  ━━━━━━━━━━━━━━━ */}
