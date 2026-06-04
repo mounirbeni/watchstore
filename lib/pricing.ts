@@ -79,14 +79,16 @@ export interface DepositMethod {
  * production; safe placeholders are used otherwise so the flow never breaks.
  */
 const merchant = {
-  bankName: process.env["DEPOSIT_BANK_NAME"] ?? "Banque Populaire",
-  bankRib: process.env["DEPOSIT_BANK_RIB"] ?? "000 000 0000000000000000 00",
-  bankHolder: process.env["DEPOSIT_BANK_HOLDER"] ?? "ChronoCraft SARL",
-  cashplusPhone: process.env["DEPOSIT_CASHPLUS_PHONE"] ?? "06 00 00 00 00",
-  cashplusName: process.env["DEPOSIT_CASHPLUS_NAME"] ?? "ChronoCraft",
-  wafacashPhone: process.env["DEPOSIT_WAFACASH_PHONE"] ?? "06 00 00 00 00",
-  wafacashName: process.env["DEPOSIT_WAFACASH_NAME"] ?? "ChronoCraft",
-  whatsapp: process.env["DEPOSIT_WHATSAPP"] ?? "06 00 00 00 00",
+  bankName: process.env["DEPOSIT_BANK_NAME"] ?? "CIH Bank",
+  bankRib: process.env["DEPOSIT_BANK_RIB"] ?? "230 450 3396820211017700 73",
+  bankIban: process.env["DEPOSIT_BANK_IBAN"] ?? "MA64 2304 5033 9682 0211 0177 0073",
+  bankSwift: process.env["DEPOSIT_BANK_SWIFT"] ?? "CIHMMAMC",
+  bankHolder: process.env["DEPOSIT_BANK_HOLDER"] ?? "CHRONO CRAFT",
+  cashplusPhone: process.env["DEPOSIT_CASHPLUS_PHONE"] ?? "+21260439975",
+  cashplusName: process.env["DEPOSIT_CASHPLUS_NAME"] ?? "CHRONO CRAFT",
+  wafacashPhone: process.env["DEPOSIT_WAFACASH_PHONE"] ?? "+21260439975",
+  wafacashName: process.env["DEPOSIT_WAFACASH_NAME"] ?? "CHRONO CRAFT",
+  whatsapp: process.env["DEPOSIT_WHATSAPP"] ?? "+21260439975",
 };
 
 export function getDepositMethods(depositLabel: string): DepositMethod[] {
@@ -99,8 +101,10 @@ export function getDepositMethods(depositLabel: string): DepositMethod[] {
       instructions: [
         `Effectuez un virement/versement de ${depositLabel} sur le compte ci-dessous.`,
         `Banque : ${merchant.bankName}`,
-        `RIB : ${merchant.bankRib}`,
         `Bénéficiaire : ${merchant.bankHolder}`,
+        `RIB : ${merchant.bankRib}`,
+        `IBAN : ${merchant.bankIban}`,
+        `SWIFT : ${merchant.bankSwift}`,
         "Indiquez votre numéro de commande dans le motif.",
         "Saisissez ensuite la référence du virement ci-dessous.",
       ],
