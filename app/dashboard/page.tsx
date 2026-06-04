@@ -1,6 +1,7 @@
 import type React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { NotificationCategory } from "@prisma/client";
 import { db } from "@/lib/db";
 import { requireAuth } from "@/lib/session";
 import { formatPrice, formatDate, timeAgo } from "@/lib/utils";
@@ -59,7 +60,19 @@ export default async function DashboardPage() {
       },
     }),
     db.notification.findMany({
-      where: { userId: session.userId },
+      where: {
+        userId: session.userId,
+        category: {
+          in: [
+            NotificationCategory.ORDER,
+            NotificationCategory.PAYMENT,
+            NotificationCategory.RESERVATION,
+            NotificationCategory.SHIPPING,
+            NotificationCategory.ACCOUNT,
+            NotificationCategory.SECURITY,
+          ],
+        },
+      },
       orderBy: { createdAt: "desc" },
       take: 8,
     }),

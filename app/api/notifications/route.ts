@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/session";
+import { NotificationCategory } from "@prisma/client";
 import type { Prisma } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
+
+const CLIENT_CATEGORIES: NotificationCategory[] = [
+  NotificationCategory.ORDER,
+  NotificationCategory.PAYMENT,
+  NotificationCategory.RESERVATION,
+  NotificationCategory.SHIPPING,
+  NotificationCategory.ACCOUNT,
+  NotificationCategory.SECURITY,
+];
 
 export async function GET(req: NextRequest) {
   const user = await getCurrentUser();
@@ -15,8 +25,14 @@ export async function GET(req: NextRequest) {
   const q = searchParams.get("q")?.trim();
   const onlyUnread = searchParams.get("unread") === "1";
 
-  const where: Prisma.NotificationWhereInput = { userId: user.userId };
-  if (category && category !== "ALL") where.category = category as Prisma.NotificationWhereInput["category"];
+  const where: Prisma.NotificationWhereInput = {
+    userId: user.userId,
+    category: { in: CLIENT_CATEGORIES },
+  };
+
+  if (category && category !== "ALL" && CLIENT_CATEGORIES.includes(category as NotificationCategory)) {
+    where.category = category as NotificationCategory;
+  }
   if (onlyUnread) where.isRead = false;
   if (q) {
     where.OR = [
@@ -27,7 +43,7 @@ export async function GET(req: NextRequest) {
 
   const [items, unreadCount, total] = await Promise.all([
     db.notification.findMany({ where, orderBy: { createdAt: "desc" }, take: limit }),
-    db.notification.count({ where: { userId: user.userId, isRead: false } }),
+    db.notification.count({ where: { userId: user.userId, isRead: false, category: { in: CLIENT_CATEGORIES } } }),
     db.notification.count({ where }),
   ]);
 

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { requireAuth } from "@/lib/session";
 import { db } from "@/lib/db";
+import { NotificationCategory } from "@prisma/client";
 import DashboardNav from "@/components/dashboard/DashboardNav";
 import MobileTabBar from "@/components/layout/MobileTabBar";
 
@@ -13,7 +14,20 @@ export default async function ClientDashboardLayout({ children }: { children: Re
   }
 
   const unreadCount = await db.notification.count({
-    where: { userId: session.userId, isRead: false },
+    where: {
+      userId: session.userId,
+      isRead: false,
+      category: {
+        in: [
+          NotificationCategory.ORDER,
+          NotificationCategory.PAYMENT,
+          NotificationCategory.RESERVATION,
+          NotificationCategory.SHIPPING,
+          NotificationCategory.ACCOUNT,
+          NotificationCategory.SECURITY,
+        ],
+      },
+    },
   });
 
   return (

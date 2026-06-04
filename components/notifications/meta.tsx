@@ -1,5 +1,5 @@
 import {
-  ShoppingBag, CreditCard, CalendarClock, Truck, User, ShieldAlert, Package, Settings,
+  ShoppingBag, CreditCard, CalendarClock, Truck, User, ShieldAlert,
   type LucideIcon,
 } from "lucide-react";
 
@@ -21,8 +21,6 @@ export const CATEGORY_META: Record<string, { label: string; Icon: LucideIcon }> 
   SHIPPING:    { label: "Livraison",     Icon: Truck },
   ACCOUNT:     { label: "Compte",        Icon: User },
   SECURITY:    { label: "Sécurité",      Icon: ShieldAlert },
-  INVENTORY:   { label: "Stock",         Icon: Package },
-  SYSTEM:      { label: "Système",       Icon: Settings },
 };
 
 export const CATEGORIES = Object.keys(CATEGORY_META);
