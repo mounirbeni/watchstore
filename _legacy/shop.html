@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Boutique — LuxWatch Maroc</title>
+    <meta name="description" content="Parcourez nos 65 montres de luxe. Filtrez par catégorie, prix et marque. Livraison partout au Maroc.">
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/premium.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/ux-fixes.css">
+    <link rel="stylesheet" href="css/luxury-final.css">
+    <link rel="stylesheet" href="css/mobile-app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<div class="page-header">
+    <div class="container">
+        <h1>Notre Boutique</h1>
+        <div class="breadcrumb">
+            <a href="index.html">Accueil</a><span>/</span><span>Boutique</span>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="shop-layout">
+        <!-- Sidebar -->
+        <aside class="shop-sidebar hidden-mobile" id="shopSidebar">
+            <div class="filter-group">
+                <h4>Catégories</h4>
+                <label class="filter-option"><input type="checkbox" value="homme" class="cat-filter"> Homme <span class="filter-count">(15)</span></label>
+                <label class="filter-option"><input type="checkbox" value="femme" class="cat-filter"> Femme <span class="filter-count">(15)</span></label>
+                <label class="filter-option"><input type="checkbox" value="sport" class="cat-filter"> Sport <span class="filter-count">(13)</span></label>
+                <label class="filter-option"><input type="checkbox" value="classique" class="cat-filter"> Classique <span class="filter-count">(12)</span></label>
+                <label class="filter-option"><input type="checkbox" value="smart" class="cat-filter"> Smart Watch <span class="filter-count">(10)</span></label>
+            </div>
+            <div class="filter-group">
+                <h4>Prix (MAD)</h4>
+                <input type="range" class="price-slider" min="0" max="10000" value="10000" id="priceSlider">
+                <div class="price-inputs">
+                    <input type="number" placeholder="Min" id="priceMin" value="0">
+                    <input type="number" placeholder="Max" id="priceMax" value="10000">
+                </div>
+            </div>
+            <div class="filter-group">
+                <h4>Marque</h4>
+                <label class="filter-option"><input type="checkbox" value="Royal" class="brand-filter"> Royal</label>
+                <label class="filter-option"><input type="checkbox" value="Elegance" class="brand-filter"> Elegance</label>
+                <label class="filter-option"><input type="checkbox" value="Heritage" class="brand-filter"> Heritage</label>
+                <label class="filter-option"><input type="checkbox" value="SmartPro" class="brand-filter"> SmartPro</label>
+                <label class="filter-option"><input type="checkbox" value="Diamant" class="brand-filter"> Diamant</label>
+                <label class="filter-option"><input type="checkbox" value="Diver" class="brand-filter"> Diver</label>
+                <label class="filter-option"><input type="checkbox" value="Executive" class="brand-filter"> Executive</label>
+            </div>
+            <div class="filter-group">
+                <h4>Statut</h4>
+                <label class="filter-option"><input type="checkbox" value="new" class="status-filter"> Nouveautés</label>
+                <label class="filter-option"><input type="checkbox" value="sale" class="status-filter"> En promotion</label>
+            </div>
+        </aside>
+
+        <!-- Products -->
+        <div class="shop-main">
+            <button class="btn btn-dark btn-sm mobile-filter-toggle" id="filterToggle">
+                <i class="fas fa-sliders-h"></i> Filtrer &amp; Trier
+            </button>
+            <div class="shop-toolbar">
+                <p id="resultCount">Affichage de 65 produits</p>
+                <select class="sort-select" id="sortSelect">
+                    <option value="default">Trier par défaut</option>
+                    <option value="price-asc">Prix croissant</option>
+                    <option value="price-desc">Prix décroissant</option>
+                    <option value="name-asc">Nom A–Z</option>
+                    <option value="rating">Meilleures notes</option>
+                    <option value="newest">Nouveautés d'abord</option>
+                </select>
+            </div>
+            <div class="products-grid" id="shopProducts"></div>
+        </div>
+    </div>
+</div>
+
+<div class="filter-backdrop" id="filterBackdrop" aria-hidden="true"></div>
+
+<div id="site-footer"></div>
+<div id="site-ui"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js?v=ios-lang3"></script>
+<script src="js/luxury-ui.js"></script>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const container   = document.getElementById('shopProducts');
+    const resultCount = document.getElementById('resultCount');
+    const sortSel     = document.getElementById('sortSelect');
+    const priceSlider = document.getElementById('priceSlider');
+    const priceMin    = document.getElementById('priceMin');
+    const priceMax    = document.getElementById('priceMax');
+    const filterToggle = document.getElementById('filterToggle');
+    const sidebar     = document.getElementById('shopSidebar');
+    const backdrop    = document.getElementById('filterBackdrop');
+
+    // Read URL params (both ? and # based)
+    function getParam(key) {
+        const qs = new URLSearchParams(window.location.search);
+        const h  = new URLSearchParams(window.location.hash.substring(1));
+        return qs.get(key) || h.get(key);
+    }
+
+    const urlCat    = getParam('cat');
+    const urlSearch = getParam('search');
+    const urlPromo  = getParam('promo');
+
+    if (urlCat) {
+        document.querySelectorAll('.cat-filter').forEach(cb => {
+            if (cb.value === urlCat) cb.checked = true;
+        });
+    }
+    if (urlPromo) {
+        document.querySelectorAll('.status-filter').forEach(cb => {
+            if (cb.value === 'sale') cb.checked = true;
+        });
+    }
+
+    function getFiltered() {
+        let list = [...PRODUCTS];
+        if (urlSearch) {
+            const q = urlSearch.toLowerCase();
+            list = list.filter(p =>
+                p.name.toLowerCase().includes(q) ||
+                p.brand.toLowerCase().includes(q) ||
+                p.category.toLowerCase().includes(q) ||
+                p.description.toLowerCase().includes(q)
+            );
+        }
+        const cats = [...document.querySelectorAll('.cat-filter:checked')].map(c => c.value);
+        if (cats.length) list = list.filter(p => cats.includes(p.category));
+        const brands = [...document.querySelectorAll('.brand-filter:checked')].map(c => c.value);
+        if (brands.length) list = list.filter(p => brands.includes(p.brand));
+        const statuses = [...document.querySelectorAll('.status-filter:checked')].map(c => c.value);
+        if (statuses.includes('new'))  list = list.filter(p => p.isNew);
+        if (statuses.includes('sale')) list = list.filter(p => p.isSale);
+        const min = parseInt(priceMin.value) || 0;
+        const max = parseInt(priceMax.value) || 99999;
+        list = list.filter(p => p.price >= min && p.price <= max);
+        const sort = sortSel.value;
+        if (sort === 'price-asc')  list.sort((a, b) => a.price - b.price);
+        if (sort === 'price-desc') list.sort((a, b) => b.price - a.price);
+        if (sort === 'name-asc')   list.sort((a, b) => a.name.localeCompare(b.name));
+        if (sort === 'rating')     list.sort((a, b) => b.rating - a.rating);
+        if (sort === 'newest')     list.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+        return list;
+    }
+
+    function render() {
+        const list = getFiltered();
+        container.innerHTML = list.length
+            ? list.map(p => createProductCard(p)).join('')
+            : `<div class="empty-state empty-state--full">
+                 <i class="fas fa-search"></i>
+                 <h3>Aucun produit trouvé</h3>
+                 <p>Essayez de modifier vos filtres.</p>
+                 <button class="btn btn-outline-gold" onclick="location.reload()">Réinitialiser</button>
+               </div>`;
+        resultCount.textContent = `${list.length} produit${list.length > 1 ? 's' : ''} trouvé${list.length > 1 ? 's' : ''}`;
+    }
+
+    document.querySelectorAll('.cat-filter,.brand-filter,.status-filter').forEach(cb => cb.addEventListener('change', render));
+    sortSel.addEventListener('change', render);
+    priceSlider.addEventListener('input', () => { priceMax.value = priceSlider.value; render(); });
+    priceMin.addEventListener('change', render);
+    priceMax.addEventListener('change', () => { priceSlider.value = priceMax.value; render(); });
+
+    function closeFilters() {
+        sidebar.classList.add('hidden-mobile');
+        sidebar.classList.remove('show-mobile');
+        backdrop?.classList.remove('is-visible');
+        backdrop?.setAttribute('aria-hidden', 'true');
+    }
+
+    filterToggle?.addEventListener('click', () => {
+        sidebar.classList.toggle('hidden-mobile');
+        sidebar.classList.toggle('show-mobile');
+        const open = sidebar.classList.contains('show-mobile');
+        backdrop?.classList.toggle('is-visible', open);
+        backdrop?.setAttribute('aria-hidden', open ? 'false' : 'true');
+    });
+    backdrop?.addEventListener('click', closeFilters);
+
+    render();
+});
+</script>
+</body>
+</html>

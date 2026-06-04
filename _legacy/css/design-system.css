@@ -1,0 +1,306 @@
+/* ============================================================
+   LuxWatch — Premium Design System
+   Palette: White · Off-White · Dark · Gold only
+   ============================================================ */
+
+:root {
+    --white:       #FFFFFF;
+    --off-white:   #F8F8F6;
+    --dark:        #1A1A1A;
+    --dark-soft:   #2A2A2A;
+    --gold:        #C9A86A;
+    --gold-dark:   #A68B4B;
+    --gold-light:  #D9C08F;
+    --gold-fill:   rgba(201, 168, 106, 0.12);
+    --gold-ring:   rgba(201, 168, 106, 0.35);
+
+    --ios-bg:            var(--off-white);
+    --ios-bg-card:       var(--white);
+    --ios-bg-elevated:   var(--white);
+    --ios-bg-grouped:    var(--off-white);
+
+    --ios-label:         var(--dark);
+    --ios-label-2:       rgba(26, 26, 26, 0.62);
+    --ios-label-3:       rgba(26, 26, 26, 0.38);
+    --ios-label-4:       rgba(26, 26, 26, 0.2);
+
+    --ios-gray:          rgba(26, 26, 26, 0.5);
+    --ios-gray-2:        rgba(26, 26, 26, 0.4);
+    --ios-gray-3:        rgba(26, 26, 26, 0.28);
+    --ios-gray-4:        rgba(26, 26, 26, 0.16);
+    --ios-gray-5:        rgba(26, 26, 26, 0.08);
+    --ios-gray-6:        var(--off-white);
+    --ios-separator:     rgba(26, 26, 26, 0.12);
+    --ios-separator-opaque: #E8E8E4;
+
+    --accent:            var(--gold);
+    --accent-muted:      var(--gold-fill);
+    --ios-green:         var(--ios-label-2);
+    --ios-red:           var(--gold-dark);
+    --ios-blue:          var(--ios-label-2);
+    --ios-orange:        var(--gold);
+    --surface-dark:      var(--dark);
+    --surface-dark-2:    var(--dark-soft);
+    --bg-soft:           var(--off-white);
+
+    --shadow-card:   0 2px 16px rgba(26, 26, 26, 0.06);
+    --shadow-raised: 0 8px 32px rgba(26, 26, 26, 0.1);
+    --shadow-sheet:  0 -8px 48px rgba(26, 26, 26, 0.14);
+
+    --r-xs:  10px;
+    --r-sm:  14px;
+    --r-md:  18px;
+    --r-lg:  22px;
+    --r-xl:  28px;
+    --r-2xl: 36px;
+    --r-pill: 999px;
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+
+    --font-ui: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
+               'Helvetica Neue', 'Segoe UI', Roboto, Arial, sans-serif;
+
+    --spring: cubic-bezier(0.34, 1.2, 0.64, 1);
+    --ease:   cubic-bezier(0.25, 0.1, 0.25, 1);
+    --t-fast: 0.18s var(--ease);
+    --t-mid:  0.28s var(--ease);
+    --t-slow: 0.4s var(--ease);
+    --t-spring: 0.45s var(--spring);
+
+    --tab-bar-h: calc(49px + env(safe-area-inset-bottom, 20px));
+    --nav-bar-h: 56px;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+    /* Legacy aliases */
+    --primary: var(--gold);
+    --text: var(--dark);
+    --text-muted: var(--ios-label-2);
+    --border: var(--ios-separator-opaque);
+}
+
+/* Typography scale */
+.lw-display {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    color: var(--dark);
+}
+.lw-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--dark);
+}
+.lw-body-lg {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ios-label-2);
+}
+.lw-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+}
+
+/* Global shape language — no sharp corners */
+button,
+.btn,
+input,
+select,
+textarea,
+.product-card,
+.contact-card,
+.filter-group,
+.checkout-section,
+.order-summary-card,
+.cart-summary,
+.testimonial-card,
+.value-card,
+.stat-item,
+.promo-banner,
+.newsletter,
+.brands-panel,
+.brand-card,
+.featured-head,
+.products-tabs,
+.tab-btn,
+.ios-segment,
+.segment-btn,
+.thumb-images img,
+.main-image,
+.main-image img,
+.gallery-item,
+.category-card,
+.category-pill-img,
+.search-box,
+.toast,
+.payment-chip,
+.trust-item,
+.specs-table,
+.faq-items,
+.contact-form-card,
+.order-summary-card,
+.checkout-step-panel,
+.lux-card,
+.sheet-panel,
+.header,
+.top-bar,
+.dropdown-menu,
+.search-overlay-content,
+.tab-bar,
+.dot,
+.hero-arrow,
+.menu-toggle,
+.badge,
+.author-avatar,
+.order-item img,
+.cart-product img {
+    border-radius: var(--r-md);
+}
+
+.product-card,
+.promo-banner,
+.newsletter,
+.brands-panel,
+.contact-form-card,
+.checkout-step-panel,
+.lux-card {
+    border-radius: var(--r-xl);
+}
+
+.btn,
+.tab-btn.active,
+.segment-btn.active,
+.social-link,
+.badge,
+.payment-option {
+    border-radius: var(--r-sm);
+}
+
+.btn-lg,
+.checkout-progress__step {
+    border-radius: var(--r-md);
+}
+
+.modal-content,
+.sheet-panel {
+    border-radius: var(--r-2xl) var(--r-2xl) 0 0;
+}
+
+@media (min-width: 769px) {
+    .modal-content {
+        border-radius: var(--r-2xl);
+    }
+}
+
+/*
+ * Single document scrollport
+ * Do NOT set overflow-x: hidden on both html and body — that forces overflow-y: auto
+ * on each and produces two vertical scrollbars (CSS overflow spec).
+ */
+html {
+    overflow-x: clip;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+}
+
+body {
+    overflow-x: clip;
+    min-height: 100%;
+}
+
+html.is-scroll-locked {
+    overflow: hidden;
+}
+
+@supports not (overflow: clip) {
+    html {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    body {
+        overflow-x: visible;
+        overflow-y: visible;
+    }
+}
+
+/* App shell */
+html.lw-app {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body.app-shell {
+    background: var(--off-white);
+    color: var(--dark);
+    padding-bottom: var(--safe-bottom);
+    overscroll-behavior-y: none;
+}
+
+body.app-shell.has-tab-bar {
+    padding-bottom: calc(var(--tab-bar-h) + var(--safe-bottom));
+}
+
+body.app-shell.is-transitioning {
+    pointer-events: none;
+}
+
+.page-enter {
+    animation: pageEnter 0.42s var(--ease) both;
+}
+
+@keyframes pageEnter {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.text-gold { color: var(--gold); }
+.text-muted { color: var(--ios-label-2); }
+.bg-surface { background: var(--white); }
+.bg-grouped { background: var(--off-white); }
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+}
+
+.is-pressed,
+[data-pressable].is-pressed {
+    transform: scale(0.97);
+    opacity: 0.92;
+    transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--dark);
+    border: 1px solid var(--ios-separator-opaque);
+}
+.btn-outline:hover {
+    background: var(--ios-gray-5);
+    border-color: var(--dark);
+}

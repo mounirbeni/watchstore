@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#F8F8F6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Admin Dashboard - LuxWatch Maroc</title>
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/premium.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/ux-fixes.css">
+    <link rel="stylesheet" href="css/luxury-final.css">
+    <link rel="stylesheet" href="css/mobile-app.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body data-dashboard="admin" data-required-role="admin">
+
+<div id="site-header"></div>
+
+<main class="dashboard-shell dashboard-shell--admin">
+    <aside class="dashboard-sidebar" aria-label="Navigation admin">
+        <a href="index.html" class="dashboard-brand" aria-label="Retour accueil LuxWatch">
+            <span class="dashboard-brand__mark">LW</span>
+            <span>
+                <strong>Admin Console</strong>
+                <small>Operations</small>
+            </span>
+        </a>
+
+        <div class="dashboard-user">
+            <div class="dashboard-avatar">AM</div>
+            <div>
+                <strong>Admin Manager</strong>
+                <span>Role: Owner</span>
+            </div>
+        </div>
+
+        <nav class="dashboard-nav">
+            <button class="dashboard-nav__item is-active" type="button" data-dashboard-tab="analytics"><i class="fas fa-chart-simple"></i> Analytics</button>
+            <button class="dashboard-nav__item" type="button" data-dashboard-tab="orders"><i class="fas fa-boxes-stacked"></i> Orders</button>
+            <button class="dashboard-nav__item" type="button" data-dashboard-tab="products"><i class="fas fa-gem"></i> Products</button>
+            <button class="dashboard-nav__item" type="button" data-dashboard-tab="customers"><i class="fas fa-users"></i> Customers</button>
+            <button class="dashboard-nav__item" type="button" data-dashboard-tab="notifications"><i class="fas fa-bullhorn"></i> Notifications</button>
+            <button class="dashboard-nav__item" type="button" data-dashboard-tab="audit"><i class="fas fa-clipboard-list"></i> Audit Logs</button>
+            <button class="dashboard-nav__item" type="button" data-dashboard-tab="security"><i class="fas fa-shield-halved"></i> Security</button>
+        </nav>
+
+        <div class="dashboard-sidebar__footer">
+            <div class="security-chip"><i class="fas fa-user-shield"></i> RBAC enforced</div>
+            <button class="dashboard-nav__item dashboard-nav__item--logout" type="button" data-logout><i class="fas fa-arrow-right-from-bracket"></i> Deconnexion</button>
+        </div>
+    </aside>
+
+    <section class="dashboard-workspace">
+        <header class="dashboard-topbar">
+            <div>
+                <span class="dashboard-kicker">Admin dashboard</span>
+                <h1>Business operations</h1>
+                <p>Revenue, commandes, produits, clients, securite et audit.</p>
+            </div>
+            <div class="dashboard-topbar__actions">
+                <button class="btn btn-ghost btn-sm" type="button" data-dashboard-action="export-report"><i class="fas fa-file-export"></i> Export</button>
+                <button class="btn btn-primary btn-sm" type="button" data-tab-open="products"><i class="fas fa-plus"></i> Add watch</button>
+            </div>
+        </header>
+
+        <section class="dashboard-panel is-active" id="analytics" data-dashboard-panel>
+            <div class="security-banner">
+                <i class="fas fa-shield-halved"></i>
+                <div>
+                    <strong>Admin security active</strong>
+                    <span>Session timeout, role checks, CSRF token validation and sensitive action confirmation are enabled in this front-end prototype. Server enforcement is required for production.</span>
+                </div>
+            </div>
+
+            <div class="dashboard-grid dashboard-grid--stats">
+                <article class="metric-card">
+                    <span>Revenue</span>
+                    <strong>428k MAD</strong>
+                    <small>+18.4% vs last month</small>
+                </article>
+                <article class="metric-card">
+                    <span>Orders</span>
+                    <strong>186</strong>
+                    <small>24 require action</small>
+                </article>
+                <article class="metric-card">
+                    <span>Reservations</span>
+                    <strong>47</strong>
+                    <small>11 expire in 48h</small>
+                </article>
+                <article class="metric-card">
+                    <span>Conversion</span>
+                    <strong>7.8%</strong>
+                    <small>+1.2 point</small>
+                </article>
+                <article class="metric-card">
+                    <span>Customers</span>
+                    <strong>2,418</strong>
+                    <small>+126 this month</small>
+                </article>
+                <article class="metric-card">
+                    <span>Traffic</span>
+                    <strong>38.2k</strong>
+                    <small>Organic 52%</small>
+                </article>
+            </div>
+
+            <div class="dashboard-grid dashboard-grid--main">
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Revenue pipeline</h2>
+                            <p>Commandes, reservations et paiements par statut.</p>
+                        </div>
+                    </div>
+                    <div class="analytics-bars" id="adminRevenueBars"></div>
+                </article>
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Operational queue</h2>
+                            <p>Actions prioritaires du jour.</p>
+                        </div>
+                    </div>
+                    <div class="status-list" id="adminQueue"></div>
+                </article>
+            </div>
+        </section>
+
+        <section class="dashboard-panel" id="orders" data-dashboard-panel>
+            <div class="dashboard-card">
+                <div class="dashboard-card__head">
+                    <div>
+                        <h2>Order Management</h2>
+                        <p>Update statuses, refunds, reservations, payments and delivery tracking.</p>
+                    </div>
+                    <div class="dashboard-tools">
+                        <input class="dashboard-search" type="search" placeholder="Search orders" data-table-search="adminOrdersTable">
+                        <select class="dashboard-select" data-table-filter="adminOrdersTable">
+                            <option value="">All statuses</option>
+                            <option value="Pending approval">Pending approval</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-shell">
+                    <table class="dashboard-table" id="adminOrdersTable">
+                        <thead>
+                            <tr><th>Order</th><th>Customer</th><th>Status</th><th>Payment</th><th>Delivery</th><th>Total</th><th>Action</th></tr>
+                        </thead>
+                        <tbody id="adminOrdersBody"></tbody>
+                    </table>
+                </div>
+                <div class="pagination-bar" data-pagination-for="adminOrdersTable"></div>
+            </div>
+        </section>
+
+        <section class="dashboard-panel" id="products" data-dashboard-panel>
+            <div class="dashboard-grid dashboard-grid--main">
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Product Management</h2>
+                            <p>Add, edit, inventory, categories and featured products.</p>
+                        </div>
+                    </div>
+                    <form class="dashboard-form" data-secure-form="product">
+                        <input type="hidden" name="csrf">
+                        <div class="form-row">
+                            <label>Watch name<input required name="name" placeholder="Heritage Automatic"></label>
+                            <label>SKU<input required name="sku" placeholder="LW-HER-042"></label>
+                        </div>
+                        <div class="form-row">
+                            <label>Price<input required type="number" min="1" name="price" placeholder="3499"></label>
+                            <label>Inventory<input required type="number" min="0" name="inventory" placeholder="12"></label>
+                        </div>
+                        <label>Category<select required name="category"><option value="">Select category</option><option>homme</option><option>femme</option><option>sport</option><option>classique</option><option>smart</option></select></label>
+                        <label>Image URL<input type="url" name="image" placeholder="https://..."></label>
+                        <label class="checkbox-line"><input type="checkbox" name="featured"> Featured product</label>
+                        <button class="btn btn-primary" type="submit">Save watch</button>
+                    </form>
+                </article>
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Inventory snapshot</h2>
+                            <p>Low stock and catalogue health.</p>
+                        </div>
+                    </div>
+                    <div class="status-list" id="adminInventory"></div>
+                </article>
+            </div>
+            <div class="dashboard-card">
+                <div class="dashboard-card__head">
+                    <div>
+                        <h2>Catalogue</h2>
+                        <p>Editable watch records with inventory status.</p>
+                    </div>
+                </div>
+                <div class="table-shell">
+                    <table class="dashboard-table" id="adminProductsTable">
+                        <thead><tr><th>Product</th><th>Category</th><th>Inventory</th><th>Price</th><th>Featured</th><th>Actions</th></tr></thead>
+                        <tbody id="adminProductsBody"></tbody>
+                    </table>
+                </div>
+                <div class="pagination-bar" data-pagination-for="adminProductsTable"></div>
+            </div>
+        </section>
+
+        <section class="dashboard-panel" id="customers" data-dashboard-panel>
+            <div class="dashboard-card">
+                <div class="dashboard-card__head">
+                    <div>
+                        <h2>Customer Management</h2>
+                        <p>Profiles, purchase history, reservations and account controls.</p>
+                    </div>
+                    <input class="dashboard-search" type="search" placeholder="Search customers" data-table-search="adminCustomersTable">
+                </div>
+                <div class="table-shell">
+                    <table class="dashboard-table" id="adminCustomersTable">
+                        <thead><tr><th>Customer</th><th>Status</th><th>Orders</th><th>Lifetime value</th><th>Reservation</th><th>Actions</th></tr></thead>
+                        <tbody id="adminCustomersBody"></tbody>
+                    </table>
+                </div>
+                <div class="pagination-bar" data-pagination-for="adminCustomersTable"></div>
+            </div>
+        </section>
+
+        <section class="dashboard-panel" id="notifications" data-dashboard-panel>
+            <div class="dashboard-grid dashboard-grid--main">
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Notification Center</h2>
+                            <p>Send announcements, reservation reminders and order updates.</p>
+                        </div>
+                    </div>
+                    <form class="dashboard-form" data-secure-form="announcement">
+                        <input type="hidden" name="csrf">
+                        <label>Audience<select required name="audience"><option>All customers</option><option>Reservation expiring</option><option>Pending payment</option><option>VIP customers</option></select></label>
+                        <label>Message type<select required name="type"><option>Announcement</option><option>Reservation reminder</option><option>Order update</option></select></label>
+                        <label>Message<textarea required name="message" rows="5" maxlength="280" placeholder="Write a clear operational message"></textarea></label>
+                        <button class="btn btn-primary" type="submit">Send notification</button>
+                    </form>
+                </article>
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Recent sends</h2>
+                            <p>All outbound messages are audit tracked.</p>
+                        </div>
+                    </div>
+                    <div class="notification-list" id="adminNotificationLog"></div>
+                </article>
+            </div>
+        </section>
+
+        <section class="dashboard-panel" id="audit" data-dashboard-panel>
+            <div class="dashboard-card">
+                <div class="dashboard-card__head">
+                    <div>
+                        <h2>Audit Logs</h2>
+                        <p>Every important action is tracked with actor, target and timestamp.</p>
+                    </div>
+                    <button class="btn btn-ghost btn-sm" type="button" data-dashboard-action="export-audit">Export logs</button>
+                </div>
+                <div class="table-shell">
+                    <table class="dashboard-table" id="adminAuditTable">
+                        <thead><tr><th>Time</th><th>Actor</th><th>Action</th><th>Target</th><th>Risk</th></tr></thead>
+                        <tbody id="adminAuditBody"></tbody>
+                    </table>
+                </div>
+                <div class="pagination-bar" data-pagination-for="adminAuditTable"></div>
+            </div>
+        </section>
+
+        <section class="dashboard-panel" id="security" data-dashboard-panel>
+            <div class="dashboard-grid dashboard-grid--main">
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Security Requirements</h2>
+                            <p>Controls required for production operation.</p>
+                        </div>
+                    </div>
+                    <div class="security-checklist">
+                        <label><input type="checkbox" checked disabled> RBAC role gate</label>
+                        <label><input type="checkbox" checked disabled> Secure session timeout</label>
+                        <label><input type="checkbox" checked disabled> CSRF token validation</label>
+                        <label><input type="checkbox" checked disabled> XSS-safe rendering policy</label>
+                        <label><input type="checkbox" checked disabled> Input validation</label>
+                        <label><input type="checkbox" checked disabled> Rate limit guard</label>
+                        <label><input type="checkbox" checked disabled> Sensitive action confirmation</label>
+                        <label><input type="checkbox" checked disabled> Audit logging</label>
+                    </div>
+                </article>
+                <article class="dashboard-card">
+                    <div class="dashboard-card__head">
+                        <div>
+                            <h2>Admin sessions</h2>
+                            <p>Active device monitoring and timeout state.</p>
+                        </div>
+                    </div>
+                    <div class="security-grid">
+                        <div><span>Role</span><strong>Owner</strong></div>
+                        <div><span>Timeout</span><strong id="adminTimeout">15:00</strong></div>
+                        <div><span>CSRF</span><strong data-csrf-status>Active</strong></div>
+                        <div><span>Lockout</span><strong>5 attempts</strong></div>
+                    </div>
+                    <div class="status-list" id="adminSessions"></div>
+                </article>
+            </div>
+        </section>
+    </section>
+</main>
+
+<div id="site-ui"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js?v=ios-lang3"></script>
+<script src="js/luxury-ui.js"></script>
+<script src="js/app.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

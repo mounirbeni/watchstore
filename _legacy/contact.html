@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Contact — LuxWatch Maroc</title>
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/premium.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/ux-fixes.css">
+    <link rel="stylesheet" href="css/luxury-final.css">
+    <link rel="stylesheet" href="css/mobile-app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<div class="page-header">
+    <div class="container">
+        <h1>Contactez-Nous</h1>
+        <div class="breadcrumb"><a href="index.html">Accueil</a><span>/</span><span>Contact</span></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="contact-grid">
+        <!-- Left: cards + map -->
+        <div>
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <i class="fab fa-whatsapp"></i>
+                    <h4>WhatsApp</h4>
+                    <p><a href="https://wa.me/212600000000" target="_blank" rel="noopener">Écrire sur WhatsApp</a></p>
+                    <p class="contact-card__hint">Réponse en moins d'1h</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h4>Email</h4>
+                    <p><a href="mailto:contact@luxwatchmaroc.ma">contact@luxwatchmaroc.ma</a></p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-clock"></i>
+                    <h4>Horaires</h4>
+                    <p>Lun – Sam : 9h – 20h</p>
+                    <p>Dim : 10h – 16h</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h4>Localisation</h4>
+                    <p>Casablanca, Maroc</p>
+                    <p>Livraison nationale</p>
+                </div>
+            </div>
+            <div class="contact-map">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d106376.72691580588!2d-7.6898830128!3d33.57226817479!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7cd4778aa113b%3A0xb06c1d84f310fd3!2sCasablanca!5e0!3m2!1sfr!2sma!4v1700000000000!5m2!1sfr!2sma"
+                    allowfullscreen="" loading="lazy" title="Carte Casablanca"></iframe>
+            </div>
+            <div class="contact-social-wrap" id="contact-social"></div>
+        </div>
+
+        <!-- Right: form -->
+        <div class="contact-form-card">
+            <h3>Envoyez-nous un Message</h3>
+            <p>Nous vous répondrons dans les plus brefs délais — généralement sous 2h.</p>
+            <form id="contactForm">
+                <div class="form-row">
+                    <div class="form-group"><label>Prénom *</label><input type="text" required placeholder="Votre prénom"></div>
+                    <div class="form-group"><label>Nom *</label><input type="text" required placeholder="Votre nom"></div>
+                </div>
+                <div class="form-group"><label>Email *</label><input type="email" required placeholder="votre@email.com"></div>
+                <div class="form-group">
+                    <label>Sujet *</label>
+                    <select required>
+                        <option value="">Choisir un sujet…</option>
+                        <option>Question sur un produit</option>
+                        <option>Suivi de commande</option>
+                        <option>Retour / Échange</option>
+                        <option>Garantie / SAV</option>
+                        <option>Partenariat</option>
+                        <option>Autre</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Message *</label><textarea required placeholder="Votre message…"></textarea></div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-paper-plane"></i> Envoyer le Message
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ CTA -->
+<section class="newsletter newsletter--flush">
+    <div class="container">
+        <h2>Vous avez des questions ?</h2>
+        <p>Consultez notre FAQ pour trouver rapidement des réponses</p>
+        <div class="section-cta">
+            <a href="faq.html" class="btn btn-dark"><i class="fas fa-question-circle"></i> Voir la FAQ</a>
+        </div>
+    </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="site-ui"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js?v=ios-lang3"></script>
+<script src="js/luxury-ui.js"></script>
+<script src="js/app.js"></script>
+<script>
+document.getElementById('contactForm').addEventListener('submit', e => {
+    e.preventDefault();
+    showToast('Message envoyé ! Nous vous répondrons bientôt.');
+    e.target.reset();
+});
+</script>
+</body>
+</html>

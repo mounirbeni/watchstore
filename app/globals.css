@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-inter: "Inter", system-ui, sans-serif;
+    --font-playfair: "Playfair Display", Georgia, serif;
+    --font-mono: "JetBrains Mono", monospace;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --mobile-nav-h: 4.25rem;
+  }
+
+  * {
+    box-sizing: border-box;
+    border-color: #E8E8E6;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    @apply antialiased;
+    font-family: var(--font-inter);
+    background-color: #ffffff;
+    color: #1A1A1A;
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /*
+   * Bottom-nav clearance is applied per-layout via `.pb-mobile-nav`
+   * (only on surfaces that actually render the mobile tab bar), so admin
+   * and auth pages — which have no bottom nav — don't get dead space.
+   */
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair);
+    color: #1A1A1A;
+  }
+
+  input, select, textarea {
+    font-size: 16px;
+    color: #1A1A1A;
+  }
+
+  ::selection {
+    background-color: #c9a86a;
+    color: #000;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F7F7F5;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #D1D1CE;
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #c9a86a;
+  }
+}
+
+@layer components {
+  /* Gold accent text */
+  .gold-text {
+    color: #c9a86a;
+  }
+
+  /* Champagne-gold gradient text for headlines */
+  .gold-gradient-text {
+    background-image: linear-gradient(120deg, #d4a85c 0%, #c9a86a 50%, #b08f50 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* White frosted glass — for sticky header */
+  .glass {
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Standard card surface */
+  .card-luxury {
+    background-color: #ffffff;
+    border: 1px solid #E8E8E6;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  }
+
+  /* Primary CTA button */
+  .btn-gold {
+    @apply bg-gold-500 text-black font-semibold
+           hover:bg-gold-400 transition-all duration-200
+           disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98];
+  }
+
+  /* Outlined gold button */
+  .btn-outline-gold {
+    @apply border border-gold-500 text-gold-500 hover:bg-gold-500/8
+           transition-all duration-200 active:scale-[0.98];
+  }
+
+  /* Light-theme form input */
+  .input-luxury {
+    @apply bg-white border border-luxury-border text-luxury-white
+           placeholder-luxury-muted rounded-lg px-4 py-2.5
+           focus:outline-none focus:ring-2 focus:ring-gold-500/30 focus:border-gold-500
+           transition-colors duration-200;
+  }
+
+  /* Gold pill badge */
+  .badge-gold {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+           bg-gold-500/15 text-gold-600 border border-gold-500/25;
+  }
+
+  /* Skeleton loader */
+  .skeleton {
+    @apply animate-pulse bg-luxury-border rounded;
+  }
+
+  /* Horizontal rails — hide scrollbar, keep scroll */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer utilities {
+  .safe-top {
+    padding-top: var(--safe-top);
+  }
+  .safe-bottom {
+    padding-bottom: var(--safe-bottom);
+  }
+
+  /* Clears the fixed mobile tab bar; collapses to 0 on tablet/desktop. */
+  .pb-mobile-nav {
+    padding-bottom: calc(var(--mobile-nav-h) + var(--safe-bottom));
+  }
+  @media (min-width: 768px) {
+    .pb-mobile-nav {
+      padding-bottom: 0;
+    }
+  }
+}

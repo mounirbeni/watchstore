@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Mon Panier — LuxWatch Maroc</title>
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/premium.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/ux-fixes.css">
+    <link rel="stylesheet" href="css/luxury-final.css">
+    <link rel="stylesheet" href="css/mobile-app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<div class="page-header">
+    <div class="container">
+        <h1>Mon Panier</h1>
+        <div class="breadcrumb">
+            <a href="index.html">Accueil</a><span>/</span><span>Panier</span>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="cartContainer"></div>
+
+<div id="site-footer"></div>
+<div id="site-ui"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/components.js?v=ios-lang3"></script>
+<script src="js/luxury-ui.js"></script>
+<script src="js/app.js"></script>
+<script>
+function renderCart() {
+    const container = document.getElementById('cartContainer');
+    const items = getCart();
+
+    if (!items.length) {
+        container.innerHTML = `
+            <div class="lux-state">
+                <div class="lux-state__icon"><i class="fas fa-shopping-bag"></i></div>
+                <h3>Votre panier est vide</h3>
+                <p>Découvrez notre collection et réservez la montre qui vous correspond.</p>
+                <a href="shop.html" class="btn btn-primary btn-lg"><i class="fas fa-gem"></i> Explorer la boutique</a>
+            </div>`;
+        return;
+    }
+
+    let subtotal = 0;
+    let rows = '';
+    items.forEach(item => {
+        const p = PRODUCTS.find(x => x.id === item.id);
+        if (!p) return;
+        const line = p.price * item.qty;
+        subtotal += line;
+        rows += `
+            <div class="cart-row">
+                <div class="cart-product">
+                    <img src="${p.image}" alt="${p.name}">
+                    <div class="cart-product-info">
+                        <h4><a href="product.html#id=${p.id}">${p.name}</a></h4>
+                        <span>${p.brand}</span>
+                    </div>
+                </div>
+                <div class="cart-price">${formatPrice(p.price)}</div>
+                <div class="cart-qty">
+                    <button class="cart-qty-btn" onclick="updateCartQty(${p.id},${item.qty-1})">−</button>
+                    <span class="cart-qty-num">${item.qty}</span>
+                    <button class="cart-qty-btn" onclick="updateCartQty(${p.id},${item.qty+1})">+</button>
+                </div>
+                <div class="cart-total">${formatPrice(line)}</div>
+                <button class="cart-remove" onclick="removeFromCart(${p.id})" title="Supprimer"><i class="fas fa-trash-alt"></i></button>
+            </div>`;
+    });
+
+    const shipping = subtotal >= 500 ? 0 : 30;
+    const total    = subtotal + shipping;
+
+    container.innerHTML = `
+        <div class="cart-layout">
+            <div>
+                <div class="cart-table">
+                    <div class="cart-table-head">
+                        <div>Produit</div><div>Prix</div><div>Quantité</div><div>Total</div><div></div>
+                    </div>
+                    ${rows}
+                </div>
+                <div class="cart-continue">
+                    <a href="shop.html" class="btn btn-outline-gold btn-sm"><i class="fas fa-arrow-left"></i> Continuer mes achats</a>
+                </div>
+            </div>
+            <div class="cart-summary">
+                <h3>Résumé</h3>
+                <div class="summary-row"><span>Sous-total</span><span>${formatPrice(subtotal)}</span></div>
+                <div class="summary-row"><span>Livraison</span><span>${shipping === 0 ? '<strong class="text-gold">Gratuite</strong>' : formatPrice(shipping)}</span></div>
+                ${shipping > 0 ? `<p class="cart-free-note">Livraison gratuite dès 500 MAD</p>` : ''}
+                <div class="summary-row total"><span>Total</span><span>${formatPrice(total)}</span></div>
+                <a href="checkout.html" class="btn btn-reserve btn-block">
+                    <i class="fas fa-gem"></i> Réserver maintenant
+                </a>
+                <div class="coupon-form">
+                    <input type="text" placeholder="Code promo">
+                    <button class="btn btn-dark btn-sm" onclick="showToast('Code promo appliqué !')">Appliquer</button>
+                </div>
+                <div class="summary-trust">
+                    <div class="trust-item"><i class="fas fa-shield-alt"></i> Paiement 100% sécurisé</div>
+                    <div class="trust-item"><i class="fas fa-money-bill-wave"></i> Paiement à la livraison disponible</div>
+                    <div class="trust-item"><i class="fas fa-undo"></i> Retour gratuit sous 14 jours</div>
+                </div>
+            </div>
+        </div>`;
+}
+
+document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+</body>
+</html>
