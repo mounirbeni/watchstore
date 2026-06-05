@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
-import { createProductAction, setProductActiveAction, updateStockAction, deleteAllProductsAction } from "@/actions/products";
+import { createProductAction, setProductActiveAction, updateStockAction, deleteAllProductsAction, deleteSingleProductAction } from "@/actions/products";
 import { formatPrice } from "@/lib/utils";
 import Card from "@/components/ui/Card";
 import SubmitButton from "@/components/forms/SubmitButton";
@@ -63,6 +63,11 @@ async function updateProductStatus(formData: FormData) {
 async function deleteAll() {
   "use server";
   await deleteAllProductsAction();
+}
+
+async function deleteProduct(formData: FormData) {
+  "use server";
+  await deleteSingleProductAction(String(formData.get("productId") ?? ""));
 }
 
 export default async function AdminProductsPage({ searchParams }: AdminProductsPageProps) {
@@ -261,6 +266,10 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
                   <input type="hidden" name="isActive" value={product.isActive ? "false" : "true"} />
                   <SubmitButton variant={product.isActive ? "danger" : "outline"}>{product.isActive ? "Off" : "On"}</SubmitButton>
                 </form>
+                <form action={deleteProduct}>
+                  <input type="hidden" name="productId" value={product.id} />
+                  <SubmitButton variant="danger">Delete</SubmitButton>
+                </form>
               </div>
             </Card>
           );
@@ -334,6 +343,10 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
                           <input type="hidden" name="productId" value={product.id} />
                           <input type="hidden" name="isActive" value={product.isActive ? "false" : "true"} />
                           <SubmitButton variant={product.isActive ? "danger" : "outline"}>{product.isActive ? "Deactivate" : "Activate"}</SubmitButton>
+                        </form>
+                        <form action={deleteProduct}>
+                          <input type="hidden" name="productId" value={product.id} />
+                          <SubmitButton variant="danger">Delete</SubmitButton>
                         </form>
                       </div>
                     </td>

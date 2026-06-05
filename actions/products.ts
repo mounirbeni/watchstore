@@ -274,6 +274,49 @@ export async function updateStockAction(
   return { success: true, data: undefined };
 }
 
+export async function deleteSingleProductAction(productId: string): Promise<ActionResult> {
+  const admin = await requireAdmin().catch(() => null);
+  if (!admin) return { success: false, error: "Accès refusé" };
+
+  const product = await db.product.findUnique({
+    where: { id: productId },
+    select: { id: true, name: true, slug: true },
+  });
+  if (!product) return { success: false, error: "Produit introuvable" };
+
+  const hasOrders = await db.orderItem.findFirst({ where: { productId } });
+
+  // Clean cart / wishlist references regardless
+  await db.cartItem.deleteMany({ where: { productId } });
+  await db.wishlistItem.deleteMany({ where: { productId } });
+
+  if (hasOrders) {
+    // FK constraint — can't hard-delete; hide instead
+    await db.product.update({
+      where: { id: productId },
+      data: { isActive: false, stock: 0 },
+    });
+  } else {
+    await db.reservation.deleteMany({ where: { productId } });
+    await db.productImage.deleteMany({ where: { productId } });
+    await db.product.delete({ where: { id: productId } });
+  }
+
+  await createAuditLog({
+    userId: admin.userId,
+    action: "DELETE",
+    entity: "Product",
+    entityId: productId,
+    oldValues: { name: product.name },
+    newValues: { note: hasOrders ? "Deactivated — has order history" : "Hard deleted" },
+  });
+
+  revalidatePath("/admin/products");
+  revalidatePath("/shop");
+  revalidatePath(`/products/${product.slug}`);
+  return { success: true, data: undefined };
+}
+
 export async function deleteAllProductsAction(): Promise<ActionResult> {
   const admin = await requireAdmin().catch(() => null);
   if (!admin) return { success: false, error: "Accès refusé" };

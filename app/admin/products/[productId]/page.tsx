@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
-import { updateProductAction } from "@/actions/products";
+import { updateProductAction, deleteSingleProductAction } from "@/actions/products";
 import Card from "@/components/ui/Card";
 import SubmitButton from "@/components/forms/SubmitButton";
 import ProductImageUploader from "../ProductImageUploader";
@@ -18,6 +18,12 @@ async function updateProduct(productId: string, formData: FormData) {
   "use server";
   const result = await updateProductAction(productId, formData);
   if (result.success) redirect("/admin/products");
+}
+
+async function deleteProduct(productId: string) {
+  "use server";
+  await deleteSingleProductAction(productId);
+  redirect("/admin/products");
 }
 
 export default async function AdminProductEditPage({ params }: Props) {
@@ -51,6 +57,14 @@ export default async function AdminProductEditPage({ params }: Props) {
           <Link href={`/products/${product.slug}`} className="rounded-xl border border-gold-500/40 px-4 py-2 text-sm text-gold-400 transition hover:bg-gold-500/10">
             View product
           </Link>
+          <form action={deleteProduct.bind(null, product.id)}>
+            <button
+              type="submit"
+              className="rounded-xl border border-red-500/40 px-4 py-2 text-sm font-medium text-red-400 transition hover:border-red-500/60 hover:bg-red-500/10"
+            >
+              Delete product
+            </button>
+          </form>
         </div>
       </header>
 
