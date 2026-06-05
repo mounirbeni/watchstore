@@ -278,12 +278,39 @@ export async function deleteAllProductsAction(): Promise<ActionResult> {
   const admin = await requireAdmin().catch(() => null);
   if (!admin) return { success: false, error: "Accès refusé" };
 
-  // Delete in dependency order
-  await db.cartItem.deleteMany({});
-  await db.wishlistItem.deleteMany({});
-  await db.reservation.deleteMany({});
-  await db.productImage.deleteMany({});
-  await db.product.deleteMany({});
+  // Products referenced in orders can't be hard-deleted (FK constraint).
+  // Find which product IDs are safe to fully delete vs. must only be deactivated.
+  const orderedItems = await db.orderItem.findMany({
+    select: { productId: true },
+    distinct: ["productId"],
+  });
+  const protectedIds = orderedItems.map((i) => i.productId);
+
+  const deletableIds = (
+    await db.product.findMany({
+      where: { id: { notIn: protectedIds } },
+      select: { id: true },
+    })
+  ).map((p) => p.id);
+
+  // Fully delete products with no order history
+  if (deletableIds.length > 0) {
+    await db.cartItem.deleteMany({ where: { productId: { in: deletableIds } } });
+    await db.wishlistItem.deleteMany({ where: { productId: { in: deletableIds } } });
+    await db.reservation.deleteMany({ where: { productId: { in: deletableIds } } });
+    await db.productImage.deleteMany({ where: { productId: { in: deletableIds } } });
+    await db.product.deleteMany({ where: { id: { in: deletableIds } } });
+  }
+
+  // Products in orders: deactivate + zero stock so they're invisible, but order history is intact
+  if (protectedIds.length > 0) {
+    await db.cartItem.deleteMany({ where: { productId: { in: protectedIds } } });
+    await db.wishlistItem.deleteMany({ where: { productId: { in: protectedIds } } });
+    await db.product.updateMany({
+      where: { id: { in: protectedIds } },
+      data: { isActive: false, stock: 0 },
+    });
+  }
 
   await createAuditLog({
     userId: admin.userId,
@@ -291,7 +318,11 @@ export async function deleteAllProductsAction(): Promise<ActionResult> {
     entity: "Product",
     entityId: "ALL",
     oldValues: {},
-    newValues: { note: "All products deleted by admin" },
+    newValues: {
+      deleted: deletableIds.length,
+      deactivated: protectedIds.length,
+      note: "Bulk clear by admin",
+    },
   });
 
   revalidatePath("/admin/products");
