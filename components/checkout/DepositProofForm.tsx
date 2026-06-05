@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 import type { DepositMethod } from "@/lib/pricing";
 import {
   CheckCircle2, Building2, Store, ShieldCheck, Copy, Check,
-  ListChecks, ImageUp, X, FileImage,
+  ImageUp, X, FileImage,
 } from "lucide-react";
 
 export type ProofMethod = DepositMethod;
@@ -155,35 +155,41 @@ export default function DepositProofForm({
       </div>
 
       {/* Payment card */}
-      <div className="overflow-hidden rounded-2xl border border-luxury-border">
-        <div className="relative bg-gradient-to-br from-[#1a1508] via-[#1c1a10] to-[#12100a] px-5 py-4">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_theme(colors.gold.500/8%),_transparent_60%)]" />
-          <div className="relative flex items-center justify-between">
+      <div className="overflow-hidden rounded-2xl border border-luxury-border bg-white shadow-card">
+        {/* Verified agent header */}
+        <div className="flex items-center justify-between border-b border-luxury-border px-5 py-4">
+          <div className="flex items-center gap-3">
+            {(() => {
+              const Icon = METHOD_ICONS[method] ?? Store;
+              return (
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gold-500/10">
+                  <Icon className="h-4 w-4 text-gold-500" />
+                </div>
+              );
+            })()}
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gold-500/70">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-luxury-muted">
                 Agent vérifié · Maroc
               </p>
-              <p className="mt-0.5 text-base font-bold text-white">{active?.agentName}</p>
+              <p className="text-sm font-bold text-luxury-white">{active?.agentName}</p>
             </div>
-            <span className="flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-3 py-1.5 text-[11px] font-semibold text-green-400">
-              <ShieldCheck className="h-3.5 w-3.5" />
-              Vérifié
-            </span>
           </div>
+          <span className="flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-2.5 py-1 text-[11px] font-semibold text-green-500">
+            <ShieldCheck className="h-3 w-3" />
+            Vérifié
+          </span>
         </div>
 
         {active && active.fields.length > 0 && (
-          <div className="divide-y divide-luxury-border border-t border-luxury-border bg-luxury-card/80">
+          <div className="divide-y divide-luxury-border">
             {active.fields.map((field) => (
               <div
                 key={field.label}
-                className={`flex items-center justify-between gap-3 px-5 py-3 ${field.wide ? "flex-col items-start" : ""}`}
+                className={`flex items-center gap-3 px-5 py-3 ${field.wide ? "flex-col items-start" : "justify-between"}`}
               >
-                <span className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.12em] text-luxury-muted">
-                  {field.label}
-                </span>
+                <span className="shrink-0 text-xs text-luxury-muted">{field.label}</span>
                 <div className={`flex items-center gap-1 ${field.wide ? "w-full justify-between" : ""}`}>
-                  <span className={`font-mono text-sm font-medium text-white ${field.wide ? "break-all" : ""}`}>
+                  <span className={`font-mono text-sm font-semibold text-luxury-white ${field.wide ? "break-all" : ""}`}>
                     {field.value}
                   </span>
                   {field.copyable && <CopyButton text={field.value} />}
@@ -194,14 +200,14 @@ export default function DepositProofForm({
         )}
 
         {active && active.steps.length > 0 && (
-          <div className="border-t border-luxury-border bg-luxury-dark/60 px-5 py-4">
-            <p className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.1em] text-luxury-muted">
-              <ListChecks className="h-3.5 w-3.5 text-gold-400" /> Étapes
+          <div className="border-t border-luxury-border px-5 py-4">
+            <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.15em] text-luxury-muted">
+              Instructions
             </p>
             <ol className="space-y-2.5">
               {active.steps.map((step, i) => (
                 <li key={i} className="flex items-start gap-3 text-sm text-luxury-light">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold-500/15 text-[11px] font-bold text-gold-400">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold-500/15 text-[11px] font-bold text-gold-500">
                     {i + 1}
                   </span>
                   {step}
