@@ -46,12 +46,17 @@ export default function MobileNav({ cartCount = 0, isAuthenticated = false }: Mo
               <Link
                 href={tab.href}
                 className={cn(
-                  "relative flex flex-col items-center justify-center gap-0.5 h-full rounded-xl mx-0.5 transition-colors active:scale-95",
+                  "relative flex flex-col items-center justify-center gap-0.5 h-full rounded-xl mx-0.5 transition-all active:scale-95",
                   active ? "text-gold-500" : "text-luxury-muted hover:text-luxury-light",
                 )}
                 aria-current={active ? "page" : undefined}
               >
-                <span className="relative">
+                {/* Active pill background */}
+                {active && (
+                  <span className="absolute inset-x-1 top-1.5 bottom-1.5 rounded-xl bg-gold-500/10" />
+                )}
+
+                <span className="relative z-10">
                   <Icon className="h-[22px] w-[22px]" strokeWidth={active ? 2.2 : 1.8} />
                   {tab.badge ? (
                     <span className="absolute -top-1.5 -right-2 min-w-[16px] h-4 px-1 rounded-full bg-gold-500 text-black text-[9px] font-bold flex items-center justify-center leading-none">
@@ -59,7 +64,7 @@ export default function MobileNav({ cartCount = 0, isAuthenticated = false }: Mo
                     </span>
                   ) : null}
                 </span>
-                <span className={cn("text-[10px] font-medium", active ? "text-gold-500" : "text-luxury-muted")}>
+                <span className={cn("relative z-10 text-[10px] font-medium", active ? "font-semibold" : "")}>
                   {tab.label}
                 </span>
               </Link>

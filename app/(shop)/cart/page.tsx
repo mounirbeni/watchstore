@@ -7,6 +7,7 @@ import { formatPrice } from "@/lib/utils";
 import { removeFromCartAction, updateCartQuantityAction } from "@/actions/cart";
 import Button from "@/components/ui/Button";
 import EmptyState from "@/components/ui/EmptyState";
+import MobileCartBar from "@/components/cart/MobileCartBar";
 import { ShoppingCart, Trash2, ArrowRight, ChevronLeft, Shield, Truck } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -52,7 +53,7 @@ export default async function CartPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-8 pb-28 sm:py-10">
 
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
@@ -179,6 +180,8 @@ export default async function CartPage() {
           </div>
         </div>
       )}
+
+      <MobileCartBar total={subtotal} itemCount={items.length} />
     </div>
   );
 }

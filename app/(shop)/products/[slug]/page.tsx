@@ -1,14 +1,13 @@
-import { notFound, redirect } from "next/navigation";
-import Image from "next/image";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/session";
 import { formatPrice } from "@/lib/utils";
-import { addToCartAction } from "@/actions/cart";
-import { toggleWishlistAction } from "@/actions/wishlist";
 import { createReservationAction } from "@/actions/reservations";
 import Button from "@/components/ui/Button";
-import { ShoppingCart, Heart, Calendar, Shield, Award, ChevronRight, Truck, RotateCcw } from "lucide-react";
+import ProductGallery from "@/components/shop/ProductGallery";
+import ProductActions from "@/components/shop/ProductActions";
+import { Shield, Award, ChevronRight, Truck, RotateCcw, Calendar } from "lucide-react";
 import type { Metadata } from "next";
 
 interface Props {
@@ -38,7 +37,6 @@ export default async function ProductDetailPage({ params }: Props) {
 
   if (!product) notFound();
 
-  const primaryImage = product.images.find((i) => i.isPrimary) ?? product.images[0];
   const discount = product.comparePrice
     ? Math.round((1 - Number(product.price) / Number(product.comparePrice)) * 100)
     : null;
@@ -52,19 +50,6 @@ export default async function ProductDetailPage({ params }: Props) {
     inWishlist = (wishlist?.items.length ?? 0) > 0;
   }
 
-  async function handleAddToCart(formData: FormData) {
-    "use server";
-    await addToCartAction(String(formData.get("productId") ?? ""));
-  }
-  async function handleBuyNow(formData: FormData) {
-    "use server";
-    await addToCartAction(String(formData.get("productId") ?? ""));
-    redirect("/checkout");
-  }
-  async function handleToggleWishlist(formData: FormData) {
-    "use server";
-    await toggleWishlistAction(String(formData.get("productId") ?? ""));
-  }
   async function handleReserve(formData: FormData) {
     "use server";
     await createReservationAction(formData);
@@ -80,7 +65,8 @@ export default async function ProductDetailPage({ params }: Props) {
   const hasSpecs = specs.some(([, v]) => v);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+    /* Extra bottom padding on mobile for the sticky CTA bar */
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-28 sm:py-10">
 
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1.5 text-xs text-luxury-muted mb-6 sm:mb-8">
@@ -99,48 +85,17 @@ export default async function ProductDetailPage({ params }: Props) {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14">
 
-        {/* ── Images ── */}
-        <div className="space-y-3">
-          <div className="relative aspect-square rounded-2xl overflow-hidden bg-luxury-dark border border-luxury-border">
-            {primaryImage ? (
-              <Image
-                src={primaryImage.url}
-                alt={primaryImage.altText ?? product.name}
-                fill
-                className="object-cover"
-                priority
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-6xl text-luxury-muted">⌚</div>
-            )}
-            {discount && discount > 0 && (
-              <div className="absolute top-4 left-4">
-                <span className="inline-flex items-center px-3 py-1 rounded-lg text-sm font-bold bg-gold-500 text-black">
-                  -{discount}%
-                </span>
-              </div>
-            )}
-          </div>
-
-          {product.images.length > 1 && (
-            <div className="grid grid-cols-4 gap-2.5">
-              {product.images.map((img) => (
-                <div
-                  key={img.id}
-                  className="aspect-square rounded-xl overflow-hidden bg-luxury-dark border border-luxury-border hover:border-gold-500/50 transition-colors cursor-pointer"
-                >
-                  <Image
-                    src={img.url}
-                    alt={img.altText ?? product.name}
-                    width={120}
-                    height={120}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* ── Images (interactive gallery) ── */}
+        <ProductGallery
+          images={product.images.map((i) => ({
+            id: i.id,
+            url: i.url,
+            altText: i.altText,
+            isPrimary: i.isPrimary,
+          }))}
+          productName={product.name}
+          discount={discount}
+        />
 
         {/* ── Product Info ── */}
         <div className="flex flex-col gap-5">
@@ -189,74 +144,35 @@ export default async function ProductDetailPage({ params }: Props) {
             </div>
           )}
 
-          {/* Stock */}
+          {/* Stock indicator */}
           <div className="flex items-center gap-2">
             {product.stock > 10 ? (
-              <>
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span className="text-sm text-emerald-600 font-medium">En stock</span>
-              </>
+              <><span className="w-2 h-2 rounded-full bg-emerald-500" /><span className="text-sm text-emerald-600 font-medium">En stock</span></>
             ) : product.stock > 0 ? (
-              <>
-                <span className="w-2 h-2 rounded-full bg-amber-500" />
-                <span className="text-sm text-amber-600 font-medium">Plus que {product.stock} en stock</span>
-              </>
+              <><span className="w-2 h-2 rounded-full bg-amber-500" /><span className="text-sm text-amber-600 font-medium">Plus que {product.stock} en stock</span></>
             ) : (
-              <>
-                <span className="w-2 h-2 rounded-full bg-luxury-muted" />
-                <span className="text-sm text-luxury-muted">Hors stock</span>
-              </>
+              <><span className="w-2 h-2 rounded-full bg-luxury-muted" /><span className="text-sm text-luxury-muted">Hors stock</span></>
             )}
           </div>
 
-          {/* Actions */}
-          {user ? (
-            <div className="flex flex-col gap-2.5">
-              <form action={handleBuyNow}>
+          {/* Actions — client component handles both desktop + mobile sticky bar */}
+          <ProductActions
+            productId={product.id}
+            productSlug={product.slug}
+            inWishlist={inWishlist}
+            inStock={product.stock > 0}
+            isAuthenticated={!!user}
+          />
+
+          {/* Reserve — desktop only, secondary action */}
+          {user && (
+            <div className="hidden md:block -mt-1">
+              <form action={handleReserve}>
                 <input type="hidden" name="productId" value={product.id} />
-                <Button type="submit" className="w-full" size="lg" disabled={product.stock === 0}>
-                  <ShoppingCart className="h-4 w-4 mr-2" />
-                  {product.stock === 0 ? "Hors stock" : "Acheter maintenant"}
+                <Button type="submit" variant="ghost" className="w-full" size="lg">
+                  <Calendar className="h-4 w-4 mr-2" /> Réserver une démonstration
                 </Button>
               </form>
-
-              <form action={handleAddToCart}>
-                <input type="hidden" name="productId" value={product.id} />
-                <Button type="submit" variant="outline" className="w-full" size="lg" disabled={product.stock === 0}>
-                  Ajouter au panier
-                </Button>
-              </form>
-
-              <div className="grid grid-cols-2 gap-2.5">
-                <form action={handleReserve}>
-                  <input type="hidden" name="productId" value={product.id} />
-                  <Button type="submit" variant="ghost" className="w-full" size="lg">
-                    <Calendar className="h-4 w-4 mr-2" /> Réserver
-                  </Button>
-                </form>
-
-                <form action={handleToggleWishlist}>
-                  <input type="hidden" name="productId" value={product.id} />
-                  <Button type="submit" variant="ghost" className="w-full" size="lg">
-                    <Heart className={`h-4 w-4 mr-2 ${inWishlist ? "fill-gold-500 text-gold-500" : ""}`} />
-                    {inWishlist ? "Sauvegardé" : "Wishlist"}
-                  </Button>
-                </form>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              <Link href={`/login?from=/products/${product.slug}`}>
-                <Button className="w-full" size="lg">
-                  <ShoppingCart className="h-4 w-4 mr-2" /> Se connecter pour acheter
-                </Button>
-              </Link>
-              <p className="text-xs text-luxury-muted text-center">
-                Ou{" "}
-                <Link href="/register" className="text-gold-500 hover:text-gold-400 transition-colors font-medium">
-                  créer un compte
-                </Link>
-              </p>
             </div>
           )}
 
@@ -264,7 +180,7 @@ export default async function ProductDetailPage({ params }: Props) {
           <div className="grid grid-cols-2 gap-3 pt-4 border-t border-luxury-border">
             {[
               { Icon: Shield, title: "Authenticité garantie", sub: "Certificat inclus" },
-              { Icon: Award, title: "Garantie 2 ans", sub: "Service après-vente" },
+              { Icon: Award, title: "Garantie constructeur", sub: "Service après-vente" },
               { Icon: Truck, title: "Livraison sécurisée", sub: "Partout au Maroc" },
               { Icon: RotateCcw, title: "Retours 30 jours", sub: "Échange facilité" },
             ].map(({ Icon, title, sub }) => (
