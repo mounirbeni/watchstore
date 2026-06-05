@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
-import { createProductAction, setProductActiveAction, updateStockAction } from "@/actions/products";
+import { createProductAction, setProductActiveAction, updateStockAction, deleteAllProductsAction } from "@/actions/products";
 import { formatPrice } from "@/lib/utils";
 import Card from "@/components/ui/Card";
 import SubmitButton from "@/components/forms/SubmitButton";
@@ -58,6 +58,11 @@ async function updateProductStatus(formData: FormData) {
   const productId = String(formData.get("productId") ?? "");
   const isActive = String(formData.get("isActive") ?? "") === "true";
   await setProductActiveAction(productId, isActive);
+}
+
+async function deleteAll() {
+  "use server";
+  await deleteAllProductsAction();
 }
 
 export default async function AdminProductsPage({ searchParams }: AdminProductsPageProps) {
@@ -120,19 +125,31 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
             Create watches, find any catalog item quickly, update inventory, and control storefront visibility.
           </p>
         </div>
-        <div className="grid grid-cols-3 gap-2 text-center sm:min-w-[420px]">
-          <div className="rounded-2xl border border-luxury-border bg-luxury-dark/60 px-4 py-3">
-            <p className="text-xs uppercase tracking-[0.16em] text-luxury-muted">Active</p>
-            <p className="mt-1 text-xl font-semibold text-luxury-white">{activeCount}</p>
+        <div className="flex flex-col gap-2 sm:min-w-[420px]">
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-2xl border border-luxury-border bg-luxury-dark/60 px-4 py-3">
+              <p className="text-xs uppercase tracking-[0.16em] text-luxury-muted">Active</p>
+              <p className="mt-1 text-xl font-semibold text-luxury-white">{activeCount}</p>
+            </div>
+            <div className="rounded-2xl border border-luxury-border bg-luxury-dark/60 px-4 py-3">
+              <p className="text-xs uppercase tracking-[0.16em] text-luxury-muted">Inactive</p>
+              <p className="mt-1 text-xl font-semibold text-luxury-white">{inactiveCount}</p>
+            </div>
+            <div className="rounded-2xl border border-luxury-border bg-luxury-dark/60 px-4 py-3">
+              <p className="text-xs uppercase tracking-[0.16em] text-luxury-muted">Low stock</p>
+              <p className="mt-1 text-xl font-semibold text-luxury-white">{lowStockCount}</p>
+            </div>
           </div>
-          <div className="rounded-2xl border border-luxury-border bg-luxury-dark/60 px-4 py-3">
-            <p className="text-xs uppercase tracking-[0.16em] text-luxury-muted">Inactive</p>
-            <p className="mt-1 text-xl font-semibold text-luxury-white">{inactiveCount}</p>
-          </div>
-          <div className="rounded-2xl border border-luxury-border bg-luxury-dark/60 px-4 py-3">
-            <p className="text-xs uppercase tracking-[0.16em] text-luxury-muted">Low stock</p>
-            <p className="mt-1 text-xl font-semibold text-luxury-white">{lowStockCount}</p>
-          </div>
+          {(activeCount + inactiveCount) > 0 && (
+            <form action={deleteAll}>
+              <button
+                type="submit"
+                className="w-full rounded-xl border border-red-500/30 px-4 py-2 text-xs font-medium text-red-400 transition-colors hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-300"
+              >
+                Supprimer tous les produits ({activeCount + inactiveCount})
+              </button>
+            </form>
+          )}
         </div>
       </header>
 

@@ -273,3 +273,29 @@ export async function updateStockAction(
   revalidatePath(`/products/${product.slug}`);
   return { success: true, data: undefined };
 }
+
+export async function deleteAllProductsAction(): Promise<ActionResult> {
+  const admin = await requireAdmin().catch(() => null);
+  if (!admin) return { success: false, error: "Accès refusé" };
+
+  // Delete in dependency order
+  await db.cartItem.deleteMany({});
+  await db.wishlistItem.deleteMany({});
+  await db.reservation.deleteMany({});
+  await db.productImage.deleteMany({});
+  await db.product.deleteMany({});
+
+  await createAuditLog({
+    userId: admin.userId,
+    action: "DELETE",
+    entity: "Product",
+    entityId: "ALL",
+    oldValues: {},
+    newValues: { note: "All products deleted by admin" },
+  });
+
+  revalidatePath("/admin/products");
+  revalidatePath("/shop");
+  revalidatePath("/");
+  return { success: true, data: undefined };
+}
