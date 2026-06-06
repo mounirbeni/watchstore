@@ -83,22 +83,23 @@ const AUTOPLAY_MS = 5500;
 
 export default function HeroCarousel({ slides: propSlides }: HeroCarouselProps = {}) {
   const ACTIVE_SLIDES = (propSlides && propSlides.length > 0) ? propSlides : SLIDES;
+  const slideCount = ACTIVE_SLIDES.length;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
 
   const goTo = useCallback((i: number) => {
-    setIndex(((i % ACTIVE_SLIDES.length) + ACTIVE_SLIDES.length) % ACTIVE_SLIDES.length);
-  }, []);
+    setIndex(((i % slideCount) + slideCount) % slideCount);
+  }, [slideCount]);
   const next = useCallback(() => goTo(index + 1), [goTo, index]);
   const prev = useCallback(() => goTo(index - 1), [goTo, index]);
 
   useEffect(() => {
     if (paused) return;
-    const id = setInterval(() => setIndex((c) => (c + 1) % ACTIVE_SLIDES.length), AUTOPLAY_MS);
+    const id = setInterval(() => setIndex((c) => (c + 1) % slideCount), AUTOPLAY_MS);
     return () => clearInterval(id);
-  }, [paused, index]);
+  }, [paused, slideCount]);
 
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0]?.clientX ?? null;

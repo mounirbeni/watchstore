@@ -492,7 +492,7 @@ export async function updateOrderStatusAction(formData: FormData): Promise<Actio
 
 export async function updateAdminOrderAction(formData: FormData): Promise<ActionResult> {
   const admin = await requireAdmin().catch(() => null);
-  if (!admin) return { success: false, error: "AccÃ¨s refusÃ©" };
+  if (!admin) return { success: false, error: "Accès refusé" };
 
   const orderId = String(formData.get("orderId") ?? "");
   const statusValue = String(formData.get("status") ?? "");
@@ -558,7 +558,7 @@ export async function updateAdminOrderAction(formData: FormData): Promise<Action
       ? NotificationCategory.SHIPPING
       : NotificationCategory.ORDER,
     priority: NotificationPriority.IMPORTANT,
-    title: "Mise Ã  jour de commande",
+    title: "Mise à jour de commande",
     message: `Votre commande ${order.orderNumber} est maintenant ${status}.`,
     actionUrl: `/dashboard/orders/${order.orderNumber}`,
     data: { orderNumber: order.orderNumber, status, trackingNumber: trackingNumber || null },
