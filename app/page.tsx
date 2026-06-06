@@ -143,14 +143,14 @@ export default async function HomePage() {
         {/* ── Other categories ──────────────────────────────────── */}
         {categories.filter((c) => c.slug !== "homme" && c.slug !== "femme").length > 0 && (
           <section className="max-w-7xl mx-auto px-5 sm:px-6 pt-5 pb-10 sm:pb-16">
-            <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-5 sm:gap-4 sm:overflow-visible">
+            <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5">
               {categories
                 .filter((c) => c.slug !== "homme" && c.slug !== "femme")
                 .map((cat) => (
                   <Link
                     key={cat.id}
                     href={`/shop?category=${cat.slug}`}
-                    className="group relative shrink-0 w-[38%] sm:w-auto aspect-square overflow-hidden rounded-2xl bg-luxury-dark border border-luxury-border hover:shadow-card-hover transition-all duration-300 snap-start"
+                    className="group relative shrink-0 w-[38%] sm:w-[190px] aspect-square overflow-hidden rounded-2xl bg-luxury-dark border border-luxury-border hover:shadow-card-hover transition-all duration-300 snap-start"
                   >
                     {cat.imageUrl && (
                       <Image
@@ -189,9 +189,9 @@ export default async function HomePage() {
             {featured.length === 0 ? (
               <p className="text-luxury-muted text-center py-10">La collection arrive bientôt.</p>
             ) : (
-              <div className="flex items-stretch gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 sm:overflow-visible">
+              <div className="flex items-stretch gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5">
                 {featured.map((p) => (
-                  <div key={p.id} className="shrink-0 w-[62%] sm:w-auto snap-start">
+                  <div key={p.id} className="shrink-0 w-[62%] sm:w-[260px] snap-start">
                     <ProductCard product={p} />
                   </div>
                 ))}
@@ -326,9 +326,9 @@ export default async function HomePage() {
                   Voir tout <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
-              <div className="flex items-stretch gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 sm:overflow-visible">
+              <div className="flex items-stretch gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5">
                 {newArrivals.map((p) => (
-                  <div key={p.id} className="shrink-0 w-[62%] sm:w-auto snap-start">
+                  <div key={p.id} className="shrink-0 w-[62%] sm:w-[260px] snap-start">
                     <ProductCard product={p} />
                   </div>
                 ))}
