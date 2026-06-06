@@ -6,6 +6,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MobileTabBar from "@/components/layout/MobileTabBar";
 import HeroCarousel from "@/components/home/HeroCarousel";
+import ScrollRow from "@/components/ui/ScrollRow";
 import {
   ArrowRight, Shield, Truck, Award, RefreshCw,
   Zap, Star, Quote, CheckCircle2, Clock, Gem,
@@ -143,7 +144,7 @@ export default async function HomePage() {
         {/* ── Other categories ──────────────────────────────────── */}
         {categories.filter((c) => c.slug !== "homme" && c.slug !== "femme").length > 0 && (
           <section className="max-w-7xl mx-auto px-5 sm:px-6 pt-5 pb-10 sm:pb-16">
-            <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5">
+            <ScrollRow className="gap-3">
               {categories
                 .filter((c) => c.slug !== "homme" && c.slug !== "femme")
                 .map((cat) => (
@@ -168,7 +169,7 @@ export default async function HomePage() {
                     </div>
                   </Link>
                 ))}
-            </div>
+            </ScrollRow>
           </section>
         )}
 
@@ -189,13 +190,13 @@ export default async function HomePage() {
             {featured.length === 0 ? (
               <p className="text-luxury-muted text-center py-10">La collection arrive bientôt.</p>
             ) : (
-              <div className="flex items-stretch gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5">
+              <ScrollRow className="items-stretch gap-4">
                 {featured.map((p) => (
                   <div key={p.id} className="shrink-0 w-[62%] sm:w-[260px] snap-start">
                     <ProductCard product={p} />
                   </div>
                 ))}
-              </div>
+              </ScrollRow>
             )}
           </div>
         </section>
@@ -326,13 +327,13 @@ export default async function HomePage() {
                   Voir tout <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
-              <div className="flex items-stretch gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5">
+              <ScrollRow className="items-stretch gap-4">
                 {newArrivals.map((p) => (
                   <div key={p.id} className="shrink-0 w-[62%] sm:w-[260px] snap-start">
                     <ProductCard product={p} />
                   </div>
                 ))}
-              </div>
+              </ScrollRow>
             </div>
           </section>
         )}
