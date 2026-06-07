@@ -117,7 +117,7 @@ export default async function HomePage() {
               <Link
                 key={label}
                 href={href}
-                className="group relative overflow-hidden rounded-2xl bg-luxury-dark border border-luxury-border hover:shadow-card-hover transition-all duration-300 aspect-[3/4] sm:aspect-[4/5]"
+                className="group relative overflow-hidden rounded-2xl bg-luxury-dark border border-luxury-border hover:shadow-card-hover transition-all duration-300 aspect-[3/4] sm:aspect-[16/9]"
               >
                 <Image
                   src={src}
