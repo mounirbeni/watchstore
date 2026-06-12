@@ -17,8 +17,26 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   try {
-    const product = await db.product.findUnique({ where: { slug } });
-    return { title: product?.name ?? "Produit introuvable" };
+    const product = await db.product.findUnique({
+      where: { slug },
+      include: { images: { orderBy: { sortOrder: "asc" }, take: 1 } },
+    });
+    if (!product) return { title: "Produit introuvable" };
+
+    const description = product.description.slice(0, 160);
+    const image = product.images[0]?.url;
+
+    return {
+      title: product.name,
+      description,
+      alternates: { canonical: `/products/${product.slug}` },
+      openGraph: {
+        title: product.name,
+        description,
+        type: "website",
+        ...(image ? { images: [{ url: image, alt: product.name }] } : {}),
+      },
+    };
   } catch {
     return { title: "Produit indisponible" };
   }
@@ -64,9 +82,30 @@ export default async function ProductDetailPage({ params }: Props) {
   ];
   const hasSpecs = specs.some(([, v]) => v);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: product.images.map((img) => img.url),
+    ...(product.brand ? { brand: { "@type": "Brand", name: product.brand } } : {}),
+    ...(product.sku ? { sku: product.sku } : {}),
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "MAD",
+      price: Number(product.price),
+      availability: product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    },
+  };
+
   return (
     /* Extra bottom padding on mobile for the sticky CTA bar */
     <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-28 sm:py-10">
+      <script
+        type="application/ld+json"
+        // Escape `<` so a product field containing "</script>" can't break out of the tag.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
 
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1.5 text-xs text-luxury-muted mb-6 sm:mb-8">
