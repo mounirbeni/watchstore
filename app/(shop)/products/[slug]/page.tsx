@@ -103,7 +103,8 @@ export default async function ProductDetailPage({ params }: Props) {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-28 sm:py-10">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        // Escape `<` so a product field containing "</script>" can't break out of the tag.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
 
       {/* Breadcrumb */}

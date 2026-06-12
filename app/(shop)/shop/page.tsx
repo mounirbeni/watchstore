@@ -29,8 +29,13 @@ function buildShopHref(
 export default async function ShopPage({ searchParams }: Props) {
   const params = await searchParams;
 
-  const minPrice = params.min !== undefined && Number.isFinite(parseFloat(params.min)) ? parseFloat(params.min) : undefined;
-  const maxPrice = params.max !== undefined && Number.isFinite(parseFloat(params.max)) ? parseFloat(params.max) : undefined;
+  const parsePrice = (raw?: string): number | undefined => {
+    if (raw === undefined) return undefined;
+    const n = parseFloat(raw);
+    return Number.isFinite(n) && n >= 0 ? n : undefined;
+  };
+  const minPrice = parsePrice(params.min);
+  const maxPrice = parsePrice(params.max);
 
   const where: Prisma.ProductWhereInput = {
     isActive: true,
