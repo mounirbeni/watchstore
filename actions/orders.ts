@@ -29,6 +29,16 @@ const STOCK_DEDUCTED: OrderStatus[] = [
   OrderStatus.DELIVERED,
 ];
 
+/** Thrown inside a transaction when a promo's usage limit was reached concurrently. */
+class PromoUnavailableError extends Error {}
+
+/** Thrown inside a transaction when a product ran out of stock concurrently. */
+class InsufficientStockError extends Error {
+  constructor(public productName: string) {
+    super(productName);
+  }
+}
+
 async function getClientMeta() {
   const h = await headers();
   const forwarded = h.get("x-forwarded-for");
@@ -109,7 +119,7 @@ export async function createOrderAction(formData: FormData): Promise<ActionResul
 
   // Validate promo code if provided.
   let promoDiscount = 0;
-  let promoCodeRecord: { id: string; code: string } | null = null;
+  let promoCodeRecord: { id: string; code: string; maxUses: number | null } | null = null;
   if (parsed.data.promoCode) {
     const promo = await db.promoCode.findUnique({ where: { code: parsed.data.promoCode.toUpperCase() } });
     if (
@@ -124,7 +134,7 @@ export async function createOrderAction(formData: FormData): Promise<ActionResul
       } else {
         promoDiscount = Math.min(Number(promo.discountValue), subtotal);
       }
-      promoCodeRecord = { id: promo.id, code: promo.code };
+      promoCodeRecord = { id: promo.id, code: promo.code, maxUses: promo.maxUses };
     }
   }
 
@@ -132,61 +142,83 @@ export async function createOrderAction(formData: FormData): Promise<ActionResul
   const { ip, userAgent } = await getClientMeta();
   const orderNumber = generateOrderNumber();
 
-  const order = await db.order.create({
-    data: {
-      orderNumber,
-      userId: session.userId,
-      addressId: address.id,
-      status: OrderStatus.AWAITING_DEPOSIT,
-      subtotal: pricing.subtotal,
-      shippingCost: pricing.shipping,
-      discount: pricing.discount,
-      promoCode: promoCodeRecord?.code ?? null,
-      total: pricing.total,
-      depositAmount: pricing.deposit,
-      remainingBalance: pricing.remaining,
-      customerPhone: parsed.data.phone,
-      notes: parsed.data.notes,
-      ipAddress: ip,
-      userAgent: userAgent ?? undefined,
-      flagged,
-      riskNote: flagged ? `${ordersLastHour} commandes dans la dernière heure` : null,
-      items: {
-        create: cart.items.map((item) => ({
-          productId: item.product.id,
-          productName: item.product.name,
-          productSlug: item.product.slug,
-          imageUrl: item.product.images[0]?.url ?? null,
-          quantity: item.quantity,
-          unitPrice: Number(item.product.price),
-          total: Number(item.product.price) * item.quantity,
-        })),
-      },
-      payment: {
-        create: {
+  let order: { id: string };
+  try {
+    order = await db.$transaction(async (tx) => {
+      // Atomically reserve one promo use. The conditional updateMany only
+      // increments while usedCount is still below maxUses, so concurrent
+      // checkouts can never push usage past the limit.
+      if (promoCodeRecord) {
+        const reserved = await tx.promoCode.updateMany({
+          where: {
+            id: promoCodeRecord.id,
+            ...(promoCodeRecord.maxUses !== null ? { usedCount: { lt: promoCodeRecord.maxUses } } : {}),
+          },
+          data: { usedCount: { increment: 1 } },
+        });
+        if (reserved.count === 0) throw new PromoUnavailableError();
+      }
+
+      const created = await tx.order.create({
+        data: {
+          orderNumber,
           userId: session.userId,
-          amount: pricing.deposit,
-          currency: "MAD",
-          method: parsed.data.method as PaymentMethod,
-          status: PaymentStatus.UNPAID,
+          addressId: address.id,
+          status: OrderStatus.AWAITING_DEPOSIT,
+          subtotal: pricing.subtotal,
+          shippingCost: pricing.shipping,
+          discount: pricing.discount,
+          promoCode: promoCodeRecord?.code ?? null,
+          total: pricing.total,
+          depositAmount: pricing.deposit,
+          remainingBalance: pricing.remaining,
+          customerPhone: parsed.data.phone,
+          notes: parsed.data.notes,
+          ipAddress: ip,
+          userAgent: userAgent ?? undefined,
+          flagged,
+          riskNote: flagged ? `${ordersLastHour} commandes dans la dernière heure` : null,
+          items: {
+            create: cart.items.map((item) => ({
+              productId: item.product.id,
+              productName: item.product.name,
+              productSlug: item.product.slug,
+              imageUrl: item.product.images[0]?.url ?? null,
+              quantity: item.quantity,
+              unitPrice: Number(item.product.price),
+              total: Number(item.product.price) * item.quantity,
+            })),
+          },
+          payment: {
+            create: {
+              userId: session.userId,
+              amount: pricing.deposit,
+              currency: "MAD",
+              method: parsed.data.method as PaymentMethod,
+              status: PaymentStatus.UNPAID,
+            },
+          },
         },
-      },
-    },
-  });
+        select: { id: true },
+      });
 
-  // Increment promo code usage counter.
-  if (promoCodeRecord) {
-    await db.promoCode.update({ where: { id: promoCodeRecord.id }, data: { usedCount: { increment: 1 } } });
+      // Save phone to profile if missing (smoother future checkouts).
+      await tx.customerProfile.updateMany({
+        where: { userId: session.userId, OR: [{ phone: null }, { phone: "" }] },
+        data: { phone: parsed.data.phone },
+      });
+
+      // Clear the cart — the items are now captured on the order.
+      await tx.cartItem.deleteMany({ where: { cartId: cart.id } });
+
+      return created;
+    });
+  } catch (err) {
+    if (err instanceof PromoUnavailableError) {
+      return { success: false, error: "Ce code promo n'est plus disponible." };
+    }
+    throw err;
   }
-
-  // Save phone to profile if missing (smoother future checkouts).
-  await db.customerProfile.updateMany({
-    where: { userId: session.userId, OR: [{ phone: null }, { phone: "" }] },
-    data: { phone: parsed.data.phone },
-  });
-
-  // Clear the cart — the items are now captured on the order.
-  await db.cartItem.deleteMany({ where: { cartId: cart.id } });
 
   await createNotification({
     userId: session.userId,
@@ -331,42 +363,59 @@ export async function reviewDepositAction(formData: FormData): Promise<ActionRes
   if (!order || !order.payment) return { success: false, error: "Commande introuvable." };
 
   if (parsed.data.decision === "APPROVE") {
-    // Re-validate stock before confirming.
-    for (const item of order.items) {
-      const product = await db.product.findUnique({ where: { id: item.productId } });
-      if (!product || product.stock < item.quantity) {
-        return { success: false, error: `Stock insuffisant : ${item.productName}` };
-      }
+    // Idempotency guard: never deduct stock twice for an already-confirmed order.
+    if (STOCK_DEDUCTED.includes(order.status)) {
+      return { success: false, error: "Cette commande est déjà confirmée." };
     }
 
-    await db.payment.update({
-      where: { id: order.payment.id },
-      data: {
-        status: PaymentStatus.DEPOSIT_PAID,
-        paidAt: new Date(),
-        reviewedAt: new Date(),
-        reviewedBy: admin.userId,
-        transactionRef: order.payment.proofReference,
-      },
-    });
-    await db.order.update({
-      where: { id: order.id },
-      data: {
-        status: OrderStatus.CONFIRMED,
-        confirmedAt: new Date(),
-        adminNotes: parsed.data.adminNote ?? order.adminNotes,
-      },
-    });
+    const payment = order.payment;
+    try {
+      await db.$transaction(async (tx) => {
+        // Atomically deduct stock. updateMany only touches rows that still have
+        // enough stock, so concurrent approvals can never oversell. If any item
+        // is short, we throw to roll the whole transaction back.
+        for (const item of order.items) {
+          const res = await tx.product.updateMany({
+            where: { id: item.productId, stock: { gte: item.quantity } },
+            data: { stock: { decrement: item.quantity } },
+          });
+          if (res.count === 0) throw new InsufficientStockError(item.productName);
+        }
 
-    // Deduct stock now that the order is real, then alert admins on low stock.
+        await tx.payment.update({
+          where: { id: payment.id },
+          data: {
+            status: PaymentStatus.DEPOSIT_PAID,
+            paidAt: new Date(),
+            reviewedAt: new Date(),
+            reviewedBy: admin.userId,
+            transactionRef: payment.proofReference,
+          },
+        });
+        await tx.order.update({
+          where: { id: order.id },
+          data: {
+            status: OrderStatus.CONFIRMED,
+            confirmedAt: new Date(),
+            adminNotes: parsed.data.adminNote ?? order.adminNotes,
+          },
+        });
+        await tx.customerProfile.updateMany({
+          where: { userId: order.userId },
+          data: { orderCount: { increment: 1 } },
+        });
+      });
+    } catch (err) {
+      if (err instanceof InsufficientStockError) {
+        return { success: false, error: `Stock insuffisant : ${err.productName}` };
+      }
+      throw err;
+    }
+
+    // Post-commit: alert admins on any item that dropped to low stock.
     for (const item of order.items) {
-      await db.product.update({ where: { id: item.productId }, data: { stock: { decrement: item.quantity } } });
       await checkLowStock(item.productId);
     }
-    await db.customerProfile.updateMany({
-      where: { userId: order.userId },
-      data: { orderCount: { increment: 1 } },
-    });
 
     await createNotification({
       userId: order.userId,
