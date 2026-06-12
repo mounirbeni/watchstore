@@ -120,7 +120,7 @@ export async function createOrderAction(formData: FormData): Promise<ActionResul
       (promo.minOrderAmount === null || subtotal >= Number(promo.minOrderAmount))
     ) {
       if (promo.discountType === "PERCENT") {
-        promoDiscount = Math.round((subtotal * Number(promo.discountValue)) / 100);
+        promoDiscount = Math.min(Math.round((subtotal * Number(promo.discountValue)) / 100), subtotal);
       } else {
         promoDiscount = Math.min(Number(promo.discountValue), subtotal);
       }
@@ -432,7 +432,7 @@ export async function updateOrderStatusAction(formData: FormData): Promise<Actio
   const data: Record<string, unknown> = { status };
   if (parsed.data.adminNote) data["adminNotes"] = parsed.data.adminNote;
   if (status === OrderStatus.CONFIRMED && !order.confirmedAt) data["confirmedAt"] = new Date();
-  if (status === OrderStatus.PREPARING) data["preparingAt"] = new Date();
+  if (status === OrderStatus.PREPARING && !order.preparingAt) data["preparingAt"] = new Date();
   if (status === OrderStatus.OUT_FOR_DELIVERY) data["outForDeliveryAt"] = new Date();
   if (status === OrderStatus.DELIVERED) {
     data["deliveredAt"] = new Date();
