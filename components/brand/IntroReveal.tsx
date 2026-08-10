@@ -1,15 +1,17 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronsRight } from "lucide-react";
 import { BRAND } from "./Logo";
+import markSrc from "@/public/brand/mark.png";
 
 /**
- * Cinematic first-impression sequence: the monogram draws itself stroke by
- * stroke, the hands sweep into the 10:10 position, the wordmark letters rise,
- * a gold light sweeps across, then the screen splits open on the storefront.
+ * Cinematic first-impression sequence: a gold light pool blooms, the emblem
+ * irises open from the centre and settles out of a glow, a light sweeps across
+ * it, the wordmark letters rise, then the screen splits open on the storefront.
  *
  * Rules it respects:
  *  - plays once per browser session (sessionStorage), never on repeat views;
@@ -28,7 +30,7 @@ const WORD_LEAD = BRAND.nameLead.split("");
 const WORD_TAIL = BRAND.nameTail.split("");
 
 /** Total runtime before the curtain opens, in seconds. */
-const RUNTIME = 3.05;
+const RUNTIME = 3.2;
 
 export default function IntroReveal() {
   const pathname = usePathname();
@@ -105,13 +107,13 @@ export default function IntroReveal() {
           {/* Ambient gold light pool */}
           <motion.div
             aria-hidden
-            initial={{ opacity: 0, scale: 0.7 }}
+            initial={{ opacity: 0, scale: 0.6 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.6, ease: "easeOut" }}
-            className="pointer-events-none absolute h-[70vmin] w-[70vmin] rounded-full"
+            transition={{ duration: 1.8, ease: "easeOut" }}
+            className="pointer-events-none absolute h-[78vmin] w-[78vmin] rounded-full"
             style={{
               background:
-                "radial-gradient(circle, rgba(201,168,106,0.20) 0%, rgba(201,168,106,0.06) 45%, transparent 70%)",
+                "radial-gradient(circle, rgba(201,168,106,0.22) 0%, rgba(201,168,106,0.07) 45%, transparent 70%)",
             }}
           />
 
@@ -133,86 +135,52 @@ export default function IntroReveal() {
             transition={{ duration: 0.5, ease: "easeIn" }}
             className="relative flex flex-col items-center px-6"
           >
-            {/* ── Monogram, drawn live ─────────────────────────── */}
-            <svg
-              viewBox="0 0 64 64"
-              fill="none"
-              className="h-24 w-24 sm:h-28 sm:w-28"
-              aria-label={BRAND.name}
-              role="img"
-            >
-              <defs>
-                <linearGradient id="cc-intro-grad" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#F2E8D4" />
-                  <stop offset="0.5" stopColor="#C9A86A" />
-                  <stop offset="1" stopColor="#B08F50" />
-                </linearGradient>
-              </defs>
-
-              {/* Bezel draws clockwise from 12 o'clock */}
-              <motion.circle
-                cx="32"
-                cy="32"
-                r="24"
-                stroke="url(#cc-intro-grad)"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-                initial={{ pathLength: 0, rotate: -90 }}
-                animate={{ pathLength: 1, rotate: -90 }}
-                transition={{ duration: 1.15, ease: EASE_OUT, delay: 0.15 }}
-                style={{ transformOrigin: "32px 32px" }}
+            {/* ── The emblem, irising open out of the glow ─────── */}
+            <div className="relative">
+              {/* Halo that blooms behind it */}
+              <motion.span
+                aria-hidden
+                initial={{ opacity: 0, scale: 0.4 }}
+                animate={{ opacity: [0, 0.9, 0.45], scale: [0.4, 1.15, 1] }}
+                transition={{ duration: 1.9, ease: EASE_OUT, times: [0, 0.55, 1] }}
+                className="pointer-events-none absolute inset-0 -m-10 rounded-full"
+                style={{
+                  background:
+                    "radial-gradient(circle, rgba(221,194,140,0.35) 0%, rgba(201,168,106,0.12) 40%, transparent 68%)",
+                }}
               />
 
-              <motion.circle
-                cx="32"
-                cy="32"
-                r="18"
-                stroke="#FFFFFF"
-                strokeOpacity="0.12"
-                strokeWidth="1"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.5 }}
-              />
-
-              {/* Indices pop in one after the other */}
-              <g stroke="url(#cc-intro-grad)" strokeWidth="2.4" strokeLinecap="round">
-                {["M32 12.5v4.5", "M47 32h4.5", "M32 47v4.5", "M12.5 32H17"].map((d, i) => (
-                  <motion.path
-                    key={d}
-                    d={d}
-                    initial={{ opacity: 0, pathLength: 0 }}
-                    animate={{ opacity: 1, pathLength: 1 }}
-                    transition={{ duration: 0.3, ease: "easeOut", delay: 0.75 + i * 0.09 }}
-                  />
-                ))}
-              </g>
-
-              {/* Hands sweep a full turn into 10:10 */}
-              <motion.g
-                initial={{ rotate: -320, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                transition={{ duration: 1.25, ease: EASE_OUT, delay: 0.55 }}
-                style={{ transformOrigin: "32px 32px" }}
+              <motion.div
+                initial={{ clipPath: "circle(0% at 50% 55%)", scale: 1.18, opacity: 0 }}
+                animate={{ clipPath: "circle(75% at 50% 55%)", scale: 1, opacity: 1 }}
+                transition={{
+                  clipPath: { duration: 1.25, ease: EASE_OUT, delay: 0.2 },
+                  scale: { duration: 1.7, ease: EASE_OUT, delay: 0.2 },
+                  opacity: { duration: 0.5, delay: 0.2 },
+                }}
+                className="relative"
               >
-                <path d="M32 32 21.5 21.5" stroke="#FFFFFF" strokeWidth="2.8" strokeLinecap="round" />
-                <path d="M32 32 44 22.5" stroke="#C9A86A" strokeWidth="2.2" strokeLinecap="round" />
-              </motion.g>
+                <Image
+                  src={markSrc}
+                  alt={BRAND.name}
+                  priority
+                  sizes="(max-width: 640px) 60vw, 380px"
+                  className="h-auto w-[58vw] max-w-[380px] select-none object-contain sm:w-[34vw]"
+                />
 
-              <motion.circle
-                cx="32"
-                cy="32"
-                r="2.4"
-                fill="url(#cc-intro-grad)"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 400, damping: 14, delay: 1.35 }}
-                style={{ transformOrigin: "32px 32px" }}
-              />
-            </svg>
+                {/* Light sweeping across the emblem */}
+                <motion.span
+                  aria-hidden
+                  initial={{ x: "-140%" }}
+                  animate={{ x: "140%" }}
+                  transition={{ duration: 1.15, ease: "easeInOut", delay: 1.35 }}
+                  className="pointer-events-none absolute inset-y-0 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent mix-blend-screen"
+                />
+              </motion.div>
+            </div>
 
             {/* ── Wordmark ──────────────────────────────────────── */}
-            <div className="mt-7 flex overflow-hidden font-serif text-4xl font-bold tracking-tight sm:text-6xl">
+            <div className="mt-6 flex overflow-hidden font-serif text-4xl font-bold tracking-tight sm:text-6xl">
               {[
                 ...WORD_LEAD.map((ch) => ({ ch, gold: false })),
                 ...WORD_TAIL.map((ch) => ({ ch, gold: true })),
@@ -221,7 +189,7 @@ export default function IntroReveal() {
                   key={`${ch}-${i}`}
                   initial={{ y: "110%", opacity: 0 }}
                   animate={{ y: "0%", opacity: 1 }}
-                  transition={{ duration: 0.62, ease: EASE_OUT, delay: 1.15 + i * 0.045 }}
+                  transition={{ duration: 0.62, ease: EASE_OUT, delay: 1.3 + i * 0.045 }}
                   className={gold ? "text-gold-500" : "text-white"}
                 >
                   {ch}
@@ -234,13 +202,13 @@ export default function IntroReveal() {
               <motion.span
                 initial={{ width: 0, opacity: 0 }}
                 animate={{ width: 44, opacity: 1 }}
-                transition={{ duration: 0.7, ease: EASE_OUT, delay: 1.75 }}
+                transition={{ duration: 0.7, ease: EASE_OUT, delay: 1.9 }}
                 className="h-px bg-gradient-to-r from-transparent to-gold-500/70"
               />
               <motion.p
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: EASE_OUT, delay: 1.8 }}
+                transition={{ duration: 0.6, ease: EASE_OUT, delay: 1.95 }}
                 className="whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.42em] text-white/55 sm:text-xs"
               >
                 {BRAND.tagline}
@@ -248,19 +216,10 @@ export default function IntroReveal() {
               <motion.span
                 initial={{ width: 0, opacity: 0 }}
                 animate={{ width: 44, opacity: 1 }}
-                transition={{ duration: 0.7, ease: EASE_OUT, delay: 1.75 }}
+                transition={{ duration: 0.7, ease: EASE_OUT, delay: 1.9 }}
                 className="h-px bg-gradient-to-l from-transparent to-gold-500/70"
               />
             </div>
-
-            {/* Light sweep across the lockup */}
-            <motion.div
-              aria-hidden
-              initial={{ x: "-160%" }}
-              animate={{ x: "160%" }}
-              transition={{ duration: 1.1, ease: "easeInOut", delay: 1.95 }}
-              className="pointer-events-none absolute inset-y-0 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-            />
           </motion.div>
 
           {/* ── Loading rule ───────────────────────────────────── */}

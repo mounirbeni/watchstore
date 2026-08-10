@@ -280,7 +280,7 @@ export default async function HomePage() {
               </div>
               {/* Floating brand seal */}
               <div className="absolute top-5 right-5 flex h-14 w-14 items-center justify-center rounded-full border border-white/25 bg-black/35 backdrop-blur-md motion-safe:animate-float-slow">
-                <LogoMark className="h-8 w-8" tone="light" idSuffix="-seal" />
+                <LogoMark className="h-9 w-auto" />
               </div>
             </Reveal>
 
@@ -594,7 +594,7 @@ export default async function HomePage() {
         <Reveal as="section" className="pb-14 sm:pb-20">
           <div className="mx-auto flex max-w-md flex-col items-center gap-3 px-5">
             <div className="rule-gold" />
-            <LogoMark className="mt-3 h-10 w-10" idSuffix="-sign" />
+            <LogoMark className="mt-3 h-14 w-auto" />
             <p className="font-serif text-lg font-bold text-luxury-white">
               {BRAND.nameLead}
               <span className="gold-text">{BRAND.nameTail}</span>

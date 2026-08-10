@@ -16,22 +16,27 @@ interface LogoProps {
   href?: string | null;
   size?: "sm" | "md" | "lg";
   tone?: "gold" | "light" | "dark";
-  /** Hide the wordmark and keep the monogram only (compact app bars). */
+  /** Hide the wordmark and keep the emblem only (compact app bars). */
   markOnly?: boolean;
   /** Show the small "L'art du temps" line under the wordmark. */
   withTagline?: boolean;
+  /** Prioritise the image — set on the header instance. */
+  priority?: boolean;
   className?: string;
 }
 
+/**
+ * Emblem heights are set per size; the width follows the artwork's ratio.
+ */
 const SIZES = {
-  sm: { mark: "h-7 w-7", word: "text-base", tagline: "text-[8px] tracking-[0.3em]", gap: "gap-2" },
-  md: { mark: "h-9 w-9", word: "text-xl", tagline: "text-[9px] tracking-[0.32em]", gap: "gap-2.5" },
-  lg: { mark: "h-14 w-14", word: "text-3xl", tagline: "text-[11px] tracking-[0.36em]", gap: "gap-3.5" },
+  sm: { mark: "h-10", word: "text-base", tagline: "text-[8px] tracking-[0.3em]", gap: "gap-2" },
+  md: { mark: "h-12", word: "text-xl", tagline: "text-[9px] tracking-[0.32em]", gap: "gap-2" },
+  lg: { mark: "h-24", word: "text-3xl", tagline: "text-[11px] tracking-[0.36em]", gap: "gap-2" },
 } as const;
 
 /**
  * The single source of truth for the ChronoCraft lockup. Header, footer,
- * auth screens, the mobile app bar and the intro reveal all render this so the
+ * auth screens, the mobile drawer and the intro reveal all render this so the
  * brand never drifts between surfaces.
  */
 export default function Logo({
@@ -40,6 +45,7 @@ export default function Logo({
   tone = "gold",
   markOnly = false,
   withTagline = false,
+  priority = false,
   className,
 }: LogoProps) {
   const s = SIZES[size];
@@ -47,7 +53,7 @@ export default function Logo({
 
   const lockup = (
     <span className={cn("inline-flex items-center", s.gap, className)}>
-      <LogoMark className={s.mark} tone={tone} idSuffix={`-${size}-${tone}`} />
+      <LogoMark className={cn(s.mark, "w-auto")} priority={priority} />
       {!markOnly && (
         <span className="inline-flex flex-col leading-none">
           <span className={cn("font-serif font-bold tracking-[0.01em]", s.word, leadColor)}>

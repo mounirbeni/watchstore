@@ -143,7 +143,7 @@ export default function HeaderShell({ user, cartCount, notifications, logoutForm
               >
                 <Menu className="h-[22px] w-[22px]" strokeWidth={1.8} />
               </button>
-              <Logo size={scrolled ? "sm" : "md"} />
+              <Logo size={scrolled ? "sm" : "md"} priority />
             </div>
 
             {/* ── Centre: desktop nav ──────────────────────────── */}
