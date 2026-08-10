@@ -48,7 +48,7 @@ export default function PasswordForm() {
         <div className="flex-1">
           <p className="text-sm font-medium text-luxury-white">Modifier le mot de passe</p>
           <p className="text-[11px] text-luxury-muted">
-            {success ? "✓ Mot de passe mis à jour avec succès" : "Changer votre mot de passe de connexion"}
+            {success ? "Mot de passe mis à jour avec succès" : "Changer votre mot de passe de connexion"}
           </p>
         </div>
         <ChevronRight

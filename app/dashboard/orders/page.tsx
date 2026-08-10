@@ -5,7 +5,7 @@ import { formatDate, formatPrice } from "@/lib/utils";
 import StatusBadge from "@/components/dashboard/StatusBadge";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import EmptyState from "@/components/ui/EmptyState";
-import { ShoppingBag, ChevronRight, Truck } from "lucide-react";
+import { ShoppingBag, ChevronRight, Truck, Check } from "lucide-react";
 
 export const metadata = { title: "Mes commandes" };
 
@@ -50,7 +50,7 @@ function MiniProgress({ rank }: { rank: number }) {
       </div>
       <p className="mt-1.5 text-[10px] text-luxury-muted">
         {STEP_LABELS[Math.min(rank, TOTAL_STEPS - 1)]}
-        {rank === TOTAL_STEPS - 1 ? " ✓" : ""}
+        {rank === TOTAL_STEPS - 1 && <Check className="ml-1 inline h-3 w-3 text-gold-500" aria-hidden />}
       </p>
     </div>
   );

@@ -96,7 +96,7 @@ export default async function DashboardProfilePage() {
 
       {/* ━━━━━━━━━━━━━━━  PROFILE HERO  ━━━━━━━━━━━━━━━ */}
       <section className="relative overflow-hidden rounded-2xl border border-luxury-border bg-luxury-dark px-5 py-6 sm:px-7 sm:py-7">
-        <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-gold-500/6 blur-3xl" />
+        <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-gold-500/5 blur-3xl" />
         <div className="relative flex items-center gap-4 sm:gap-5">
           {/* Avatar */}
           <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-gold-500/40 bg-gold-500/15 text-xl font-bold text-gold-500 sm:h-[72px] sm:w-[72px] sm:text-2xl">

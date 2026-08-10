@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { Watch } from "lucide-react";
 
 interface GalleryImage {
   id: string;
@@ -35,7 +36,9 @@ export default function ProductGallery({ images, productName, discount }: Props)
             priority
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-6xl text-luxury-muted">⌚</div>
+          <div className="w-full h-full flex items-center justify-center text-luxury-muted">
+            <Watch className="h-16 w-16" strokeWidth={1.2} aria-hidden />
+          </div>
         )}
 
         {discount && discount > 0 && (

@@ -48,15 +48,33 @@ const config: Config = {
       backgroundImage: {
         "premium-gradient": "linear-gradient(135deg, #FAFAF9 0%, #F2F2F0 100%)",
       },
+      transitionTimingFunction: {
+        brand:   "cubic-bezier(0.16, 1, 0.3, 1)",
+        curtain: "cubic-bezier(0.83, 0, 0.17, 1)",
+      },
       animation: {
-        "fade-in":  "fadeIn 0.3s ease-in-out",
-        "slide-up": "slideUp 0.4s ease-out",
-        "shimmer":  "shimmer 1.5s infinite",
+        "fade-in":    "fadeIn 0.3s ease-in-out",
+        "slide-up":   "slideUp 0.4s ease-out",
+        "shimmer":    "shimmer 1.5s infinite",
+        "marquee":    "marquee 32s linear infinite",
+        "float-slow": "floatSlow 7s ease-in-out infinite",
+        "pulse-ring": "pulseRing 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "tick":       "tick 60s steps(60) infinite",
       },
       keyframes: {
         fadeIn:  { from: { opacity: "0" }, to: { opacity: "1" } },
         slideUp: { from: { opacity: "0", transform: "translateY(12px)" }, to: { opacity: "1", transform: "translateY(0)" } },
         shimmer: { from: { backgroundPosition: "-200% 0" }, to: { backgroundPosition: "200% 0" } },
+        marquee: { from: { transform: "translateX(0)" }, to: { transform: "translateX(-100%)" } },
+        floatSlow: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%":      { transform: "translateY(-10px)" },
+        },
+        pulseRing: {
+          "0%":        { transform: "scale(0.9)", opacity: "0.6" },
+          "70%, 100%": { transform: "scale(1.6)", opacity: "0" },
+        },
+        tick: { from: { transform: "rotate(0deg)" }, to: { transform: "rotate(360deg)" } },
       },
     },
   },

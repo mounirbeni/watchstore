@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import IntroReveal from "@/components/brand/IntroReveal";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: "ChronoCraft",
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
   },
   formatDetection: { telephone: false },
   openGraph: {
@@ -39,13 +40,19 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
   viewportFit: "cover",
-  colorScheme: "dark",
+  colorScheme: "light",
 };
+
+/**
+ * Stamped on <html> before first paint so returning visitors never catch a
+ * frame of the intro overlay that ships in the server HTML.
+ */
+const INTRO_GUARD = `try{if(sessionStorage.getItem('cc-intro-v1')||matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('intro-done')}}catch(e){document.documentElement.classList.add('intro-done')}`;
 
 export default function RootLayout({
   children,
@@ -54,7 +61,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className={`${inter.variable} ${playfair.variable}`}>
-      <body>{children}</body>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: INTRO_GUARD }} />
+      </head>
+      <body>
+        <IntroReveal />
+        {children}
+      </body>
     </html>
   );
 }

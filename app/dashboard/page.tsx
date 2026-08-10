@@ -114,8 +114,8 @@ export default async function DashboardPage() {
       {/* ━━━━━━━━━━━━━━━  HERO  ━━━━━━━━━━━━━━━ */}
       <section className="relative overflow-hidden rounded-2xl border border-luxury-border bg-luxury-dark px-5 py-6 sm:px-7 sm:py-8">
         {/* Ambient glow */}
-        <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-gold-500/6 blur-3xl" />
-        <div className="pointer-events-none absolute -left-16 bottom-0 h-40 w-40 rounded-full bg-gold-500/4 blur-2xl" />
+        <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-gold-500/5 blur-3xl" />
+        <div className="pointer-events-none absolute -left-16 bottom-0 h-40 w-40 rounded-full bg-gold-500/5 blur-2xl" />
 
         <div className="relative">
           <div className="flex items-start justify-between gap-4">
@@ -296,7 +296,7 @@ export default async function DashboardPage() {
                   {badge > 9 ? "9+" : badge}
                 </span>
               ) : null}
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gold-500/10 transition-colors group-hover:bg-gold-500/18">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gold-500/10 transition-colors group-hover:bg-gold-500/20">
                 <Icon className="text-gold-500" style={{ width: 18, height: 18 }} />
               </span>
               <span className="text-[11px] font-medium leading-tight text-luxury-white">{label}</span>

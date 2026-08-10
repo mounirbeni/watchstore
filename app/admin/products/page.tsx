@@ -188,7 +188,7 @@ export default async function AdminProductsPage({ searchParams }: AdminProductsP
           <input name="strapMaterial" className="input-luxury" placeholder="Strap material" />
           <div className="grid gap-4 md:grid-cols-3">
             <input name="badge" className="input-luxury" placeholder="Badge (new, hot…)" />
-            <input name="rating" type="number" min="0" max="5" step="0.1" defaultValue="0" className="input-luxury" placeholder="Note ★ (0–5, ex 4.8)" />
+            <input name="rating" type="number" min="0" max="5" step="0.1" defaultValue="0" className="input-luxury" placeholder="Note sur 5 (ex 4.8)" />
             <input name="soldCount" type="number" min="0" step="1" defaultValue="0" className="input-luxury" placeholder="Nombre vendu (ex 1500)" />
           </div>
           <ProductImageUploader cloudinaryConfigured={cloudinaryConfigured} />

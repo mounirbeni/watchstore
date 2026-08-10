@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { notFound, redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
@@ -31,8 +32,8 @@ export default async function AdminHeroEditPage({ params }: Props) {
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Slides Hero</p>
           <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Modifier la slide</h1>
         </div>
-        <Link href="/admin/hero" className="rounded-xl border border-luxury-border px-4 py-2 text-sm text-luxury-muted hover:text-luxury-white transition-colors">
-          ← Retour
+        <Link href="/admin/hero" className="inline-flex items-center gap-1.5 rounded-xl border border-luxury-border px-4 py-2 text-sm text-luxury-muted hover:text-luxury-white transition-colors">
+          <ArrowLeft className="h-4 w-4" /> Retour
         </Link>
       </header>
 

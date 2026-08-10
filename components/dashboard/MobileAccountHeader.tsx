@@ -47,7 +47,7 @@ export default function MobileAccountHeader({
     <section className="lg:hidden space-y-3">
       {/* Profile hero */}
       <div className="relative overflow-hidden rounded-2xl border border-luxury-border bg-luxury-dark px-5 py-5">
-        <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gold-500/6 blur-3xl" />
+        <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-gold-500/5 blur-3xl" />
         <div className="relative flex items-center gap-4">
           <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-gold-500/40 bg-gold-500/15 text-lg font-bold text-gold-500">
             {firstName[0]?.toUpperCase()}{lastName[0]?.toUpperCase()}

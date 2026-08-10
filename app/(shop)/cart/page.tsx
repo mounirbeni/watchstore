@@ -8,7 +8,7 @@ import { removeFromCartAction, updateCartQuantityAction } from "@/actions/cart";
 import Button from "@/components/ui/Button";
 import EmptyState from "@/components/ui/EmptyState";
 import MobileCartBar from "@/components/cart/MobileCartBar";
-import { ShoppingCart, Trash2, ArrowRight, ChevronLeft, Shield, Truck } from "lucide-react";
+import { ShoppingCart, Trash2, ArrowRight, ChevronLeft, Shield, Truck, Watch } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Panier" };
@@ -92,7 +92,9 @@ export default async function CartPage() {
                     {image ? (
                       <Image src={image.url} alt={item.product.name} fill className="object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-2xl">⌚</div>
+                      <div className="w-full h-full flex items-center justify-center text-luxury-muted">
+                        <Watch className="h-7 w-7" strokeWidth={1.4} aria-hidden />
+                      </div>
                     )}
                   </Link>
 

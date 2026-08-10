@@ -421,7 +421,7 @@ export async function reviewDepositAction(formData: FormData): Promise<ActionRes
       userId: order.userId,
       category: NotificationCategory.ORDER,
       priority: NotificationPriority.IMPORTANT,
-      title: "Commande confirmée ✓",
+      title: "Commande confirmée",
       message: `Votre acompte est validé et votre commande ${order.orderNumber} est confirmée. Le solde de ${formatPrice(Number(order.remainingBalance))} sera réglé à la livraison.`,
       actionUrl: `/dashboard/orders/${order.orderNumber}`,
       email: true,

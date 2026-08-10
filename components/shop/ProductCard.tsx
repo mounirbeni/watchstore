@@ -2,8 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils";
 import { getProductSignals } from "@/lib/product-signals";
-import { ArrowRight, Star, Truck, Award, Sparkles, Flame, Gem } from "lucide-react";
+import { ArrowRight, Star, Truck, Award, Sparkles, Flame, Gem, Watch } from "lucide-react";
 import type { Product, ProductImage, Category } from "@prisma/client";
+import HoverLift from "@/components/motion/HoverLift";
 
 type ProductWithImage = Product & { images: ProductImage[]; category?: Category | null };
 
@@ -47,11 +48,12 @@ export default function ProductCard({ product }: { product: ProductWithImage }) 
   const TrustIcon = signals.trustBadge ? (TRUST_ICON[signals.trustBadge] ?? Truck) : null;
 
   return (
+    <HoverLift className="h-full">
     <Link
       href={`/products/${product.slug}`}
-      className="group flex h-full flex-col active:scale-[0.98] transition-transform duration-150"
+      className="group flex h-full flex-col"
     >
-      <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-luxury-border bg-white hover:shadow-card-hover transition-shadow duration-300">
+      <article className="sheen flex h-full flex-col overflow-hidden rounded-2xl border border-luxury-border bg-white transition-[box-shadow,border-color] duration-300 hover:border-gold-500/40 hover:shadow-card-hover">
 
         {/* Image — fixed 1:1 ratio across the whole store */}
         <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-luxury-dark">
@@ -60,12 +62,12 @@ export default function ProductCard({ product }: { product: ProductWithImage }) 
               src={primaryImage.url}
               alt={primaryImage.altText ?? product.name}
               fill
-              className="object-cover group-hover:scale-[1.04] transition-transform duration-500"
+              className="object-cover transition-transform duration-[700ms] ease-brand group-hover:scale-[1.06]"
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-luxury-muted">
-              <span className="text-3xl">⌚</span>
+              <Watch className="h-9 w-9" strokeWidth={1.4} aria-hidden />
             </div>
           )}
 
@@ -169,12 +171,13 @@ export default function ProductCard({ product }: { product: ProductWithImage }) 
             ) : (
               <>
                 Voir le produit
-                <ArrowRight className="h-3.5 w-3.5" />
+                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
               </>
             )}
           </span>
         </div>
       </article>
     </Link>
+    </HoverLift>
   );
 }

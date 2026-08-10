@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { notFound, redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
@@ -31,8 +32,8 @@ export default async function AdminCategoryEditPage({ params }: Props) {
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Catégories</p>
           <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Modifier — {category.name}</h1>
         </div>
-        <Link href="/admin/categories" className="rounded-xl border border-luxury-border px-4 py-2 text-sm text-luxury-muted hover:text-luxury-white transition-colors">
-          ← Retour
+        <Link href="/admin/categories" className="inline-flex items-center gap-1.5 rounded-xl border border-luxury-border px-4 py-2 text-sm text-luxury-muted hover:text-luxury-white transition-colors">
+          <ArrowLeft className="h-4 w-4" /> Retour
         </Link>
       </header>
 

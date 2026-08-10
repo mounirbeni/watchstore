@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 import { notFound, redirect } from "next/navigation";
 import { OrderStatus } from "@prisma/client";
 import { db } from "@/lib/db";
@@ -125,8 +126,8 @@ export default async function AdminOrderDetailPage({ params }: Props) {
                   />
                 </div>
               ) : order.payment.proofUrl ? (
-                <a href={order.payment.proofUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-gold-400 hover:underline">
-                  View proof →
+                <a href={order.payment.proofUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm text-gold-400 hover:underline">
+                  Voir le justificatif <ExternalLink className="h-3.5 w-3.5" />
                 </a>
               ) : (
                 <p className="text-sm text-luxury-muted">No proof image submitted.</p>

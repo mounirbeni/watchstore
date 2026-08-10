@@ -4,32 +4,61 @@
 
 @layer base {
   :root {
+    /* ── Typography ─────────────────────────────────────────── */
     --font-inter: "Inter", system-ui, sans-serif;
     --font-playfair: "Playfair Display", Georgia, serif;
     --font-mono: "JetBrains Mono", monospace;
+
+    /* ── Brand palette (single source of truth) ─────────────── */
+    --brand-gold: #c9a86a;
+    --brand-gold-light: #ddc28c;
+    --brand-gold-deep: #b08f50;
+    --brand-ink: #1a1a1a;
+    --brand-ink-soft: #6b7280;
+    --brand-surface: #ffffff;
+    --brand-surface-alt: #f7f7f5;
+    --brand-line: #e8e8e6;
+    --brand-night: #0b0b0c;
+
+    /* ── Motion language ────────────────────────────────────── */
+    --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-curtain: cubic-bezier(0.83, 0, 0.17, 1);
+
+    /* ── Layout chrome ──────────────────────────────────────── */
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
     --mobile-nav-h: 4.25rem;
+    --header-h: 4rem;
   }
 
   * {
     box-sizing: border-box;
-    border-color: #E8E8E6;
+    border-color: var(--brand-line);
   }
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    /* `clip` (not `hidden`) — it contains stray pixels without creating a
+       scroll container, so the sticky header keeps sticking. */
+    overflow-x: clip;
   }
 
   body {
     @apply antialiased;
     font-family: var(--font-inter);
-    background-color: #ffffff;
-    color: #1A1A1A;
+    background-color: var(--brand-surface);
+    color: var(--brand-ink);
     overscroll-behavior-y: none;
     -webkit-tap-highlight-color: transparent;
+    /*
+     * Full-bleed rails (`-mx-5 px-5`) and the hero's Ken Burns push can spill a
+     * few pixels past the viewport. `clip` contains them without turning body
+     * into a scroll container, which would break the sticky header.
+     */
+    overflow-x: clip;
   }
 
   /*
@@ -40,16 +69,23 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-playfair);
-    color: #1A1A1A;
+    color: var(--brand-ink);
   }
 
   input, select, textarea {
     font-size: 16px;
-    color: #1A1A1A;
+    color: var(--brand-ink);
+  }
+
+  /* Visible, on-brand keyboard focus everywhere — never a browser default. */
+  :focus-visible {
+    outline: 2px solid var(--brand-gold);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 
   ::selection {
-    background-color: #c9a86a;
+    background-color: var(--brand-gold);
     color: #000;
   }
 
@@ -58,21 +94,30 @@
     height: 5px;
   }
   ::-webkit-scrollbar-track {
-    background: #F7F7F5;
+    background: var(--brand-surface-alt);
   }
   ::-webkit-scrollbar-thumb {
-    background: #D1D1CE;
+    background: #d1d1ce;
     border-radius: 99px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #c9a86a;
+    background: var(--brand-gold);
+  }
+
+  /*
+   * The intro overlay ships in the server HTML so first-time visitors never
+   * see a flash of the page beneath it. The inline script in the root layout
+   * stamps `.intro-done` before paint for anyone who already watched it.
+   */
+  .intro-done #cc-intro {
+    display: none !important;
   }
 }
 
 @layer components {
   /* Gold accent text */
   .gold-text {
-    color: #c9a86a;
+    color: var(--brand-gold);
   }
 
   /* Champagne-gold gradient text for headlines */
@@ -90,12 +135,19 @@
     -webkit-backdrop-filter: blur(12px);
   }
 
+  /* Deeper frost used once the header leaves the hero */
+  .glass-strong {
+    background-color: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+  }
+
   /* Standard card surface */
   .card-luxury {
-    background-color: #ffffff;
-    border: 1px solid #E8E8E6;
+    background-color: var(--brand-surface);
+    border: 1px solid var(--brand-line);
     border-radius: 0.75rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
   }
 
   /* Primary CTA button */
@@ -107,7 +159,7 @@
 
   /* Outlined gold button */
   .btn-outline-gold {
-    @apply border border-gold-500 text-gold-500 hover:bg-gold-500/8
+    @apply border border-gold-500 text-gold-500 hover:bg-gold-500/10
            transition-all duration-200 active:scale-[0.98];
   }
 
@@ -138,6 +190,42 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  /* Section eyebrow — the small gold kicker above every headline */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[10px] sm:text-xs font-semibold
+           uppercase tracking-[0.25em] text-gold-500;
+  }
+
+  /* Hairline gold rule used as a section divider */
+  .rule-gold {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-gold-500/40 to-transparent;
+  }
+
+  /* Light sweeps across a surface on hover — reserved for premium CTAs/cards */
+  .sheen {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 -60%;
+    width: 45%;
+    transform: skewX(-18deg);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .sheen:hover::after {
+    animation: sheenSweep 0.9s var(--ease-brand) forwards;
+  }
+
+  /* Subtle dark sheen for gold-on-black CTAs */
+  .sheen-dark::after {
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.18), transparent);
+  }
 }
 
 @layer utilities {
@@ -156,5 +244,34 @@
     .pb-mobile-nav {
       padding-bottom: 0;
     }
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes sheenSweep {
+  from {
+    left: -60%;
+    opacity: 1;
+  }
+  to {
+    left: 130%;
+    opacity: 0;
+  }
+}
+
+/* Everything decorative stops for people who ask it to. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }

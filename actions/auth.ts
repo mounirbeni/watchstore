@@ -100,7 +100,7 @@ export async function registerAction(
     userId: user.id,
     category: NotificationCategory.ACCOUNT,
     priority: NotificationPriority.STANDARD,
-    title: "Bienvenue chez ChronoCraft 👋",
+    title: "Bienvenue chez ChronoCraft",
     message: "Votre compte est créé. Découvrez la collection et suivez vos commandes et notifications ici.",
     actionUrl: "/shop",
   });
