@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils";
-import { getProductSignals } from "@/lib/product-signals";
+import { getProductSignals, SOLD_NOUN } from "@/lib/product-signals";
 import { ArrowRight, Star, Truck, Award, Sparkles, Flame, Gem } from "lucide-react";
 import type { Product, ProductImage, Category } from "@prisma/client";
 
@@ -18,15 +18,15 @@ const TRUST_ICON: Record<string, typeof Truck> = {
 /** Five gold stars with half-star support, no review count. */
 function StarRating({ rating }: { rating: number }) {
   return (
-    <span className="inline-flex items-center gap-px" aria-label={`Note ${rating} sur 5`}>
+    <span className="inline-flex items-center gap-0.5" aria-label={`Note ${rating} sur 5`}>
       {[0, 1, 2, 3, 4].map((i) => {
         const fill = Math.max(0, Math.min(1, rating - i)); // 0, partial, or 1
         return (
-          <span key={i} className="relative inline-block h-3 w-3">
-            <Star className="absolute inset-0 h-3 w-3 text-gold-500/30" />
+          <span key={i} className="relative inline-block h-3.5 w-3.5">
+            <Star className="absolute inset-0 h-3.5 w-3.5 text-gold-500/25" />
             {fill > 0 && (
               <span className="absolute inset-0 overflow-hidden" style={{ width: `${fill * 100}%` }}>
-                <Star className="h-3 w-3 fill-gold-500 text-gold-500" />
+                <Star className="h-3.5 w-3.5 fill-gold-500 text-gold-500" />
               </span>
             )}
           </span>
@@ -109,15 +109,22 @@ export default function ProductCard({ product }: { product: ProductWithImage }) 
 
           {/* 3 — Stars (admin rating) + sold count — no review count */}
           {(signals.showRating || signals.showSold) && (
-            <div className="mb-2 flex min-h-[16px] items-center gap-2 text-[11px] text-luxury-muted">
-              {signals.showRating && (
-                <span className="inline-flex items-center gap-1">
-                  <StarRating rating={signals.rating} />
-                  <span className="font-medium text-luxury-light">{signals.rating.toFixed(1)}</span>
+            <div className="mb-2 flex min-h-[18px] items-center gap-2.5">
+              {signals.showRating && <StarRating rating={signals.rating} />}
+              {signals.showRating && signals.showSold && (
+                <span className="h-3 w-px shrink-0 bg-luxury-border" aria-hidden="true" />
+              )}
+              {signals.showSold && (
+                <span
+                  className="text-[11px] leading-none tracking-wide text-luxury-muted"
+                  aria-label={signals.soldLabel}
+                >
+                  <span className="font-semibold tabular-nums text-luxury-light">
+                    {signals.soldCount}
+                  </span>{" "}
+                  {SOLD_NOUN}
                 </span>
               )}
-              {signals.showRating && signals.showSold && <span className="text-luxury-border">·</span>}
-              {signals.showSold && <span>{signals.soldLabel}</span>}
             </div>
           )}
 

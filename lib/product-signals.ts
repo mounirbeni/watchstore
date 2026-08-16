@@ -6,6 +6,9 @@ import type { Product, Category } from "@prisma/client";
  * stock urgency and the single trust badge are derived from real fields.
  */
 
+/** Noun paired with the sold count, kept here so the wording has one home. */
+export const SOLD_NOUN = "Sold";
+
 /** Format a raw count into "78", "350", "1.5K", "2.3K". */
 export function formatSold(n: number): string {
   if (n >= 1000) {
@@ -20,7 +23,8 @@ export interface ProductSignals {
   showRating: boolean;
   rating: number;        // 0–5, 1 decimal
   showSold: boolean;
-  soldLabel: string;     // e.g. "1.5K Sold"
+  soldCount: string;     // e.g. "1.5K" — rendered on its own so it can be emphasised
+  soldLabel: string;     // e.g. "1.5K Sold" — full phrase, for screen readers
   stock: {
     label: string;
     tone: "gold" | "muted" | "out";
@@ -86,7 +90,8 @@ export function getProductSignals(product: ProductLike): ProductSignals {
     showRating,
     rating,
     showSold,
-    soldLabel: `${formatSold(sold)} Sold`,
+    soldCount: formatSold(sold),
+    soldLabel: `${formatSold(sold)} ${SOLD_NOUN}`,
     stock,
     trustBadge,
   };
