@@ -149,11 +149,6 @@ export default function ProductCard({ product }: { product: ProductWithImage }) 
                 {formatPrice(product.comparePrice)}
               </span>
             )}
-            {discount && discount > 0 && (
-              <span className="ml-auto text-[11px] font-semibold text-luxury-light">
-                Économisez {discount}%
-              </span>
-            )}
           </div>
 
           {/* 6 — Action button */}
