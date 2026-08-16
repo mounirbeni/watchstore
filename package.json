@@ -12,6 +12,7 @@
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:bootstrap-admin": "node scripts/bootstrap-admin.cjs",
+    "db:delete-records": "node scripts/delete-records.cjs",
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset --force"
   },
