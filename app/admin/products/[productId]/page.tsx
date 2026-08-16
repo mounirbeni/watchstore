@@ -190,7 +190,7 @@ export default async function AdminProductEditPage({ params }: Props) {
                 className="input-luxury w-full"
                 placeholder="ex: 1500"
               />
-              <span className="text-xs text-luxury-muted">Affiché comme « 1.5K vendus ». 0 pour masquer.</span>
+              <span className="text-xs text-luxury-muted">Affiché comme « 1.5K Sold ». 0 pour masquer.</span>
             </label>
           </section>
 

@@ -20,7 +20,7 @@ export interface ProductSignals {
   showRating: boolean;
   rating: number;        // 0–5, 1 decimal
   showSold: boolean;
-  soldLabel: string;     // e.g. "1.5K vendus"
+  soldLabel: string;     // e.g. "1.5K Sold"
   stock: {
     label: string;
     tone: "gold" | "muted" | "out";
@@ -86,7 +86,7 @@ export function getProductSignals(product: ProductLike): ProductSignals {
     showRating,
     rating,
     showSold,
-    soldLabel: `${formatSold(sold)} vendus`,
+    soldLabel: `${formatSold(sold)} Sold`,
     stock,
     trustBadge,
   };
