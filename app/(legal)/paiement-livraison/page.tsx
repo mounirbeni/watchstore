@@ -5,14 +5,14 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Paiement & Livraison",
   description:
-    "Comment fonctionne le paiement chez ChronoCraft : un acompte de 100 DH pour confirmer, puis le solde réglé en espèces à la livraison.",
+    "Comment fonctionne le paiement chez ChronoCraft : un acompte de 30 à 100 DH selon le montant pour confirmer, puis le solde réglé en espèces à la livraison.",
 };
 
 export default function PaiementLivraisonPage() {
   return (
     <LegalPage
       title="Paiement & Livraison"
-      subtitle="Le paiement se fait à la livraison (cash). Pour confirmer votre commande, un acompte de 100 DH est réglé à l'avance, puis validé par notre équipe avant la préparation."
+      subtitle="Le paiement se fait à la livraison (cash). Pour confirmer votre commande, un acompte de 30 à 100 DH selon le montant est réglé à l'avance, puis validé par notre équipe avant la préparation."
       updatedAt="3 juin 2026"
       sections={[
         {
@@ -22,12 +22,18 @@ export default function PaiementLivraisonPage() {
               <p>
                 Vous ne payez la totalité de votre montre qu&apos;au moment où vous la recevez, en espèces, directement
                 au livreur. Pour confirmer votre commande et réserver votre pièce, un acompte de{" "}
-                <span className="font-semibold text-gold-500">100 DH</span> est réglé à l&apos;avance. Cet acompte est{" "}
+                <span className="font-semibold text-gold-500">30 à 100 DH</span> est réglé à l&apos;avance, selon le
+                montant de la commande. Cet acompte est{" "}
                 <span className="text-luxury-white">déduit du montant total</span> : il ne s&apos;ajoute pas au prix.
               </p>
+              <ul className="mt-3 list-disc space-y-1.5 pl-5">
+                <li>30 DH pour les commandes inférieures à 300 DH ;</li>
+                <li>50 DH pour les commandes entre 300 et 500 DH ;</li>
+                <li>100 DH pour les commandes de 500 DH et plus.</li>
+              </ul>
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
-                  { Icon: Wallet, title: "1. Acompte de 100 DH", desc: "Réglé en ligne pour confirmer la commande." },
+                  { Icon: Wallet, title: "1. Acompte 30–100 DH", desc: "Selon le montant, réglé en ligne pour confirmer." },
                   { Icon: BadgeCheck, title: "2. Validation admin", desc: "Notre équipe vérifie et confirme votre commande." },
                   { Icon: Truck, title: "3. Solde à la livraison", desc: "Le reste est payé en espèces à la réception." },
                 ].map(({ Icon, title, desc }) => (
@@ -45,7 +51,7 @@ export default function PaiementLivraisonPage() {
           heading: "Pourquoi un acompte ?",
           body: (
             <p>
-              L&apos;acompte de 100 DH nous permet de confirmer que votre commande est sérieuse, de réserver la montre à
+              L&apos;acompte nous permet de confirmer que votre commande est sérieuse, de réserver la montre à
               votre nom et de la préparer pour l&apos;expédition. Il protège aussi bien le client que le vendeur contre
               les commandes non honorées. Cet acompte est intégralement déduit du prix final de votre commande.
             </p>
@@ -66,7 +72,7 @@ export default function PaiementLivraisonPage() {
           heading: "Comment régler l'acompte",
           body: (
             <>
-              <p>L&apos;acompte de 100 DH peut être réglé par l&apos;un des moyens suivants :</p>
+              <p>L&apos;acompte peut être réglé par l&apos;un des moyens suivants :</p>
               <ul className="list-disc pl-5 space-y-1.5">
                 <li><span className="text-luxury-white">Virement bancaire</span> — sur notre RIB communiqué après la commande.</li>
                 <li><span className="text-luxury-white">CashPlus</span> — dépôt en agence à notre nom.</li>
@@ -83,7 +89,7 @@ export default function PaiementLivraisonPage() {
           heading: "Paiement du solde à la livraison",
           body: (
             <p>
-              Le reste du montant (prix total − acompte de 100 DH, plus les éventuels frais de livraison) est réglé{" "}
+              Le reste du montant (prix total − acompte, plus les éventuels frais de livraison) est réglé{" "}
               <span className="text-luxury-white">en espèces, à la livraison</span>, au moment où vous recevez votre
               colis. Vous pouvez vérifier votre montre avant de payer le solde.
             </p>

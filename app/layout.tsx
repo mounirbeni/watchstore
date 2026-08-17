@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | ChronoCraft",
   },
   description:
-    "Découvrez notre collection exclusive de montres de luxe. Authenticité, élégance, prestige.",
+    "Découvrez notre collection de montres. Distributeur au Maroc — pièces inspectées, garanties 12 mois.",
   keywords: ["montres", "luxe", "horlogerie", "chronographe", "tourbillon"],
   applicationName: "ChronoCraft",
   appleWebApp: {

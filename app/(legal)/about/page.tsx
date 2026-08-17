@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "À propos – ChronoCraft" };
 const VALUES = [
   {
     Icon: Shield,
-    title: "Authenticité garantie",
+    title: "Qualité contrôlée",
     desc: "Fournisseurs et manufactures partenaires sélectionnés. Chaque montre inspectée avant expédition, garantie 12 mois.",
   },
   {
@@ -30,7 +30,7 @@ const VALUES = [
 const STATS = [
   { value: "47+", label: "Références en stock" },
   { value: "48h", label: "Délai de livraison moyen" },
-  { value: "4.9/5", label: "Note de satisfaction" },
+  { value: "12 mois", label: "Garantie sur chaque montre" },
   { value: "+12", label: "Villes desservies" },
 ];
 
@@ -55,8 +55,8 @@ export default function AboutPage() {
         </h1>
         <p className="text-base sm:text-lg text-luxury-muted leading-relaxed max-w-2xl">
           ChronoCraft est née d&apos;une conviction simple : chaque amateur de belles montres mérite un accès
-          facile, sécurisé et transparent aux pièces qui lui correspondent. Depuis Casablanca, nous expédions
-          dans tout le Maroc des montres soigneusement sélectionnées pour leur qualité et leur authenticité.
+          facile, sécurisé et transparent aux pièces qui lui correspondent. Depuis Casablanca, nous distribuons
+          dans tout le Maroc des montres soigneusement sélectionnées auprès de nos fournisseurs partenaires.
         </p>
       </section>
 

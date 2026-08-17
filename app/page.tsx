@@ -9,7 +9,7 @@ import HeroCarousel from "@/components/home/HeroCarousel";
 import ScrollRow from "@/components/ui/ScrollRow";
 import {
   ArrowRight, Shield, Truck, Award, RefreshCw,
-  Zap, Star, Quote, CheckCircle2, Clock, Gem,
+  Zap, CheckCircle2, Clock, Gem,
   Search, ShoppingCart, Package, MapPin, Users, Timer,
 } from "lucide-react";
 
@@ -53,12 +53,6 @@ async function getHeroSlides() {
   } catch { return []; }
 }
 
-const TESTIMONIALS = [
-  { name: "Youssef B.", city: "Casablanca", stars: 5, text: "Montre reçue en 48h, emballage luxueux et qualité au rendez-vous. Je recommande à 100%." },
-  { name: "Amine K.",   city: "Rabat",       stars: 5, text: "Service client impeccable. Ils m&apos;ont aidé à choisir le modèle parfait pour mon budget." },
-  { name: "Mehdi R.",   city: "Marrakech",   stars: 5, text: "La montre est encore plus belle en vrai qu&apos;en photo. Rapport qualité-prix exceptionnel." },
-  { name: "Khalid T.",  city: "Fès",         stars: 5, text: "Troisième achat ici, toujours aussi satisfait. Ma référence pour l&apos;horlogerie au Maroc." },
-];
 
 export default async function HomePage() {
   const [featured, newArrivals, categories, heroSlides] = await Promise.all([
@@ -234,7 +228,7 @@ export default async function HomePage() {
 
               <div className="flex flex-col gap-3">
                 {[
-                  "Montres certifiées et authentiques",
+                  "Montres inspectées avant expédition",
                   "Livraison sécurisée dans tout le Maroc",
                   "Service après-vente dédié",
                   "Paiement en plusieurs fois disponible",
@@ -338,50 +332,6 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* ── Testimonials ──────────────────────────────────────── */}
-        <section className="bg-luxury-dark py-12 sm:py-16">
-          <div className="max-w-7xl mx-auto px-5 sm:px-6">
-            <div className="text-center mb-8 sm:mb-10">
-              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-gold-500 mb-2">Avis clients</p>
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-luxury-white mb-3">
-                Ce qu&apos;ils <span className="gold-text">disent</span>
-              </h2>
-              <div className="flex items-center justify-center gap-1">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-3.5 w-3.5 fill-gold-500 text-gold-500" />
-                ))}
-                <span className="ml-2 text-sm text-luxury-muted">4.9 / 5 · 200+ avis</span>
-              </div>
-            </div>
-
-            <div className="flex gap-3 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-5 px-5 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4 sm:overflow-visible">
-              {TESTIMONIALS.map((t) => (
-                <div
-                  key={t.name}
-                  className="shrink-0 w-[78%] sm:w-auto snap-start bg-white border border-luxury-border rounded-2xl p-5 flex flex-col gap-3 shadow-card hover:shadow-card-hover transition-shadow"
-                >
-                  <Quote className="h-5 w-5 text-gold-500/50" />
-                  <p className="text-sm text-luxury-light leading-relaxed flex-1">{t.text}</p>
-                  <div className="flex items-center gap-0.5">
-                    {Array.from({ length: t.stars }).map((_, i) => (
-                      <Star key={i} className="h-3 w-3 fill-gold-500 text-gold-500" />
-                    ))}
-                  </div>
-                  <div className="flex items-center gap-2.5 border-t border-luxury-border pt-3">
-                    <div className="h-8 w-8 rounded-full bg-gold-500/15 border border-gold-500/30 flex items-center justify-center text-xs font-bold text-gold-500">
-                      {t.name[0]}
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-luxury-white">{t.name}</p>
-                      <p className="text-xs text-luxury-muted">{t.city}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* ── Key numbers strip ────────────────────────────────── */}
         <section className="border-y border-luxury-border">
           <div className="max-w-7xl mx-auto px-5 sm:px-6 py-8 sm:py-10">
@@ -389,7 +339,7 @@ export default async function HomePage() {
               {[
                 { value: "47+", label: "Montres disponibles", Icon: Package },
                 { value: "48h", label: "Délai de livraison", Icon: Timer },
-                { value: "4.9/5", label: "Satisfaction client", Icon: Star },
+                { value: "12 mois", label: "Garantie incluse", Icon: Shield },
                 { value: "+12", label: "Villes desservies", Icon: MapPin },
               ].map(({ value, label, Icon }) => (
                 <div key={label} className="flex flex-col items-center gap-2">
@@ -424,11 +374,11 @@ export default async function HomePage() {
                   },
                   {
                     q: "Les montres sont-elles authentiques ?",
-                    a: "Absolument. Chaque montre est vérifiée et livrée avec ses documents d'origine et une garantie.",
+                    a: "Nous sommes distributeurs : nos montres proviennent de manufactures et fournisseurs partenaires. Chaque pièce est inspectée avant expédition et couverte par notre garantie de 12 mois. Nous ne vendons aucune contrefaçon.",
                   },
                   {
                     q: "Puis-je retourner un article ?",
-                    a: "Oui, vous disposez de 30 jours pour retourner un article non porté dans son emballage d'origine.",
+                    a: "Oui, vous disposez de 14 jours pour retourner un article non porté dans son emballage d'origine, sans avoir à vous justifier.",
                   },
                 ].map(({ q, a }) => (
                   <details key={q} className="group bg-white border border-luxury-border rounded-xl overflow-hidden shadow-card">
@@ -457,7 +407,7 @@ export default async function HomePage() {
                 {[
                   { Icon: Users, title: "Service client", desc: "Réponse en moins de 2h" },
                   { Icon: Truck, title: "Livraison sécurisée", desc: "Partout au Maroc" },
-                  { Icon: Shield, title: "Authenticité garantie", desc: "100% certifié" },
+                  { Icon: Shield, title: "Garantie 12 mois", desc: "Assurée par ChronoCraft" },
                 ].map(({ Icon, title, desc }) => (
                   <div key={title} className="flex items-center gap-3 p-4 bg-white border border-luxury-border rounded-xl shadow-card">
                     <div className="w-9 h-9 rounded-xl bg-gold-500/10 flex items-center justify-center shrink-0">
@@ -517,10 +467,10 @@ export default async function HomePage() {
         <section className="max-w-7xl mx-auto px-5 sm:px-6 pb-12 sm:pb-16">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
             {[
-              { Icon: Shield,    title: "Authenticité garantie", desc: "Chaque pièce certifiée avec documentation complète" },
+              { Icon: Shield,    title: "Qualité contrôlée",     desc: "Chaque pièce inspectée avant expédition" },
               { Icon: Truck,     title: "Livraison sécurisée",   desc: "Suivi en temps réel dans tout le Maroc" },
               { Icon: Award,     title: "Service premium",       desc: "Notre équipe d'experts à votre écoute" },
-              { Icon: RefreshCw, title: "Retours 30 jours",      desc: "Échanges facilités sur toutes les commandes" },
+              { Icon: RefreshCw, title: "Retours 14 jours",      desc: "Garantie 12 mois assurée par ChronoCraft" },
             ].map(({ Icon, title, desc }) => (
               <div key={title} className="text-center p-4 sm:p-5 bg-white border border-luxury-border rounded-xl shadow-card hover:shadow-card-hover transition-shadow">
                 <div className="w-10 h-10 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto mb-3">

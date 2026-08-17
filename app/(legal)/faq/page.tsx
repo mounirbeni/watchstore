@@ -10,7 +10,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "Comment fonctionne le paiement ?",
-        a: "Vous versez un acompte de 100 DH en ligne lors de votre commande pour confirmer votre réservation. Le solde restant est réglé en espèces directement au livreur, à la réception de votre colis. Aucune carte bancaire n'est requise pour le paiement final.",
+        a: "Vous versez un acompte en ligne pour confirmer votre réservation : 30 DH en dessous de 300 DH de commande, 50 DH entre 300 et 500 DH, et 100 DH à partir de 500 DH. Il est déduit du total. Le solde restant est réglé en espèces directement au livreur, à la réception de votre colis. Aucune carte bancaire n'est requise pour le paiement final.",
       },
       {
         q: "L'acompte est-il remboursable ?",
@@ -43,7 +43,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Quels sont les frais de livraison ?",
-        a: "La livraison est offerte à partir de 500 DH d'achat. En dessous de ce montant, des frais fixes de livraison s'appliquent selon votre ville.",
+        a: "La livraison est offerte à partir de 800 DH d'achat. En dessous : 29 DH entre 500 et 800 DH, et 39 DH en dessous de 500 DH.",
       },
       {
         q: "Comment suivre ma commande ?",
@@ -93,7 +93,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Puis-je échanger ma montre contre un autre modèle ?",
-        a: "Oui, l'échange est possible dans les 30 jours suivant la réception, sous réserve de disponibilité du modèle souhaité. Si le nouveau modèle est plus cher, vous réglez la différence ; s'il est moins cher, nous vous remboursons la différence.",
+        a: "Oui, l'échange est possible dans les 14 jours suivant la réception, sous réserve de disponibilité du modèle souhaité. Si le nouveau modèle est plus cher, vous réglez la différence ; s'il est moins cher, nous vous remboursons la différence.",
       },
     ],
   },

@@ -218,10 +218,10 @@ export default async function ProductDetailPage({ params }: Props) {
           {/* Trust badges */}
           <div className="grid grid-cols-2 gap-3 pt-4 border-t border-luxury-border">
             {[
-              { Icon: Shield, title: "Authenticité garantie", sub: "Certificat inclus" },
-              { Icon: Award, title: "Garantie constructeur", sub: "Service après-vente" },
+              { Icon: Shield, title: "Fournisseurs partenaires", sub: "Chaque pièce inspectée" },
+              { Icon: Award, title: "Garantie 12 mois", sub: "Assurée par ChronoCraft" },
               { Icon: Truck, title: "Livraison sécurisée", sub: "Partout au Maroc" },
-              { Icon: RotateCcw, title: "Retours 30 jours", sub: "Échange facilité" },
+              { Icon: RotateCcw, title: "Retours 14 jours", sub: "Sans justification" },
             ].map(({ Icon, title, sub }) => (
               <div key={title} className="flex items-start gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-gold-500/10 flex items-center justify-center shrink-0 mt-0.5">

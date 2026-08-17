@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "ChronoCraft — Montres de Luxe",
     short_name: "ChronoCraft",
     description:
-      "La maison des montres d'exception. Authenticité, élégance et prestige à portée de main.",
+      "Distributeur de montres au Maroc. Pièces inspectées, garanties 12 mois, livraison partout au royaume.",
     start_url: "/",
     scope: "/",
     display: "standalone",

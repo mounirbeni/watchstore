@@ -8,7 +8,7 @@ export default function Footer() {
           <div>
             <h3 className="text-base font-serif font-bold gold-text mb-3">ChronoCraft</h3>
             <p className="text-sm text-luxury-muted leading-relaxed">
-              Votre destination pour les montres authentiques. Qualité, élégance et prestige à chaque pièce.
+              Distributeur de montres au Maroc. Pièces sélectionnées, inspectées et garanties 12 mois.
             </p>
           </div>
 
