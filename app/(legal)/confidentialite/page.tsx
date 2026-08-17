@@ -1,5 +1,6 @@
 import LegalPage from "@/components/legal/LegalPage";
 import type { Metadata } from "next";
+import { CONTACT_PHONE } from "@/lib/contact";
 
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
@@ -20,7 +21,7 @@ export default function ConfidentialitePage() {
               Les données personnelles collectées sur ce site sont traitées par{" "}
               <span className="text-luxury-white">Mohammed J.</span>, exploitant du site sous le nom commercial
               ChronoCraft, basé à Casablanca, Maroc. Pour toute question relative à vos données, vous pouvez nous
-              contacter à l&apos;adresse <span className="text-gold-500">contact@chronocraft.ma</span>.
+              joindre au <span className="text-gold-500">{CONTACT_PHONE}</span> (téléphone ou WhatsApp).
             </p>
           ),
         },
@@ -73,8 +74,8 @@ export default function ConfidentialitePage() {
             <p>
               Conformément à la loi n° 09-08 relative à la protection des personnes physiques à l&apos;égard du traitement
               des données à caractère personnel, vous disposez d&apos;un droit d&apos;accès, de rectification,
-              d&apos;opposition et de suppression de vos données. Pour exercer ces droits, écrivez-nous à{" "}
-              <span className="text-gold-500">contact@chronocraft.ma</span>.
+              d&apos;opposition et de suppression de vos données. Pour exercer ces droits, contactez-nous au{" "}
+              <span className="text-gold-500">{CONTACT_PHONE}</span> (téléphone ou WhatsApp).
             </p>
           ),
         },

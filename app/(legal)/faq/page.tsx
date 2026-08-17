@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ChevronLeft, MessageCircle } from "lucide-react";
 import type { Metadata } from "next";
+import { CONTACT_PHONE, WHATSAPP_HREF } from "@/lib/contact";
 
 export const metadata: Metadata = { title: "FAQ – ChronoCraft" };
 
@@ -26,7 +27,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Puis-je annuler ma commande ?",
-        a: "Vous pouvez annuler votre commande tant qu'elle n'a pas été expédiée. Contactez-nous via WhatsApp ou email. L'acompte vous sera remboursé intégralement.",
+        a: "Vous pouvez annuler votre commande tant qu'elle n'a pas été expédiée. Contactez-nous par WhatsApp. L'acompte vous sera remboursé intégralement.",
       },
     ],
   },
@@ -182,7 +183,7 @@ export default function FaqPage() {
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
-            href="https://wa.me/212522000000"
+            href={WHATSAPP_HREF}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-[#25D366] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
@@ -190,10 +191,10 @@ export default function FaqPage() {
             WhatsApp
           </a>
           <a
-            href="mailto:contact@chronocraft.ma"
+            href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
             className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl border border-luxury-border text-luxury-light text-sm font-semibold hover:text-luxury-white hover:border-luxury-white transition-colors"
           >
-            contact@chronocraft.ma
+            {CONTACT_PHONE}
           </a>
         </div>
       </div>

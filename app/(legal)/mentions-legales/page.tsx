@@ -1,5 +1,6 @@
 import LegalPage from "@/components/legal/LegalPage";
 import type { Metadata } from "next";
+import { CONTACT_PHONE } from "@/lib/contact";
 
 export const metadata: Metadata = {
   title: "Mentions légales",
@@ -22,7 +23,7 @@ export default function MentionsLegalesPage() {
               <li><span className="text-luxury-muted">Activité :</span> Distribution et vente au détail de montres</li>
               <li><span className="text-luxury-muted">Localisation :</span> Casablanca, Maroc</li>
               <li><span className="text-luxury-muted">Téléphone :</span> +212 601 439 975</li>
-              <li><span className="text-luxury-muted">E-mail :</span> <span className="text-gold-500">contact@chronocraft.ma</span></li>
+              <li><span className="text-luxury-muted">WhatsApp :</span> <span className="text-gold-500">{CONTACT_PHONE}</span></li>
             </ul>
           ),
         },
@@ -42,8 +43,8 @@ export default function MentionsLegalesPage() {
           body: (
             <p>
               Le directeur de la publication est <span className="text-luxury-white">Mohammed J.</span>, fondateur et
-              CEO de ChronoCraft. Pour toute demande relative au contenu du site, vous pouvez nous écrire à
-              l&apos;adresse <span className="text-gold-500">contact@chronocraft.ma</span>.
+              CEO de ChronoCraft. Pour toute demande relative au contenu du site, vous pouvez nous joindre au{" "}
+              <span className="text-gold-500">{CONTACT_PHONE}</span> (téléphone ou WhatsApp).
             </p>
           ),
         },
@@ -106,8 +107,8 @@ export default function MentionsLegalesPage() {
           heading: "Contact",
           body: (
             <p>
-              Pour toute question concernant ces mentions légales, contactez-nous à{" "}
-              <span className="text-gold-500">contact@chronocraft.ma</span> ou par téléphone au +212 601 439 975.
+              Pour toute question concernant ces mentions légales, contactez-nous au{" "}
+              <span className="text-gold-500">{CONTACT_PHONE}</span>, par téléphone ou WhatsApp.
             </p>
           ),
         },

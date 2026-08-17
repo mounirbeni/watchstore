@@ -5,6 +5,7 @@ import {
   MessageCircle, Truck, BadgeCheck, CalendarClock, XCircle,
 } from "lucide-react";
 import type { Metadata } from "next";
+import { CONTACT_PHONE } from "@/lib/contact";
 
 export const metadata: Metadata = {
   title: "Garantie & Retours",
@@ -261,7 +262,7 @@ export default function GarantieRetoursPage() {
                 <Link href="/dashboard/orders" className="text-gold-500 hover:underline">
                   Mes commandes
                 </Link>{" "}
-                ou écrivez-nous à <span className="text-gold-500">contact@chronocraft.ma</span>. Nous accusons
+                ou joignez-nous au <span className="text-gold-500">{CONTACT_PHONE}</span>. Nous accusons
                 réception de toute réclamation sous 48 heures ouvrées.
               </p>
               <p>

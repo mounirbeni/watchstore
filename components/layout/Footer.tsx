@@ -72,7 +72,6 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm text-luxury-muted">
               <li>Casablanca, Maroc</li>
               <li>+212 601 439 975</li>
-              <li>contact@chronocraft.ma</li>
               <li className="pt-1">
                 <span className="text-xs">Lun–Sam: 9h–18h</span>
               </li>

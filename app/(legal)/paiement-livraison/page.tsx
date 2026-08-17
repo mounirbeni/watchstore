@@ -1,6 +1,7 @@
 import LegalPage from "@/components/legal/LegalPage";
 import { Wallet, BadgeCheck, Truck, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
+import { CONTACT_PHONE } from "@/lib/contact";
 
 export const metadata: Metadata = {
   title: "Paiement & Livraison",
@@ -112,7 +113,7 @@ export default function PaiementLivraisonPage() {
             <p>
               Si nous ne pouvons pas honorer votre commande (rupture de stock, erreur de prix, etc.), l&apos;acompte vous
               est intégralement remboursé. En cas d&apos;annulation de votre part avant l&apos;expédition, contactez
-              notre service client à <span className="text-gold-500">contact@chronocraft.ma</span> pour convenir des
+              notre service client au <span className="text-gold-500">{CONTACT_PHONE}</span> pour convenir des
               modalités.
             </p>
           ),
