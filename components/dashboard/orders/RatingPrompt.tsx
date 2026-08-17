@@ -148,13 +148,14 @@ export default function RatingPrompt({
       {/* Dialog */}
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 backdrop-blur-sm sm:items-center"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-labelledby="rating-title"
           onClick={(e) => e.target === e.currentTarget && setOpen(false)}
         >
-          <div className="w-full max-w-md animate-fade-in overflow-hidden rounded-3xl border border-luxury-border bg-white shadow-2xl">
+          {/* Capped and scrollable so a short viewport never hides the actions */}
+          <div className="max-h-[85vh] w-full max-w-md animate-fade-in overflow-y-auto overscroll-contain rounded-3xl border border-luxury-border bg-white shadow-2xl">
             {state?.success ? (
               <div className="px-6 py-10 text-center">
                 <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gold-500/10">
@@ -210,7 +211,7 @@ export default function RatingPrompt({
                   )}
                 </div>
 
-                <div className="flex gap-3 border-t border-luxury-border px-6 py-4">
+                <div className="sticky bottom-0 flex gap-3 border-t border-luxury-border bg-white px-6 py-4">
                   <button
                     type="button"
                     onClick={() => setOpen(false)}
