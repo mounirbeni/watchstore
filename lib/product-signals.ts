@@ -38,8 +38,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   sport: "Montre Sport",
   luxe: "Montre de Luxe",
   smart: "Montre Connectée",
-  pack: "Coffret",
-  "limited-edition": "Édition Limitée",
+  pack: "Accessoires",
 };
 
 type ProductLike = Product & { category?: Category | null };
@@ -66,8 +65,6 @@ export function getProductSignals(product: ProductLike): ProductSignals {
   let stock: ProductSignals["stock"];
   if (product.stock === 0) {
     stock = { label: "Épuisé", tone: "out" };
-  } else if (slug === "limited-edition") {
-    stock = { label: "Édition limitée", tone: "gold" };
   } else if (product.stock <= 3) {
     stock = { label: `Plus que ${product.stock}`, tone: "gold" };
   } else if (product.stock <= (product.lowStockAt || 5)) {
@@ -79,8 +76,7 @@ export function getProductSignals(product: ProductLike): ProductSignals {
   // ── One trust badge, by priority (uses real fields) ─────────────
   const isNew = Date.now() - new Date(product.createdAt).getTime() < 30 * 24 * 60 * 60 * 1000;
   let trustBadge: string | null = null;
-  if (slug === "limited-edition") trustBadge = "Édition limitée";
-  else if (product.isFeatured) trustBadge = "Meilleure vente";
+  if (product.isFeatured) trustBadge = "Meilleure vente";
   else if (isNew) trustBadge = "Nouveauté";
   else if (sold >= 500) trustBadge = "Choix populaire";
   else trustBadge = "Livraison rapide";

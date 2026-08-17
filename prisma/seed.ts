@@ -36,12 +36,7 @@ async function main() {
     prisma.category.upsert({
       where: { slug: "pack" },
       update: {},
-      create: { name: "Pack", slug: "pack", description: "Packs et coffrets de montres", imageUrl: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80", sortOrder: 6 },
-    }),
-    prisma.category.upsert({
-      where: { slug: "limited-edition" },
-      update: {},
-      create: { name: "Édition Limitée", slug: "limited-edition", description: "Pièces rares en édition limitée", imageUrl: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=500&q=80", sortOrder: 7 },
+      create: { name: "Accessoires", slug: "pack", description: "Coffrets, écrins et accessoires horlogers", imageUrl: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80", sortOrder: 6 },
     }),
   ]);
 

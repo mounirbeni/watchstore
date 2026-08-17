@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { formatPrice } from "@/lib/utils";
 import { getProductSignals, SOLD_NOUN } from "@/lib/product-signals";
-import { ArrowRight, Star, Truck, Award, Sparkles, Flame, Gem } from "lucide-react";
+import { ArrowRight, Star, Truck, Award, Sparkles, Flame } from "lucide-react";
 import type { Product, ProductImage, Category } from "@prisma/client";
 
 type ProductWithImage = Product & { images: ProductImage[]; category?: Category | null };
@@ -12,7 +12,6 @@ const TRUST_ICON: Record<string, typeof Truck> = {
   "Meilleure vente": Award,
   "Nouveauté": Sparkles,
   "Choix populaire": Flame,
-  "Édition limitée": Gem,
 };
 
 /** Five gold stars with half-star support, no review count. */

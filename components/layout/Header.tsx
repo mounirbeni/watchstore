@@ -19,8 +19,7 @@ const CATEGORIES = [
   { href: "/shop?category=sport", label: "Sport" },
   { href: "/shop?category=luxe", label: "Haute Horlogerie" },
   { href: "/shop?category=smart", label: "Smart" },
-  { href: "/shop?category=pack", label: "Pack & Coffrets" },
-  { href: "/shop?category=limited-edition", label: "Édition Limitée" },
+  { href: "/shop?category=pack", label: "Accessoires" },
 ];
 
 export default async function Header() {
