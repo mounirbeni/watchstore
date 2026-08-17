@@ -17,6 +17,9 @@ import DeliveredSeal, { SETTLE_MS } from "@/components/dashboard/orders/Delivere
 import RatingPrompt from "@/components/dashboard/orders/RatingPrompt";
 import ReturnPolicyCard from "@/components/dashboard/orders/ReturnPolicyCard";
 import {
+  TIMELINE_STAGES, rankFor, formatTimestamp, stageTimestamps,
+} from "@/lib/order-timeline";
+import {
   Check, Clock, XCircle, Truck, Package, Wallet,
   MapPin, ShoppingBag, ChevronLeft, PackageCheck,
 } from "lucide-react";
@@ -31,29 +34,15 @@ interface Step {
   ts: Date | null;
 }
 
-function rankFor(status: string): number {
-  switch (status) {
-    case "DRAFT":
-    case "PENDING":
-    case "AWAITING_DEPOSIT":
-    case "DEPOSIT_PENDING":  return 0;
-    case "DEPOSIT_PAID":
-    case "CONFIRMED":
-    case "PROCESSING":       return 1;
-    case "PREPARING":        return 2;
-    case "SHIPPED":          return 3;
-    case "OUT_FOR_DELIVERY": return 4;
-    case "DELIVERED":        return 5;
-    default:                 return -1;
-  }
-}
-
-function fmtTs(d: Date): string {
-  return d.toLocaleDateString("fr-FR", {
-    day: "2-digit", month: "short", year: "numeric",
-    hour: "2-digit", minute: "2-digit",
-  });
-}
+/** Stage key → icon. Labels and ordering come from lib/order-timeline. */
+const STAGE_ICON: Record<string, LucideIcon> = {
+  created: ShoppingBag,
+  confirmed: Wallet,
+  preparing: Package,
+  shipped: Truck,
+  delivery: Truck,
+  delivered: PackageCheck,
+};
 
 export const metadata = { title: "Suivi de commande" };
 
@@ -105,14 +94,12 @@ export default async function OrderDetailPage({ params }: Props) {
     order.deliveredAt && Date.now() - order.deliveredAt.getTime() >= SETTLE_MS,
   );
 
-  const steps: Step[] = [
-    { key: "created",   label: "Commande créée",        desc: "Votre commande a bien été reçue",             Icon: ShoppingBag,  ts: order.createdAt },
-    { key: "confirmed", label: "Confirmée",              desc: "Acompte validé — commande en traitement",     Icon: Wallet,       ts: order.confirmedAt },
-    { key: "preparing", label: "En préparation",         desc: "Votre montre est en cours de préparation",    Icon: Package,      ts: order.preparingAt },
-    { key: "shipped",   label: "Expédiée",               desc: "Colis pris en charge par le transporteur",   Icon: Truck,        ts: order.shippedAt },
-    { key: "delivery",  label: "En cours de livraison",  desc: "Votre colis est en route vers vous",          Icon: Truck,        ts: order.outForDeliveryAt },
-    { key: "delivered", label: "Livrée",                 desc: "Commande livrée avec succès",                 Icon: PackageCheck, ts: order.deliveredAt },
-  ];
+  const timestamps = stageTimestamps(order);
+  const steps: Step[] = TIMELINE_STAGES.map((stage, i) => ({
+    ...stage,
+    Icon: STAGE_ICON[stage.key] ?? Package,
+    ts: timestamps[i] ?? null,
+  }));
 
   return (
     <div className="space-y-5 animate-fade-in">
@@ -271,7 +258,7 @@ export default async function OrderDetailPage({ params }: Props) {
                                 dateTime={step.ts.toISOString()}
                                 className="text-[11px] tabular-nums text-gold-600/80"
                               >
-                                {fmtTs(step.ts)}
+                                {formatTimestamp(step.ts)}
                               </time>
                             )}
                           </div>

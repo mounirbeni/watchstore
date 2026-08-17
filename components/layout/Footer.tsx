@@ -53,6 +53,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {[
                 ["À propos", "/about"],
+                ["Suivre ma commande", "/suivi"],
                 ["FAQ", "/faq"],
                 ["Paiement & Livraison", "/paiement-livraison"],
                 ["Garantie & Retours", "/garantie-retours"],

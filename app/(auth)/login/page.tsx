@@ -72,6 +72,13 @@ function LoginForm() {
         </Link>
       </p>
 
+      <p className="mt-3 text-center text-sm text-luxury-muted">
+        Vous cherchez seulement à suivre une commande ?{" "}
+        <Link href="/suivi" className="text-gold-400 transition-colors hover:text-gold-300">
+          Suivre sans compte
+        </Link>
+      </p>
+
       {process.env.NODE_ENV !== "production" && (
         <div className="mt-6 pt-6 border-t border-luxury-border">
           <p className="text-xs text-luxury-muted text-center mb-3">Comptes de demonstration</p>

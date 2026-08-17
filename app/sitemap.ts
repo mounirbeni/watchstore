@@ -14,6 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/mentions-legales",
     "/paiement-livraison",
     "/garantie-retours",
+    "/suivi",
   ].map((path) => ({
     url: `${BASE_URL}${path}`,
     lastModified: new Date(),
