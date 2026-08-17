@@ -21,7 +21,7 @@ export default function MentionsLegalesPage() {
               <li><span className="text-luxury-muted">Exploitant :</span> Mohammed J., personne physique</li>
               <li><span className="text-luxury-muted">Activité :</span> Distribution et vente au détail de montres</li>
               <li><span className="text-luxury-muted">Localisation :</span> Casablanca, Maroc</li>
-              <li><span className="text-luxury-muted">Téléphone :</span> +212 522 000 000</li>
+              <li><span className="text-luxury-muted">Téléphone :</span> +212 601 439 975</li>
               <li><span className="text-luxury-muted">E-mail :</span> <span className="text-gold-500">contact@chronocraft.ma</span></li>
             </ul>
           ),
@@ -107,7 +107,7 @@ export default function MentionsLegalesPage() {
           body: (
             <p>
               Pour toute question concernant ces mentions légales, contactez-nous à{" "}
-              <span className="text-gold-500">contact@chronocraft.ma</span> ou par téléphone au +212 522 000 000.
+              <span className="text-gold-500">contact@chronocraft.ma</span> ou par téléphone au +212 601 439 975.
             </p>
           ),
         },

@@ -92,11 +92,11 @@ const merchant = {
   bankIban: process.env["DEPOSIT_BANK_IBAN"] ?? "MA64 2304 5033 9682 0211 0177 0073",
   bankSwift: process.env["DEPOSIT_BANK_SWIFT"] ?? "CIHMMAMC",
   bankHolder: process.env["DEPOSIT_BANK_HOLDER"] ?? "Mounir Banni",
-  cashplusPhone: process.env["DEPOSIT_CASHPLUS_PHONE"] ?? "+21260439975",
+  cashplusPhone: process.env["DEPOSIT_CASHPLUS_PHONE"] ?? "+212601439975",
   cashplusName: process.env["DEPOSIT_CASHPLUS_NAME"] ?? "Mounir Banni",
-  wafacashPhone: process.env["DEPOSIT_WAFACASH_PHONE"] ?? "+21260439975",
+  wafacashPhone: process.env["DEPOSIT_WAFACASH_PHONE"] ?? "+212601439975",
   wafacashName: process.env["DEPOSIT_WAFACASH_NAME"] ?? "Mounir Banni",
-  whatsapp: process.env["DEPOSIT_WHATSAPP"] ?? "+21260439975",
+  whatsapp: process.env["DEPOSIT_WHATSAPP"] ?? "+212601439975",
 };
 
 export function getDepositMethods(depositLabel: string): DepositMethod[] {

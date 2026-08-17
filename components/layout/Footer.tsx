@@ -71,7 +71,7 @@ export default function Footer() {
             <h4 className="text-xs font-semibold text-luxury-white mb-4 uppercase tracking-[0.18em]">Contact</h4>
             <ul className="space-y-2.5 text-sm text-luxury-muted">
               <li>Casablanca, Maroc</li>
-              <li>+212 522 000 000</li>
+              <li>+212 601 439 975</li>
               <li>contact@chronocraft.ma</li>
               <li className="pt-1">
                 <span className="text-xs">Lun–Sam: 9h–18h</span>
