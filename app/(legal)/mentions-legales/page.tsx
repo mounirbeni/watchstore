@@ -44,8 +44,26 @@ export default function MentionsLegalesPage() {
           heading: "Directeur de la publication",
           body: (
             <p>
-              Le directeur de la publication est le représentant légal de ChronoCraft. Pour toute demande relative au
-              contenu du site, vous pouvez nous écrire à l&apos;adresse <span className="text-gold-500">contact@chronocraft.ma</span>.
+              Le directeur de la publication est <span className="text-luxury-white">Mohammed J.</span>, fondateur et
+              CEO de ChronoCraft. Pour toute demande relative au contenu du site, vous pouvez nous écrire à
+              l&apos;adresse <span className="text-gold-500">contact@chronocraft.ma</span>.
+            </p>
+          ),
+        },
+        {
+          heading: "Conception et développement",
+          body: (
+            <p>
+              Ce site a été conçu et développé par{" "}
+              <a
+                href="https://mbndev.ma"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gold-500 hover:underline"
+              >
+                Mbn Dev Co
+              </a>{" "}
+              — mbndev.ma.
             </p>
           ),
         },

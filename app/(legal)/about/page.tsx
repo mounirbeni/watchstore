@@ -149,25 +149,34 @@ export default function AboutPage() {
           Notre équipe
         </p>
         <h2 className="text-2xl sm:text-3xl font-serif font-bold text-luxury-white mb-8">
-          Des experts à votre écoute
+          Qui est derrière ChronoCraft
         </h2>
-        <div className="grid sm:grid-cols-3 gap-5">
-          {[
-            { initials: "KA", name: "Karim A.", role: "Fondateur & directeur de la sélection" },
-            { initials: "SB", name: "Sara B.", role: "Responsable service client" },
-            { initials: "YM", name: "Youssef M.", role: "Logistique & livraisons" },
-          ].map(({ initials, name, role }) => (
-            <div
-              key={name}
-              className="flex flex-col items-center text-center p-6 bg-white border border-luxury-border rounded-2xl shadow-card"
-            >
-              <div className="w-14 h-14 rounded-full bg-gold-500/15 border border-gold-500/30 flex items-center justify-center text-lg font-bold text-gold-500 mb-3">
-                {initials}
-              </div>
-              <p className="text-sm font-semibold text-luxury-white">{name}</p>
-              <p className="text-xs text-luxury-muted mt-1">{role}</p>
+        <div className="grid sm:grid-cols-2 gap-5">
+          {/* Founder */}
+          <div className="flex flex-col items-center text-center p-6 bg-white border border-luxury-border rounded-2xl shadow-card">
+            <div className="w-14 h-14 rounded-full bg-gold-500/15 border border-gold-500/30 flex items-center justify-center text-lg font-bold text-gold-500 mb-3">
+              MJ
             </div>
-          ))}
+            <p className="text-sm font-semibold text-luxury-white">Mohammed J.</p>
+            <p className="text-xs text-luxury-muted mt-1">Fondateur &amp; CEO</p>
+          </div>
+
+          {/* Technical partner */}
+          <div className="flex flex-col items-center text-center p-6 bg-white border border-luxury-border rounded-2xl shadow-card">
+            <div className="w-14 h-14 rounded-full bg-gold-500/15 border border-gold-500/30 flex items-center justify-center text-lg font-bold text-gold-500 mb-3">
+              MBN
+            </div>
+            <p className="text-sm font-semibold text-luxury-white">Mbn Dev Co</p>
+            <p className="text-xs text-luxury-muted mt-1">Partenaire technique</p>
+            <a
+              href="https://mbndev.ma"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 text-xs text-gold-500 hover:underline"
+            >
+              mbndev.ma
+            </a>
+          </div>
         </div>
       </section>
 
