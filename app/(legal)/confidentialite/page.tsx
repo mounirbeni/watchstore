@@ -17,9 +17,10 @@ export default function ConfidentialitePage() {
           heading: "Responsable du traitement",
           body: (
             <p>
-              Les données personnelles collectées sur ce site sont traitées par ChronoCraft, dont le siège est situé à
-              Casablanca, Maroc. Pour toute question relative à vos données, vous pouvez nous contacter à l&apos;adresse{" "}
-              <span className="text-gold-500">contact@chronocraft.ma</span>.
+              Les données personnelles collectées sur ce site sont traitées par{" "}
+              <span className="text-luxury-white">Mohammed J.</span>, exploitant du site sous le nom commercial
+              ChronoCraft, basé à Casablanca, Maroc. Pour toute question relative à vos données, vous pouvez nous
+              contacter à l&apos;adresse <span className="text-gold-500">contact@chronocraft.ma</span>.
             </p>
           ),
         },
