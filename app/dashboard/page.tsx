@@ -280,7 +280,7 @@ export default async function DashboardPage() {
             [
               { href: "/dashboard/orders", label: "Commandes", Icon: ShoppingBag, badge: 0 },
               { href: "/dashboard/reservations", label: "Réservations", Icon: CalendarClock, badge: 0 },
-              { href: "/dashboard/wishlist", label: "Wishlist", Icon: Heart, badge: 0 },
+              { href: "/dashboard/wishlist", label: "Favoris", Icon: Heart, badge: 0 },
               { href: "/dashboard/profile", label: "Mon profil", Icon: User, badge: 0 },
               { href: "/dashboard/notifications", label: "Alertes", Icon: Bell, badge: unreadCount },
               { href: "/shop", label: "Boutique", Icon: Zap, badge: 0 },
@@ -450,7 +450,7 @@ export default async function DashboardPage() {
             <div className="flex items-center justify-between border-b border-luxury-border px-4 py-3.5 sm:px-5">
               <div className="flex items-center gap-2">
                 <Heart className="h-[15px] w-[15px] text-gold-500" />
-                <h2 className="text-sm font-semibold text-luxury-white">Wishlist</h2>
+                <h2 className="text-sm font-semibold text-luxury-white">Favoris</h2>
                 {wishlistCount > 0 && (
                   <span className="rounded-full bg-gold-500/15 px-1.5 py-0.5 text-[10px] font-bold text-gold-500">
                     {wishlistCount}
@@ -468,7 +468,7 @@ export default async function DashboardPage() {
             {wishlistCount === 0 ? (
               <div className="px-5 py-6 text-center">
                 <Heart className="mx-auto mb-2 h-5 w-5 text-luxury-muted" />
-                <p className="text-sm text-luxury-muted">Wishlist vide</p>
+                <p className="text-sm text-luxury-muted">Aucun favori</p>
                 <Link
                   href="/shop"
                   className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-gold-500 hover:text-gold-400"

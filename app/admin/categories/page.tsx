@@ -10,7 +10,7 @@ import SingleImageUploader from "@/components/admin/SingleImageUploader";
 import { isCloudinaryConfigured } from "@/lib/product-image-storage";
 import { ImageIcon, Pencil, Plus } from "lucide-react";
 
-export const metadata = { title: "Catégories" };
+export const metadata = { title: "Categories" };
 
 async function createCategory(formData: FormData) {
   "use server";
@@ -32,8 +32,8 @@ export default async function AdminCategoriesPage() {
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Admin</p>
-          <h1 className="mt-2 text-2xl sm:text-3xl font-serif font-semibold text-luxury-white">Catégories</h1>
-          <p className="mt-1 text-luxury-muted text-sm">Gérez les catégories et leurs images d&apos;illustration.</p>
+          <h1 className="mt-2 text-2xl sm:text-3xl font-serif font-semibold text-luxury-white">Categories</h1>
+          <p className="mt-1 text-luxury-muted text-sm">Manage categories and their cover images.</p>
         </div>
       </header>
 
@@ -51,7 +51,7 @@ export default async function AdminCategoriesPage() {
                 </div>
               )}
               {!cat.isActive && (
-                <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/60 text-luxury-muted text-[10px] font-semibold">Inactif</span>
+                <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-black/60 text-luxury-muted text-[10px] font-semibold">Inactive</span>
               )}
             </div>
             <div className="p-4 flex items-center justify-between">
@@ -78,28 +78,28 @@ export default async function AdminCategoriesPage() {
         <form action={createCategory} className="grid gap-5">
           <div className="grid gap-4 md:grid-cols-2">
             <label className="space-y-2">
-              <span className="text-sm font-medium text-luxury-light">Nom *</span>
-              <input name="name" required className="input-luxury w-full" placeholder="Ex: Sport" />
+              <span className="text-sm font-medium text-luxury-light">Name *</span>
+              <input name="name" required className="input-luxury w-full" placeholder="e.g. Sport" />
             </label>
             <label className="space-y-2">
               <span className="text-sm font-medium text-luxury-light">Slug * (URL)</span>
-              <input name="slug" required className="input-luxury w-full" placeholder="Ex: sport" />
+              <input name="slug" required className="input-luxury w-full" placeholder="e.g. sport" />
             </label>
           </div>
           <label className="space-y-2">
             <span className="text-sm font-medium text-luxury-light">Description</span>
-            <input name="description" className="input-luxury w-full" placeholder="Brève description…" />
+            <input name="description" className="input-luxury w-full" placeholder="Short description…" />
           </label>
           <label className="space-y-2">
-            <span className="text-sm font-medium text-luxury-light">Ordre d&apos;affichage</span>
+            <span className="text-sm font-medium text-luxury-light">Sort order</span>
             <input name="sortOrder" type="number" defaultValue={categories.length} className="input-luxury w-32" />
           </label>
           <div className="space-y-2">
-            <span className="text-sm font-medium text-luxury-light">Image de la catégorie</span>
+            <span className="text-sm font-medium text-luxury-light">Category image</span>
             <SingleImageUploader name="imageUrl" cloudinaryConfigured={cloudinaryConfigured} label="Glissez une image ici" />
           </div>
           <div className="border-t border-luxury-border pt-4">
-            <SubmitButton>Créer la catégorie</SubmitButton>
+            <SubmitButton>Create category</SubmitButton>
           </div>
         </form>
       </Card>

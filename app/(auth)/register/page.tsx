@@ -47,7 +47,7 @@ export default function RegisterPage() {
           id="email"
           name="email"
           type="email"
-          label="Email"
+          label="E-mail"
           placeholder="votre@email.com"
           autoComplete="email"
           required

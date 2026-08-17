@@ -24,7 +24,7 @@ const items = [
   { href: "/dashboard",               label: "Vue d'ensemble",  Icon: LayoutDashboard, exact: true },
   { href: "/dashboard/orders",        label: "Mes commandes",   Icon: ShoppingBag },
   { href: "/dashboard/reservations",  label: "Réservations",    Icon: CalendarClock },
-  { href: "/dashboard/wishlist",      label: "Ma wishlist",     Icon: Heart },
+  { href: "/dashboard/wishlist",      label: "Mes favoris",     Icon: Heart },
   { href: "/dashboard/notifications", label: "Notifications",   Icon: Bell },
   { href: "/dashboard/profile",       label: "Mon profil",      Icon: User },
 ];

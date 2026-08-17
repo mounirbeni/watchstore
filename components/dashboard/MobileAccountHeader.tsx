@@ -70,7 +70,7 @@ export default function MobileAccountHeader({
         {[
           { label: "Commandes", value: counts.orders ?? 0 },
           { label: "Réservations", value: counts.reservations ?? 0 },
-          { label: "Wishlist", value: counts.wishlist ?? 0 },
+          { label: "Favoris", value: counts.wishlist ?? 0 },
         ].map((stat, i) => (
           <div key={stat.label} className={`py-3 text-center ${i > 0 ? "border-l border-luxury-border" : ""}`}>
             <p className="font-serif text-xl font-semibold text-luxury-white">{stat.value}</p>

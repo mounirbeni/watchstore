@@ -7,7 +7,7 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import EmptyState from "@/components/ui/EmptyState";
 import { Heart } from "lucide-react";
 
-export const metadata = { title: "Ma wishlist" };
+export const metadata = { title: "Mes favoris" };
 
 export default async function DashboardWishlistPage() {
   const session = await requireAuth();
@@ -20,7 +20,7 @@ export default async function DashboardWishlistPage() {
   return (
     <div className="space-y-6">
       <DashboardHeader
-        title="Ma wishlist"
+        title="Mes favoris"
         subtitle="Les montres que vous avez sauvegardées."
         backHref="/dashboard"
       />
@@ -29,7 +29,7 @@ export default async function DashboardWishlistPage() {
         <Card className="rounded-2xl" padding="none">
           <EmptyState
             icon={<Heart className="h-7 w-7" />}
-            title="Votre wishlist est vide"
+            title="Votre liste de favoris est vide"
             description="Ajoutez vos montres préférées pour les retrouver ici."
             action={
               <Link href="/shop" className="text-sm text-gold-400 hover:text-gold-300 transition-colors">

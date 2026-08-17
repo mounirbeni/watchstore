@@ -103,7 +103,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "Est-il obligatoire de créer un compte ?",
-        a: "Oui, un compte est nécessaire pour passer commande. Il vous permet de suivre vos commandes, gérer votre wishlist, et accéder à votre historique d'achats.",
+        a: "Oui, un compte est nécessaire pour passer commande. Il vous permet de suivre vos commandes, gérer vos favoris, et accéder à votre historique d'achats.",
       },
       {
         q: "J'ai oublié mon mot de passe, que faire ?",

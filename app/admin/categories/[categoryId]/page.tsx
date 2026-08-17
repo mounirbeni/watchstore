@@ -28,7 +28,7 @@ export default async function AdminCategoryEditPage({ params }: Props) {
     <div className="space-y-6">
       <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Catégories</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-gold-400">Categories</p>
           <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Modifier — {category.name}</h1>
         </div>
         <Link href="/admin/categories" className="rounded-xl border border-luxury-border px-4 py-2 text-sm text-luxury-muted hover:text-luxury-white transition-colors">
@@ -41,7 +41,7 @@ export default async function AdminCategoryEditPage({ params }: Props) {
 
           {/* Image — top and large */}
           <div className="space-y-2">
-            <span className="text-sm font-medium text-luxury-light">Image de la catégorie</span>
+            <span className="text-sm font-medium text-luxury-light">Category image</span>
             <p className="text-xs text-luxury-muted">Utilisée dans les cartes de catégorie et la bannière de collection.</p>
             <SingleImageUploader
               name="imageUrl"
@@ -59,7 +59,7 @@ export default async function AdminCategoryEditPage({ params }: Props) {
             <label className="space-y-2">
               <span className="text-sm font-medium text-luxury-light">Slug (URL)</span>
               <input value={category.slug} disabled className="input-luxury w-full opacity-50 cursor-not-allowed" />
-              <p className="text-[10px] text-luxury-muted">Le slug ne peut pas être modifié.</p>
+              <p className="text-[10px] text-luxury-muted">The slug cannot be changed.</p>
             </label>
           </div>
 

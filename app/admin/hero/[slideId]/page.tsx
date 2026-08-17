@@ -32,7 +32,7 @@ export default async function AdminHeroEditPage({ params }: Props) {
           <h1 className="mt-2 text-3xl font-serif font-semibold text-luxury-white">Modifier la slide</h1>
         </div>
         <Link href="/admin/hero" className="rounded-xl border border-luxury-border px-4 py-2 text-sm text-luxury-muted hover:text-luxury-white transition-colors">
-          ← Retour
+          ← Back
         </Link>
       </header>
 
@@ -41,7 +41,7 @@ export default async function AdminHeroEditPage({ params }: Props) {
 
           <div className="space-y-2">
             <span className="text-sm font-medium text-luxury-light">Image de fond *</span>
-            <p className="text-xs text-luxury-muted">Recommandé : format 16:9, au moins 1600×900 px.</p>
+            <p className="text-xs text-luxury-muted">Recommended: 16:9, at least 1600×900 px.</p>
             <SingleImageUploader
               name="image"
               initialUrl={slide.image}
@@ -52,7 +52,7 @@ export default async function AdminHeroEditPage({ params }: Props) {
 
           <div className="grid gap-4 md:grid-cols-2">
             <label className="space-y-2">
-              <span className="text-sm font-medium text-luxury-light">Eyebrow (petit texte doré)</span>
+              <span className="text-sm font-medium text-luxury-light">Eyebrow (small gold text)</span>
               <input name="eyebrow" defaultValue={slide.eyebrow} className="input-luxury w-full" placeholder="Ex: Collection Exclusive" />
             </label>
             <label className="space-y-2">
@@ -63,11 +63,11 @@ export default async function AdminHeroEditPage({ params }: Props) {
 
           <div className="grid gap-4 md:grid-cols-2">
             <label className="space-y-2">
-              <span className="text-sm font-medium text-luxury-light">Titre — ligne 1</span>
+              <span className="text-sm font-medium text-luxury-light">Title — line 1</span>
               <input name="titleTop" defaultValue={slide.titleTop} className="input-luxury w-full" placeholder="Ex: L'Art du" />
             </label>
             <label className="space-y-2">
-              <span className="text-sm font-medium text-luxury-light">Titre — ligne 2 (doré)</span>
+              <span className="text-sm font-medium text-luxury-light">Title — line 2 (gold)</span>
               <input name="titleAccent" defaultValue={slide.titleAccent} className="input-luxury w-full" placeholder="Ex: Temps" />
             </label>
           </div>

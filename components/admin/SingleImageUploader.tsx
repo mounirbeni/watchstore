@@ -32,8 +32,8 @@ export default function SingleImageUploader({
 
   async function handleFile(file: File) {
     const allowed = ["image/jpeg", "image/png", "image/webp"];
-    if (!allowed.includes(file.type)) { setError("Seuls les formats JPG, PNG et WEBP sont acceptés."); return; }
-    if (file.size > 5 * 1024 * 1024) { setError("L'image ne doit pas dépasser 5 MB."); return; }
+    if (!allowed.includes(file.type)) { setError("Only JPG, PNG and WEBP are accepted."); return; }
+    if (file.size > 5 * 1024 * 1024) { setError("Image must be under 5 MB."); return; }
 
     setError(null);
     setUploading(true);
@@ -42,10 +42,10 @@ export default function SingleImageUploader({
       fd.set("file", file);
       const res = await fetch("/api/admin/product-images", { method: "POST", body: fd });
       const data = await res.json() as { url?: string; error?: string };
-      if (!res.ok || !data.url) throw new Error(data.error ?? "Échec de l'upload.");
+      if (!res.ok || !data.url) throw new Error(data.error ?? "Upload failed.");
       setUrl(data.url);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Échec de l'upload.");
+      setError(e instanceof Error ? e.message : "Upload failed.");
     } finally {
       setUploading(false);
     }
@@ -84,7 +84,7 @@ export default function SingleImageUploader({
           onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) void handleFile(f); }}
         >
           {uploading ? (
-            <><Loader2 className="h-6 w-6 animate-spin text-gold-500" /><p className="text-xs">Upload en cours…</p></>
+            <><Loader2 className="h-6 w-6 animate-spin text-gold-500" /><p className="text-xs">Uploading…</p></>
           ) : (
             <><Upload className="h-6 w-6" /><p className="text-sm font-medium">{label}</p><p className="text-xs">{hint}</p></>
           )}
@@ -116,7 +116,7 @@ export default function SingleImageUploader({
             onClick={() => setShowUrlInput(!showUrlInput)}
             className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-luxury-border text-luxury-muted text-xs font-medium hover:text-luxury-white transition-colors"
           >
-            <LinkIcon className="h-3.5 w-3.5" /> Ajouter par URL
+            <LinkIcon className="h-3.5 w-3.5" /> Add par URL
           </button>
         </div>
       )}

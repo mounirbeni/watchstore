@@ -47,7 +47,7 @@ export default async function AdminPromosPage() {
           </div>
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-luxury-light uppercase tracking-wide">Description</label>
-            <input name="description" placeholder="Promo été 2025" className="input-luxury" />
+            <input name="description" placeholder="e.g. Summer 2025" className="input-luxury" />
           </div>
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-luxury-light uppercase tracking-wide">Type de remise *</label>
@@ -84,7 +84,7 @@ export default async function AdminPromosPage() {
       {promos.length === 0 ? (
         <div className="bg-white border border-luxury-border rounded-2xl p-12 text-center shadow-card">
           <Tag className="h-10 w-10 text-luxury-muted mx-auto mb-3" />
-          <p className="text-luxury-muted">Aucun code promo créé.</p>
+          <p className="text-luxury-muted">No promo codes yet.</p>
         </div>
       ) : (
         <div className="bg-white border border-luxury-border rounded-2xl shadow-card overflow-hidden">
@@ -140,14 +140,14 @@ export default async function AdminPromosPage() {
                             ? "bg-green-500/10 text-green-600 border border-green-500/20"
                             : "bg-luxury-border text-luxury-muted"
                         }`}>
-                          {isEffectivelyActive ? "Actif" : expired ? "Expiré" : maxed ? "Épuisé" : "Désactivé"}
+                          {isEffectivelyActive ? "Actif" : expired ? "Expired" : maxed ? "Used up" : "Disabled"}
                         </span>
                       </td>
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-2 justify-end">
                           <form action={togglePromo}>
                             <input type="hidden" name="id" value={promo.id} />
-                            <button type="submit" title={promo.isActive ? "Désactiver" : "Activer"}
+                            <button type="submit" title={promo.isActive ? "Disable" : "Activer"}
                               className="text-luxury-muted hover:text-luxury-white transition-colors p-1.5 rounded-lg hover:bg-luxury-dark">
                               {promo.isActive
                                 ? <ToggleRight className="h-5 w-5 text-green-500" />

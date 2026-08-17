@@ -166,7 +166,7 @@ export default async function AdminProductEditPage({ params }: Props) {
           {/* Social proof — admin-controlled, shown on product cards */}
           <section className="grid gap-4 md:grid-cols-2">
             <label className="space-y-2">
-              <span className="text-sm font-medium text-luxury-light">Note (étoiles)</span>
+              <span className="text-sm font-medium text-luxury-light">Rating (stars)</span>
               <input
                 name="rating"
                 type="number"
@@ -177,10 +177,10 @@ export default async function AdminProductEditPage({ params }: Props) {
                 className="input-luxury w-full"
                 placeholder="ex: 4.8"
               />
-              <span className="text-xs text-luxury-muted">0 à 5. Mettre 0 pour masquer les étoiles.</span>
+              <span className="text-xs text-luxury-muted">0 to 5. Use 0 to hide the stars.</span>
             </label>
             <label className="space-y-2">
-              <span className="text-sm font-medium text-luxury-light">Nombre vendu</span>
+              <span className="text-sm font-medium text-luxury-light">Units sold</span>
               <input
                 name="soldCount"
                 type="number"
@@ -190,7 +190,7 @@ export default async function AdminProductEditPage({ params }: Props) {
                 className="input-luxury w-full"
                 placeholder="ex: 1500"
               />
-              <span className="text-xs text-luxury-muted">Affiché comme « 1.5K Sold ». 0 pour masquer.</span>
+              <span className="text-xs text-luxury-muted">Shown as “1.5K vendus”. Use 0 to hide.</span>
             </label>
           </section>
 

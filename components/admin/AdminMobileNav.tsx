@@ -9,16 +9,16 @@ import {
 import { cn } from "@/lib/utils";
 
 const ITEMS = [
-  { href: "/admin",               label: "Aperçu",        Icon: LayoutDashboard },
-  { href: "/admin/products",      label: "Produits",      Icon: Package },
-  { href: "/admin/categories",    label: "Catégories",    Icon: Grid2X2 },
+  { href: "/admin",               label: "Overview",        Icon: LayoutDashboard },
+  { href: "/admin/products",      label: "Products",      Icon: Package },
+  { href: "/admin/categories",    label: "Categories",    Icon: Grid2X2 },
   { href: "/admin/hero",          label: "Hero",          Icon: MonitorPlay },
-  { href: "/admin/inventory",     label: "Inventaire",    Icon: Warehouse },
-  { href: "/admin/orders",        label: "Commandes",     Icon: ShoppingBag },
-  { href: "/admin/reservations",  label: "Réservations",  Icon: Calendar },
-  { href: "/admin/customers",     label: "Clients",       Icon: Users },
+  { href: "/admin/inventory",     label: "Inventory",    Icon: Warehouse },
+  { href: "/admin/orders",        label: "Orders",     Icon: ShoppingBag },
+  { href: "/admin/reservations",  label: "Reservations",  Icon: Calendar },
+  { href: "/admin/customers",     label: "Customers",       Icon: Users },
   { href: "/admin/promos",        label: "Promos",        Icon: Tag },
-  { href: "/admin/notifications", label: "Notifs",        Icon: Bell },
+  { href: "/admin/notifications", label: "Alerts",        Icon: Bell },
   { href: "/admin/audit",         label: "Audit",         Icon: FileText },
 ];
 

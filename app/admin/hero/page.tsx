@@ -45,7 +45,7 @@ export default async function AdminHeroPage() {
 
       {/* Slides list */}
       {slides.length === 0 ? (
-        <p className="text-sm text-luxury-muted">Aucune slide. Créez-en une ci-dessous.</p>
+        <p className="text-sm text-luxury-muted">No slides yet. Create one below.</p>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {slides.map((slide) => (
@@ -58,7 +58,7 @@ export default async function AdminHeroPage() {
                 )}
                 {!slide.isActive && (
                   <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                    <span className="text-xs font-semibold text-luxury-muted bg-black/60 px-3 py-1 rounded-full">Masqué</span>
+                    <span className="text-xs font-semibold text-luxury-muted bg-black/60 px-3 py-1 rounded-full">Hidden</span>
                   </div>
                 )}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
@@ -100,7 +100,7 @@ export default async function AdminHeroPage() {
         <form action={createSlide} className="grid gap-5">
           <div className="space-y-2">
             <span className="text-sm font-medium text-luxury-light">Image de fond *</span>
-            <SingleImageUploader name="image" cloudinaryConfigured={cloudinaryConfigured} label="Image du carousel (16:9 recommandé)" />
+            <SingleImageUploader name="image" cloudinaryConfigured={cloudinaryConfigured} label="Carousel image (16:9 recommended)" />
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
@@ -120,14 +120,14 @@ export default async function AdminHeroPage() {
               <input name="titleTop" className="input-luxury w-full" placeholder="Ex: L'Art du" />
             </label>
             <label className="space-y-2">
-              <span className="text-sm font-medium text-luxury-light">Titre (ligne 2 — doré)</span>
+              <span className="text-sm font-medium text-luxury-light">Title (line 2 — gold)</span>
               <input name="titleAccent" className="input-luxury w-full" placeholder="Ex: Temps" />
             </label>
           </div>
 
           <label className="space-y-2">
             <span className="text-sm font-medium text-luxury-light">Description</span>
-            <input name="description" className="input-luxury w-full" placeholder="Courte phrase d'accroche…" />
+            <input name="description" className="input-luxury w-full" placeholder="Short tagline…" />
           </label>
 
           <div className="grid gap-4 md:grid-cols-2">
@@ -154,7 +154,7 @@ export default async function AdminHeroPage() {
           </label>
 
           <div className="border-t border-luxury-border pt-4">
-            <SubmitButton>Créer la slide</SubmitButton>
+            <SubmitButton>Create slide</SubmitButton>
           </div>
         </form>
       </Card>

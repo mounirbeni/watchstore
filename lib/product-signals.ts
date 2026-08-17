@@ -7,7 +7,7 @@ import type { Product, Category } from "@prisma/client";
  */
 
 /** Noun paired with the sold count, kept here so the wording has one home. */
-export const SOLD_NOUN = "Sold";
+export const SOLD_NOUN = "vendus";
 
 /** Format a raw count into "78", "350", "1.5K", "2.3K". */
 export function formatSold(n: number): string {
@@ -24,7 +24,7 @@ export interface ProductSignals {
   rating: number;        // 0–5, 1 decimal
   showSold: boolean;
   soldCount: string;     // e.g. "1.5K" — rendered on its own so it can be emphasised
-  soldLabel: string;     // e.g. "1.5K Sold" — full phrase, for screen readers
+  soldLabel: string;     // e.g. "1.5K vendus" — full phrase, for screen readers
   stock: {
     label: string;
     tone: "gold" | "muted" | "out";
