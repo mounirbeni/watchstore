@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ShieldCheck, ChevronDown, RotateCcw, PackageOpen, Wallet } from "lucide-react";
 
 /** Days a customer has to change their mind — mirrors the CGV. */
-const RETURN_WINDOW_DAYS = 30;
+const RETURN_WINDOW_DAYS = 14;
 
 const CONDITIONS = [
   {
@@ -16,12 +16,17 @@ const CONDITIONS = [
   {
     Icon: RotateCcw,
     title: `${RETURN_WINDOW_DAYS} jours pour décider`,
-    body: "Le délai court à compter de la date de réception de votre commande.",
+    body: "Sans avoir à vous justifier. Le délai court à compter de la réception de votre commande.",
   },
   {
     Icon: Wallet,
     title: "Frais de retour",
-    body: "À votre charge, sauf erreur de notre part ou défaut constaté sur la pièce.",
+    body: "À votre charge, sauf erreur de notre part ou défaut constaté — remboursement sous 15 jours.",
+  },
+  {
+    Icon: ShieldCheck,
+    title: "Garantie 12 mois",
+    body: "Assurée directement par ChronoCraft, au-delà du délai de rétractation.",
   },
 ];
 

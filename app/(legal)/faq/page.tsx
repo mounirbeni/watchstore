@@ -59,8 +59,8 @@ const FAQ_SECTIONS = [
     category: "Produits & Authenticité",
     items: [
       {
-        q: "Les montres sont-elles authentiques ?",
-        a: "Absolument. Chaque montre vendue sur ChronoCraft est 100% authentique, accompagnée de ses documents d'origine (certificat de garantie, boîte officielle). Nous ne vendons aucune contrefaçon.",
+        q: "D'où viennent vos montres ?",
+        a: "ChronoCraft est une plateforme de distribution : nous ne fabriquons pas nos montres, nous les acquérons auprès de manufactures et de fournisseurs partenaires sélectionnés, avec lesquels nous travaillons dans la durée. Chaque pièce est inspectée avant expédition et livrée avec son certificat de garantie ChronoCraft. Nous ne commercialisons aucune contrefaçon.",
       },
       {
         q: "Comment choisir ma taille de montre ?",
@@ -68,7 +68,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Les montres sont-elles sous garantie ?",
-        a: "Oui, toutes nos montres bénéficient de la garantie constructeur (généralement 1 à 2 ans) à partir de la date d'achat. Les détails de garantie figurent sur chaque fiche produit.",
+        a: "Oui. Chaque montre bénéficie de la garantie commerciale ChronoCraft de 12 mois à compter de la livraison, assurée directement par nous : vous n'avez jamais à vous adresser au fournisseur. Elle couvre les défauts de fabrication et de conformité, hors usure normale, choc et pile. Vous conservez par ailleurs la garantie légale contre les vices cachés.",
       },
       {
         q: "Puis-je voir la montre en personne avant d'acheter ?",
@@ -81,7 +81,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "Puis-je retourner un article ?",
-        a: "Oui. Vous disposez de 30 jours après réception pour retourner un article non porté dans son emballage d'origine. Les frais de retour sont à votre charge sauf en cas de défaut ou d'erreur de notre part.",
+        a: "Oui. Vous disposez de 14 jours après réception pour retourner un article non porté dans son emballage d'origine, sans avoir à vous justifier. Les frais de retour sont à votre charge sauf en cas de défaut ou d'erreur de notre part. Le remboursement intervient sous 15 jours après réception du retour.",
       },
       {
         q: "Comment initier un retour ?",

@@ -8,7 +8,7 @@ const VALUES = [
   {
     Icon: Shield,
     title: "Authenticité garantie",
-    desc: "Chaque montre est inspectée et certifiée avant expédition. Documents d'origine fournis systématiquement.",
+    desc: "Fournisseurs et manufactures partenaires sélectionnés. Chaque montre inspectée avant expédition, garantie 12 mois.",
   },
   {
     Icon: Truck,
@@ -71,9 +71,9 @@ export default function AboutPage() {
           </h2>
           <div className="space-y-4 text-sm sm:text-[15px] text-luxury-muted leading-relaxed">
             <p>
-              Fondée en 2022, ChronoCraft est une boutique en ligne marocaine spécialisée dans la vente de
-              montres authentiques. Notre équipe est composée de collectionneurs, d&apos;amateurs passionnés et
-              d&apos;experts en sélection qui partagent une même obsession : vous proposer le meilleur de l&apos;horlogerie.
+              Fondée en 2022, ChronoCraft est une plateforme marocaine de distribution horlogère. Nous
+              sélectionnons nos pièces auprès de manufactures et de fournisseurs partenaires, puis nous les
+              distribuons partout au royaume — en assurant nous-mêmes le service après-vente et la garantie.
             </p>
             <p>
               Nous croyons que porter une belle montre est bien plus qu&apos;un accessoire — c&apos;est une
@@ -136,9 +136,10 @@ export default function AboutPage() {
           La confiance, au cœur de tout
         </h2>
         <p className="text-sm sm:text-base text-luxury-muted leading-relaxed max-w-xl mx-auto">
-          Chaque pièce que nous vendons est accompagnée de ses documents d&apos;origine. Nous travaillons
-          exclusivement avec des fournisseurs agréés et soumettons chaque montre à un contrôle qualité
-          rigoureux avant d&apos;intégrer notre catalogue.
+          Nous ne fabriquons pas nos montres : nous les distribuons. Elles proviennent de manufactures et de
+          fournisseurs partenaires sélectionnés, avec lesquels nous travaillons dans la durée. Chaque pièce est
+          contrôlée avant d&apos;intégrer notre catalogue, puis inspectée avant expédition — et couverte par
+          notre garantie de 12 mois, que nous assurons nous-mêmes.
         </p>
       </section>
 

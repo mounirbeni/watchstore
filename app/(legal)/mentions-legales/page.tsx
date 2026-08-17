@@ -11,7 +11,7 @@ export default function MentionsLegalesPage() {
     <LegalPage
       title="Mentions légales"
       subtitle="Conformément à la législation en vigueur, vous trouverez ci-dessous les informations relatives à l'éditeur et à l'hébergement de ce site."
-      updatedAt="3 juin 2026"
+      updatedAt="17 août 2026"
       sections={[
         {
           heading: "Éditeur du site",
@@ -20,9 +20,24 @@ export default function MentionsLegalesPage() {
               <li><span className="text-luxury-muted">Dénomination :</span> ChronoCraft</li>
               <li><span className="text-luxury-muted">Forme juridique :</span> Société à responsabilité limitée (SARL)</li>
               <li><span className="text-luxury-muted">Siège social :</span> Casablanca, Maroc</li>
+              <li><span className="text-luxury-muted">Activité :</span> Distribution et vente au détail de montres</li>
+              <li><span className="text-luxury-muted">Registre du commerce :</span> RC — à compléter</li>
+              <li><span className="text-luxury-muted">Identifiant fiscal :</span> IF — à compléter</li>
+              <li><span className="text-luxury-muted">ICE :</span> à compléter</li>
               <li><span className="text-luxury-muted">Téléphone :</span> +212 522 000 000</li>
               <li><span className="text-luxury-muted">E-mail :</span> <span className="text-gold-500">contact@chronocraft.ma</span></li>
             </ul>
+          ),
+        },
+        {
+          heading: "Nature de l'activité",
+          body: (
+            <p>
+              ChronoCraft exerce une activité de distribution. Les montres commercialisées sur le site ne sont pas
+              fabriquées par ChronoCraft : elles sont acquises auprès de manufactures et de fournisseurs partenaires.
+              ChronoCraft intervient en qualité de vendeur professionnel et assure à ce titre le service après-vente
+              et la garantie commerciale décrits aux conditions générales de vente.
+            </p>
           ),
         },
         {
