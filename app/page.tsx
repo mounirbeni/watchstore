@@ -53,13 +53,20 @@ async function getHeroSlides() {
   } catch { return []; }
 }
 
+/** Counted rather than hardcoded, so the figure cannot outgrow the catalogue. */
+async function getProductCount() {
+  try {
+    return await db.product.count({ where: { isActive: true } });
+  } catch { return 0; }
+}
 
 export default async function HomePage() {
-  const [featured, newArrivals, categories, heroSlides] = await Promise.all([
+  const [featured, newArrivals, categories, heroSlides, productCount] = await Promise.all([
     getFeaturedProducts(),
     getNewArrivals(),
     getCategories(),
     getHeroSlides(),
+    getProductCount(),
   ]);
 
   return (
@@ -75,7 +82,7 @@ export default async function HomePage() {
           <div className="max-w-7xl mx-auto px-5 sm:px-6 py-3 flex items-center justify-center gap-3 flex-wrap text-center">
             <Zap className="h-3.5 w-3.5 text-black shrink-0" />
             <p className="text-black text-sm font-semibold">
-              Livraison gratuite dès 800 MAD · Paiement en plusieurs fois disponible
+              Livraison gratuite dès 800 MAD · Payez le solde en espèces à la livraison
             </p>
             <Link href="/shop" className="shrink-0 text-xs font-bold text-black underline underline-offset-2 hover:no-underline">
               Voir les offres →
@@ -231,7 +238,7 @@ export default async function HomePage() {
                   "Montres inspectées avant expédition",
                   "Livraison sécurisée dans tout le Maroc",
                   "Service après-vente dédié",
-                  "Paiement en plusieurs fois disponible",
+                  "Solde payé en espèces à la livraison",
                 ].map((item) => (
                   <div key={item} className="flex items-center gap-3">
                     <CheckCircle2 className="h-4 w-4 text-gold-500 shrink-0" />
@@ -337,10 +344,10 @@ export default async function HomePage() {
           <div className="max-w-7xl mx-auto px-5 sm:px-6 py-8 sm:py-10">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 text-center">
               {[
-                { value: "47+", label: "Montres disponibles", Icon: Package },
-                { value: "48h", label: "Délai de livraison", Icon: Timer },
+                { value: String(productCount), label: "Montres disponibles", Icon: Package },
+                { value: "24-72h", label: "Délai de livraison", Icon: Timer },
                 { value: "12 mois", label: "Garantie incluse", Icon: Shield },
-                { value: "+12", label: "Villes desservies", Icon: MapPin },
+                { value: "14 j", label: "Retour possible", Icon: MapPin },
               ].map(({ value, label, Icon }) => (
                 <div key={label} className="flex flex-col items-center gap-2">
                   <div className="w-10 h-10 rounded-full bg-gold-500/10 flex items-center justify-center mx-auto">
@@ -401,11 +408,11 @@ export default async function HomePage() {
                 <span className="gold-text">Nous sommes là.</span>
               </h3>
               <p className="text-sm text-luxury-muted leading-relaxed">
-                Notre équipe est disponible 7j/7 pour vous aider à trouver la montre parfaite et répondre à toutes vos questions.
+                Notre équipe est disponible du lundi au samedi, de 9h à 18h, pour vous aider à trouver la montre parfaite.
               </p>
               <div className="space-y-3">
                 {[
-                  { Icon: Users, title: "Service client", desc: "Réponse en moins de 2h" },
+                  { Icon: Users, title: "Service client", desc: "Réponse sous 48h ouvrées" },
                   { Icon: Truck, title: "Livraison sécurisée", desc: "Partout au Maroc" },
                   { Icon: Shield, title: "Garantie 12 mois", desc: "Assurée par ChronoCraft" },
                 ].map(({ Icon, title, desc }) => (

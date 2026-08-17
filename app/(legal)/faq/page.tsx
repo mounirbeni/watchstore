@@ -39,7 +39,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Livrez-vous dans toutes les villes du Maroc ?",
-        a: "Oui, nous livrons dans plus de 12 villes marocaines incluant Casablanca, Rabat, Marrakech, Fès, Tanger, Agadir et bien d'autres. Si votre ville n'est pas couverte, contactez-nous pour un arrangement.",
+        a: "Oui, nous livrons dans tout le Maroc. Si votre localité est difficile d'accès pour nos transporteurs, contactez-nous et nous trouverons un arrangement.",
       },
       {
         q: "Quels sont les frais de livraison ?",
@@ -85,7 +85,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Comment initier un retour ?",
-        a: "Contactez notre service client via l'espace \"Mes commandes\" ou par WhatsApp en précisant votre numéro de commande et le motif. Notre équipe vous indiquera la marche à suivre sous 24 heures. La procédure détaillée figure sur la page Garantie & Retours.",
+        a: "Contactez notre service client via l'espace \"Mes commandes\" ou par WhatsApp en précisant votre numéro de commande et le motif. Notre équipe vous indiquera la marche à suivre sous 48 heures ouvrées. La procédure détaillée figure sur la page Garantie & Retours.",
       },
       {
         q: "Quand serai-je remboursé ?",
@@ -178,7 +178,7 @@ export default function FaqPage() {
           Vous n&apos;avez pas trouvé votre réponse ?
         </h3>
         <p className="text-sm text-luxury-muted mb-5">
-          Notre équipe est disponible 7j/7 pour répondre à toutes vos questions.
+          Notre équipe est disponible du lundi au samedi, de 9h à 18h, pour répondre à toutes vos questions.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a

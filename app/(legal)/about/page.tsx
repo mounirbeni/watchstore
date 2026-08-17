@@ -1,8 +1,17 @@
 import Link from "next/link";
+import { db } from "@/lib/db";
 import { ChevronLeft, Shield, Truck, Star, Users, Award, Heart } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "À propos – ChronoCraft" };
+export const dynamic = "force-dynamic";
+
+/** Counted rather than hardcoded, so the figure cannot outgrow the catalogue. */
+async function getProductCount() {
+  try {
+    return await db.product.count({ where: { isActive: true } });
+  } catch { return 0; }
+}
 
 const VALUES = [
   {
@@ -18,7 +27,7 @@ const VALUES = [
   {
     Icon: Star,
     title: "Excellence du service",
-    desc: "Notre équipe est disponible 7j/7 pour vous accompagner avant, pendant et après votre achat.",
+    desc: "Notre équipe vous accompagne du lundi au samedi, de 9h à 18h, avant, pendant et après votre achat.",
   },
   {
     Icon: Heart,
@@ -27,14 +36,18 @@ const VALUES = [
   },
 ];
 
-const STATS = [
-  { value: "47+", label: "Références en stock" },
-  { value: "48h", label: "Délai de livraison moyen" },
-  { value: "12 mois", label: "Garantie sur chaque montre" },
-  { value: "+12", label: "Villes desservies" },
-];
+function buildStats(productCount: number) {
+  return [
+    { value: String(productCount), label: "Références en stock" },
+    { value: "24-72h", label: "Délai de livraison" },
+    { value: "12 mois", label: "Garantie sur chaque montre" },
+    { value: "14 jours", label: "Droit de retour" },
+  ];
+}
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const STATS = buildStats(await getProductCount());
+
   return (
     <div className="max-w-5xl mx-auto px-5 sm:px-6 py-8 sm:py-12">
       <Link
