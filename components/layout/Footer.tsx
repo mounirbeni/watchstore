@@ -55,6 +55,7 @@ export default function Footer() {
                 ["À propos", "/about"],
                 ["FAQ", "/faq"],
                 ["Paiement & Livraison", "/paiement-livraison"],
+                ["Garantie & Retours", "/garantie-retours"],
               ].map(([label, href]) => (
                 <li key={href}>
                   <Link href={href!} className="text-sm text-luxury-muted hover:text-luxury-white transition-colors">

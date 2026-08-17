@@ -101,10 +101,10 @@ export default function ReturnPolicyCard({ deliveredAt }: { deliveredAt: Date | 
             ))}
 
             <Link
-              href="/cgv"
+              href="/garantie-retours"
               className="flex h-10 items-center justify-center rounded-xl border border-luxury-border text-sm font-medium text-luxury-muted transition-colors hover:border-gold-500/40 hover:text-gold-600"
             >
-              Lire les conditions complètes
+              Garantie &amp; retours en détail
             </Link>
           </div>
         )}

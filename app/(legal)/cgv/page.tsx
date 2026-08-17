@@ -1,3 +1,4 @@
+import Link from "next/link";
 import LegalPage from "@/components/legal/LegalPage";
 import type { Metadata } from "next";
 
@@ -150,7 +151,11 @@ export default function CGVPage() {
               </p>
               <p>
                 Le remboursement intervient dans un délai maximum de 15 jours à compter de la réception du retour, par
-                le moyen convenu avec vous.
+                le moyen convenu avec vous. La procédure complète est décrite sur la page{" "}
+                <Link href="/garantie-retours" className="text-gold-500 hover:underline">
+                  Garantie &amp; Retours
+                </Link>
+                .
               </p>
             </>
           ),
@@ -181,7 +186,11 @@ export default function CGVPage() {
               </ul>
               <p>
                 La mise en œuvre s&apos;effectue par simple demande auprès de notre service client. Selon le cas, la
-                pièce est réparée, remplacée ou remboursée.
+                pièce est réparée, remplacée ou remboursée. Le détail de la procédure figure sur la page{" "}
+                <Link href="/garantie-retours" className="text-gold-500 hover:underline">
+                  Garantie &amp; Retours
+                </Link>
+                .
               </p>
             </>
           ),

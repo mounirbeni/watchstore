@@ -85,11 +85,11 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Comment initier un retour ?",
-        a: "Contactez notre service client via l'espace \"Mes commandes\" ou par WhatsApp en précisant votre numéro de commande et le motif. Notre équipe vous indiquera la marche à suivre sous 24 heures.",
+        a: "Contactez notre service client via l'espace \"Mes commandes\" ou par WhatsApp en précisant votre numéro de commande et le motif. Notre équipe vous indiquera la marche à suivre sous 24 heures. La procédure détaillée figure sur la page Garantie & Retours.",
       },
       {
         q: "Quand serai-je remboursé ?",
-        a: "Après réception et vérification du colis retourné, le remboursement est traité sous 5 à 7 jours ouvrés. Il est effectué par virement bancaire ou en espèces selon votre préférence.",
+        a: "Après réception et vérification du colis retourné, le remboursement est généralement traité sous 5 à 7 jours ouvrés, et dans un délai maximum de 15 jours. Il est effectué par virement bancaire ou en espèces selon votre préférence.",
       },
       {
         q: "Puis-je échanger ma montre contre un autre modèle ?",
