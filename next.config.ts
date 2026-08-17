@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
       allowedOrigins: ["localhost:3000"],
+      // Receipt photos travel through a Server Action, and the default cap is
+      // 1 MB — smaller than nearly every phone photo. The client downscales
+      // before sending, so this is only the outer guard.
+      bodySizeLimit: "6mb",
     },
   },
 };

@@ -12,6 +12,7 @@ import StatusBadge from "@/components/dashboard/StatusBadge";
 import SubmitButton from "@/components/forms/SubmitButton";
 import TrackingRefresher from "@/components/dashboard/orders/TrackingRefresher";
 import TrackingNumber from "@/components/dashboard/orders/TrackingNumber";
+import CourierCard from "@/components/dashboard/orders/CourierCard";
 import {
   Check, Clock, XCircle, Truck, Package, Wallet,
   MapPin, ShoppingBag, ChevronLeft, PackageCheck,
@@ -91,6 +92,9 @@ export default async function OrderDetailPage({ params }: Props) {
   const depositFailed  = order.payment?.status === "DEPOSIT_FAILED";
   const cancellable    = ["AWAITING_DEPOSIT", "DEPOSIT_PENDING"].includes(order.status);
   const inTransit      = ["PREPARING", "SHIPPED", "OUT_FOR_DELIVERY"].includes(order.status);
+  // Courier details are meaningless before the parcel is actually on its way.
+  const outForDelivery = rank >= rankFor("OUT_FOR_DELIVERY");
+  const hasCourier     = Boolean(order.carrierName || order.courierName || order.courierPhone);
 
   const steps: Step[] = [
     { key: "created",   label: "Commande créée",        desc: "Votre commande a bien été reçue",             Icon: ShoppingBag,  ts: order.createdAt },
@@ -242,14 +246,37 @@ export default async function OrderDetailPage({ params }: Props) {
 
                         {/* Step content */}
                         <div className="flex-1 min-w-0 pt-0.5">
-                          <p className={`text-sm font-semibold ${reached ? "text-luxury-white" : "text-luxury-muted"}`}>
-                            {step.label}
+                          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                            <p className={`text-sm font-semibold ${reached ? "text-luxury-white" : "text-luxury-muted"}`}>
+                              {step.label}
+                            </p>
+                            {step.ts && (
+                              <time
+                                dateTime={step.ts.toISOString()}
+                                className="text-[11px] tabular-nums text-gold-600/80"
+                              >
+                                {fmtTs(step.ts)}
+                              </time>
+                            )}
+                          </div>
+                          <p className={`mt-0.5 text-[11px] ${reached ? "text-luxury-muted" : "text-luxury-muted/60"}`}>
+                            {step.desc}
                           </p>
-                          {step.ts ? (
-                            <p className="mt-0.5 text-[11px] text-luxury-muted">{fmtTs(step.ts)}</p>
-                          ) : isCurrent ? (
-                            <p className="mt-0.5 text-[11px] text-luxury-muted">{step.desc}</p>
-                          ) : null}
+
+                          {/* Courier details ride with the delivery step */}
+                          {step.key === "delivery" && reached && hasCourier && (
+                            <div className="mt-3 rounded-xl border border-gold-500/25 bg-gold-500/5 p-3">
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-luxury-muted">
+                                Pris en charge par
+                              </p>
+                              <p className="mt-1 text-sm font-semibold text-luxury-white">
+                                {order.courierName ?? order.carrierName}
+                              </p>
+                              {order.courierName && order.carrierName && (
+                                <p className="text-[11px] text-luxury-muted">{order.carrierName}</p>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </li>
                     );
@@ -292,6 +319,15 @@ export default async function OrderDetailPage({ params }: Props) {
 
         {/* ━━━━━━━━  RIGHT COLUMN  ━━━━━━━━ */}
         <div className="space-y-5">
+
+          {/* Courier — only once the parcel is out for delivery */}
+          {!cancelled && outForDelivery && hasCourier && (
+            <CourierCard
+              carrierName={order.carrierName}
+              courierName={order.courierName}
+              courierPhone={order.courierPhone}
+            />
+          )}
 
           {/* Tracking number */}
           {order.trackingNumber && (

@@ -98,6 +98,44 @@ export default async function AdminOrderDetailPage({ params }: Props) {
                 <input name="trackingNumber" defaultValue={order.trackingNumber ?? ""} className="input-luxury w-full" />
               </label>
             </div>
+            <div className="rounded-2xl border border-luxury-border p-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gold-400">
+                Courier handover
+              </p>
+              <p className="mt-1 text-xs text-luxury-muted">
+                Shown to the customer once the order is out for delivery.
+              </p>
+              <div className="mt-4 grid gap-4 md:grid-cols-3">
+                <label className="space-y-2">
+                  <span className="text-sm text-luxury-light">Carrier company</span>
+                  <input
+                    name="carrierName"
+                    defaultValue={order.carrierName ?? ""}
+                    placeholder="e.g. Amana, CTM, Sedex"
+                    className="input-luxury w-full"
+                  />
+                </label>
+                <label className="space-y-2">
+                  <span className="text-sm text-luxury-light">Courier name</span>
+                  <input
+                    name="courierName"
+                    defaultValue={order.courierName ?? ""}
+                    placeholder="Driver full name"
+                    className="input-luxury w-full"
+                  />
+                </label>
+                <label className="space-y-2">
+                  <span className="text-sm text-luxury-light">Courier phone</span>
+                  <input
+                    name="courierPhone"
+                    type="tel"
+                    defaultValue={order.courierPhone ?? ""}
+                    placeholder="06 00 00 00 00"
+                    className="input-luxury w-full"
+                  />
+                </label>
+              </div>
+            </div>
             <label className="space-y-2">
               <span className="text-sm text-luxury-light">Internal admin notes</span>
               <textarea name="adminNotes" defaultValue={order.adminNotes ?? ""} className="input-luxury min-h-28 w-full" />
@@ -205,6 +243,7 @@ export default async function AdminOrderDetailPage({ params }: Props) {
             <p>Created: {formatDate(order.createdAt)}</p>
             <p>Confirmed: {formatDate(order.confirmedAt)}</p>
             <p>Preparing: {formatDate(order.preparingAt)}</p>
+            <p>Shipped: {formatDate(order.shippedAt)}</p>
             <p>Out for delivery: {formatDate(order.outForDeliveryAt)}</p>
             <p>Delivered: {formatDate(order.deliveredAt)}</p>
             <p>Cancelled: {formatDate(order.cancelledAt)}</p>

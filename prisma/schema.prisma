@@ -327,6 +327,10 @@ model Order {
   adminNotes     String?
   cancellationReason String?
   trackingNumber String?
+  // Courier handover details, shown to the customer once out for delivery
+  carrierName    String?
+  courierName    String?
+  courierPhone   String?
   // Fraud / audit signals captured at checkout
   ipAddress      String?
   userAgent      String?     @db.Text

@@ -40,11 +40,56 @@ const METHOD_ICONS: Record<string, React.ElementType> = {
 };
 
 const ACCEPT = "image/jpeg,image/jpg,image/png,image/webp,image/heic,image/heif";
-const MAX_MB = 5;
+
+/** Cap on the original picked file — a sanity check, not the upload budget. */
+const MAX_SOURCE_MB = 20;
+/** Cap on what actually gets uploaded, after downscaling. */
+const MAX_UPLOAD_MB = 4;
+const MAX_DIMENSION = 1600;
+const JPEG_QUALITY = 0.82;
 
 function formatBytes(bytes: number): string {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} Ko`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} Mo`;
+}
+
+/**
+ * Downscale a receipt photo before it goes over the wire. A modern phone
+ * camera produces 4–12 MB files, which blow past the Server Action body
+ * limit; a legible receipt needs nothing close to that.
+ *
+ * Returns the original file untouched when the browser cannot decode it
+ * (HEIC outside Safari), leaving the size checks to catch the rest.
+ */
+async function compressImage(file: File): Promise<File> {
+  const bitmap = await createImageBitmap(file).catch(() => null);
+  if (!bitmap) return file;
+
+  const scale = Math.min(1, MAX_DIMENSION / Math.max(bitmap.width, bitmap.height));
+  const width = Math.round(bitmap.width * scale);
+  const height = Math.round(bitmap.height * scale);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    bitmap.close();
+    return file;
+  }
+  ctx.drawImage(bitmap, 0, 0, width, height);
+  bitmap.close();
+
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, "image/jpeg", JPEG_QUALITY),
+  );
+  // Re-encoding can lose to an already-small original; keep whichever wins.
+  if (!blob || blob.size >= file.size) return file;
+
+  return new File([blob], `${file.name.replace(/\.[^.]+$/, "")}.jpg`, {
+    type: "image/jpeg",
+    lastModified: Date.now(),
+  });
 }
 
 export default function DepositProofForm({
@@ -60,6 +105,7 @@ export default function DepositProofForm({
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [dragOver, setDragOver] = useState(false);
+  const [compressing, setCompressing] = useState(false);
   const [clientError, setClientError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -70,24 +116,47 @@ export default function DepositProofForm({
 
   const active = methods.find((m) => m.id === method) ?? methods[0];
 
-  function applyFile(file: File) {
+  /** Push the file the server should actually receive into the form input. */
+  function syncInput(file: File) {
+    if (!fileRef.current) return;
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    fileRef.current.files = dt.files;
+  }
+
+  async function applyFile(file: File) {
     setClientError(null);
     if (!file.type.startsWith("image/")) {
       setClientError("Format non supporté. Utilisez JPEG, PNG ou WebP.");
       return;
     }
-    if (file.size > MAX_MB * 1024 * 1024) {
-      setClientError(`Image trop grande. Maximum ${MAX_MB} Mo.`);
+    if (file.size > MAX_SOURCE_MB * 1024 * 1024) {
+      setClientError(`Image trop grande. Maximum ${MAX_SOURCE_MB} Mo.`);
       return;
     }
-    setSelectedFile(file);
+
+    setCompressing(true);
+    const optimised = await compressImage(file).catch(() => file);
+    setCompressing(false);
+
+    if (optimised.size > MAX_UPLOAD_MB * 1024 * 1024) {
+      setClientError(
+        `Image trop lourde après optimisation (${formatBytes(optimised.size)}). ` +
+          "Essayez une photo de moindre résolution.",
+      );
+      return;
+    }
+
+    setSelectedFile(optimised);
+    syncInput(optimised);
+
     // create object URL for preview (revoke previous one)
     if (preview) URL.revokeObjectURL(preview);
-    // HEIC/HEIF: no browser preview — show placeholder
-    if (file.type === "image/heic" || file.type === "image/heif") {
+    // HEIC/HEIF that survived uncompressed: no browser preview — show placeholder
+    if (optimised.type === "image/heic" || optimised.type === "image/heif") {
       setPreview(null);
     } else {
-      setPreview(URL.createObjectURL(file));
+      setPreview(URL.createObjectURL(optimised));
     }
   }
 
@@ -104,13 +173,7 @@ export default function DepositProofForm({
     setDragOver(false);
     const file = e.dataTransfer.files[0];
     if (!file) return;
-    applyFile(file);
-    // Sync the hidden file input so FormData includes it
-    if (fileRef.current) {
-      const dt = new DataTransfer();
-      dt.items.add(file);
-      fileRef.current.files = dt.files;
-    }
+    void applyFile(file);
   }
 
   if (state?.success) {
@@ -233,7 +296,7 @@ export default function DepositProofForm({
           className="hidden"
           onChange={(e) => {
             const f = e.target.files?.[0];
-            if (f) applyFile(f);
+            if (f) void applyFile(f);
             else clearFile();
           }}
         />
@@ -296,7 +359,9 @@ export default function DepositProofForm({
                 ou <span className="text-gold-400 underline underline-offset-2">cliquez pour choisir</span>
               </p>
             </div>
-            <p className="text-[11px] text-luxury-muted">JPEG · PNG · WebP · HEIC — max {MAX_MB} Mo</p>
+            <p className="text-[11px] text-luxury-muted">
+              {compressing ? "Optimisation de l'image…" : `JPEG · PNG · WebP · HEIC — max ${MAX_SOURCE_MB} Mo`}
+            </p>
           </button>
         )}
 
@@ -319,10 +384,14 @@ export default function DepositProofForm({
         type="submit"
         size="lg"
         className="w-full"
-        loading={isPending}
-        disabled={!selectedFile || !!clientError || isPending}
+        loading={isPending || compressing}
+        disabled={!selectedFile || !!clientError || isPending || compressing}
       >
-        {isPending ? "Envoi en cours…" : "J'ai payé — envoyer le justificatif"}
+        {compressing
+          ? "Optimisation…"
+          : isPending
+            ? "Envoi en cours…"
+            : "J'ai payé — envoyer le justificatif"}
       </Button>
     </form>
   );

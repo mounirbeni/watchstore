@@ -29,6 +29,36 @@ const STOCK_DEDUCTED: OrderStatus[] = [
   OrderStatus.DELIVERED,
 ];
 
+/** Fulfilment stages in order, each with the column recording when it was reached. */
+const STAGE_TIMESTAMPS: { status: OrderStatus; field: string }[] = [
+  { status: OrderStatus.CONFIRMED,        field: "confirmedAt" },
+  { status: OrderStatus.PREPARING,        field: "preparingAt" },
+  { status: OrderStatus.SHIPPED,          field: "shippedAt" },
+  { status: OrderStatus.OUT_FOR_DELIVERY, field: "outForDeliveryAt" },
+  { status: OrderStatus.DELIVERED,        field: "deliveredAt" },
+];
+
+/**
+ * Record when a stage was reached, backfilling any earlier stage still blank.
+ *
+ * An admin moving an order straight to "out for delivery" has implicitly taken
+ * it through preparing and shipped, and the customer's timeline renders a date
+ * per stage — without the backfill those rows show as reached but undated.
+ * Already-stamped stages are never overwritten, so real timings survive.
+ */
+function applyStageTimestamps(
+  order: Record<string, unknown>,
+  status: OrderStatus,
+  data: Record<string, unknown>,
+  now: Date = new Date(),
+): void {
+  const reached = STAGE_TIMESTAMPS.findIndex((stage) => stage.status === status);
+  if (reached === -1) return;
+  for (const { field } of STAGE_TIMESTAMPS.slice(0, reached + 1)) {
+    if (!order[field]) data[field] = now;
+  }
+}
+
 /** Thrown inside a transaction when a promo's usage limit was reached concurrently. */
 class PromoUnavailableError extends Error {}
 
@@ -284,8 +314,13 @@ export async function submitDepositProofAction(formData: FormData): Promise<Acti
   if (!ALLOWED.includes(file.type)) {
     return { success: false, error: "Format non supporté. Utilisez JPEG, PNG ou WebP." };
   }
+  // The client downscales before sending; this is the backstop for anything
+  // that bypassed it. Kept under the Server Action body limit in next.config.
   if (file.size > 5 * 1024 * 1024) {
-    return { success: false, error: "Image trop grande. Taille maximum : 5 Mo." };
+    return {
+      success: false,
+      error: "Image trop grande. Réessayez avec une photo de moindre résolution.",
+    };
   }
 
   // Convert to base64 data URL for storage
@@ -480,14 +515,9 @@ export async function updateOrderStatusAction(formData: FormData): Promise<Actio
   const status = parsed.data.status as OrderStatus;
   const data: Record<string, unknown> = { status };
   if (parsed.data.adminNote) data["adminNotes"] = parsed.data.adminNote;
-  if (status === OrderStatus.CONFIRMED && !order.confirmedAt) data["confirmedAt"] = new Date();
-  if (status === OrderStatus.PREPARING && !order.preparingAt) data["preparingAt"] = new Date();
-  if (status === OrderStatus.OUT_FOR_DELIVERY) data["outForDeliveryAt"] = new Date();
-  if (status === OrderStatus.DELIVERED) {
-    data["deliveredAt"] = new Date();
-    data["remainingBalance"] = 0;
-  }
-  if (status === OrderStatus.CANCELLED) data["cancelledAt"] = new Date();
+  applyStageTimestamps(order, status, data);
+  if (status === OrderStatus.DELIVERED) data["remainingBalance"] = 0;
+  if (status === OrderStatus.CANCELLED && !order.cancelledAt) data["cancelledAt"] = new Date();
 
   // Restore stock if we leave a stock-deducted state for cancel/refund.
   const wasDeducted = STOCK_DEDUCTED.includes(order.status);
@@ -548,6 +578,9 @@ export async function updateAdminOrderAction(formData: FormData): Promise<Action
   const adminNotes = String(formData.get("adminNotes") ?? "").trim();
   const trackingNumber = String(formData.get("trackingNumber") ?? "").trim();
   const customerPhone = String(formData.get("customerPhone") ?? "").trim();
+  const carrierName = String(formData.get("carrierName") ?? "").trim();
+  const courierName = String(formData.get("courierName") ?? "").trim();
+  const courierPhone = String(formData.get("courierPhone") ?? "").trim();
 
   if (!orderId) return { success: false, error: "Commande introuvable." };
   if (!Object.values(OrderStatus).includes(statusValue as OrderStatus)) {
@@ -566,15 +599,13 @@ export async function updateAdminOrderAction(formData: FormData): Promise<Action
     adminNotes: adminNotes || null,
     trackingNumber: trackingNumber || null,
     customerPhone: customerPhone || null,
+    carrierName: carrierName || null,
+    courierName: courierName || null,
+    courierPhone: courierPhone || null,
   };
 
-  if (status === OrderStatus.CONFIRMED && !order.confirmedAt) data["confirmedAt"] = new Date();
-  if (status === OrderStatus.PREPARING && !order.preparingAt) data["preparingAt"] = new Date();
-  if (status === OrderStatus.OUT_FOR_DELIVERY && !order.outForDeliveryAt) data["outForDeliveryAt"] = new Date();
-  if (status === OrderStatus.DELIVERED && !order.deliveredAt) {
-    data["deliveredAt"] = new Date();
-    data["remainingBalance"] = 0;
-  }
+  applyStageTimestamps(order, status, data);
+  if (status === OrderStatus.DELIVERED && !order.deliveredAt) data["remainingBalance"] = 0;
   if (status === OrderStatus.CANCELLED && !order.cancelledAt) data["cancelledAt"] = new Date();
 
   const wasDeducted = STOCK_DEDUCTED.includes(order.status);
@@ -597,8 +628,19 @@ export async function updateAdminOrderAction(formData: FormData): Promise<Action
       adminNotes: order.adminNotes,
       trackingNumber: order.trackingNumber,
       customerPhone: order.customerPhone,
+      carrierName: order.carrierName,
+      courierName: order.courierName,
+      courierPhone: order.courierPhone,
     },
-    newValues: { status, adminNotes: adminNotes || null, trackingNumber: trackingNumber || null, customerPhone: customerPhone || null },
+    newValues: {
+      status,
+      adminNotes: adminNotes || null,
+      trackingNumber: trackingNumber || null,
+      customerPhone: customerPhone || null,
+      carrierName: carrierName || null,
+      courierName: courierName || null,
+      courierPhone: courierPhone || null,
+    },
   });
 
   await createNotification({
