@@ -7,6 +7,7 @@ import { formatPrice } from "@/lib/utils";
 import PriceBreakdown from "@/components/checkout/PriceBreakdown";
 import DepositProofForm, { type ProofMethod } from "@/components/checkout/DepositProofForm";
 import StatusBadge from "@/components/dashboard/StatusBadge";
+import ThankYouPopup from "@/components/checkout/ThankYouPopup";
 import {
   CheckCircle2, Clock, PartyPopper, ShoppingBag, ArrowRight,
   Wallet, Package,
@@ -27,7 +28,11 @@ export default async function ConfirmationPage({ params }: Props) {
 
   const order = await db.order.findUnique({
     where: { orderNumber },
-    include: { payment: true, items: true },
+    include: {
+      payment: true,
+      items: true,
+      user: { select: { profile: { select: { firstName: true } } } },
+    },
   });
   if (!order || order.userId !== session.userId) notFound();
 
@@ -69,6 +74,11 @@ export default async function ConfirmationPage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-2xl px-4 sm:px-6 py-10 pb-24 animate-fade-in">
+
+      <ThankYouPopup
+        orderNumber={order.orderNumber}
+        customerName={order.user.profile?.firstName}
+      />
 
       {/* ── Hero header ── */}
       <div className="mb-8 text-center">

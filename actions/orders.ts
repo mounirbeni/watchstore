@@ -382,6 +382,50 @@ export async function submitDepositProofAction(formData: FormData): Promise<Acti
   return { success: true, data: undefined };
 }
 
+// ─── Customer rates a delivered order ────────────────────────────────────────
+
+/**
+ * Records how the customer felt about their watch once it arrived.
+ *
+ * This is private feedback: product stars on the storefront stay
+ * admin-controlled (see lib/product-signals), so nothing here changes what
+ * other shoppers see. It is stored rather than discarded so the rating the
+ * customer took the trouble to leave actually reaches someone.
+ */
+export async function submitOrderRatingAction(formData: FormData): Promise<ActionResult> {
+  const session = await requireAuth().catch(() => null);
+  if (!session) return { success: false, error: "Connexion requise" };
+
+  const orderId = String(formData.get("orderId") ?? "");
+  const rating = Number(formData.get("rating"));
+  const review = String(formData.get("review") ?? "").trim();
+
+  if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+    return { success: false, error: "Merci de choisir une note entre 1 et 5 étoiles." };
+  }
+
+  const order = await db.order.findFirst({
+    where: { id: orderId, userId: session.userId },
+    select: { id: true, orderNumber: true, status: true },
+  });
+  if (!order) return { success: false, error: "Commande introuvable." };
+  if (order.status !== OrderStatus.DELIVERED) {
+    return { success: false, error: "Vous pourrez noter votre montre après la livraison." };
+  }
+
+  await db.order.update({
+    where: { id: order.id },
+    data: {
+      customerRating: rating,
+      customerReview: review.slice(0, 2000) || null,
+      ratedAt: new Date(),
+    },
+  });
+
+  revalidatePath(`/dashboard/orders/${order.orderNumber}`);
+  return { success: true, data: undefined };
+}
+
 // ─── Admin reviews the deposit (approve / reject) ────────────────────────────
 
 export async function reviewDepositAction(formData: FormData): Promise<ActionResult> {

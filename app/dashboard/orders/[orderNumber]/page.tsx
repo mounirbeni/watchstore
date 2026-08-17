@@ -13,6 +13,9 @@ import SubmitButton from "@/components/forms/SubmitButton";
 import TrackingRefresher from "@/components/dashboard/orders/TrackingRefresher";
 import TrackingNumber from "@/components/dashboard/orders/TrackingNumber";
 import CourierCard from "@/components/dashboard/orders/CourierCard";
+import DeliveredSeal, { SETTLE_MS } from "@/components/dashboard/orders/DeliveredSeal";
+import RatingPrompt from "@/components/dashboard/orders/RatingPrompt";
+import ReturnPolicyCard from "@/components/dashboard/orders/ReturnPolicyCard";
 import {
   Check, Clock, XCircle, Truck, Package, Wallet,
   MapPin, ShoppingBag, ChevronLeft, PackageCheck,
@@ -95,6 +98,12 @@ export default async function OrderDetailPage({ params }: Props) {
   // Courier details are meaningless before the parcel is actually on its way.
   const outForDelivery = rank >= rankFor("OUT_FOR_DELIVERY");
   const hasCourier     = Boolean(order.carrierName || order.courierName || order.courierPhone);
+  const delivered      = order.status === "DELIVERED";
+  // Settled server-side so the seal hydrates without flicker; the client
+  // component owns the live flip for a delivery that just landed.
+  const deliverySettled = Boolean(
+    order.deliveredAt && Date.now() - order.deliveredAt.getTime() >= SETTLE_MS,
+  );
 
   const steps: Step[] = [
     { key: "created",   label: "Commande créée",        desc: "Votre commande a bien été reçue",             Icon: ShoppingBag,  ts: order.createdAt },
@@ -223,26 +232,33 @@ export default async function OrderDetailPage({ params }: Props) {
                           />
                         )}
 
-                        {/* Step dot */}
-                        <div className="relative z-10 shrink-0">
-                          <div
-                            className={`flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 ${
-                              reached && !isCurrent
-                                ? "bg-gold-500 text-black"
-                                : isCurrent
-                                ? "border-2 border-gold-500 bg-gold-500/15 text-gold-500"
-                                : "border border-luxury-border bg-white text-luxury-muted"
-                            }`}
-                          >
-                            {reached && !isCurrent
-                              ? <Check className="h-3.5 w-3.5" />
-                              : <Icon className="h-3.5 w-3.5" />
-                            }
+                        {/* Step dot — the delivered step seals itself after a grace period */}
+                        {step.key === "delivered" && reached && order.deliveredAt ? (
+                          <DeliveredSeal
+                            deliveredAt={order.deliveredAt.toISOString()}
+                            initiallySettled={deliverySettled}
+                          />
+                        ) : (
+                          <div className="relative z-10 shrink-0">
+                            <div
+                              className={`flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 ${
+                                reached && !isCurrent
+                                  ? "bg-gold-500 text-black"
+                                  : isCurrent
+                                  ? "border-2 border-gold-500 bg-gold-500/15 text-gold-500"
+                                  : "border border-luxury-border bg-white text-luxury-muted"
+                              }`}
+                            >
+                              {reached && !isCurrent
+                                ? <Check className="h-3.5 w-3.5" />
+                                : <Icon className="h-3.5 w-3.5" />
+                              }
+                            </div>
+                            {isCurrent && (
+                              <span className="absolute inset-0 rounded-full bg-gold-500/25 animate-ping" />
+                            )}
                           </div>
-                          {isCurrent && (
-                            <span className="absolute inset-0 rounded-full bg-gold-500/25 animate-ping" />
-                          )}
-                        </div>
+                        )}
 
                         {/* Step content */}
                         <div className="flex-1 min-w-0 pt-0.5">
@@ -319,6 +335,14 @@ export default async function OrderDetailPage({ params }: Props) {
 
         {/* ━━━━━━━━  RIGHT COLUMN  ━━━━━━━━ */}
         <div className="space-y-5">
+
+          {/* Post-delivery: rate the watch, then the return window */}
+          {delivered && (
+            <>
+              <RatingPrompt orderId={order.id} existingRating={order.customerRating} />
+              <ReturnPolicyCard deliveredAt={order.deliveredAt} />
+            </>
+          )}
 
           {/* Courier — only once the parcel is out for delivery */}
           {!cancelled && outForDelivery && hasCourier && (

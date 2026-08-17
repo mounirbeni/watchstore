@@ -248,6 +248,25 @@ export default async function AdminOrderDetailPage({ params }: Props) {
             <p>Delivered: {formatDate(order.deliveredAt)}</p>
             <p>Cancelled: {formatDate(order.cancelledAt)}</p>
           </div>
+
+          {order.customerRating && (
+            <div className="mt-4 rounded-xl border border-gold-500/30 bg-gold-500/5 p-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gold-400">
+                Customer feedback
+              </p>
+              <p className="mt-2 text-sm text-luxury-white">
+                {order.customerRating}/5 · {formatDate(order.ratedAt)}
+              </p>
+              {order.customerReview && (
+                <p className="mt-2 whitespace-pre-line text-sm text-luxury-muted">
+                  {order.customerReview}
+                </p>
+              )}
+              <p className="mt-2 text-[11px] text-luxury-muted">
+                Private — does not affect storefront ratings.
+              </p>
+            </div>
+          )}
         </Card>
       </section>
 

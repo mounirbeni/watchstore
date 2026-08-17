@@ -331,6 +331,11 @@ model Order {
   carrierName    String?
   courierName    String?
   courierPhone   String?
+  // Post-delivery feedback. Deliberately private: the storefront rating stays
+  // admin-controlled, so a customer's note never moves a product's stars.
+  customerRating Int?
+  customerReview String?     @db.Text
+  ratedAt        DateTime?
   // Fraud / audit signals captured at checkout
   ipAddress      String?
   userAgent      String?     @db.Text
